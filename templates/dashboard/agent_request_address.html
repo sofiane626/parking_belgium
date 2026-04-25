@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Demande de changement d'adresse" %}{% endblock %}
+
+{% block content %}
+  <div class="max-w-2xl mx-auto">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Changement d'adresse" %}</h1>
+      {% include "_partials/status_badge.html" with status=req.status label=req.get_status_display %}
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <section class="rounded-lg bg-white border p-5">
+        <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Adresse actuelle" %}</h2>
+        {% if current_address %}
+          <p class="mt-2 text-sm text-slate-700">
+            {{ current_address.street }} {{ current_address.number }}{% if current_address.box %} bte {{ current_address.box }}{% endif %}<br>
+            {{ current_address.postal_code }} {{ current_address.commune }}<br>
+            <span class="text-slate-500">{{ current_address.country }}</span>
+          </p>
+        {% else %}
+          <p class="mt-2 text-sm text-slate-500 italic">{% trans "Aucune adresse." %}</p>
+        {% endif %}
+      </section>
+
+      <section class="rounded-lg bg-emerald-50 border border-emerald-200 p-5">
+        <h2 class="text-sm font-semibold text-emerald-900 uppercase tracking-wide">{% trans "Adresse demandée" %}</h2>
+        <p class="mt-2 text-sm text-slate-700">
+          {{ req.street }} {{ req.number }}{% if req.box %} bte {{ req.box }}{% endif %}<br>
+          {{ req.postal_code }} {{ req.commune }}<br>
+          <span class="text-slate-500">{{ req.country }}</span>
+        </p>
+      </section>
+    </div>
+
+    <section class="mt-4 rounded-lg bg-white border p-5">
+      <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Détails" %}</h2>
+      <dl class="mt-2 space-y-1.5 text-sm text-slate-700">
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Citoyen" %}</dt><dd>{{ req.profile.user.get_full_name|default:req.profile.user.username }} ({{ req.profile.user.email }})</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Soumise le" %}</dt><dd>{{ req.submitted_at|date:"d/m/Y H:i" }}</dd></div>
+        {% if req.reason %}
+          <div><dt class="text-slate-500">{% trans "Motif du citoyen" %}</dt><dd class="mt-1 italic">{{ req.reason }}</dd></div>
+        {% endif %}
+        {% if req.decided_at %}
+          <div class="flex justify-between"><dt class="text-slate-500">{% trans "Décidée le" %}</dt><dd>{{ req.decided_at|date:"d/m/Y H:i" }} par {{ req.decided_by|default:"—" }}</dd></div>
+          <div><dt class="text-slate-500">{% trans "Notes" %}</dt><dd class="mt-1 italic">{{ req.decision_notes }}</dd></div>
+        {% endif %}
+      </dl>
+    </section>
+
+    {% if req.status == "pending" %}
+      <section class="mt-4 rounded-lg bg-white border p-5">
+        <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Décision" %}</h2>
+        <p class="mt-2 text-sm text-slate-600">
+          {% trans "L'approbation applique l'adresse demandée et déclenche la suspension des cartes riverain liées (à venir)." %}
+        </p>
+        <form method="post" class="mt-4 space-y-3">
+          {% csrf_token %}
+          {% include "_partials/_form_field.html" with field=form.notes %}
+          <div class="flex justify-end gap-2">
+            <button type="submit" formaction="{% url 'dashboard:agent_request_address_reject' req.pk %}"
+                    class="px-4 py-2 text-sm border border-red-300 text-red-700 rounded-md hover:bg-red-50">
+              {% trans "Refuser" %}
+            </button>
+            <button type="submit" formaction="{% url 'dashboard:agent_request_address_approve' req.pk %}"
+                    class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">
+              {% trans "Approuver" %}
+            </button>
+          </div>
+        </form>
+      </section>
+    {% endif %}
+
+    <p class="mt-6"><a href="{% url 'dashboard:agent_requests' %}" class="text-sm text-slate-600 hover:underline">← {% trans "File des demandes" %}</a></p>
+  </div>
+{% endblock %}

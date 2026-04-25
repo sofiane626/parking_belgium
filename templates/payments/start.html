@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Paiement" %} — {% trans "Carte" %} #{{ permit.pk }}{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto">
+  <h1 class="text-2xl font-semibold text-slate-900 mb-1">{% trans "Choisissez votre moyen de paiement" %}</h1>
+  <p class="text-sm text-slate-600 mb-5">{% trans "Vérifiez les informations ci-dessous avant de procéder." %}</p>
+
+  <section class="bg-white border rounded-lg p-5">
+    <dl class="text-sm space-y-2 text-slate-700">
+      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Carte" %}</dt><dd>#{{ permit.pk }} — {{ permit.get_permit_type_display }}</dd></div>
+      {% if permit.vehicle %}<div class="flex justify-between"><dt class="text-slate-500">{% trans "Véhicule" %}</dt><dd class="font-mono">{{ permit.vehicle.plate }}</dd></div>{% endif %}
+      {% if permit.target_commune %}<div class="flex justify-between"><dt class="text-slate-500">{% trans "Commune" %}</dt><dd>{{ permit.target_commune.name_fr }}</dd></div>{% endif %}
+      <div class="flex justify-between text-base pt-2 border-t mt-2"><dt class="text-slate-700 font-medium">{% trans "Montant à payer" %}</dt><dd class="font-semibold text-slate-900">{% widthratio permit.price_cents 100 1 %} €</dd></div>
+    </dl>
+  </section>
+
+  {% if live_payment %}
+    <div class="mt-4 p-3 rounded-md bg-amber-50 border border-amber-300 text-amber-900 text-sm">
+      {% trans "Une tentative de paiement est déjà en cours." %}
+      {% if live_payment.method == "card" %}
+        — <a class="underline font-medium" href="{% url 'payments:card_form' permit.pk %}">{% trans "Reprendre" %}</a>
+      {% elif live_payment.method == "internal_free" %}
+        — <a class="underline font-medium" href="{% url 'payments:process' live_payment.reference %}">{% trans "Reprendre" %}</a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <section class="mt-6 space-y-3">
+    {# === Carte bancaire (formulaire interne, toujours dispo) === #}
+    {% if card_enabled %}
+      <a href="{% url 'payments:card_form' permit.pk %}"
+         class="flex items-center gap-3 p-4 bg-white border-2 border-emerald-200 hover:border-emerald-500 hover:bg-emerald-50 rounded-lg transition group">
+        <div class="w-12 h-12 flex items-center justify-center bg-emerald-100 rounded-md text-emerald-700">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </div>
+        <div class="flex-1">
+          <div class="font-medium text-slate-900">{% trans "Payer par carte bancaire" %}</div>
+          <div class="text-xs text-slate-500">{% trans "Visa, Mastercard, Amex — formulaire sécurisé" %}</div>
+        </div>
+        <span class="text-emerald-700 font-medium">{% widthratio permit.price_cents 100 1 %} €</span>
+      </a>
+    {% endif %}
+
+    {# === Stripe Checkout === #}
+    {% if stripe_enabled %}
+      <form method="post" action="{% url 'payments:stripe_checkout' permit.pk %}">{% csrf_token %}
+        <button type="submit"
+                class="w-full flex items-center gap-3 p-4 bg-white border-2 border-indigo-200 hover:border-indigo-500 hover:bg-indigo-50 rounded-lg transition text-left">
+          <div class="w-12 h-12 flex items-center justify-center bg-indigo-100 rounded-md text-indigo-700 font-bold text-sm">$</div>
+          <div class="flex-1">
+            <div class="font-medium text-slate-900">{% trans "Payer via Stripe" %}</div>
+            <div class="text-xs text-slate-500">{% trans "Page hostée Stripe — Bancontact, cartes" %}</div>
+          </div>
+          <span class="text-indigo-700 font-medium">{% widthratio permit.price_cents 100 1 %} €</span>
+        </button>
+      </form>
+    {% endif %}
+
+    {# === Simulation (DEBUG / staff uniquement) === #}
+    {% if can_simulate %}
+      <form method="post" action="{% url 'payments:simulate' permit.pk %}"
+            onsubmit="return confirm('Simuler le paiement (test) — la carte sera activée immédiatement. Continuer ?')">
+        {% csrf_token %}
+        <button type="submit"
+                class="w-full flex items-center gap-3 p-3 bg-slate-50 border border-dashed border-slate-300 hover:bg-slate-100 rounded-lg transition text-left">
+          <div class="w-10 h-10 flex items-center justify-center text-slate-500">🧪</div>
+          <div class="flex-1">
+            <div class="text-sm font-medium text-slate-700">{% trans "Simuler le paiement (test)" %}</div>
+            <div class="text-xs text-slate-500">{% trans "Court-circuite tout — staff/DEBUG uniquement" %}</div>
+          </div>
+        </button>
+      </form>
+    {% endif %}
+  </section>
+
+  <div class="mt-5 text-center">
+    <a href="{% url 'permits:detail' permit.pk %}" class="text-sm text-slate-500 hover:underline">{% trans "← Retour à la carte" %}</a>
+  </div>
+</div>
+{% endblock %}

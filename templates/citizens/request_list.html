@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Mes demandes" %}{% endblock %}
+
+{% block content %}
+  <h1 class="text-2xl font-semibold text-slate-900">{% trans "Mes demandes" %}</h1>
+  <p class="mt-1 text-sm text-slate-600">{% trans "Suivez l'état des demandes que vous avez soumises." %}</p>
+
+  <section class="mt-6">
+    <h2 class="font-semibold text-slate-900">{% trans "Changements d'adresse" %}</h2>
+    {% if address_requests %}
+      <div class="mt-2 bg-white border rounded-lg overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50 text-left text-slate-500 border-b">
+            <tr>
+              <th class="px-4 py-2 font-medium">{% trans "Soumise le" %}</th>
+              <th class="px-4 py-2 font-medium">{% trans "Nouvelle adresse" %}</th>
+              <th class="px-4 py-2 font-medium">{% trans "Statut" %}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in address_requests %}
+              <tr class="border-b last:border-b-0">
+                <td class="px-4 py-2">{{ r.submitted_at|date:"d/m/Y" }}</td>
+                <td class="px-4 py-2">{{ r.street }} {{ r.number }}, {{ r.postal_code }} {{ r.commune }}</td>
+                <td class="px-4 py-2">{% include "_partials/status_badge.html" with status=r.status label=r.get_status_display %}</td>
+                <td class="px-4 py-2 text-right">
+                  <a href="{% url 'citizens:address_change_detail' r.pk %}" class="text-emerald-700 hover:underline">{% trans "Voir" %}</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="mt-2 text-sm text-slate-500 italic">{% trans "Aucune demande." %}</p>
+    {% endif %}
+  </section>
+
+  <section class="mt-8">
+    <h2 class="font-semibold text-slate-900">{% trans "Changements de plaque" %}</h2>
+    {% if plate_requests %}
+      <div class="mt-2 bg-white border rounded-lg overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50 text-left text-slate-500 border-b">
+            <tr>
+              <th class="px-4 py-2 font-medium">{% trans "Soumise le" %}</th>
+              <th class="px-4 py-2 font-medium">{% trans "Véhicule" %}</th>
+              <th class="px-4 py-2 font-medium">{% trans "Plaque actuelle → demandée" %}</th>
+              <th class="px-4 py-2 font-medium">{% trans "Statut" %}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in plate_requests %}
+              <tr class="border-b last:border-b-0">
+                <td class="px-4 py-2">{{ r.submitted_at|date:"d/m/Y" }}</td>
+                <td class="px-4 py-2">{{ r.vehicle.brand }} {{ r.vehicle.model }}</td>
+                <td class="px-4 py-2 font-mono text-xs">{{ r.vehicle.plate }} → {{ r.new_plate }}</td>
+                <td class="px-4 py-2">{% include "_partials/status_badge.html" with status=r.status label=r.get_status_display %}</td>
+                <td class="px-4 py-2 text-right">
+                  <a href="{% url 'vehicles:plate_change_detail' r.pk %}" class="text-emerald-700 hover:underline">{% trans "Voir" %}</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="mt-2 text-sm text-slate-500 italic">{% trans "Aucune demande." %}</p>
+    {% endif %}
+  </section>
+{% endblock %}

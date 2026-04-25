@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Demande de changement de plaque" %}{% endblock %}
+
+{% block content %}
+  <div class="max-w-2xl mx-auto">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Changement de plaque" %}</h1>
+      {% include "_partials/status_badge.html" with status=req.status label=req.get_status_display %}
+    </div>
+
+    <section class="rounded-lg bg-white border p-5">
+      <dl class="space-y-1.5 text-sm text-slate-700">
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Propriétaire" %}</dt><dd>{{ req.vehicle.owner.get_full_name|default:req.vehicle.owner.username }} ({{ req.vehicle.owner.email }})</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Véhicule" %}</dt><dd>{{ req.vehicle.brand }} {{ req.vehicle.model }}</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Plaque actuelle" %}</dt><dd class="font-mono">{{ req.vehicle.plate }}</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Plaque demandée" %}</dt><dd class="font-mono text-emerald-700 font-semibold">{{ req.new_plate }}</dd></div>
+        {% if req.vehicle.registration_document %}
+          <div class="flex justify-between"><dt class="text-slate-500">{% trans "Certificat actuel" %}</dt>
+            <dd><a href="{{ req.vehicle.registration_document.url }}" target="_blank" class="text-emerald-700 hover:underline">{% trans "Télécharger" %}</a></dd>
+          </div>
+        {% endif %}
+        {% if req.new_registration_document %}
+          <div class="flex justify-between"><dt class="text-slate-500">{% trans "Nouveau certificat" %}</dt>
+            <dd><a href="{{ req.new_registration_document.url }}" target="_blank" class="text-emerald-700 hover:underline">{% trans "Télécharger" %}</a></dd>
+          </div>
+        {% endif %}
+        {% if req.reason %}
+          <div><dt class="text-slate-500">{% trans "Motif du citoyen" %}</dt><dd class="mt-1 italic">{{ req.reason }}</dd></div>
+        {% endif %}
+        <div class="flex justify-between pt-3 border-t mt-3"><dt class="text-slate-500">{% trans "Soumise le" %}</dt><dd>{{ req.submitted_at|date:"d/m/Y H:i" }}</dd></div>
+        {% if req.decided_at %}
+          <div class="flex justify-between"><dt class="text-slate-500">{% trans "Décidée le" %}</dt><dd>{{ req.decided_at|date:"d/m/Y H:i" }} par {{ req.decided_by|default:"—" }}</dd></div>
+          <div><dt class="text-slate-500">{% trans "Notes" %}</dt><dd class="mt-1 italic">{{ req.decision_notes }}</dd></div>
+        {% endif %}
+      </dl>
+    </section>
+
+    {% if req.status == "pending" %}
+      <section class="mt-4 rounded-lg bg-white border p-5">
+        <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Décision" %}</h2>
+        <p class="mt-2 text-sm text-slate-600">
+          {% trans "L'approbation applique la plaque au véhicule. La carte riverain liée devra être adaptée (à venir)." %}
+        </p>
+        <form method="post" class="mt-4 space-y-3">
+          {% csrf_token %}
+          {% include "_partials/_form_field.html" with field=form.notes %}
+          <div class="flex justify-end gap-2">
+            <button type="submit" formaction="{% url 'dashboard:agent_request_plate_reject' req.pk %}"
+                    class="px-4 py-2 text-sm border border-red-300 text-red-700 rounded-md hover:bg-red-50">
+              {% trans "Refuser" %}
+            </button>
+            <button type="submit" formaction="{% url 'dashboard:agent_request_plate_approve' req.pk %}"
+                    class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">
+              {% trans "Approuver" %}
+            </button>
+          </div>
+        </form>
+      </section>
+    {% endif %}
+
+    <p class="mt-6"><a href="{% url 'dashboard:agent_requests' %}" class="text-sm text-slate-600 hover:underline">← {% trans "File des demandes" %}</a></p>
+  </div>
+{% endblock %}

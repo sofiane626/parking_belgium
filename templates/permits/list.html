@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Mes cartes" %}{% endblock %}
+
+{% block content %}
+  <div class="flex items-center justify-between flex-wrap gap-3">
+    <div>
+      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Mes cartes" %}</h1>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Demandes en cours, cartes actives, historique." %}</p>
+    </div>
+    <a href="{% url 'permits:visitor_create' %}" class="bg-emerald-600 text-white text-sm px-3 py-1.5 rounded-md hover:bg-emerald-700">
+      {% trans "Activer ma carte visiteur" %}
+    </a>
+  </div>
+
+  {% if permits %}
+    <div class="mt-4 bg-white border rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-50 text-left text-slate-500 border-b">
+          <tr>
+            <th class="px-4 py-2 font-medium">{% trans "Type" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Véhicule" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Statut" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Validité" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Soumise le" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in permits %}
+            <tr class="border-b last:border-b-0">
+              <td class="px-4 py-2">{{ p.get_permit_type_display }}</td>
+              <td class="px-4 py-2 font-mono text-xs">{{ p.vehicle.plate|default:"—" }}</td>
+              <td class="px-4 py-2">{% include "_partials/permit_status_badge.html" with status=p.status label=p.get_status_display %}</td>
+              <td class="px-4 py-2 text-xs">
+                {% if p.valid_from %}{{ p.valid_from|date:"d/m/Y" }} → {{ p.valid_until|date:"d/m/Y" }}{% else %}—{% endif %}
+              </td>
+              <td class="px-4 py-2 text-xs">{{ p.submitted_at|date:"d/m/Y H:i"|default:"—" }}</td>
+              <td class="px-4 py-2 text-right">
+                <a href="{% url 'permits:detail' p.pk %}" class="text-emerald-700 hover:underline">{% trans "Voir" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="mt-4 rounded-lg bg-white border p-8 text-center text-slate-500 italic">
+      {% trans "Aucune carte. Pour en demander une, ajoutez un véhicule puis cliquez sur \"Demander une carte\" depuis sa page détail." %}
+    </div>
+  {% endif %}
+
+  <p class="mt-6"><a href="{% url 'dashboard:citizen' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Retour à mon espace" %}</a></p>
+{% endblock %}

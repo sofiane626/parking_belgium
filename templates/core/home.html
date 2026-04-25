@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Accueil" %} — Parking.Belgium{% endblock %}
+
+{% block content %}
+  {# ========================== HERO ========================== #}
+  <section class="text-center py-10 sm:py-14">
+    <p class="text-xs uppercase tracking-widest text-emerald-700 font-semibold">{% trans "19 communes — une seule plateforme" %}</p>
+    <h1 class="mt-2 text-4xl sm:text-5xl font-bold tracking-tight text-slate-900">Parking<span class="text-emerald-600">.Belgium</span></h1>
+    <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+      {% trans "Le portail régional pour gérer vos droits de stationnement sur Bruxelles : cartes riverains, codes visiteurs, cartes professionnelles. Le tout depuis votre adresse." %}
+    </p>
+
+    {% if not user.is_authenticated %}
+      <div class="mt-7 flex justify-center gap-3 flex-wrap">
+        <a href="{% url 'accounts:register' %}"
+           class="bg-emerald-600 text-white px-6 py-3 rounded-md font-medium hover:bg-emerald-700">
+          {% trans "Créer mon compte" %}
+        </a>
+        <a href="{% url 'accounts:login' %}"
+           class="border border-slate-300 px-6 py-3 rounded-md font-medium hover:bg-slate-100">
+          {% trans "J'ai déjà un compte" %}
+        </a>
+        <a href="{% url 'gis_data:map' %}"
+           class="border border-slate-300 px-6 py-3 rounded-md font-medium hover:bg-slate-100">
+          {% trans "Voir la carte des zones" %}
+        </a>
+      </div>
+    {% else %}
+      <a href="{% url 'core:post_login_redirect' %}"
+         class="inline-block mt-6 bg-emerald-600 text-white px-6 py-3 rounded-md font-medium hover:bg-emerald-700">
+        {% trans "Aller à mon espace" %}
+      </a>
+    {% endif %}
+  </section>
+
+  {# ========================== TYPES DE CARTES ========================== #}
+  <section class="mt-6 grid sm:grid-cols-3 gap-4">
+    <div class="rounded-lg bg-white border p-6">
+      <div class="text-emerald-600 text-3xl">🏠</div>
+      <h2 class="mt-2 font-semibold text-slate-900">{% trans "Carte riverain" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Stationnez gratuitement ou à tarif réduit dans la zone de votre adresse principale. Une carte par véhicule." %}</p>
+      <p class="mt-2 text-xs text-emerald-700">{% trans "Validité : 1 an, renouvelable." %}</p>
+    </div>
+    <div class="rounded-lg bg-white border p-6">
+      <div class="text-emerald-600 text-3xl">👥</div>
+      <h2 class="mt-2 font-semibold text-slate-900">{% trans "Codes visiteurs" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Jusqu'à 100 codes par an pour vos visiteurs, dans votre zone riverain. Le code couvre une plaque + une durée." %}</p>
+      <p class="mt-2 text-xs text-emerald-700">{% trans "Validité du 1er janvier au 1er décembre." %}</p>
+    </div>
+    <div class="rounded-lg bg-white border p-6">
+      <div class="text-emerald-600 text-3xl">💼</div>
+      <h2 class="mt-2 font-semibold text-slate-900">{% trans "Carte professionnelle" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Pour les indépendants et entreprises. Donne accès à toutes les zones d'une commune choisie." %}</p>
+      <p class="mt-2 text-xs text-emerald-700">{% trans "Validation par un agent." %}</p>
+    </div>
+  </section>
+
+  {# ========================== COMMENT ÇA MARCHE ========================== #}
+  <section class="mt-12 rounded-xl bg-slate-50 border p-6 sm:p-8">
+    <h2 class="text-xl font-semibold text-slate-900">{% trans "Comment ça marche" %}</h2>
+    <ol class="mt-5 grid sm:grid-cols-4 gap-4 text-sm">
+      <li class="bg-white border rounded-lg p-4">
+        <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-600 text-white font-semibold">1</span>
+        <h3 class="mt-2 font-medium text-slate-900">{% trans "Créez votre compte" %}</h3>
+        <p class="mt-1 text-slate-600">{% trans "Renseignez votre profil et votre adresse en une seule fois." %}</p>
+      </li>
+      <li class="bg-white border rounded-lg p-4">
+        <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-600 text-white font-semibold">2</span>
+        <h3 class="mt-2 font-medium text-slate-900">{% trans "Ajoutez vos véhicules" %}</h3>
+        <p class="mt-1 text-slate-600">{% trans "Glissez la carte grise (PDF/JPG/PNG) dans la zone prévue." %}</p>
+      </li>
+      <li class="bg-white border rounded-lg p-4">
+        <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-600 text-white font-semibold">3</span>
+        <h3 class="mt-2 font-medium text-slate-900">{% trans "Demandez vos cartes" %}</h3>
+        <p class="mt-1 text-slate-600">{% trans "Le système calcule la zone via votre adresse et applique les règles métier." %}</p>
+      </li>
+      <li class="bg-white border rounded-lg p-4">
+        <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-600 text-white font-semibold">4</span>
+        <h3 class="mt-2 font-medium text-slate-900">{% trans "Stationnez sereinement" %}</h3>
+        <p class="mt-1 text-slate-600">{% trans "Le contrôle automatique reconnaît votre plaque et votre droit en cours." %}</p>
+      </li>
+    </ol>
+  </section>
+
+  {# ========================== INFO + FAQ ========================== #}
+  <section class="mt-10 grid md:grid-cols-2 gap-4">
+    <div class="rounded-lg bg-white border p-6">
+      <h2 class="text-lg font-semibold text-slate-900">{% trans "Une plateforme régionale" %}</h2>
+      <p class="mt-2 text-sm text-slate-600">
+        {% trans "Bruxelles harmonise depuis plusieurs années sa politique de stationnement entre ses 19 communes. Parking.Belgium centralise demandes, contrôles et droits dans un même portail." %}
+      </p>
+      <ul class="mt-3 text-sm text-slate-700 space-y-1">
+        <li>✓ {% trans "Tarifs et règles consultables par tous" %}</li>
+        <li>✓ {% trans "Suivi en temps réel de vos demandes" %}</li>
+        <li>✓ {% trans "Modification d'adresse ou de plaque encadrée par un agent" %}</li>
+        <li>✓ {% trans "Carte interactive de toutes les zones" %}</li>
+      </ul>
+    </div>
+    <div class="rounded-lg bg-white border p-6">
+      <h2 class="text-lg font-semibold text-slate-900">{% trans "Questions fréquentes" %}</h2>
+      <dl class="mt-3 text-sm space-y-3">
+        <div>
+          <dt class="font-medium text-slate-900">{% trans "Combien coûte une carte riverain ?" %}</dt>
+          <dd class="mt-1 text-slate-600">{% trans "Le tarif annuel est fixé par la Région et configuré dans la plateforme. Consultez-le lors de votre demande." %}</dd>
+        </div>
+        <div>
+          <dt class="font-medium text-slate-900">{% trans "Je déménage, que faire ?" %}</dt>
+          <dd class="mt-1 text-slate-600">{% trans "Soumettez une demande de changement d'adresse depuis votre espace. Vos cartes actives seront suspendues le temps que l'agent valide." %}</dd>
+        </div>
+        <div>
+          <dt class="font-medium text-slate-900">{% trans "Mes codes visiteurs" %}</dt>
+          <dd class="mt-1 text-slate-600">{% trans "100 par an. Annuler un code ne libère pas le quota — choisissez la plaque et la durée avant de générer." %}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  {# ========================== FOOTER CTA ========================== #}
+  {% if not user.is_authenticated %}
+    <section class="mt-12 text-center py-10 bg-emerald-50 border border-emerald-100 rounded-xl">
+      <h2 class="text-2xl font-semibold text-slate-900">{% trans "Prêt à commencer ?" %}</h2>
+      <p class="mt-2 text-slate-600">{% trans "Création gratuite. Compte unique pour les 19 communes." %}</p>
+      <a href="{% url 'accounts:register' %}"
+         class="inline-block mt-5 bg-emerald-600 text-white px-6 py-3 rounded-md font-medium hover:bg-emerald-700">
+        {% trans "Créer mon compte citoyen" %}
+      </a>
+    </section>
+  {% endif %}
+{% endblock %}

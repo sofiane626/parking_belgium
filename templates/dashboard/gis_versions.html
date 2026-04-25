@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Versions GIS" %}{% endblock %}
+
+{% block content %}
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Versions GIS" %}</h1>
+    <a href="{% url 'dashboard:gis_polygons' %}" class="text-sm text-emerald-700 hover:underline">{% trans "Voir les polygones de la version active →" %}</a>
+  </div>
+
+  {% if versions %}
+    <div class="bg-white border rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-50 text-left text-slate-500 border-b">
+          <tr>
+            <th class="px-4 py-2 font-medium">{% trans "Nom" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Fichier source" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Polygones" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "SRID" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Importée" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Active" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in versions %}
+            <tr class="border-b last:border-b-0">
+              <td class="px-4 py-2 font-medium">{{ v.name }}</td>
+              <td class="px-4 py-2 text-slate-600">{{ v.source_filename }}</td>
+              <td class="px-4 py-2">{{ v.polygon_count }}</td>
+              <td class="px-4 py-2">{{ v.srid }}</td>
+              <td class="px-4 py-2">{{ v.imported_at|date:"d/m/Y H:i" }}</td>
+              <td class="px-4 py-2">
+                {% if v.is_active %}
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">{% trans "active" %}</span>
+                {% else %}
+                  <span class="text-slate-400 text-xs">—</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="rounded-lg bg-white border p-8 text-center text-slate-500 italic">
+      {% trans "Aucune version importée. Lancez :" %}
+      <code class="block mt-2 bg-slate-100 px-3 py-2 rounded">python manage.py import_gis GIS/map_tfe.shp --name v1 --activate</code>
+    </div>
+  {% endif %}
+
+  <p class="mt-6"><a href="{% url 'dashboard:admin' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Back-office admin" %}</a></p>
+{% endblock %}

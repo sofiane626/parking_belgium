@@ -1,0 +1,38 @@
+{% load static i18n tailwind_tags %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'fr' }}" class="h-full">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Parking.Belgium{% endblock %}</title>
+  {% tailwind_css %}
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="h-full flex flex-col bg-slate-50 text-slate-900 antialiased">
+  {% include "_partials/navbar.html" %}
+
+  {% if messages %}
+    <div class="max-w-6xl mx-auto w-full px-4 mt-4 space-y-2">
+      {% for m in messages %}
+        <div class="rounded-md border px-4 py-2 text-sm
+          {% if m.tags == 'error' %}border-red-300 bg-red-50 text-red-800
+          {% elif m.tags == 'success' %}border-emerald-300 bg-emerald-50 text-emerald-800
+          {% elif m.tags == 'warning' %}border-amber-300 bg-amber-50 text-amber-800
+          {% else %}border-slate-300 bg-white text-slate-800{% endif %}">
+          {{ m }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <main class="flex-1 max-w-6xl mx-auto w-full px-4 py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="border-t bg-white">
+    <div class="max-w-6xl mx-auto px-4 py-4 text-xs text-slate-500 flex justify-between">
+      <span>Parking.Belgium</span>
+      <span>{% trans "Plateforme de gestion des droits de stationnement — Bruxelles" %}</span>
+    </div>
+  </footer>
+</body>
+</html>

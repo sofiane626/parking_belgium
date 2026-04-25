@@ -1,0 +1,24 @@
+{# Status pill for Permit. Pass `status` (snake_case) and `label` (display). #}
+{% spaceless %}
+{% if status == "draft" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">{{ label }}</span>
+{% elif status == "submitted" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">{{ label }}</span>
+{% elif status == "manual_review" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">{{ label }}</span>
+{% elif status == "refused" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">{{ label }}</span>
+{% elif status == "awaiting_payment" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">{{ label }}</span>
+{% elif status == "active" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">{{ label }}</span>
+{% elif status == "suspended" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-200 text-amber-900">{{ label }}</span>
+{% elif status == "expired" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-300 text-slate-800">{{ label }}</span>
+{% elif status == "cancelled" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-200 text-slate-700">{{ label }}</span>
+{% else %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">{{ label|default:status }}</span>
+{% endif %}
+{% endspaceless %}

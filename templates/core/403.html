@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}403{% endblock %}
+{% block content %}
+  <div class="text-center py-16">
+    <h1 class="text-5xl font-bold text-slate-900">403</h1>
+    <p class="mt-3 text-slate-600">{% trans "Accès refusé." %}</p>
+  </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ vehicle.plate }} — {% trans "Véhicule" %}{% endblock %}
+
+{% block content %}
+  <div class="max-w-xl mx-auto bg-white border rounded-lg p-6 shadow-sm">
+    <div class="flex items-center justify-between">
+      <h1 class="text-2xl font-semibold {% if vehicle.is_archived %}text-slate-400 line-through{% else %}text-slate-900{% endif %} font-mono">{{ vehicle.plate }}</h1>
+      <span class="text-sm text-slate-500">{{ vehicle.get_vehicle_type_display }}</span>
+    </div>
+
+    {% if vehicle.is_archived %}
+      <div class="mt-3 rounded-md border border-slate-300 bg-slate-100 px-4 py-3 text-sm text-slate-700">
+        <div class="flex items-center justify-between gap-2">
+          <div>
+            <p class="font-medium">{% trans "Véhicule archivé" %} — {{ vehicle.archived_at|date:"d/m/Y H:i" }}</p>
+            {% if vehicle.archive_reason %}<p class="text-xs italic mt-1">{{ vehicle.archive_reason }}</p>{% endif %}
+          </div>
+          <form method="post" action="{% url 'vehicles:restore' vehicle.pk %}">{% csrf_token %}
+            <button class="px-3 py-1.5 text-xs bg-emerald-600 text-white rounded-md hover:bg-emerald-700">{% trans "Restaurer" %}</button>
+          </form>
+        </div>
+      </div>
+    {% endif %}
+
+    <dl class="mt-4 space-y-1.5 text-sm text-slate-700">
+      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Marque" %}</dt><dd>{{ vehicle.brand }}</dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Modèle" %}</dt><dd>{{ vehicle.model }}</dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Couleur" %}</dt><dd>{{ vehicle.color|default:"—" }}</dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Ajouté le" %}</dt><dd>{{ vehicle.created_at|date:"d/m/Y H:i" }}</dd></div>
+      <div class="flex justify-between">
+        <dt class="text-slate-500">{% trans "Certificat d'immatriculation" %}</dt>
+        <dd>
+          {% if vehicle.registration_document %}
+            <a href="{{ vehicle.registration_document.url }}" target="_blank" class="text-emerald-700 hover:underline">{% trans "Télécharger" %}</a>
+          {% else %}
+            <span class="text-slate-400">—</span>
+          {% endif %}
+        </dd>
+      </div>
+    </dl>
+
+    {% if pending_plate_change %}
+      <div class="mt-5 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+        {% trans "Une demande de changement de plaque est en cours d'examen." %}
+        <a href="{% url 'vehicles:plate_change_detail' pending_plate_change.pk %}" class="ml-2 underline">{% trans "Voir la demande" %}</a>
+      </div>
+    {% endif %}
+
+    <div class="mt-6 flex justify-between flex-wrap gap-2">
+      <a href="{% url 'vehicles:list' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Liste" %}</a>
+      <div class="flex gap-2 flex-wrap">
+        {% if not vehicle.is_archived %}
+          <a href="{% url 'permits:create_for_vehicle' vehicle.pk %}" class="px-3 py-1.5 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">{% trans "Carte riverain" %}</a>
+          <a href="{% url 'permits:professional_create' vehicle.pk %}" class="px-3 py-1.5 text-sm border border-emerald-600 text-emerald-700 rounded-md hover:bg-emerald-50">{% trans "Carte professionnelle" %}</a>
+          {% if not pending_plate_change %}
+            <a href="{% url 'vehicles:plate_change_create' vehicle.pk %}" class="px-3 py-1.5 text-sm border rounded-md hover:bg-slate-100">{% trans "Changement de plaque" %}</a>
+          {% endif %}
+          <a href="{% url 'vehicles:edit' vehicle.pk %}" class="px-3 py-1.5 text-sm border rounded-md hover:bg-slate-100">{% trans "Modifier" %}</a>
+          <a href="{% url 'vehicles:delete' vehicle.pk %}" class="px-3 py-1.5 text-sm border border-amber-300 text-amber-700 rounded-md hover:bg-amber-50">{% trans "Archiver" %}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

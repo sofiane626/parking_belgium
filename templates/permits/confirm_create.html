@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Demander une carte riverain" %}{% endblock %}
+
+{% block content %}
+  <div class="max-w-md mx-auto bg-white border rounded-lg p-6 shadow-sm">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Demander une carte riverain" %}</h1>
+    <p class="mt-3 text-sm text-slate-700">
+      {% blocktrans with plate=vehicle.plate %}Une carte riverain sera créée pour le véhicule <strong class="font-mono">{{ plate }}</strong>, en lien avec votre adresse principale enregistrée. La zone sera calculée automatiquement.{% endblocktrans %}
+    </p>
+    <p class="mt-2 text-xs text-slate-500">
+      {% trans "Selon votre adresse et les règles métier en vigueur, la demande peut être validée automatiquement, envoyée en revue manuelle, ou refusée." %}
+    </p>
+    <form method="post" class="mt-6 flex justify-end gap-2">
+      {% csrf_token %}
+      <a href="{% url 'vehicles:detail' vehicle.pk %}" class="px-4 py-2 text-sm border rounded-md hover:bg-slate-100">{% trans "Annuler" %}</a>
+      <button type="submit" class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">{% trans "Soumettre la demande" %}</button>
+    </form>
+  </div>
+{% endblock %}

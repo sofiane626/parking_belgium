@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Back-office agent" %}{% endblock %}
+{% block content %}
+  <h1 class="text-2xl font-semibold text-slate-900">{% trans "Back-office — agent" %}</h1>
+
+  <section class="mt-6 grid sm:grid-cols-2 gap-4">
+    <a href="{% url 'dashboard:agent_requests' %}"
+       class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Demandes citoyens" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">
+        {% blocktrans count counter=pending_count %}{{ counter }} demande en attente.{% plural %}{{ counter }} demandes en attente.{% endblocktrans %}
+      </p>
+    </a>
+    <a href="{% url 'dashboard:agent_permits' %}"
+       class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Cartes en revue" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">
+        {% blocktrans count counter=pending_permits %}{{ counter }} carte à examiner.{% plural %}{{ counter }} cartes à examiner.{% endblocktrans %}
+      </p>
+    </a>
+  </section>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Politiques par commune" %}{% endblock %}
+
+{% block content %}
+  <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+    <div>
+      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Politiques par commune" %}</h1>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Une politique par (commune × type de carte). Plusieurs périodes peuvent se succéder dans le temps pour planifier un changement." %}</p>
+    </div>
+    <a href="{% url 'dashboard:admin_policy_create' %}" class="bg-emerald-600 text-white text-sm px-3 py-1.5 rounded-md hover:bg-emerald-700">{% trans "Nouvelle politique" %}</a>
+  </div>
+
+  <form method="get" class="bg-white border rounded-lg p-3 mb-4 flex flex-wrap items-end gap-3 text-sm">
+    <div>
+      <label class="block text-xs text-slate-500">{% trans "Commune" %}</label>
+      <select name="commune" class="mt-1 rounded-md border border-slate-300 bg-white px-3 py-1.5">
+        <option value="">{% trans "Toutes" %}</option>
+        {% for c in communes %}
+          <option value="{{ c.niscode }}" {% if selected_commune == c.niscode %}selected{% endif %}>{{ c.name_fr }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs text-slate-500">{% trans "Type" %}</label>
+      <select name="permit_type" class="mt-1 rounded-md border border-slate-300 bg-white px-3 py-1.5">
+        <option value="">{% trans "Tous" %}</option>
+        {% for value, label in permit_types %}
+          <option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs text-slate-500">{% trans "Activée" %}</label>
+      <select name="enabled" class="mt-1 rounded-md border border-slate-300 bg-white px-3 py-1.5">
+        <option value="">{% trans "Toutes" %}</option>
+        <option value="1" {% if selected_enabled == "1" %}selected{% endif %}>{% trans "Oui" %}</option>
+        <option value="0" {% if selected_enabled == "0" %}selected{% endif %}>{% trans "Non" %}</option>
+      </select>
+    </div>
+    <div class="flex-1 min-w-[180px]">
+      <label class="block text-xs text-slate-500">{% trans "Recherche" %}</label>
+      <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'commune, niscode, notes' %}"
+             class="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-1.5">
+    </div>
+    <button class="px-3 py-1.5 bg-slate-900 text-white rounded-md hover:bg-slate-700">{% trans "Filtrer" %}</button>
+    <a href="{% url 'dashboard:admin_policies' %}" class="text-slate-600 hover:underline">{% trans "Réinit." %}</a>
+  </form>
+
+  {% if page %}
+    <div class="bg-white border rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-50 text-left text-slate-500 border-b">
+          <tr>
+            <th class="px-4 py-2 font-medium">{% trans "Commune" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Type" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Stratégie" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Validité" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Période" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "État" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in page %}
+            <tr class="border-b last:border-b-0 {% if not p.is_enabled %}opacity-60{% endif %}">
+              <td class="px-4 py-2 font-medium">{{ p.commune.name_fr }}</td>
+              <td class="px-4 py-2">{{ p.get_permit_type_display }}</td>
+              <td class="px-4 py-2 text-xs">
+                {{ p.get_price_strategy_display }}
+                {% if p.price_strategy == "fixed" %}— {% widthratio p.price_fixed_cents 100 1 %} €{% endif %}
+              </td>
+              <td class="px-4 py-2 text-xs">{{ p.validity_days }} {% trans "j" %}</td>
+              <td class="px-4 py-2 text-xs">{{ p.effective_from|date:"d/m/Y" }} → {{ p.effective_until|date:"d/m/Y"|default:"∞" }}</td>
+              <td class="px-4 py-2">
+                {% if p.is_enabled %}
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">{% trans "active" %}</span>
+                {% else %}
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-200 text-slate-700">{% trans "désactivée" %}</span>
+                {% endif %}
+              </td>
+              <td class="px-4 py-2 text-right">
+                <a href="{% url 'dashboard:admin_policy_edit' p.pk %}" class="text-emerald-700 hover:underline">{% trans "Éditer" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-3 flex items-center justify-between text-sm">
+      <span class="text-slate-500">{% blocktrans with start=page.start_index end=page.end_index total=page.paginator.count %}{{ start }}–{{ end }} sur {{ total }}{% endblocktrans %}</span>
+      <div class="flex items-center gap-2">
+        {% if page.has_previous %}<a href="?{% if selected_commune %}commune={{ selected_commune }}&{% endif %}{% if selected_type %}permit_type={{ selected_type }}&{% endif %}{% if selected_enabled %}enabled={{ selected_enabled }}&{% endif %}{% if q %}q={{ q }}&{% endif %}page={{ page.previous_page_number }}" class="px-3 py-1 border rounded-md hover:bg-slate-100">←</a>{% endif %}
+        <span class="text-slate-600">{{ page.number }} / {{ page.paginator.num_pages }}</span>
+        {% if page.has_next %}<a href="?{% if selected_commune %}commune={{ selected_commune }}&{% endif %}{% if selected_type %}permit_type={{ selected_type }}&{% endif %}{% if selected_enabled %}enabled={{ selected_enabled }}&{% endif %}{% if q %}q={{ q }}&{% endif %}page={{ page.next_page_number }}" class="px-3 py-1 border rounded-md hover:bg-slate-100">→</a>{% endif %}
+      </div>
+    </div>
+  {% else %}
+    <div class="rounded-lg bg-white border p-8 text-center text-slate-500 italic">{% trans "Aucune politique." %}</div>
+  {% endif %}
+
+  <p class="mt-6"><a href="{% url 'dashboard:admin' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Back-office admin" %}</a></p>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% load i18n %}
+{# Drag-and-drop wrapper for a Django FileField. Pass `field` in the context. #}
+<div data-dropzone class="mt-1">
+  <label for="{{ field.id_for_label }}"
+         class="flex flex-col items-center justify-center rounded-md border-2 border-dashed border-slate-300 bg-white px-4 py-6 text-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50/40 transition"
+         data-dz-drop>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M7 16V4m0 0L3 8m4-4l4 4m6 4v8m0 0l4-4m-4 4l-4-4"/>
+    </svg>
+    <span data-dz-placeholder class="mt-2 text-sm text-slate-600">
+      {% trans "Glissez le document ici, ou cliquez pour parcourir." %}
+    </span>
+    <span data-dz-filename class="mt-2 text-sm font-medium text-emerald-700 hidden break-all"></span>
+    {% if field.help_text %}
+      <span class="mt-1 text-xs text-slate-500">{{ field.help_text }}</span>
+    {% endif %}
+  </label>
+  {{ field }}
+</div>
+<script>
+(function() {
+  document.querySelectorAll('[data-dropzone]').forEach(function(zone) {
+    var input = zone.querySelector('input[type=file]');
+    if (!input) return;
+    input.classList.add('sr-only');
+    var drop = zone.querySelector('[data-dz-drop]');
+    var placeholder = zone.querySelector('[data-dz-placeholder]');
+    var filename = zone.querySelector('[data-dz-filename]');
+
+    function show(name) {
+      filename.textContent = name;
+      filename.classList.remove('hidden');
+      placeholder.classList.add('hidden');
+    }
+    function hover(on) {
+      drop.classList.toggle('border-emerald-500', on);
+      drop.classList.toggle('bg-emerald-50', on);
+    }
+    ['dragenter','dragover'].forEach(function(e) {
+      drop.addEventListener(e, function(ev) { ev.preventDefault(); hover(true); });
+    });
+    ['dragleave','drop'].forEach(function(e) {
+      drop.addEventListener(e, function(ev) { ev.preventDefault(); hover(false); });
+    });
+    drop.addEventListener('drop', function(ev) {
+      if (ev.dataTransfer && ev.dataTransfer.files.length) {
+        input.files = ev.dataTransfer.files;
+        show(input.files[0].name);
+      }
+    });
+    input.addEventListener('change', function() {
+      if (input.files.length) show(input.files[0].name);
+    });
+    if (input.files && input.files.length) show(input.files[0].name);
+  });
+})();
+</script>

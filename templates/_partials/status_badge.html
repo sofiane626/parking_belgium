@@ -1,0 +1,14 @@
+{# Coloured status pill. Pass `status` (one of pending/approved/rejected/cancelled) and optional `label`. #}
+{% spaceless %}
+{% if status == "pending" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">{{ label|default:"En attente" }}</span>
+{% elif status == "approved" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">{{ label|default:"Approuvée" }}</span>
+{% elif status == "rejected" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">{{ label|default:"Refusée" }}</span>
+{% elif status == "cancelled" %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-200 text-slate-700">{{ label|default:"Annulée" }}</span>
+{% else %}
+  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">{{ label|default:status }}</span>
+{% endif %}
+{% endspaceless %}

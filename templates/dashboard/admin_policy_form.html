@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% if is_create %}{% trans "Nouvelle politique" %}{% else %}{% trans "Éditer la politique" %}{% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-2xl font-semibold text-slate-900">
+      {% if is_create %}{% trans "Nouvelle politique" %}{% else %}{% trans "Politique" %} — {{ policy.commune.name_fr }} · {{ policy.get_permit_type_display }}{% endif %}
+    </h1>
+    <p class="mt-1 text-sm text-slate-600">
+      {% trans "Cette politique s'applique uniquement à cette commune et à ce type de carte. Vous pouvez créer plusieurs politiques avec des périodes différentes (effective_from/until) pour planifier un changement." %}
+    </p>
+
+    <form method="post" class="mt-6 space-y-6">
+      {% csrf_token %}
+
+      {% if is_create %}
+        <fieldset class="rounded-lg bg-white border p-5 space-y-4">
+          <legend class="text-sm font-semibold text-slate-900 uppercase tracking-wide px-2">{% trans "Identité" %}</legend>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700">{% trans "Commune" %} <span class="text-red-500">*</span></label>
+              <select name="commune" required class="mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 sm:text-sm">
+                {% for c in communes %}<option value="{{ c.pk }}">{{ c.name_fr }}</option>{% endfor %}
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700">{% trans "Type de carte" %} <span class="text-red-500">*</span></label>
+              <select name="permit_type" required class="mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 sm:text-sm">
+                {% for value, label in permit_types %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+              </select>
+            </div>
+          </div>
+        </fieldset>
+      {% endif %}
+
+      <fieldset class="rounded-lg bg-white border p-5 space-y-4">
+        <legend class="text-sm font-semibold text-slate-900 uppercase tracking-wide px-2">{% trans "Disponibilité" %}</legend>
+        <div class="flex items-center gap-3">{{ form.is_enabled }} <label for="{{ form.is_enabled.id_for_label }}" class="text-sm text-slate-700">{{ form.is_enabled.label }}</label></div>
+        <div class="flex items-center gap-3">{{ form.auto_attribution }} <label for="{{ form.auto_attribution.id_for_label }}" class="text-sm text-slate-700">{{ form.auto_attribution.label }}</label></div>
+      </fieldset>
+
+      <fieldset class="rounded-lg bg-white border p-5 space-y-4">
+        <legend class="text-sm font-semibold text-slate-900 uppercase tracking-wide px-2">{% trans "Validité" %}</legend>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {% include "_partials/_form_field.html" with field=form.validity_days %}
+          {% include "_partials/_form_field.html" with field=form.effective_from %}
+          {% include "_partials/_form_field.html" with field=form.effective_until %}
+        </div>
+      </fieldset>
+
+      <fieldset class="rounded-lg bg-white border p-5 space-y-4">
+        <legend class="text-sm font-semibold text-slate-900 uppercase tracking-wide px-2">{% trans "Tarification" %}</legend>
+        {% include "_partials/_form_field.html" with field=form.price_strategy %}
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {% include "_partials/_form_field.html" with field=form.price_fixed_cents %}
+          {% include "_partials/_form_field.html" with field=form.price_exponential_base_cents %}
+          {% include "_partials/_form_field.html" with field=form.price_exponential_factor %}
+        </div>
+        {% include "_partials/_form_field.html" with field=form.price_grid %}
+        <p class="text-xs text-slate-500">
+          {% trans "Format grille :" %} <code>[[1,1000],[2,2500],[3,5000]]</code> — {% trans "rang seuil → prix en centimes." %}<br>
+          {% trans "Stratégie exponentielle : prix = base × facteur^(rang−1). Le rang correspond au n° de carte riverain du citoyen." %}
+        </p>
+      </fieldset>
+
+      <fieldset class="rounded-lg bg-white border p-5 space-y-4">
+        <legend class="text-sm font-semibold text-slate-900 uppercase tracking-wide px-2">{% trans "Limites" %}</legend>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {% include "_partials/_form_field.html" with field=form.max_active_per_citizen %}
+          {% include "_partials/_form_field.html" with field=form.max_vehicles_per_card %}
+        </div>
+      </fieldset>
+
+      {% include "_partials/_form_field.html" with field=form.notes %}
+
+      <div class="flex items-center justify-between">
+        {% if not is_create %}
+          <form method="post" action="{% url 'dashboard:admin_policy_delete' policy.pk %}" class="inline" onsubmit="return confirm('Supprimer cette politique ?')">
+            {% csrf_token %}
+            <button class="px-3 py-2 text-sm border border-red-300 text-red-700 rounded-md hover:bg-red-50">{% trans "Supprimer" %}</button>
+          </form>
+        {% else %}<span></span>{% endif %}
+        <div class="flex gap-2">
+          <a href="{% url 'dashboard:admin_policies' %}" class="px-4 py-2 text-sm border rounded-md hover:bg-slate-100">{% trans "Annuler" %}</a>
+          <button type="submit" class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">
+            {% if is_create %}{% trans "Créer" %}{% else %}{% trans "Enregistrer" %}{% endif %}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}

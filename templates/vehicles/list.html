@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Mes véhicules" %}{% endblock %}
+
+{% block content %}
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Mes véhicules" %}</h1>
+    <a href="{% url 'vehicles:create' %}"
+       class="bg-emerald-600 text-white text-sm px-3 py-1.5 rounded-md hover:bg-emerald-700">{% trans "Ajouter" %}</a>
+  </div>
+
+  {% if vehicles %}
+    <div class="bg-white border rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-50 text-left text-slate-500 border-b">
+          <tr>
+            <th class="px-4 py-2 font-medium">{% trans "Plaque" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Marque" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Modèle" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Couleur" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Document" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in vehicles %}
+            <tr class="border-b last:border-b-0">
+              <td class="px-4 py-2 font-mono">{{ v.plate }}</td>
+              <td class="px-4 py-2">{{ v.brand }}</td>
+              <td class="px-4 py-2">{{ v.model }}</td>
+              <td class="px-4 py-2">{{ v.color|default:"—" }}</td>
+              <td class="px-4 py-2">
+                {% if v.registration_document %}
+                  <span class="inline-flex items-center text-emerald-700 text-xs">✓ {% trans "fourni" %}</span>
+                {% else %}
+                  <span class="inline-flex items-center text-amber-700 text-xs">⚠ {% trans "manquant" %}</span>
+                {% endif %}
+              </td>
+              <td class="px-4 py-2 text-right">
+                <a href="{% url 'vehicles:detail' v.pk %}" class="text-emerald-700 hover:underline">{% trans "Détails" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="rounded-lg bg-white border p-8 text-center text-slate-500 italic">
+      {% trans "Aucun véhicule actif." %}
+    </div>
+  {% endif %}
+
+  {% if archived_vehicles %}
+    <details class="mt-8 bg-slate-50 border border-slate-200 rounded-lg">
+      <summary class="cursor-pointer px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100 select-none">
+        {% trans "Véhicules archivés" %} ({{ archived_vehicles|length }})
+      </summary>
+      <table class="w-full text-sm border-t border-slate-200">
+        <thead class="text-left text-slate-500 bg-white border-b">
+          <tr>
+            <th class="px-4 py-2 font-medium">{% trans "Plaque" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Marque / modèle" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Archivé le" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Motif" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in archived_vehicles %}
+            <tr class="border-b last:border-b-0 bg-white">
+              <td class="px-4 py-2 font-mono text-slate-500 line-through">{{ v.plate }}</td>
+              <td class="px-4 py-2 text-slate-600">{{ v.brand }} {{ v.model }}</td>
+              <td class="px-4 py-2 text-xs text-slate-500">{{ v.archived_at|date:"d/m/Y H:i" }}</td>
+              <td class="px-4 py-2 text-xs italic text-slate-500">{{ v.archive_reason|default:"—" }}</td>
+              <td class="px-4 py-2 text-right">
+                <a href="{% url 'vehicles:detail' v.pk %}" class="text-xs text-slate-500 hover:underline mr-3">{% trans "Détails" %}</a>
+                <form method="post" action="{% url 'vehicles:restore' v.pk %}" class="inline">{% csrf_token %}
+                  <button class="text-xs text-emerald-700 hover:underline">{% trans "Restaurer" %}</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </details>
+  {% endif %}
+
+  <p class="mt-6"><a href="{% url 'dashboard:citizen' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Retour à mon espace" %}</a></p>
+{% endblock %}

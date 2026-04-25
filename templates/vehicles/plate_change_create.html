@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Demande de changement de plaque" %}{% endblock %}
+
+{% block content %}
+  <div class="max-w-xl mx-auto bg-white border rounded-lg p-6 shadow-sm">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Demande de changement de plaque" %}</h1>
+    <p class="mt-2 text-sm text-slate-600">
+      {% blocktrans with plate=vehicle.plate %}Plaque actuelle : <strong class="font-mono">{{ plate }}</strong>. La demande sera examinée par un agent — une fois approuvée, votre carte riverain liée à ce véhicule sera mise à jour ou suspendue selon les règles métier.{% endblocktrans %}
+    </p>
+
+    <form method="post" enctype="multipart/form-data" class="mt-6 space-y-4">
+      {% csrf_token %}
+
+      {% include "_partials/_form_field.html" with field=form.new_plate %}
+
+      <div>
+        <label for="{{ form.new_registration_document.id_for_label }}" class="block text-sm font-medium text-slate-700">
+          {{ form.new_registration_document.label }}
+        </label>
+        {% include "_partials/file_dropzone.html" with field=form.new_registration_document %}
+        {% if form.new_registration_document.errors %}
+          <p class="mt-1 text-sm text-red-600">{{ form.new_registration_document.errors|join:", " }}</p>
+        {% endif %}
+      </div>
+
+      {% include "_partials/_form_field.html" with field=form.reason %}
+
+      <div class="flex justify-end gap-2">
+        <a href="{% url 'vehicles:detail' vehicle.pk %}" class="px-4 py-2 text-sm border rounded-md hover:bg-slate-100">{% trans "Annuler" %}</a>
+        <button type="submit" class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">
+          {% trans "Envoyer la demande" %}
+        </button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

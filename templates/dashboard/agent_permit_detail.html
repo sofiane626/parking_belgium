@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Carte" %} #{{ permit.pk }}{% endblock %}
+
+{% block content %}
+  <div class="max-w-2xl mx-auto">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h1 class="text-2xl font-semibold text-slate-900">{% trans "Carte" %} #{{ permit.pk }} — {{ permit.get_permit_type_display }}</h1>
+        <p class="text-sm text-slate-600">
+          {{ permit.citizen.get_full_name|default:permit.citizen.username }} ({{ permit.citizen.email }})
+          {% if permit.vehicle %}· {% trans "Véhicule" %} <span class="font-mono">{{ permit.vehicle.plate }}</span>{% endif %}
+        </p>
+        {% if permit.company %}
+          <p class="text-sm text-slate-600">{% trans "Entreprise" %} : {{ permit.company.name }} <span class="text-xs text-slate-500 font-mono">({{ permit.company.vat_number }})</span></p>
+        {% endif %}
+      </div>
+      {% include "_partials/permit_status_badge.html" with status=permit.status label=permit.get_status_display %}
+    </div>
+
+    <section class="rounded-lg bg-white border p-5">
+      <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Engine d'attribution — snapshot" %}</h2>
+      {% with snap=permit.attribution_snapshot %}
+        <dl class="mt-3 text-sm space-y-1.5 text-slate-700">
+          <div class="flex justify-between"><dt class="text-slate-500">{% trans "Polygone source" %}</dt><dd class="font-mono text-xs">{{ snap.polygon_zonecode|default:"—" }}{% if permit.source_polygon %} <a href="{% url 'dashboard:gis_polygon_detail' permit.source_polygon.pk %}" class="text-emerald-700 hover:underline ml-2">{% trans "voir" %}</a>{% endif %}</dd></div>
+          <div class="flex justify-between"><dt class="text-slate-500">{% trans "Zone principale" %}</dt><dd class="font-mono text-xs">{{ snap.main_zone|default:"—" }}</dd></div>
+          <div class="flex justify-between"><dt class="text-slate-500">{% trans "Zones supplémentaires" %}</dt><dd class="text-xs">{{ snap.additional_zones|join:", "|default:"—" }}</dd></div>
+          <div class="flex justify-between"><dt class="text-slate-500">{% trans "Revue manuelle" %}</dt><dd>{{ snap.requires_manual_review|yesno:"oui,non" }}</dd></div>
+          <div class="flex justify-between"><dt class="text-slate-500">{% trans "Refus auto" %}</dt><dd>{{ snap.denied|yesno:"oui,non" }}</dd></div>
+          {% if snap.applied_rules %}
+            <div><dt class="text-slate-500">{% trans "Règles appliquées" %}</dt>
+              <dd class="mt-1 space-y-1">
+                {% for r in snap.applied_rules %}
+                  <div class="text-xs"><span class="font-mono">#{{ r.pk }}</span> · {{ r.action_type }} → {{ r.target_zone_code|default:"—" }} <span class="text-slate-400">(p={{ r.priority }})</span></div>
+                {% endfor %}
+              </dd>
+            </div>
+          {% endif %}
+          {% if snap.notes %}
+            <div><dt class="text-slate-500">{% trans "Notes engine" %}</dt><dd class="mt-1 text-xs italic">{{ snap.notes|join:" / " }}</dd></div>
+          {% endif %}
+        </dl>
+      {% endwith %}
+    </section>
+
+    <section class="mt-4 rounded-lg bg-white border p-5">
+      <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Workflow" %}</h2>
+      <dl class="mt-2 text-sm space-y-1.5 text-slate-700">
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Soumise le" %}</dt><dd>{{ permit.submitted_at|date:"d/m/Y H:i"|default:"—" }}</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Décidée le" %}</dt><dd>{{ permit.decided_at|date:"d/m/Y H:i"|default:"—" }} {% if permit.decided_by %}par {{ permit.decided_by.username }}{% endif %}</dd></div>
+        {% if permit.decision_notes %}<div><dt class="text-slate-500">{% trans "Notes" %}</dt><dd class="mt-1 italic">{{ permit.decision_notes }}</dd></div>{% endif %}
+      </dl>
+    </section>
+
+    {% if permit.permit_type == "professional" and permit.status == "manual_review" %}
+      <section class="mt-4 rounded-lg bg-white border p-5">
+        <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Zones attribuées (manuelles)" %}</h2>
+        {% if zones %}
+          <ul class="mt-3 space-y-1 text-sm">
+            {% for z in zones %}
+              <li class="flex items-center justify-between border-b last:border-b-0 py-1.5">
+                <span><code class="font-mono">{{ z.zone_code }}</code>
+                  {% if z.is_main %}<span class="ml-2 text-xs text-emerald-700">({% trans "principale" %})</span>{% endif %}
+                </span>
+                <form method="post" action="{% url 'dashboard:agent_permit_remove_zone' permit.pk z.pk %}" class="inline">{% csrf_token %}
+                  <button class="text-xs text-red-600 hover:underline">{% trans "Retirer" %}</button>
+                </form>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="mt-2 text-sm text-slate-500 italic">{% trans "Aucune zone — ajoutez-en au moins une avant d'approuver." %}</p>
+        {% endif %}
+
+        <form method="post" action="{% url 'dashboard:agent_permit_add_zone' permit.pk %}" class="mt-3 flex gap-2 items-end flex-wrap">
+          {% csrf_token %}
+          <div class="flex-1 min-w-[180px]">
+            <label class="block text-xs text-slate-500">{% trans "Zonecode" %}</label>
+            <input name="zone_code" required placeholder="ex: ANDR_6Centre"
+                   class="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm">
+          </div>
+          <label class="text-sm flex items-center gap-1">
+            <input type="checkbox" name="is_main" value="1"> {% trans "principale" %}
+          </label>
+          <button class="px-3 py-1.5 text-sm border rounded-md hover:bg-slate-100">{% trans "Ajouter" %}</button>
+        </form>
+      </section>
+    {% endif %}
+
+    {% if permit.status == "manual_review" %}
+      <section class="mt-4 rounded-lg bg-white border p-5">
+        <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Décision" %}</h2>
+        <p class="mt-2 text-sm text-slate-600">
+          {% trans "L'approbation place la carte en attente de paiement. Le refus est définitif." %}
+        </p>
+        <form method="post" class="mt-4 space-y-3">
+          {% csrf_token %}
+          {% include "_partials/_form_field.html" with field=form.notes %}
+          <div class="flex justify-end gap-2">
+            <button type="submit" formaction="{% url 'dashboard:agent_permit_refuse' permit.pk %}"
+                    class="px-4 py-2 text-sm border border-red-300 text-red-700 rounded-md hover:bg-red-50">
+              {% trans "Refuser" %}
+            </button>
+            <button type="submit" formaction="{% url 'dashboard:agent_permit_approve' permit.pk %}"
+                    class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">
+              {% trans "Approuver" %}
+            </button>
+          </div>
+        </form>
+      </section>
+    {% endif %}
+
+    <p class="mt-6"><a href="{% url 'dashboard:agent_permits' %}" class="text-sm text-slate-600 hover:underline">← {% trans "File des cartes" %}</a></p>
+  </div>
+{% endblock %}

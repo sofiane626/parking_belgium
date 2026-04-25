@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Modifier le profil" %}{% endblock %}
+
+{% block content %}
+  <div class="max-w-xl mx-auto bg-white border rounded-lg p-6 shadow-sm">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Modifier le profil" %}</h1>
+
+    <form method="post" class="mt-4 space-y-4">
+      {% csrf_token %}
+      {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-slate-700">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<p class="mt-1 text-xs text-slate-500">{{ field.help_text|safe }}</p>{% endif %}
+          {% if field.errors %}<p class="mt-1 text-sm text-red-600">{{ field.errors|join:", " }}</p>{% endif %}
+        </div>
+      {% endfor %}
+      <div class="flex justify-end gap-2">
+        <a href="{% url 'dashboard:citizen' %}" class="px-4 py-2 text-sm border rounded-md hover:bg-slate-100">{% trans "Annuler" %}</a>
+        <button type="submit" class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">{% trans "Enregistrer" %}</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

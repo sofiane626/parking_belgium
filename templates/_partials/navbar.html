@@ -1,0 +1,87 @@
+{% load i18n %}
+<header class="bg-white border-b sticky top-0 z-30">
+  <nav class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
+
+    {# ---- Brand + primary links (per role) ---- #}
+    <div class="flex items-center gap-5 text-sm">
+      <a href="{% url 'core:home' %}" class="font-semibold text-slate-900 hover:text-slate-700 whitespace-nowrap">
+        Parking<span class="text-emerald-600">.Belgium</span>
+      </a>
+      <a href="{% url 'gis_data:map' %}" class="text-slate-700 hover:text-emerald-700 hidden sm:inline">{% trans "Carte des zones" %}</a>
+
+      {% if user.is_authenticated %}
+        {% if user.is_super_admin or user.is_admin_role %}
+          <a href="{% url 'dashboard:admin' %}" class="text-slate-700 hover:text-emerald-700">{% trans "Tableau de bord" %}</a>
+          <a href="{% url 'dashboard:agent_requests' %}" class="text-slate-700 hover:text-emerald-700">{% trans "Demandes" %}</a>
+          <a href="{% url 'dashboard:agent_permits' %}" class="text-slate-700 hover:text-emerald-700">{% trans "Cartes" %}</a>
+        {% elif user.is_agent %}
+          <a href="{% url 'dashboard:agent' %}" class="text-slate-700 hover:text-emerald-700">{% trans "Tableau de bord" %}</a>
+          <a href="{% url 'dashboard:agent_requests' %}" class="text-slate-700 hover:text-emerald-700">{% trans "Demandes" %}</a>
+          <a href="{% url 'dashboard:agent_permits' %}" class="text-slate-700 hover:text-emerald-700">{% trans "Cartes" %}</a>
+        {% else %}
+          <a href="{% url 'dashboard:citizen' %}" class="text-slate-700 hover:text-emerald-700">{% trans "Mon espace" %}</a>
+          <a href="{% url 'permits:list' %}" class="text-slate-700 hover:text-emerald-700 font-medium">{% trans "Mes cartes" %}</a>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    {# ---- Right: account dropdown ---- #}
+    <div class="flex items-center gap-3 text-sm">
+      {% if user.is_authenticated %}
+        <div class="relative" data-dropdown>
+          <button type="button" data-dropdown-trigger
+                  class="flex items-center gap-2 px-3 py-1.5 rounded-md text-slate-700 hover:bg-slate-100">
+            <span class="hidden sm:inline">{{ user.username }}</span>
+            <span class="text-xs text-slate-400">({{ user.get_role_display }})</span>
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div data-dropdown-panel class="hidden absolute right-0 mt-1 w-56 bg-white border rounded-md shadow-lg py-1 text-sm z-40">
+            {% if user.is_super_admin or user.is_admin_role %}
+              <a href="{% url 'dashboard:admin_permit_config' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Configuration globale" %}</a>
+              <a href="{% url 'dashboard:admin_policies' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Politiques par commune" %}</a>
+              <a href="{% url 'dashboard:gis_versions' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Données GIS" %}</a>
+              <div class="border-t my-1"></div>
+            {% elif user.is_agent %}
+              <div class="border-t my-1"></div>
+            {% else %}
+              <a href="{% url 'vehicles:list' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Mes véhicules" %}</a>
+              <a href="{% url 'companies:list' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Mes entreprises" %}</a>
+              <a href="{% url 'citizens:request_list' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Mes demandes" %}</a>
+              <div class="border-t my-1"></div>
+              <a href="{% url 'citizens:profile_edit' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Modifier mon profil" %}</a>
+              <a href="{% url 'citizens:address_change_create' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Changer d'adresse" %}</a>
+              <div class="border-t my-1"></div>
+            {% endif %}
+            <form method="post" action="{% url 'accounts:logout' %}" class="block">
+              {% csrf_token %}
+              <button type="submit" class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">{% trans "Déconnexion" %}</button>
+            </form>
+          </div>
+        </div>
+      {% else %}
+        <a href="{% url 'accounts:login' %}" class="text-slate-700 hover:text-emerald-700">{% trans "Connexion" %}</a>
+        <a href="{% url 'accounts:register' %}"
+           class="bg-emerald-600 text-white px-3 py-1.5 rounded-md hover:bg-emerald-700">{% trans "Créer un compte" %}</a>
+      {% endif %}
+    </div>
+  </nav>
+</header>
+
+<script>
+(function () {
+  document.querySelectorAll('[data-dropdown]').forEach(function (root) {
+    var btn = root.querySelector('[data-dropdown-trigger]');
+    var panel = root.querySelector('[data-dropdown-panel]');
+    if (!btn || !panel) return;
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      panel.classList.toggle('hidden');
+    });
+  });
+  document.addEventListener('click', function () {
+    document.querySelectorAll('[data-dropdown-panel]').forEach(function (p) {
+      p.classList.add('hidden');
+    });
+  });
+})();
+</script>

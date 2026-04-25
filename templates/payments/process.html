@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Confirmer le paiement" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+  <div class="bg-white border rounded-xl shadow-sm overflow-hidden">
+    <div class="bg-emerald-600 text-white px-5 py-4">
+      <h1 class="text-lg font-semibold">{% trans "Confirmer le paiement" %}</h1>
+      <p class="text-xs opacity-90 mt-0.5">{% trans "Lien sécurisé valable 15 minutes." %}</p>
+    </div>
+
+    <div class="p-5">
+      <dl class="text-sm space-y-2 text-slate-700">
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Carte" %}</dt><dd>#{{ permit.pk }} — {{ permit.get_permit_type_display }}</dd></div>
+        {% if permit.vehicle %}<div class="flex justify-between"><dt class="text-slate-500">{% trans "Véhicule" %}</dt><dd class="font-mono">{{ permit.vehicle.plate }}</dd></div>{% endif %}
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Référence" %}</dt><dd class="font-mono text-xs">{{ payment.reference }}</dd></div>
+        <div class="flex justify-between text-base pt-2 border-t mt-2"><dt class="text-slate-700 font-medium">{% trans "Montant" %}</dt><dd class="font-semibold text-slate-900">{% widthratio payment.amount_cents 100 1 %} €</dd></div>
+      </dl>
+
+      <form method="post" action="{% url 'payments:confirm' %}" class="mt-5">
+        {% csrf_token %}
+        <input type="hidden" name="signed_token" value="{{ signed_token }}">
+        <button type="submit"
+                class="w-full px-4 py-3 text-sm font-medium bg-emerald-600 text-white rounded-md hover:bg-emerald-700">
+          {% trans "Confirmer et payer" %}
+        </button>
+      </form>
+
+      <form method="post" action="{% url 'payments:cancel' payment.reference %}" class="mt-2"
+            onsubmit="return confirm('Annuler ce paiement ?')">
+        {% csrf_token %}
+        <button type="submit"
+                class="w-full px-4 py-2 text-sm border border-slate-300 text-slate-700 rounded-md hover:bg-slate-50">
+          {% trans "Annuler" %}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <p class="mt-3 text-xs text-slate-400 text-center">{% trans "En confirmant, vous acceptez l'activation immédiate de votre carte." %}</p>
+</div>
+{% endblock %}

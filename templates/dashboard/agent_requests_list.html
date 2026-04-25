@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Demandes citoyens" %}{% endblock %}
+
+{% block content %}
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Demandes citoyens" %}</h1>
+    <div class="text-sm">
+      {% if show_all %}
+        <a href="{% url 'dashboard:agent_requests' %}" class="text-emerald-700 hover:underline">{% trans "Voir uniquement les en attente" %}</a>
+      {% else %}
+        <a href="?all=1" class="text-emerald-700 hover:underline">{% trans "Voir toutes les demandes" %}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <section>
+    <h2 class="font-semibold text-slate-900">{% trans "Changements d'adresse" %}</h2>
+    {% if address_requests %}
+      <div class="mt-2 bg-white border rounded-lg overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50 text-left text-slate-500 border-b">
+            <tr>
+              <th class="px-4 py-2 font-medium">{% trans "Citoyen" %}</th>
+              <th class="px-4 py-2 font-medium">{% trans "Nouvelle adresse" %}</th>
+              <th class="px-4 py-2 font-medium">{% trans "Soumise" %}</th>
+              <th class="px-4 py-2 font-medium">{% trans "Statut" %}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in address_requests %}
+              <tr class="border-b last:border-b-0">
+                <td class="px-4 py-2">{{ r.profile.user.get_full_name|default:r.profile.user.username }}</td>
+                <td class="px-4 py-2 text-xs">{{ r.street }} {{ r.number }}, {{ r.postal_code }} {{ r.commune }}</td>
+                <td class="px-4 py-2">{{ r.submitted_at|date:"d/m H:i" }}</td>
+                <td class="px-4 py-2">{% include "_partials/status_badge.html" with status=r.status label=r.get_status_display %}</td>
+                <td class="px-4 py-2 text-right">
+                  <a href="{% url 'dashboard:agent_request_address' r.pk %}" class="text-emerald-700 hover:underline">{% trans "Examiner" %}</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="mt-2 text-sm text-slate-500 italic">{% trans "Aucune demande." %}</p>
+    {% endif %}
+  </section>
+
+  <section class="mt-8">
+    <h2 class="font-semibold text-slate-900">{% trans "Changements de plaque" %}</h2>
+    {% if plate_requests %}
+      <div class="mt-2 bg-white border rounded-lg overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50 text-left text-slate-500 border-b">
+            <tr>
+              <th class="px-4 py-2 font-medium">{% trans "Propriétaire" %}</th>
+              <th class="px-4 py-2 font-medium">{% trans "Plaque" %}</th>
+              <th class="px-4 py-2 font-medium">{% trans "Soumise" %}</th>
+              <th class="px-4 py-2 font-medium">{% trans "Statut" %}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in plate_requests %}
+              <tr class="border-b last:border-b-0">
+                <td class="px-4 py-2">{{ r.vehicle.owner.get_full_name|default:r.vehicle.owner.username }}</td>
+                <td class="px-4 py-2 font-mono text-xs">{{ r.vehicle.plate }} → {{ r.new_plate }}</td>
+                <td class="px-4 py-2">{{ r.submitted_at|date:"d/m H:i" }}</td>
+                <td class="px-4 py-2">{% include "_partials/status_badge.html" with status=r.status label=r.get_status_display %}</td>
+                <td class="px-4 py-2 text-right">
+                  <a href="{% url 'dashboard:agent_request_plate' r.pk %}" class="text-emerald-700 hover:underline">{% trans "Examiner" %}</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="mt-2 text-sm text-slate-500 italic">{% trans "Aucune demande." %}</p>
+    {% endif %}
+  </section>
+{% endblock %}

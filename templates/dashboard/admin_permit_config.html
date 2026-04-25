@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Configuration globale" %}{% endblock %}
+
+{% block content %}
+  <div class="max-w-2xl mx-auto">
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <div>
+        <h1 class="text-2xl font-semibold text-slate-900">{% trans "Configuration globale" %}</h1>
+        <p class="mt-1 text-sm text-slate-600">
+          {% trans "Limites cross-cutting et valeurs par défaut. Pour les règles spécifiques par commune et par type de carte (prix, validité, attribution auto, limites)," %}
+          <a href="{% url 'dashboard:admin_policies' %}" class="text-emerald-700 hover:underline">{% trans "voir les politiques" %}</a>.
+        </p>
+      </div>
+    </div>
+
+    <form method="post" class="mt-6 space-y-6">
+      {% csrf_token %}
+
+      <fieldset class="rounded-lg bg-white border p-5 space-y-4">
+        <legend class="text-sm font-semibold text-slate-900 uppercase tracking-wide px-2">{% trans "Tarifs (centimes)" %}</legend>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {% include "_partials/_form_field.html" with field=form.resident_price_cents %}
+          {% include "_partials/_form_field.html" with field=form.visitor_price_cents %}
+          {% include "_partials/_form_field.html" with field=form.professional_price_cents %}
+        </div>
+      </fieldset>
+
+      <fieldset class="rounded-lg bg-white border p-5 space-y-4">
+        <legend class="text-sm font-semibold text-slate-900 uppercase tracking-wide px-2">{% trans "Codes visiteurs" %}</legend>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {% include "_partials/_form_field.html" with field=form.visitor_codes_per_year %}
+          {% include "_partials/_form_field.html" with field=form.visitor_code_default_hours %}
+          {% include "_partials/_form_field.html" with field=form.visitor_code_max_hours %}
+        </div>
+      </fieldset>
+
+      <fieldset class="rounded-lg bg-white border p-5 space-y-4">
+        <legend class="text-sm font-semibold text-slate-900 uppercase tracking-wide px-2">{% trans "Validité par défaut" %}</legend>
+        {% include "_partials/_form_field.html" with field=form.permit_default_validity_days %}
+        <p class="text-xs text-slate-500">{% trans "Utilisée quand aucune politique commune+type n'est définie." %}</p>
+      </fieldset>
+
+      <fieldset class="rounded-lg bg-white border p-5 space-y-4">
+        <legend class="text-sm font-semibold text-slate-900 uppercase tracking-wide px-2">{% trans "Limites par citoyen" %}</legend>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {% include "_partials/_form_field.html" with field=form.max_vehicles_per_citizen %}
+          {% include "_partials/_form_field.html" with field=form.max_companies_per_citizen %}
+          {% include "_partials/_form_field.html" with field=form.max_active_pro_per_citizen %}
+        </div>
+        <div class="flex items-center gap-3">
+          {{ form.allow_cumul_resident_pro }}
+          <label for="{{ form.allow_cumul_resident_pro.id_for_label }}" class="text-sm text-slate-700">{{ form.allow_cumul_resident_pro.label }}</label>
+        </div>
+      </fieldset>
+
+      <div class="flex items-center justify-between">
+        <span class="text-xs text-slate-500">{% trans "Dernière mise à jour" %} : {{ config.updated_at|date:"d/m/Y H:i" }} {% if config.updated_by %}par {{ config.updated_by.username }}{% endif %}</span>
+        <button type="submit" class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">{% trans "Enregistrer" %}</button>
+      </div>
+    </form>
+
+    <p class="mt-6"><a href="{% url 'dashboard:admin' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Back-office admin" %}</a></p>
+  </div>
+{% endblock %}

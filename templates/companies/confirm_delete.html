@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Supprimer l'entreprise" %}{% endblock %}
+
+{% block content %}
+  <div class="max-w-md mx-auto bg-white border rounded-lg p-6 shadow-sm">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Supprimer cette entreprise ?" %}</h1>
+    <p class="mt-3 text-sm text-slate-700">
+      {% blocktrans with name=company.name %}<strong>{{ name }}</strong> sera retirée. Ses cartes professionnelles ne pourront plus être renouvelées.{% endblocktrans %}
+    </p>
+    <form method="post" class="mt-6 flex justify-end gap-2">
+      {% csrf_token %}
+      <a href="{% url 'companies:detail' company.pk %}" class="px-4 py-2 text-sm border rounded-md hover:bg-slate-100">{% trans "Annuler" %}</a>
+      <button type="submit" class="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700">{% trans "Supprimer" %}</button>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Polygones GIS" %}{% endblock %}
+
+{% block content %}
+  <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+    <div>
+      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Polygones GIS" %}</h1>
+      {% if version %}
+        <p class="text-sm text-slate-600">{% trans "Version active :" %} <strong>{{ version.name }}</strong> ({{ version.polygon_count }} {% trans "polygones" %})</p>
+      {% else %}
+        <p class="text-sm text-amber-700">{% trans "Aucune version active." %}</p>
+      {% endif %}
+    </div>
+
+    <form method="get" class="flex items-center gap-2 text-sm">
+      <label for="commune" class="text-slate-700">{% trans "Commune :" %}</label>
+      <select id="commune" name="commune" class="rounded-md border border-slate-300 bg-white px-3 py-1.5 sm:text-sm" onchange="this.form.submit()">
+        <option value="">{% trans "Toutes" %}</option>
+        {% for c in communes %}
+          <option value="{{ c.niscode }}" {% if selected_commune == c.niscode %}selected{% endif %}>{{ c.name_fr }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+
+  {% if page %}
+    <div class="bg-white border rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-50 text-left text-slate-500 border-b">
+          <tr>
+            <th class="px-4 py-2 font-medium">{% trans "Zonecode" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Commune" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Nom (fr)" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Layer" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Aire (m²)" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in page %}
+            <tr class="border-b last:border-b-0">
+              <td class="px-4 py-2 font-mono text-xs">{{ p.zonecode }}</td>
+              <td class="px-4 py-2">{{ p.commune.name_fr|default:"—" }}</td>
+              <td class="px-4 py-2">{{ p.name_fr|default:"—" }}</td>
+              <td class="px-4 py-2 text-xs text-slate-500">{{ p.layer|default:"—" }}</td>
+              <td class="px-4 py-2 text-right tabular-nums">{{ p.area|default:"—"|floatformat:0 }}</td>
+              <td class="px-4 py-2 text-right">
+                <a href="{% url 'dashboard:gis_polygon_detail' p.pk %}" class="text-emerald-700 hover:underline">{% trans "Voir / règles" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-4 flex items-center justify-between text-sm">
+      <span class="text-slate-500">
+        {% blocktrans with start=page.start_index end=page.end_index total=page.paginator.count %}{{ start }}–{{ end }} sur {{ total }}{% endblocktrans %}
+      </span>
+      <div class="flex items-center gap-2">
+        {% if page.has_previous %}
+          <a href="?page={{ page.previous_page_number }}{% if selected_commune %}&commune={{ selected_commune }}{% endif %}" class="px-3 py-1 border rounded-md hover:bg-slate-100">←</a>
+        {% endif %}
+        <span class="text-slate-600">{{ page.number }} / {{ page.paginator.num_pages }}</span>
+        {% if page.has_next %}
+          <a href="?page={{ page.next_page_number }}{% if selected_commune %}&commune={{ selected_commune }}{% endif %}" class="px-3 py-1 border rounded-md hover:bg-slate-100">→</a>
+        {% endif %}
+      </div>
+    </div>
+  {% else %}
+    <div class="rounded-lg bg-white border p-8 text-center text-slate-500 italic">{% trans "Aucun polygone." %}</div>
+  {% endif %}
+
+  <p class="mt-6"><a href="{% url 'dashboard:gis_versions' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Versions" %}</a></p>
+{% endblock %}

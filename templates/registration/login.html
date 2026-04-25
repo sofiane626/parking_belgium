@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Connexion" %}{% endblock %}
+
+{% block content %}
+  <div class="max-w-md mx-auto bg-white border rounded-lg p-6 shadow-sm">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Connexion" %}</h1>
+    <form method="post" class="mt-4 space-y-4">
+      {% csrf_token %}
+      {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-slate-700">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}<p class="mt-1 text-sm text-red-600">{{ field.errors|join:", " }}</p>{% endif %}
+        </div>
+      {% endfor %}
+      {% if form.non_field_errors %}
+        <p class="text-sm text-red-600">{{ form.non_field_errors|join:", " }}</p>
+      {% endif %}
+      <button type="submit"
+              class="w-full bg-emerald-600 text-white py-2 rounded-md font-medium hover:bg-emerald-700">
+        {% trans "Se connecter" %}
+      </button>
+    </form>
+    <p class="mt-4 text-sm text-slate-600 text-center">
+      <a href="{% url 'accounts:register' %}" class="text-emerald-700 hover:underline">{% trans "Pas encore de compte ?" %}</a>
+    </p>
+  </div>
+{% endblock %}

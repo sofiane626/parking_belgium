@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Demande #" %}{{ req.pk }}{% endblock %}
+
+{% block content %}
+  <div class="max-w-xl mx-auto bg-white border rounded-lg p-6 shadow-sm">
+    <div class="flex items-center justify-between">
+      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Changement de plaque" %}</h1>
+      {% include "_partials/status_badge.html" with status=req.status label=req.get_status_display %}
+    </div>
+
+    <dl class="mt-4 space-y-1.5 text-sm text-slate-700">
+      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Véhicule" %}</dt><dd>{{ req.vehicle.brand }} {{ req.vehicle.model }}</dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Plaque actuelle" %}</dt><dd class="font-mono">{{ req.vehicle.plate }}</dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Plaque demandée" %}</dt><dd class="font-mono">{{ req.new_plate }}</dd></div>
+      {% if req.new_registration_document %}
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Nouveau certificat" %}</dt>
+          <dd><a href="{{ req.new_registration_document.url }}" target="_blank" class="text-emerald-700 hover:underline">{% trans "Télécharger" %}</a></dd>
+        </div>
+      {% endif %}
+      {% if req.reason %}
+        <div><dt class="text-slate-500">{% trans "Motif" %}</dt><dd class="mt-1">{{ req.reason }}</dd></div>
+      {% endif %}
+      <div class="flex justify-between pt-3 border-t mt-3"><dt class="text-slate-500">{% trans "Soumise le" %}</dt><dd>{{ req.submitted_at|date:"d/m/Y H:i" }}</dd></div>
+      {% if req.decided_at %}
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Décidée le" %}</dt><dd>{{ req.decided_at|date:"d/m/Y H:i" }}</dd></div>
+      {% endif %}
+      {% if req.decision_notes %}
+        <div><dt class="text-slate-500">{% trans "Notes de l'agent" %}</dt><dd class="mt-1 italic">{{ req.decision_notes }}</dd></div>
+      {% endif %}
+    </dl>
+
+    {% if req.status == "pending" %}
+      <form method="post" action="{% url 'vehicles:plate_change_cancel' req.pk %}" class="mt-6 flex justify-end">
+        {% csrf_token %}
+        <button type="submit" class="px-3 py-1.5 text-sm border border-red-300 text-red-700 rounded-md hover:bg-red-50">
+          {% trans "Annuler ma demande" %}
+        </button>
+      </form>
+    {% endif %}
+
+    <p class="mt-6"><a href="{% url 'citizens:request_list' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Mes demandes" %}</a></p>
+  </div>
+{% endblock %}

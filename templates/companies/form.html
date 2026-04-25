@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% if is_create %}{% trans "Ajouter une entreprise" %}{% else %}{% trans "Modifier l'entreprise" %}{% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-2xl mx-auto bg-white border rounded-lg p-6 shadow-sm">
+    <h1 class="text-2xl font-semibold text-slate-900">
+      {% if is_create %}{% trans "Ajouter une entreprise" %}{% else %}{% trans "Modifier l'entreprise" %}{% endif %}
+    </h1>
+
+    <form method="post" class="mt-4 space-y-4">
+      {% csrf_token %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {% include "_partials/_form_field.html" with field=form.name %}
+        {% include "_partials/_form_field.html" with field=form.vat_number %}
+      </div>
+      {% include "_partials/_form_field.html" with field=form.activity %}
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="sm:col-span-2">{% include "_partials/_form_field.html" with field=form.street %}</div>
+        {% include "_partials/_form_field.html" with field=form.number %}
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {% include "_partials/_form_field.html" with field=form.box %}
+        {% include "_partials/_form_field.html" with field=form.postal_code %}
+        {% include "_partials/_form_field.html" with field=form.country %}
+      </div>
+      {% include "_partials/_form_field.html" with field=form.commune %}
+
+      <div class="flex justify-end gap-2">
+        <a href="{% if is_create %}{% url 'companies:list' %}{% else %}{% url 'companies:detail' company.pk %}{% endif %}"
+           class="px-4 py-2 text-sm border rounded-md hover:bg-slate-100">{% trans "Annuler" %}</a>
+        <button type="submit" class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">
+          {% if is_create %}{% trans "Ajouter" %}{% else %}{% trans "Enregistrer" %}{% endif %}
+        </button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

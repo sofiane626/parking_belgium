@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}404{% endblock %}
+{% block content %}
+  <div class="text-center py-16">
+    <h1 class="text-5xl font-bold text-slate-900">404</h1>
+    <p class="mt-3 text-slate-600">{% trans "Page introuvable." %}</p>
+  </div>
+{% endblock %}

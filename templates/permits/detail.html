@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Carte" %} #{{ permit.pk }}{% endblock %}
+
+{% block extra_head %}
+  {% if zones and permit.is_active %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>#permit-map { height: 320px; border-radius: 8px; }</style>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-2xl mx-auto">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h1 class="text-2xl font-semibold text-slate-900">{% trans "Carte" %} #{{ permit.pk }} — {{ permit.get_permit_type_display }}</h1>
+        {% if permit.vehicle %}
+          <p class="text-sm text-slate-600">{% trans "Véhicule" %} : <span class="font-mono">{{ permit.vehicle.plate }}</span></p>
+        {% endif %}
+        {% if permit.company %}
+          <p class="text-sm text-slate-600">{% trans "Entreprise" %} : {{ permit.company.name }} <span class="text-xs text-slate-500 font-mono">({{ permit.company.vat_number }})</span></p>
+        {% endif %}
+      </div>
+      {% include "_partials/permit_status_badge.html" with status=permit.status label=permit.get_status_display %}
+    </div>
+
+    <section class="rounded-lg bg-white border p-5">
+      <dl class="text-sm space-y-1.5 text-slate-700">
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Soumise le" %}</dt><dd>{{ permit.submitted_at|date:"d/m/Y H:i"|default:"—" }}</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Décidée le" %}</dt><dd>{{ permit.decided_at|date:"d/m/Y H:i"|default:"—" }}</dd></div>
+        {% if permit.decision_notes %}
+          <div><dt class="text-slate-500">{% trans "Notes de l'agent" %}</dt><dd class="mt-1 italic">{{ permit.decision_notes }}</dd></div>
+        {% endif %}
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Prix" %}</dt><dd>{% widthratio permit.price_cents 100 1 %} €</dd></div>
+        {% if permit.valid_from %}
+          <div class="flex justify-between"><dt class="text-slate-500">{% trans "Validité" %}</dt><dd>{{ permit.valid_from|date:"d/m/Y" }} → {{ permit.valid_until|date:"d/m/Y" }}</dd></div>
+        {% endif %}
+        {% if permit.suspended_at %}
+          <div class="flex justify-between"><dt class="text-slate-500">{% trans "Suspendue le" %}</dt><dd>{{ permit.suspended_at|date:"d/m/Y H:i" }}</dd></div>
+          <div><dt class="text-slate-500">{% trans "Raison" %}</dt><dd class="mt-1 italic">{{ permit.suspension_reason }}</dd></div>
+        {% endif %}
+      </dl>
+    </section>
+
+    {% if zones %}
+      <section class="mt-4 rounded-lg bg-white border p-5">
+        <h2 class="font-semibold text-slate-900">{% trans "Zones autorisées" %} ({{ zones|length }})</h2>
+        {% if permit.is_active %}
+          <div id="permit-map" class="mt-3 bg-slate-100"></div>
+          <p class="mt-1 text-xs text-slate-500">{% trans "Polygones GIS sur lesquels cette carte donne droit de stationner." %}</p>
+        {% endif %}
+        <ul class="mt-3 space-y-1 text-sm">
+          {% for z in zones %}
+            <li class="flex items-center justify-between border-b last:border-b-0 py-1.5">
+              <span><code class="font-mono">{{ z.zone_code }}</code>
+                {% if z.is_main %}<span class="ml-2 text-xs text-emerald-700">({% trans "principale" %})</span>{% endif %}
+              </span>
+              <span class="text-xs text-slate-500">{{ z.get_source_display }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+
+    {% if permit.permit_type == "visitor" and permit.is_active %}
+      <section class="mt-4 rounded-lg bg-white border p-5">
+        <div class="flex items-center justify-between">
+          <h2 class="font-semibold text-slate-900">{% trans "Codes visiteurs" %}</h2>
+          <span class="text-xs text-slate-500">{{ visitor_quota }} / 100 {% trans "codes restants cette année" %}</span>
+        </div>
+        <a href="{% url 'permits:visitor_code_create' permit.pk %}"
+           class="mt-3 inline-block bg-emerald-600 text-white text-sm px-3 py-1.5 rounded-md hover:bg-emerald-700">{% trans "Générer un nouveau code" %}</a>
+
+        {% if permit.visitor_codes.all %}
+          <table class="mt-3 w-full text-sm">
+            <thead class="text-left text-slate-500 border-b">
+              <tr>
+                <th class="py-2 font-medium">{% trans "Code" %}</th>
+                <th class="py-2 font-medium">{% trans "Plaque" %}</th>
+                <th class="py-2 font-medium">{% trans "Validité" %}</th>
+                <th class="py-2 font-medium">{% trans "Statut" %}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for code in permit.visitor_codes.all %}
+                <tr class="border-b last:border-b-0">
+                  <td class="py-2 font-mono text-xs">{{ code.code }}</td>
+                  <td class="py-2 font-mono text-xs">{{ code.plate }}</td>
+                  <td class="py-2 text-xs">{{ code.valid_from|date:"d/m H:i" }} → {{ code.valid_until|date:"d/m H:i" }}</td>
+                  <td class="py-2">
+                    {% if code.status == "active" %}
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">{{ code.get_status_display }}</span>
+                    {% else %}
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-200 text-slate-700">{{ code.get_status_display }}</span>
+                    {% endif %}
+                  </td>
+                  <td class="py-2 text-right">
+                    {% if code.status == "active" %}
+                      <form method="post" action="{% url 'permits:visitor_code_cancel' permit.pk code.pk %}" class="inline" onsubmit="return confirm('Annuler ce code ?')">{% csrf_token %}
+                        <button class="text-xs text-red-600 hover:underline">{% trans "Annuler" %}</button>
+                      </form>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="mt-3 text-sm text-slate-500 italic">{% trans "Aucun code généré pour le moment." %}</p>
+        {% endif %}
+      </section>
+    {% endif %}
+
+    {% if permit.attribution_snapshot %}
+      <section class="mt-4 rounded-lg bg-white border p-5">
+        <h2 class="font-semibold text-slate-900 text-sm uppercase tracking-wide">{% trans "Détail de l'attribution" %}</h2>
+        <dl class="mt-2 text-sm space-y-1.5 text-slate-700">
+          {% with snap=permit.attribution_snapshot %}
+            {% if snap.polygon_zonecode %}
+              <div class="flex justify-between"><dt class="text-slate-500">{% trans "Polygone source" %}</dt><dd class="font-mono text-xs">{{ snap.polygon_zonecode }}</dd></div>
+            {% endif %}
+            {% if snap.main_zone %}
+              <div class="flex justify-between"><dt class="text-slate-500">{% trans "Zone principale" %}</dt><dd class="font-mono text-xs">{{ snap.main_zone }}</dd></div>
+            {% endif %}
+            {% if snap.additional_zones %}
+              <div class="flex justify-between"><dt class="text-slate-500">{% trans "Zones supplémentaires" %}</dt><dd class="text-xs">{{ snap.additional_zones|join:", " }}</dd></div>
+            {% endif %}
+            {% if snap.notes %}
+              <div><dt class="text-slate-500">{% trans "Notes engine" %}</dt><dd class="mt-1 text-xs italic">{{ snap.notes|join:" / " }}</dd></div>
+            {% endif %}
+          {% endwith %}
+        </dl>
+      </section>
+    {% endif %}
+
+    {% if zones and permit.is_active %}
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+              integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+      <script>
+        (function () {
+          var zoneCodes = [{% for z in zones %}"{{ z.zone_code|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}];
+          var mainZone = {% if permit.attribution_snapshot.main_zone %}"{{ permit.attribution_snapshot.main_zone|escapejs }}"{% else %}null{% endif %};
+          var map = L.map('permit-map').setView([50.847, 4.357], 12);
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            subdomains: 'abcd', maxZoom: 19,
+            attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap',
+          }).addTo(map);
+          fetch('{% url "gis_data:polygons_geojson" %}').then(function (r) { return r.json(); }).then(function (data) {
+            var matching = { type: 'FeatureCollection', features: data.features.filter(function (f) {
+              return zoneCodes.indexOf(f.properties.zonecode) !== -1;
+            })};
+            if (!matching.features.length) return;
+            var layer = L.geoJSON(matching, {
+              style: function (f) {
+                var isMain = f.properties.zonecode === mainZone;
+                return {
+                  color: isMain ? '#047857' : '#10b981',
+                  weight: isMain ? 3 : 1.5,
+                  fillColor: isMain ? '#10b981' : '#34d399',
+                  fillOpacity: isMain ? 0.45 : 0.25,
+                };
+              },
+              onEachFeature: function (f, lyr) {
+                lyr.bindTooltip(f.properties.zonecode + (f.properties.name_fr ? ' — ' + f.properties.name_fr : ''));
+              },
+            }).addTo(map);
+            map.fitBounds(layer.getBounds(), { padding: [15, 15] });
+          });
+        })();
+      </script>
+    {% endif %}
+
+    <div class="mt-6 flex justify-between flex-wrap gap-2">
+      <a href="{% url 'permits:list' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Mes cartes" %}</a>
+      <div class="flex gap-2 flex-wrap">
+        {% if permit.status == "awaiting_payment" and permit.price_cents > 0 %}
+          <a href="{% url 'payments:start' permit.pk %}"
+             class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">
+            {% trans "Payer" %} ({% widthratio permit.price_cents 100 1 %} €)
+          </a>
+        {% endif %}
+        {% if permit.status == "draft" or permit.status == "submitted" or permit.status == "manual_review" or permit.status == "awaiting_payment" %}
+          <form method="post" action="{% url 'permits:cancel' permit.pk %}" class="inline" onsubmit="return confirm('Annuler cette demande ?')">{% csrf_token %}
+            <button type="submit" class="px-3 py-1.5 text-sm border border-red-300 text-red-700 rounded-md hover:bg-red-50">{% trans "Annuler" %}</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

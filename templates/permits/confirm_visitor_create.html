@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Demander une carte visiteur" %}{% endblock %}
+
+{% block content %}
+  <div class="max-w-md mx-auto bg-white border rounded-lg p-6 shadow-sm">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Carte visiteur" %}</h1>
+    <p class="mt-3 text-sm text-slate-700">
+      {% trans "Cette carte vous permet de générer jusqu'à 100 codes par an pour vos visiteurs (durée par défaut 4 h, modifiable). Elle est gratuite et active immédiatement, valable du 1er janvier au 1er décembre." %}
+    </p>
+    <p class="mt-2 text-xs text-slate-500">
+      {% trans "Prérequis : avoir une carte riverain active." %}
+    </p>
+    <form method="post" class="mt-6 flex justify-end gap-2">
+      {% csrf_token %}
+      <a href="{% url 'permits:list' %}" class="px-4 py-2 text-sm border rounded-md hover:bg-slate-100">{% trans "Annuler" %}</a>
+      <button type="submit" class="px-4 py-2 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">{% trans "Activer ma carte visiteur" %}</button>
+    </form>
+  </div>
+{% endblock %}

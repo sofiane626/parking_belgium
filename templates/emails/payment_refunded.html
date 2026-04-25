@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>Remboursement</title></head>
+<body style="font-family:system-ui,Segoe UI,Arial,sans-serif;background:#f4f4f6;margin:0;padding:24px;color:#1e293b;">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;">
+    <div style="background:#b91c1c;color:#fff;padding:18px 22px;">
+      <h1 style="margin:0;font-size:20px;">Paiement remboursé</h1>
+      <p style="margin:4px 0 0;font-size:13px;opacity:.9;">Parking.Belgium</p>
+    </div>
+    <div style="padding:22px;">
+      <p>Bonjour {{ user.first_name|default:user.username }},</p>
+      <p>Le paiement de <strong>{{ amount_eur|floatformat:2 }} €</strong> pour votre carte
+        <strong>#{{ permit.pk }}</strong> ({{ permit.get_permit_type_display }}) a été remboursé.</p>
+      <p><strong>Motif :</strong> {{ reason|default:"non précisé" }}</p>
+      <p>En conséquence, votre carte a été <strong>suspendue</strong>. Contactez votre commune
+        ou créez une nouvelle demande pour régulariser votre situation.</p>
+      <p style="margin:18px 0 0;font-size:13px;color:#64748b;">Référence paiement : <span style="font-family:monospace;">{{ payment.reference }}</span></p>
+      <p style="margin:6px 0 0;font-size:13px;color:#64748b;">— L'équipe Parking.Belgium</p>
+    </div>
+  </div>
+</body>
+</html>

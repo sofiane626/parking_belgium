@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Cartes" %}{% endblock %}
+
+{% block content %}
+  <h1 class="text-2xl font-semibold text-slate-900">{% trans "Cartes" %}</h1>
+  <p class="mt-1 text-sm text-slate-600">{% trans "Cliquez sur un chip pour filtrer par statut. Les compteurs reflètent les filtres type/recherche actifs." %}</p>
+
+  {# ----- Status chips with counters ----- #}
+  <div class="mt-4 flex flex-wrap gap-2">
+    {% for value, label, count in chips %}
+      <a href="?status={{ value }}{% if selected_type %}&permit_type={{ selected_type }}{% endif %}{% if q %}&q={{ q }}{% endif %}"
+         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border
+          {% if selected_status == value %}bg-slate-900 text-white border-slate-900
+          {% else %}bg-white text-slate-700 border-slate-200 hover:border-emerald-400{% endif %}">
+        {{ label }}
+        <span class="{% if selected_status == value %}text-slate-100{% else %}text-slate-400{% endif %}">{{ count }}</span>
+      </a>
+    {% endfor %}
+  </div>
+
+  <form method="get" class="bg-white border rounded-lg p-3 mt-4 mb-4 flex flex-wrap items-end gap-3 text-sm">
+    <input type="hidden" name="status" value="{{ selected_status }}">
+    <div>
+      <label class="block text-xs text-slate-500">{% trans "Type" %}</label>
+      <select name="permit_type" class="mt-1 rounded-md border border-slate-300 bg-white px-3 py-1.5">
+        <option value="">{% trans "Tous" %}</option>
+        {% for value, label in permit_types %}
+          <option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="flex-1 min-w-[220px]">
+      <label class="block text-xs text-slate-500">{% trans "Recherche" %}</label>
+      <input type="search" name="q" value="{{ q }}" placeholder="{% trans 'citoyen, email, plaque…' %}"
+             class="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-1.5">
+    </div>
+    <button class="px-3 py-1.5 bg-slate-900 text-white rounded-md hover:bg-slate-700">{% trans "Appliquer" %}</button>
+    <a href="{% url 'dashboard:agent_permits' %}" class="text-slate-600 hover:underline">{% trans "Réinit." %}</a>
+  </form>
+
+  {% if page %}
+    <div class="bg-white border rounded-lg overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-50 text-left text-slate-500 border-b">
+          <tr>
+            <th class="px-4 py-2 font-medium">#</th>
+            <th class="px-4 py-2 font-medium">{% trans "Citoyen" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Véhicule" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Type" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Statut" %}</th>
+            <th class="px-4 py-2 font-medium">{% trans "Soumise" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in page %}
+            <tr class="border-b last:border-b-0">
+              <td class="px-4 py-2 text-xs">#{{ p.pk }}</td>
+              <td class="px-4 py-2">{{ p.citizen.get_full_name|default:p.citizen.username }}</td>
+              <td class="px-4 py-2 font-mono text-xs">{{ p.vehicle.plate|default:"—" }}</td>
+              <td class="px-4 py-2">{{ p.get_permit_type_display }}</td>
+              <td class="px-4 py-2">{% include "_partials/permit_status_badge.html" with status=p.status label=p.get_status_display %}</td>
+              <td class="px-4 py-2 text-xs">{{ p.submitted_at|date:"d/m H:i"|default:"—" }}</td>
+              <td class="px-4 py-2 text-right">
+                <a href="{% url 'dashboard:agent_permit_detail' p.pk %}" class="text-emerald-700 hover:underline">{% trans "Examiner" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-3 flex items-center justify-between text-sm">
+      <span class="text-slate-500">{% blocktrans with start=page.start_index end=page.end_index total=page.paginator.count %}{{ start }}–{{ end }} sur {{ total }}{% endblocktrans %}</span>
+      <div class="flex items-center gap-2">
+        {% if page.has_previous %}<a href="?status={{ selected_status }}&permit_type={{ selected_type }}&q={{ q }}&page={{ page.previous_page_number }}" class="px-3 py-1 border rounded-md hover:bg-slate-100">←</a>{% endif %}
+        <span class="text-slate-600">{{ page.number }} / {{ page.paginator.num_pages }}</span>
+        {% if page.has_next %}<a href="?status={{ selected_status }}&permit_type={{ selected_type }}&q={{ q }}&page={{ page.next_page_number }}" class="px-3 py-1 border rounded-md hover:bg-slate-100">→</a>{% endif %}
+      </div>
+    </div>
+  {% else %}
+    <div class="rounded-lg bg-white border p-8 text-center text-slate-500 italic">
+      {% trans "Aucune carte pour ces filtres." %}
+      {% if total_count %}<br><a href="?status=all" class="text-emerald-700 hover:underline mt-2 inline-block">{% trans "Voir toutes les cartes" %} ({{ total_count }})</a>{% endif %}
+    </div>
+  {% endif %}
+{% endblock %}

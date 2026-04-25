@@ -1,0 +1,13 @@
+Bonjour {{ user.first_name|default:user.username }},
+
+Le paiement de {{ amount_eur|floatformat:2 }} € pour votre carte #{{ permit.pk }}
+({{ permit.get_permit_type_display }}) a été remboursé.
+
+Motif : {{ reason|default:"non précisé" }}
+
+En conséquence, votre carte a été suspendue. Pour régulariser votre situation,
+contactez votre commune ou créez une nouvelle demande.
+
+Référence paiement : {{ payment.reference }}
+
+— L'équipe Parking.Belgium

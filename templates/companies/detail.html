@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ company.name }}{% endblock %}
+
+{% block content %}
+  <div class="max-w-xl mx-auto bg-white border rounded-lg p-6 shadow-sm">
+    <h1 class="text-2xl font-semibold text-slate-900">{{ company.name }}</h1>
+    <p class="text-xs text-slate-500 font-mono mt-1">{{ company.vat_number }}</p>
+
+    <dl class="mt-4 text-sm space-y-1.5 text-slate-700">
+      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Activité" %}</dt><dd>{{ company.activity|default:"—" }}</dd></div>
+      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Adresse" %}</dt>
+        <dd class="text-right">
+          {{ company.street }} {{ company.number }}{% if company.box %} bte {{ company.box }}{% endif %}<br>
+          {{ company.postal_code }} {{ company.commune }}
+        </dd>
+      </div>
+    </dl>
+
+    <div class="mt-6 flex justify-between">
+      <a href="{% url 'companies:list' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Liste" %}</a>
+      <div class="flex gap-2">
+        <a href="{% url 'companies:edit' company.pk %}" class="px-3 py-1.5 text-sm border rounded-md hover:bg-slate-100">{% trans "Modifier" %}</a>
+        <a href="{% url 'companies:delete' company.pk %}" class="px-3 py-1.5 text-sm border border-red-300 text-red-700 rounded-md hover:bg-red-50">{% trans "Supprimer" %}</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

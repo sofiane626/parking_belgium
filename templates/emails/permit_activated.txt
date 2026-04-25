@@ -1,0 +1,16 @@
+Bonjour {{ user.first_name|default:user.username }},
+
+Votre paiement de {{ amount_eur|floatformat:2 }} € pour la carte de stationnement #{{ permit.pk }} ({{ permit.get_permit_type_display }}) a bien été reçu.
+
+Votre carte est désormais ACTIVE.
+
+Détails :
+  - Carte n°{{ permit.pk }} ({{ permit.get_permit_type_display }})
+  {% if permit.vehicle %}- Véhicule : {{ permit.vehicle.plate }}
+  {% endif %}- Période de validité : {{ permit.valid_from|date:"d/m/Y" }} → {{ permit.valid_until|date:"d/m/Y" }}
+  - Montant payé : {{ amount_eur|floatformat:2 }} €
+  - Référence paiement : {{ payment.reference }}
+
+Conservez cet email comme preuve d'activation.
+
+— L'équipe Parking.Belgium
