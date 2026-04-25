@@ -3,7 +3,31 @@
 {% block title %}{% trans "Back-office super admin" %}{% endblock %}
 {% block content %}
   <h1 class="text-2xl font-semibold text-slate-900">{% trans "Back-office — super admin" %}</h1>
-  <div class="mt-6 rounded-lg bg-white border p-5 text-sm text-slate-600 italic">
-    {% trans "Gestion globale à venir." %}
-  </div>
+
+  <section class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <a href="{% url 'dashboard:admin_users' %}" class="rounded-lg bg-white border p-5 hover:border-purple-300 hover:bg-purple-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Gérer les utilisateurs" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Tous les rôles (citoyens, agents, admins, super-admins)." %}</p>
+    </a>
+    <a href="{% url 'dashboard:admin_permit_config' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Configuration globale" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Tarifs par défaut, limites véhicules/cartes, codes visiteurs." %}</p>
+    </a>
+    <a href="{% url 'dashboard:admin_policies' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Politiques par commune" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Règles fines : prix, validité, limites par (commune × type)." %}</p>
+    </a>
+    <a href="{% url 'dashboard:gis_versions' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Données GIS" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Versions importées, polygones, règles d'attribution." %}</p>
+    </a>
+    <a href="{% url 'dashboard:agent_requests' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Demandes citoyens" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Validation des changements d'adresse et de plaque." %}</p>
+    </a>
+    <a href="{% url 'dashboard:agent_permits' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Cartes en revue" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Demandes de cartes en attente de décision." %}</p>
+    </a>
+  </section>
 {% endblock %}

@@ -25,6 +25,10 @@
       <h2 class="font-semibold text-slate-900">{% trans "Données GIS" %}</h2>
       <p class="mt-1 text-sm text-slate-600">{% trans "Versions importées, polygones, règles d'attribution." %}</p>
     </a>
+    <a href="{% url 'dashboard:admin_users' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Gérer les utilisateurs" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Lister, éditer, changer les rôles, désactiver, réinitialiser les mots de passe." %}</p>
+    </a>
     <a href="{% url 'gis_data:map' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
       <h2 class="font-semibold text-slate-900">{% trans "Carte publique" %}</h2>
       <p class="mt-1 text-sm text-slate-600">{% trans "Visualisation Leaflet des zones." %}</p>

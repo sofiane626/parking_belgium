@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from . import views, views_users
 
 urlpatterns = [
     path("citizen/", views.citizen_dashboard, name="citizen"),
@@ -38,4 +38,10 @@ urlpatterns = [
     path("admin/policies/new/", views.admin_policy_create, name="admin_policy_create"),
     path("admin/policies/<int:pk>/", views.admin_policy_edit, name="admin_policy_edit"),
     path("admin/policies/<int:pk>/delete/", views.admin_policy_delete, name="admin_policy_delete"),
+
+    # Admin — gestion des utilisateurs
+    path("admin/users/", views_users.admin_users_list, name="admin_users"),
+    path("admin/users/<int:pk>/", views_users.admin_user_edit, name="admin_user_edit"),
+    path("admin/users/<int:pk>/send-reset/", views_users.admin_user_send_reset, name="admin_user_send_reset"),
+    path("admin/users/<int:pk>/toggle-active/", views_users.admin_user_toggle_active, name="admin_user_toggle_active"),
 ]

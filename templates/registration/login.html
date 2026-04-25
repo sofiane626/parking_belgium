@@ -23,8 +23,9 @@
         {% trans "Se connecter" %}
       </button>
     </form>
-    <p class="mt-4 text-sm text-slate-600 text-center">
-      <a href="{% url 'accounts:register' %}" class="text-emerald-700 hover:underline">{% trans "Pas encore de compte ?" %}</a>
-    </p>
+    <div class="mt-4 flex justify-between text-sm">
+      <a href="{% url 'accounts:password_reset' %}" class="text-slate-600 hover:underline">{% trans "Mot de passe oublié ?" %}</a>
+      <a href="{% url 'accounts:register' %}" class="text-emerald-700 hover:underline">{% trans "Créer un compte" %}</a>
+    </div>
   </div>
 {% endblock %}

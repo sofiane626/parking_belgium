@@ -37,6 +37,7 @@
           </button>
           <div data-dropdown-panel class="hidden absolute right-0 mt-1 w-56 bg-white border rounded-md shadow-lg py-1 text-sm z-40">
             {% if user.is_super_admin or user.is_admin_role %}
+              <a href="{% url 'dashboard:admin_users' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Gérer les utilisateurs" %}</a>
               <a href="{% url 'dashboard:admin_permit_config' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Configuration globale" %}</a>
               <a href="{% url 'dashboard:admin_policies' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Politiques par commune" %}</a>
               <a href="{% url 'dashboard:gis_versions' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Données GIS" %}</a>
@@ -52,6 +53,7 @@
               <a href="{% url 'citizens:address_change_create' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Changer d'adresse" %}</a>
               <div class="border-t my-1"></div>
             {% endif %}
+            <a href="{% url 'accounts:password_change' %}" class="block px-4 py-2 text-slate-700 hover:bg-slate-50">{% trans "Modifier mon mot de passe" %}</a>
             <form method="post" action="{% url 'accounts:logout' %}" class="block">
               {% csrf_token %}
               <button type="submit" class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">{% trans "Déconnexion" %}</button>

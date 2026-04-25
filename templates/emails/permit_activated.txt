@@ -1,16 +1,48 @@
 Bonjour {{ user.first_name|default:user.username }},
 
-Votre paiement de {{ amount_eur|floatformat:2 }} € pour la carte de stationnement #{{ permit.pk }} ({{ permit.get_permit_type_display }}) a bien été reçu.
+Votre paiement a bien été reçu et votre carte de stationnement est désormais ACTIVE.
 
-Votre carte est désormais ACTIVE.
+═══════════════════════════════════════════════
+  CARTE #{{ permit.pk }} — {{ permit.get_permit_type_display|upper }}
+═══════════════════════════════════════════════
 
-Détails :
-  - Carte n°{{ permit.pk }} ({{ permit.get_permit_type_display }})
-  {% if permit.vehicle %}- Véhicule : {{ permit.vehicle.plate }}
-  {% endif %}- Période de validité : {{ permit.valid_from|date:"d/m/Y" }} → {{ permit.valid_until|date:"d/m/Y" }}
-  - Montant payé : {{ amount_eur|floatformat:2 }} €
-  - Référence paiement : {{ payment.reference }}
+TITULAIRE
+  {{ user.first_name }} {{ user.last_name }}
+  {% if user.email %}{{ user.email }}{% endif %}
+{% if address %}
+ADRESSE DE RÉFÉRENCE
+  {{ address.street }} {{ address.number }}{% if address.box %} bte {{ address.box }}{% endif %}
+  {{ address.postal_code }} {{ address.commune.name_fr }}
+{% endif %}{% if permit.vehicle %}
+VÉHICULE
+  Plaque    : {{ permit.vehicle.plate }}
+  {% if permit.vehicle.brand or permit.vehicle.model %}Modèle    : {{ permit.vehicle.brand }} {{ permit.vehicle.model }}{% if permit.vehicle.color %} ({{ permit.vehicle.color }}){% endif %}{% endif %}
+{% endif %}{% if company %}
+ENTREPRISE
+  {{ company.name }}
+  TVA : {{ company.vat_number }}
+{% endif %}{% if target_commune %}
+COMMUNE D'EXERCICE
+  {{ target_commune.name_fr }} (NIS {{ target_commune.niscode }})
+{% endif %}
+PÉRIODE DE VALIDITÉ
+  {{ permit.valid_from|date:"d/m/Y" }} → {{ permit.valid_until|date:"d/m/Y" }}
+{% if zones %}
+ZONES AUTORISÉES ({{ zones|length }})
+{% if main_zone %}  ► Zone principale : {{ main_zone.zone_code }}
+{% endif %}{% for z in additional_zones %}  • {{ z.zone_code }}
+{% endfor %}{% endif %}
+═══════════════════════════════════════════════
+  PAIEMENT
+═══════════════════════════════════════════════
+  Montant   : {{ amount_eur|floatformat:2 }} €
+  Méthode   : {{ method_label }}{% if card_mask %} ({{ card_mask }}){% endif %}
+  Référence : {{ payment.reference }}
+  Validé le : {{ payment.confirmed_at|date:"d/m/Y à H:i" }}
 
-Conservez cet email comme preuve d'activation.
+Cet email tient lieu de preuve d'activation et de reçu de paiement —
+conservez-le précieusement.
+
+En cas de question, contactez votre commune.
 
 — L'équipe Parking.Belgium

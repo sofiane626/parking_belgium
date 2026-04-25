@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Utilisateurs" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Utilisateurs" %}</h1>
+    <span class="text-sm text-slate-500">{{ total_count }} {% trans "comptes au total" %}</span>
+  </div>
+
+  {# Compteurs par rôle (chips) #}
+  <div class="flex flex-wrap gap-2 mb-4">
+    <a href="{% url 'dashboard:admin_users' %}"
+       class="px-3 py-1.5 text-xs rounded-full border {% if not role_filter %}bg-slate-900 text-white border-slate-900{% else %}bg-white text-slate-700 border-slate-300 hover:bg-slate-50{% endif %}">
+      {% trans "Tous" %} ({{ total_count }})
+    </a>
+    {% for role in roles_with_counts %}
+      <a href="?role={{ role.value }}"
+         class="px-3 py-1.5 text-xs rounded-full border {% if role_filter == role.value %}bg-emerald-600 text-white border-emerald-600{% else %}bg-white text-slate-700 border-slate-300 hover:bg-slate-50{% endif %}">
+        {{ role.label }} ({{ role.count }})
+      </a>
+    {% endfor %}
+  </div>
+
+  {# Filtres recherche / inactifs #}
+  <form method="get" class="flex gap-2 mb-4">
+    {% if role_filter %}<input type="hidden" name="role" value="{{ role_filter }}">{% endif %}
+    <input type="text" name="q" value="{{ q|default:'' }}" placeholder="{% trans 'Rechercher (username, email, nom)…' %}"
+           class="flex-1 px-3 py-1.5 border rounded-md text-sm">
+    <label class="flex items-center gap-1.5 text-xs text-slate-600">
+      <input type="checkbox" name="inactive" value="1" {% if include_inactive %}checked{% endif %}>
+      {% trans "Inclure inactifs" %}
+    </label>
+    <button class="px-3 py-1.5 text-sm bg-slate-900 text-white rounded-md hover:bg-slate-700">{% trans "Filtrer" %}</button>
+  </form>
+
+  <div class="bg-white border rounded-lg overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-slate-50 text-left text-slate-500 border-b">
+        <tr>
+          <th class="px-4 py-2 font-medium">{% trans "Utilisateur" %}</th>
+          <th class="px-4 py-2 font-medium">{% trans "Email" %}</th>
+          <th class="px-4 py-2 font-medium">{% trans "Rôle" %}</th>
+          <th class="px-4 py-2 font-medium">{% trans "Statut" %}</th>
+          <th class="px-4 py-2 font-medium">{% trans "Inscrit le" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in page %}
+          <tr class="border-b last:border-b-0 {% if not u.is_active %}bg-slate-50 text-slate-400{% endif %}">
+            <td class="px-4 py-2">
+              <div class="font-medium">{{ u.username }}</div>
+              {% if u.first_name or u.last_name %}
+                <div class="text-xs text-slate-500">{{ u.first_name }} {{ u.last_name }}</div>
+              {% endif %}
+            </td>
+            <td class="px-4 py-2 text-xs">{{ u.email|default:"—" }}</td>
+            <td class="px-4 py-2">
+              <span class="inline-block px-2 py-0.5 text-xs rounded-full
+                {% if u.role == 'super_admin' %}bg-purple-100 text-purple-800
+                {% elif u.role == 'admin' %}bg-indigo-100 text-indigo-800
+                {% elif u.role == 'agent' %}bg-amber-100 text-amber-800
+                {% else %}bg-slate-100 text-slate-700{% endif %}">
+                {{ u.get_role_display }}
+              </span>
+            </td>
+            <td class="px-4 py-2">
+              {% if u.is_active %}
+                <span class="text-emerald-700 text-xs">● {% trans "Actif" %}</span>
+              {% else %}
+                <span class="text-slate-400 text-xs">○ {% trans "Désactivé" %}</span>
+              {% endif %}
+            </td>
+            <td class="px-4 py-2 text-xs text-slate-500">{{ u.date_joined|date:"d/m/Y" }}</td>
+            <td class="px-4 py-2 text-right">
+              {% if u.pk != request.user.pk %}
+                <a href="{% url 'dashboard:admin_user_edit' u.pk %}" class="text-emerald-700 hover:underline text-xs">{% trans "Gérer" %}</a>
+              {% else %}
+                <span class="text-xs text-slate-400 italic">{% trans "vous" %}</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6" class="px-4 py-6 text-center text-slate-500 italic">{% trans "Aucun utilisateur trouvé." %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if page.paginator.num_pages > 1 %}
+    <div class="mt-4 flex items-center justify-between text-sm text-slate-600">
+      <span>{% blocktrans with current=page.number total=page.paginator.num_pages %}Page {{ current }}/{{ total }}{% endblocktrans %}</span>
+      <div class="flex gap-2">
+        {% if page.has_previous %}
+          <a href="?page={{ page.previous_page_number }}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if q %}&q={{ q }}{% endif %}{% if include_inactive %}&inactive=1{% endif %}"
+             class="px-2 py-1 border rounded">←</a>
+        {% endif %}
+        {% if page.has_next %}
+          <a href="?page={{ page.next_page_number }}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if q %}&q={{ q }}{% endif %}{% if include_inactive %}&inactive=1{% endif %}"
+             class="px-2 py-1 border rounded">→</a>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
