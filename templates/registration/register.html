@@ -4,11 +4,16 @@
 {% block title %}{% trans "Créer un compte" %}{% endblock %}
 
 {% block content %}
-  <div class="max-w-2xl mx-auto bg-white border rounded-lg p-6 shadow-sm">
-    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Créer un compte citoyen" %}</h1>
-    <p class="mt-1 text-sm text-slate-600">
+<div class="max-w-2xl mx-auto animate-fade-in-up">
+  <div class="text-center mb-6">
+    <div class="inline-flex w-14 h-14 rounded-2xl bg-brand-gradient text-white items-center justify-center font-bold text-2xl shadow-brand mb-4">P</div>
+    <h1 class="text-3xl font-bold text-slate-900">{% trans "Créer un compte citoyen" %}</h1>
+    <p class="mt-1.5 text-sm text-slate-600">
       {% trans "Renseignez vos informations en une seule fois — profil et adresse principale inclus." %}
     </p>
+  </div>
+
+  <div class="card p-7">
 
     {% if form.non_field_errors %}
       <div class="mt-4 rounded-md border border-red-300 bg-red-50 px-4 py-2 text-sm text-red-800">
@@ -113,13 +118,17 @@
         })();
       </script>
 
-      <button type="submit" class="w-full bg-emerald-600 text-white py-2.5 rounded-md font-medium hover:bg-emerald-700">
+      <button type="submit" class="btn-primary w-full">
         {% trans "Créer mon compte" %}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
       </button>
     </form>
 
-    <p class="mt-6 text-sm text-slate-600 text-center">
-      <a href="{% url 'accounts:login' %}" class="text-emerald-700 hover:underline">{% trans "Déjà inscrit ? Se connecter" %}</a>
-    </p>
+    <div class="mt-5 pt-5 border-t border-slate-200 text-center text-sm">
+      <a href="{% url 'accounts:login' %}" class="text-brand-600 hover:text-brand-700 font-medium transition-colors">
+        {% trans "Déjà inscrit ? Se connecter" %} →
+      </a>
+    </div>
   </div>
+</div>
 {% endblock %}

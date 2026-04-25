@@ -124,7 +124,7 @@ class ConfirmTests(_Setup):
         self.permit.refresh_from_db()
         self.assertEqual(self.permit.status, PermitStatus.ACTIVE)
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn("activée", mail.outbox[0].subject)
+        self.assertIn("Confirmation", mail.outbox[0].subject)
         self.assertEqual(mail.outbox[0].to, ["bob@example.com"])
 
     def test_confirm_idempotent(self):

@@ -419,7 +419,9 @@ class CommunePermitPolicy(models.Model):
 
     def is_currently_effective(self, on_date=None) -> bool:
         from django.utils import timezone as _tz
-        d = on_date or _tz.now().date()
+        # Use local date (TIME_ZONE) — sinon on a un trou la nuit entre minuit
+        # local et minuit UTC où aucune policy n'est considérée effective.
+        d = on_date or _tz.localdate()
         if not self.is_enabled:
             return False
         if self.effective_from and d < self.effective_from:
@@ -432,7 +434,7 @@ class CommunePermitPolicy(models.Model):
     def active_for(cls, commune, permit_type, on_date=None):
         from django.db.models import Q
         from django.utils import timezone as _tz
-        d = on_date or _tz.now().date()
+        d = on_date or _tz.localdate()
         return (
             cls.objects.filter(
                 commune=commune, permit_type=permit_type,

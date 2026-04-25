@@ -1,55 +1,103 @@
 /**
- * This is a minimal config.
- *
- * If you need the full config, get it from here:
- * https://unpkg.com/browse/tailwindcss@latest/stubs/defaultConfig.stub.js
+ * Tailwind theme inspired by parking.brussels :
+ * - Bleu profond royal (primary)
+ * - Cyan lumineux (accent)
+ * - Jaune signalisation (highlight)
+ * - Police Inter pour un look moderne et clair
+ * - Animations subtiles (fade, slide, scale)
  */
-
 module.exports = {
     content: [
-        /**
-         * HTML. Paths to Django template files that will contain Tailwind CSS classes.
-         */
-
-        /*  Templates within theme app (<tailwind_app_name>/templates), e.g. base.html. */
         '../templates/**/*.html',
-
-        /*
-         * Main templates directory of the project (BASE_DIR/templates).
-         * Adjust the following line to match your project structure.
-         */
         '../../templates/**/*.html',
-
-        /*
-         * Templates in other django apps (BASE_DIR/<any_app_name>/templates).
-         * Adjust the following line to match your project structure.
-         */
         '../../**/templates/**/*.html',
-
-        /**
-         * JS: If you use Tailwind CSS in JavaScript, uncomment the following lines and make sure
-         * patterns match your project structure.
-         */
-        /* JS 1: Ignore any JavaScript in node_modules folder. */
-        // '!../../**/node_modules',
-        /* JS 2: Process all JavaScript files in the project. */
-        // '../../**/*.js',
-
-        /**
-         * Python: If you use Tailwind CSS classes in Python, uncomment the following line
-         * and make sure the pattern below matches your project structure.
-         */
-        // '../../**/*.py'
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+                display: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            },
+            colors: {
+                // Bleu marque (parking.brussels) — du clair au profond
+                brand: {
+                    50:  '#EDF5FC',
+                    100: '#D4E7F8',
+                    200: '#A8CFF1',
+                    300: '#75B0E5',
+                    400: '#4A92D6',
+                    500: '#2375C0',   // primary
+                    600: '#0F5BA3',
+                    700: '#08447F',
+                    800: '#063562',
+                    900: '#042648',
+                    950: '#021730',
+                },
+                // Cyan d'accentuation (signalisation moderne)
+                accent: {
+                    50:  '#ECFDFF',
+                    100: '#CFF9FE',
+                    200: '#A5F0FC',
+                    300: '#67E3F9',
+                    400: '#22CDEE',
+                    500: '#06B0D4',   // accent
+                    600: '#0891B2',
+                    700: '#0E7490',
+                    800: '#155E75',
+                    900: '#164E63',
+                },
+                // Jaune signalisation parking
+                signal: {
+                    50:  '#FFFDEA',
+                    100: '#FFF7C2',
+                    200: '#FFEC85',
+                    300: '#FFDC3D',
+                    400: '#FFCD00',   // primary signal
+                    500: '#E6B400',
+                    600: '#B38C00',
+                    700: '#806300',
+                },
+            },
+            boxShadow: {
+                'brand': '0 10px 30px -10px rgba(8, 68, 127, 0.35)',
+                'brand-lg': '0 25px 50px -12px rgba(8, 68, 127, 0.45)',
+                'soft': '0 2px 12px -3px rgba(15, 23, 42, 0.08)',
+                'card': '0 1px 3px rgba(0,0,0,0.04), 0 4px 16px -2px rgba(0,0,0,0.06)',
+            },
+            backgroundImage: {
+                'brand-gradient':       'linear-gradient(135deg, #08447F 0%, #2375C0 60%, #06B0D4 100%)',
+                'brand-gradient-soft':  'linear-gradient(135deg, #EDF5FC 0%, #FFFFFF 60%, #ECFDFF 100%)',
+                'hero-pattern':         'radial-gradient(circle at 20% 20%, rgba(35, 117, 192, 0.12) 0%, transparent 50%), radial-gradient(circle at 80% 60%, rgba(6, 176, 212, 0.10) 0%, transparent 50%)',
+            },
+            animation: {
+                'fade-in':       'fadeIn 0.5s ease-out',
+                'fade-in-up':    'fadeInUp 0.6s ease-out both',
+                'fade-in-down':  'fadeInDown 0.6s ease-out both',
+                'slide-in-right':'slideInRight 0.5s ease-out both',
+                'scale-in':      'scaleIn 0.4s ease-out both',
+                'float':         'float 6s ease-in-out infinite',
+                'pulse-slow':    'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'shimmer':       'shimmer 2.5s linear infinite',
+            },
+            keyframes: {
+                fadeIn:        { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
+                fadeInUp:      { '0%': { opacity: 0, transform: 'translateY(20px)' },
+                                 '100%': { opacity: 1, transform: 'translateY(0)' } },
+                fadeInDown:    { '0%': { opacity: 0, transform: 'translateY(-15px)' },
+                                 '100%': { opacity: 1, transform: 'translateY(0)' } },
+                slideInRight:  { '0%': { opacity: 0, transform: 'translateX(30px)' },
+                                 '100%': { opacity: 1, transform: 'translateX(0)' } },
+                scaleIn:       { '0%': { opacity: 0, transform: 'scale(0.9)' },
+                                 '100%': { opacity: 1, transform: 'scale(1)' } },
+                float:         { '0%,100%': { transform: 'translateY(0)' },
+                                 '50%': { transform: 'translateY(-10px)' } },
+                shimmer:       { '0%': { backgroundPosition: '-200% 0' },
+                                 '100%': { backgroundPosition: '200% 0' } },
+            },
+            transitionDuration: { 250: '250ms', 350: '350ms' },
+        },
     },
     plugins: [
-        /**
-         * '@tailwindcss/forms' is the forms plugin that provides a minimal styling
-         * for forms. If you don't like it or have own styling for forms,
-         * comment the line below to disable '@tailwindcss/forms'.
-         */
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
         require('@tailwindcss/aspect-ratio'),

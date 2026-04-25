@@ -5,7 +5,7 @@
   <div style="max-width:620px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;">
 
     {# === HEADER === #}
-    <div style="background:#047857;color:#fff;padding:22px;">
+    <div style="background:linear-gradient(135deg, #08447F 0%, #2375C0 60%, #06B0D4 100%);color:#fff;padding:22px;">
       <div style="display:inline-block;background:#ffffff22;padding:4px 10px;border-radius:999px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:600;">
         ✓ Activée
       </div>
@@ -18,7 +18,7 @@
       <p style="margin:0 0 14px;">Votre paiement a bien été reçu. Votre carte
         <strong>#{{ permit.pk }}</strong>
         ({{ permit.get_permit_type_display|lower }}) est désormais
-        <strong style="color:#047857;">ACTIVE</strong>.
+        <strong style="color:#08447F;">ACTIVE</strong>.
       </p>
 
       {# === DÉTAILS CARTE === #}
@@ -68,13 +68,13 @@
       {# === ZONES AUTORISÉES === #}
       {% if zones %}
       <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:16px;margin-top:12px;">
-        <h2 style="margin:0 0 10px;font-size:13px;font-weight:600;color:#047857;text-transform:uppercase;letter-spacing:.5px;">
+        <h2 style="margin:0 0 10px;font-size:13px;font-weight:600;color:#08447F;text-transform:uppercase;letter-spacing:.5px;">
           Zones autorisées ({{ zones|length }})
         </h2>
         {% if main_zone %}
           <div style="margin-bottom:8px;">
-            <span style="display:inline-block;background:#047857;color:#fff;padding:4px 10px;border-radius:6px;font-family:monospace;font-size:13px;font-weight:600;">{{ main_zone.zone_code }}</span>
-            <span style="margin-left:6px;font-size:12px;color:#047857;">— zone principale</span>
+            <span style="display:inline-block;background:#08447F;color:#fff;padding:4px 10px;border-radius:6px;font-family:monospace;font-size:13px;font-weight:600;">{{ main_zone.zone_code }}</span>
+            <span style="margin-left:6px;font-size:12px;color:#08447F;">— zone principale</span>
           </div>
         {% endif %}
         {% if additional_zones %}

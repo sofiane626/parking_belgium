@@ -4,28 +4,38 @@
 {% block title %}{% trans "Connexion" %}{% endblock %}
 
 {% block content %}
-  <div class="max-w-md mx-auto bg-white border rounded-lg p-6 shadow-sm">
-    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Connexion" %}</h1>
-    <form method="post" class="mt-4 space-y-4">
+<div class="max-w-md mx-auto animate-fade-in-up">
+  <div class="text-center mb-6">
+    <div class="inline-flex w-14 h-14 rounded-2xl bg-brand-gradient text-white items-center justify-center font-bold text-2xl shadow-brand mb-4">P</div>
+    <h1 class="text-3xl font-bold text-slate-900">{% trans "Bon retour" %}</h1>
+    <p class="mt-1.5 text-sm text-slate-600">{% trans "Connectez-vous à votre espace Parking.Belgium." %}</p>
+  </div>
+
+  <div class="card p-7">
+    <form method="post" class="space-y-4">
       {% csrf_token %}
       {% for field in form %}
         <div>
-          <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-slate-700">{{ field.label }}</label>
+          <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-slate-700 mb-1">{{ field.label }}</label>
           {{ field }}
-          {% if field.errors %}<p class="mt-1 text-sm text-red-600">{{ field.errors|join:", " }}</p>{% endif %}
+          {% if field.errors %}<p class="mt-1.5 text-sm text-red-600">{{ field.errors|join:", " }}</p>{% endif %}
         </div>
       {% endfor %}
       {% if form.non_field_errors %}
-        <p class="text-sm text-red-600">{{ form.non_field_errors|join:", " }}</p>
+        <div class="rounded-lg border-l-4 border-red-500 bg-red-50 px-3 py-2 text-sm text-red-800">
+          {{ form.non_field_errors|join:", " }}
+        </div>
       {% endif %}
-      <button type="submit"
-              class="w-full bg-emerald-600 text-white py-2 rounded-md font-medium hover:bg-emerald-700">
+      <button type="submit" class="btn-primary w-full">
         {% trans "Se connecter" %}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
       </button>
     </form>
-    <div class="mt-4 flex justify-between text-sm">
-      <a href="{% url 'accounts:password_reset' %}" class="text-slate-600 hover:underline">{% trans "Mot de passe oublié ?" %}</a>
-      <a href="{% url 'accounts:register' %}" class="text-emerald-700 hover:underline">{% trans "Créer un compte" %}</a>
+
+    <div class="mt-5 pt-5 border-t border-slate-200 flex justify-between text-sm">
+      <a href="{% url 'accounts:password_reset' %}" class="text-slate-600 hover:text-brand-700 transition-colors">{% trans "Mot de passe oublié ?" %}</a>
+      <a href="{% url 'accounts:register' %}" class="text-brand-600 hover:text-brand-700 font-medium transition-colors">{% trans "Créer un compte" %} →</a>
     </div>
   </div>
+</div>
 {% endblock %}

@@ -1,38 +1,106 @@
 {% load static i18n tailwind_tags %}<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE|default:'fr' }}" class="h-full">
+<html lang="{{ LANGUAGE_CODE|default:'fr' }}" class="h-full scroll-smooth">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Parking.Belgium{% endblock %}</title>
+  <meta name="theme-color" content="#08447F">
+  <meta name="description" content="{% block meta_description %}Plateforme officielle de gestion des cartes de stationnement pour les 19 communes de la Région de Bruxelles-Capitale.{% endblock %}">
+  <title>{% block title %}Parking.Belgium{% endblock %} · Parking.Belgium</title>
   {% tailwind_css %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   {% block extra_head %}{% endblock %}
 </head>
 <body class="h-full flex flex-col bg-slate-50 text-slate-900 antialiased">
   {% include "_partials/navbar.html" %}
 
   {% if messages %}
-    <div class="max-w-6xl mx-auto w-full px-4 mt-4 space-y-2">
+    <div class="container-wide w-full mt-4 space-y-2 animate-fade-in-down">
       {% for m in messages %}
-        <div class="rounded-md border px-4 py-2 text-sm
-          {% if m.tags == 'error' %}border-red-300 bg-red-50 text-red-800
-          {% elif m.tags == 'success' %}border-emerald-300 bg-emerald-50 text-emerald-800
-          {% elif m.tags == 'warning' %}border-amber-300 bg-amber-50 text-amber-800
-          {% else %}border-slate-300 bg-white text-slate-800{% endif %}">
-          {{ m }}
+        <div class="rounded-lg border-l-4 px-4 py-3 text-sm flex items-start gap-3 shadow-soft
+          {% if m.tags == 'error' %}border-red-500 bg-red-50 text-red-900
+          {% elif m.tags == 'success' %}border-emerald-500 bg-emerald-50 text-emerald-900
+          {% elif m.tags == 'warning' %}border-signal-400 bg-signal-50 text-signal-700
+          {% else %}border-brand-500 bg-brand-50 text-brand-900{% endif %}">
+          <span class="mt-0.5 flex-shrink-0">
+            {% if m.tags == 'error' %}⚠
+            {% elif m.tags == 'success' %}✓
+            {% elif m.tags == 'warning' %}⚡
+            {% else %}ℹ{% endif %}
+          </span>
+          <span class="flex-1">{{ m }}</span>
         </div>
       {% endfor %}
     </div>
   {% endif %}
 
-  <main class="flex-1 max-w-6xl mx-auto w-full px-4 py-8">
+  {# Bloc hero optionnel — full-bleed, hors du conteneur central #}
+  {% block hero %}{% endblock %}
+
+  <main class="flex-1 container-wide w-full py-8 sm:py-12">
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="border-t bg-white">
-    <div class="max-w-6xl mx-auto px-4 py-4 text-xs text-slate-500 flex justify-between">
-      <span>Parking.Belgium</span>
-      <span>{% trans "Plateforme de gestion des droits de stationnement — Bruxelles" %}</span>
+  <footer class="bg-brand-900 text-brand-100 mt-auto">
+    <div class="container-wide py-12">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-8 h-8 rounded-lg bg-signal-400 text-brand-900 flex items-center justify-center font-bold text-lg">P</div>
+            <span class="font-semibold text-white text-lg">Parking<span class="text-accent-400">.Belgium</span></span>
+          </div>
+          <p class="text-sm text-brand-200 leading-relaxed">
+            {% trans "Plateforme centralisée pour les 19 communes de la Région de Bruxelles-Capitale." %}
+          </p>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">{% trans "Liens utiles" %}</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="{% url 'gis_data:map' %}" class="text-brand-200 hover:text-white transition-colors">{% trans "Carte des zones" %}</a></li>
+            <li><a href="{% url 'core:home' %}#comment" class="text-brand-200 hover:text-white transition-colors">{% trans "Comment ça marche" %}</a></li>
+            <li><a href="{% url 'core:home' %}#faq" class="text-brand-200 hover:text-white transition-colors">{% trans "FAQ" %}</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-3">{% trans "Compte" %}</h4>
+          <ul class="space-y-2 text-sm">
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'core:post_login_redirect' %}" class="text-brand-200 hover:text-white transition-colors">{% trans "Mon espace" %}</a></li>
+              <li><a href="{% url 'accounts:password_change' %}" class="text-brand-200 hover:text-white transition-colors">{% trans "Mot de passe" %}</a></li>
+            {% else %}
+              <li><a href="{% url 'accounts:login' %}" class="text-brand-200 hover:text-white transition-colors">{% trans "Se connecter" %}</a></li>
+              <li><a href="{% url 'accounts:register' %}" class="text-brand-200 hover:text-white transition-colors">{% trans "Créer un compte" %}</a></li>
+              <li><a href="{% url 'accounts:password_reset' %}" class="text-brand-200 hover:text-white transition-colors">{% trans "Mot de passe oublié" %}</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      <div class="mt-10 pt-6 border-t border-brand-700 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-brand-300">
+        <span>© {% now "Y" %} Parking.Belgium · {% trans "Tous droits réservés" %}</span>
+        <span>{% trans "Service en ligne pour la Région de Bruxelles-Capitale" %}</span>
+      </div>
     </div>
   </footer>
+
+  {# Scroll reveal — ajoute la classe is-visible aux éléments .reveal quand ils entrent dans le viewport #}
+  <script>
+    (function () {
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+      document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+
+  {% block extra_body %}{% endblock %}
 </body>
 </html>

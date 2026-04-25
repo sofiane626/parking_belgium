@@ -1,131 +1,524 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n static %}
 
-{% block title %}{% trans "Accueil" %} — Parking.Belgium{% endblock %}
+{% block title %}{% trans "Accueil" %}{% endblock %}
+
+{# HERO — full-bleed avec image Cinquantenaire #}
+{% block hero %}
+<section class="relative w-full overflow-hidden flex items-center bg-slate-900" style="min-height:880px;">
+  <img src="{% static 'img/brussels/cinquantenaire.png' %}"
+       alt="Bruxelles — Parc du Cinquantenaire"
+       class="absolute inset-0 w-full h-full object-cover">
+  {# Dégradé directionnel sombre à gauche, transparent à droite — image reste visible #}
+  <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+  <div class="relative z-10 container-wide pt-24 pb-40 sm:pt-32 sm:pb-48 lg:pt-40 lg:pb-56 text-white w-full" style="text-shadow:0 2px 16px rgba(0,0,0,0.6)">
+    <div class="max-w-3xl animate-fade-in-up">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-semibold text-white">
+        <span class="w-2 h-2 rounded-full bg-signal-400 animate-pulse"></span>
+        {% trans "Service officiel · 19 communes" %}
+      </div>
+
+      <h1 class="mt-6 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05]">
+        {% trans "Stationnez" %}<br>
+        <span class="bg-gradient-to-r from-accent-300 via-accent-400 to-signal-300 bg-clip-text text-transparent">
+          {% trans "à Bruxelles" %}
+        </span><br>
+        <span class="text-white/90 font-light italic text-4xl sm:text-5xl lg:text-6xl">{% trans "en toute simplicité" %}</span>
+      </h1>
+
+      <p class="mt-7 text-lg sm:text-xl text-white/85 max-w-2xl leading-relaxed">
+        {% trans "Demandez votre carte riverain, générez vos codes visiteurs ou obtenez une carte professionnelle pour la Région bruxelloise — depuis chez vous, en quelques minutes." %}
+      </p>
+
+      {% if not user.is_authenticated %}
+        <div class="mt-10 flex flex-wrap gap-3 animate-fade-in-up" style="animation-delay:0.2s">
+          <a href="{% url 'accounts:register' %}"
+             class="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition-all hover:-translate-y-0.5 shadow-2xl">
+            {% trans "Créer mon compte" %}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+          <a href="{% url 'gis_data:map' %}"
+             class="inline-flex items-center gap-2 px-7 py-3.5 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold rounded-xl backdrop-blur transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+            {% trans "Explorer la carte" %}
+          </a>
+        </div>
+      {% else %}
+        <div class="mt-10 animate-fade-in-up" style="animation-delay:0.2s">
+          <a href="{% url 'core:post_login_redirect' %}"
+             class="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition-all hover:-translate-y-0.5 shadow-2xl">
+            {% trans "Aller à mon espace" %}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    {# Stats flottantes en bas du hero #}
+    <div class="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl animate-fade-in-up" style="animation-delay:0.4s">
+      <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4">
+        <div class="text-3xl font-bold text-white">19</div>
+        <div class="text-xs text-white/70 mt-1">{% trans "Communes" %}</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4">
+        <div class="text-3xl font-bold text-white">3</div>
+        <div class="text-xs text-white/70 mt-1">{% trans "Types de cartes" %}</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4">
+        <div class="text-3xl font-bold text-white">100</div>
+        <div class="text-xs text-white/70 mt-1">{% trans "Codes visiteurs/an" %}</div>
+      </div>
+      <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4">
+        <div class="text-3xl font-bold text-white">24/7</div>
+        <div class="text-xs text-white/70 mt-1">{% trans "Disponible" %}</div>
+      </div>
+    </div>
+  </div>
+
+  {# Vague décorative en bas du hero #}
+  <div class="absolute bottom-0 left-0 right-0 pointer-events-none">
+    <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full">
+      <path d="M0 120L60 110C120 100 240 80 360 75C480 70 600 80 720 85C840 90 960 90 1080 80C1200 70 1320 50 1380 40L1440 30V120H0Z" fill="rgb(248 250 252)"/>
+    </svg>
+  </div>
+</section>
+{% endblock %}
 
 {% block content %}
-  {# ========================== HERO ========================== #}
-  <section class="text-center py-10 sm:py-14">
-    <p class="text-xs uppercase tracking-widest text-emerald-700 font-semibold">{% trans "19 communes — une seule plateforme" %}</p>
-    <h1 class="mt-2 text-4xl sm:text-5xl font-bold tracking-tight text-slate-900">Parking<span class="text-emerald-600">.Belgium</span></h1>
-    <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
-      {% trans "Le portail régional pour gérer vos droits de stationnement sur Bruxelles : cartes riverains, codes visiteurs, cartes professionnelles. Le tout depuis votre adresse." %}
-    </p>
 
-    {% if not user.is_authenticated %}
-      <div class="mt-7 flex justify-center gap-3 flex-wrap">
-        <a href="{% url 'accounts:register' %}"
-           class="bg-emerald-600 text-white px-6 py-3 rounded-md font-medium hover:bg-emerald-700">
-          {% trans "Créer mon compte" %}
-        </a>
-        <a href="{% url 'accounts:login' %}"
-           class="border border-slate-300 px-6 py-3 rounded-md font-medium hover:bg-slate-100">
-          {% trans "J'ai déjà un compte" %}
-        </a>
-        <a href="{% url 'gis_data:map' %}"
-           class="border border-slate-300 px-6 py-3 rounded-md font-medium hover:bg-slate-100">
-          {% trans "Voir la carte des zones" %}
-        </a>
-      </div>
-    {% else %}
-      <a href="{% url 'core:post_login_redirect' %}"
-         class="inline-block mt-6 bg-emerald-600 text-white px-6 py-3 rounded-md font-medium hover:bg-emerald-700">
-        {% trans "Aller à mon espace" %}
-      </a>
-    {% endif %}
-  </section>
-
-  {# ========================== TYPES DE CARTES ========================== #}
-  <section class="mt-6 grid sm:grid-cols-3 gap-4">
-    <div class="rounded-lg bg-white border p-6">
-      <div class="text-emerald-600 text-3xl">🏠</div>
-      <h2 class="mt-2 font-semibold text-slate-900">{% trans "Carte riverain" %}</h2>
-      <p class="mt-1 text-sm text-slate-600">{% trans "Stationnez gratuitement ou à tarif réduit dans la zone de votre adresse principale. Une carte par véhicule." %}</p>
-      <p class="mt-2 text-xs text-emerald-700">{% trans "Validité : 1 an, renouvelable." %}</p>
-    </div>
-    <div class="rounded-lg bg-white border p-6">
-      <div class="text-emerald-600 text-3xl">👥</div>
-      <h2 class="mt-2 font-semibold text-slate-900">{% trans "Codes visiteurs" %}</h2>
-      <p class="mt-1 text-sm text-slate-600">{% trans "Jusqu'à 100 codes par an pour vos visiteurs, dans votre zone riverain. Le code couvre une plaque + une durée." %}</p>
-      <p class="mt-2 text-xs text-emerald-700">{% trans "Validité du 1er janvier au 1er décembre." %}</p>
-    </div>
-    <div class="rounded-lg bg-white border p-6">
-      <div class="text-emerald-600 text-3xl">💼</div>
-      <h2 class="mt-2 font-semibold text-slate-900">{% trans "Carte professionnelle" %}</h2>
-      <p class="mt-1 text-sm text-slate-600">{% trans "Pour les indépendants et entreprises. Donne accès à toutes les zones d'une commune choisie." %}</p>
-      <p class="mt-2 text-xs text-emerald-700">{% trans "Validation par un agent." %}</p>
-    </div>
-  </section>
-
-  {# ========================== COMMENT ÇA MARCHE ========================== #}
-  <section class="mt-12 rounded-xl bg-slate-50 border p-6 sm:p-8">
-    <h2 class="text-xl font-semibold text-slate-900">{% trans "Comment ça marche" %}</h2>
-    <ol class="mt-5 grid sm:grid-cols-4 gap-4 text-sm">
-      <li class="bg-white border rounded-lg p-4">
-        <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-600 text-white font-semibold">1</span>
-        <h3 class="mt-2 font-medium text-slate-900">{% trans "Créez votre compte" %}</h3>
-        <p class="mt-1 text-slate-600">{% trans "Renseignez votre profil et votre adresse en une seule fois." %}</p>
-      </li>
-      <li class="bg-white border rounded-lg p-4">
-        <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-600 text-white font-semibold">2</span>
-        <h3 class="mt-2 font-medium text-slate-900">{% trans "Ajoutez vos véhicules" %}</h3>
-        <p class="mt-1 text-slate-600">{% trans "Glissez la carte grise (PDF/JPG/PNG) dans la zone prévue." %}</p>
-      </li>
-      <li class="bg-white border rounded-lg p-4">
-        <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-600 text-white font-semibold">3</span>
-        <h3 class="mt-2 font-medium text-slate-900">{% trans "Demandez vos cartes" %}</h3>
-        <p class="mt-1 text-slate-600">{% trans "Le système calcule la zone via votre adresse et applique les règles métier." %}</p>
-      </li>
-      <li class="bg-white border rounded-lg p-4">
-        <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-600 text-white font-semibold">4</span>
-        <h3 class="mt-2 font-medium text-slate-900">{% trans "Stationnez sereinement" %}</h3>
-        <p class="mt-1 text-slate-600">{% trans "Le contrôle automatique reconnaît votre plaque et votre droit en cours." %}</p>
-      </li>
-    </ol>
-  </section>
-
-  {# ========================== INFO + FAQ ========================== #}
-  <section class="mt-10 grid md:grid-cols-2 gap-4">
-    <div class="rounded-lg bg-white border p-6">
-      <h2 class="text-lg font-semibold text-slate-900">{% trans "Une plateforme régionale" %}</h2>
-      <p class="mt-2 text-sm text-slate-600">
-        {% trans "Bruxelles harmonise depuis plusieurs années sa politique de stationnement entre ses 19 communes. Parking.Belgium centralise demandes, contrôles et droits dans un même portail." %}
+{# 3 CARTES — types disponibles #}
+<section class="section -mt-8">
+  <div class="container-wide">
+    <div class="text-center mb-14 reveal">
+      <p class="text-xs uppercase tracking-widest text-brand-600 font-semibold mb-2">{% trans "Trois formules" %}</p>
+      <h2 class="text-3xl sm:text-5xl font-bold text-slate-900 max-w-2xl mx-auto leading-tight">{% trans "Quelle carte" %} <span class="text-gradient">{% trans "pour vous ?" %}</span></h2>
+      <p class="mt-4 text-slate-600 max-w-2xl mx-auto">
+        {% trans "Trois formules pensées pour couvrir tous les besoins de stationnement à Bruxelles." %}
       </p>
-      <ul class="mt-3 text-sm text-slate-700 space-y-1">
-        <li>✓ {% trans "Tarifs et règles consultables par tous" %}</li>
-        <li>✓ {% trans "Suivi en temps réel de vos demandes" %}</li>
-        <li>✓ {% trans "Modification d'adresse ou de plaque encadrée par un agent" %}</li>
-        <li>✓ {% trans "Carte interactive de toutes les zones" %}</li>
-      </ul>
     </div>
-    <div class="rounded-lg bg-white border p-6">
-      <h2 class="text-lg font-semibold text-slate-900">{% trans "Questions fréquentes" %}</h2>
-      <dl class="mt-3 text-sm space-y-3">
-        <div>
-          <dt class="font-medium text-slate-900">{% trans "Combien coûte une carte riverain ?" %}</dt>
-          <dd class="mt-1 text-slate-600">{% trans "Le tarif annuel est fixé par la Région et configuré dans la plateforme. Consultez-le lors de votre demande." %}</dd>
-        </div>
-        <div>
-          <dt class="font-medium text-slate-900">{% trans "Je déménage, que faire ?" %}</dt>
-          <dd class="mt-1 text-slate-600">{% trans "Soumettez une demande de changement d'adresse depuis votre espace. Vos cartes actives seront suspendues le temps que l'agent valide." %}</dd>
-        </div>
-        <div>
-          <dt class="font-medium text-slate-900">{% trans "Mes codes visiteurs" %}</dt>
-          <dd class="mt-1 text-slate-600">{% trans "100 par an. Annuler un code ne libère pas le quota — choisissez la plaque et la durée avant de générer." %}</dd>
-        </div>
-      </dl>
-    </div>
-  </section>
 
-  {# ========================== FOOTER CTA ========================== #}
-  {% if not user.is_authenticated %}
-    <section class="mt-12 text-center py-10 bg-emerald-50 border border-emerald-100 rounded-xl">
-      <h2 class="text-2xl font-semibold text-slate-900">{% trans "Prêt à commencer ?" %}</h2>
-      <p class="mt-2 text-slate-600">{% trans "Création gratuite. Compte unique pour les 19 communes." %}</p>
-      <a href="{% url 'accounts:register' %}"
-         class="inline-block mt-5 bg-emerald-600 text-white px-6 py-3 rounded-md font-medium hover:bg-emerald-700">
-        {% trans "Créer mon compte citoyen" %}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {# Riverain #}
+      <div class="card card-hover p-7 reveal group" style="transition-delay:0ms">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center mb-5 shadow-brand group-hover:scale-110 transition-transform">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-900 mb-2">{% trans "Carte Riverain" %}</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          {% trans "Pour stationner près de chez vous dans votre zone résidentielle. Tarif préférentiel selon votre commune." %}
+        </p>
+        <ul class="mt-5 space-y-2 text-sm text-slate-700">
+          <li class="flex items-start gap-2"><span class="text-brand-500 mt-0.5 font-bold">→</span> {% trans "Liée à votre adresse principale" %}</li>
+          <li class="flex items-start gap-2"><span class="text-brand-500 mt-0.5 font-bold">→</span> {% trans "Validité 1 an" %}</li>
+          <li class="flex items-start gap-2"><span class="text-brand-500 mt-0.5 font-bold">→</span> {% trans "Activation immédiate après paiement" %}</li>
+        </ul>
+      </div>
+
+      {# Visiteur — mise en avant #}
+      <div class="card card-hover p-7 reveal group relative ring-2 ring-accent-200" style="transition-delay:100ms">
+        <span class="absolute -top-3 right-5 px-3 py-1 bg-signal-400 text-brand-900 text-xs font-bold rounded-full shadow">{% trans "POPULAIRE" %}</span>
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-400 to-accent-600 text-white flex items-center justify-center mb-5 shadow group-hover:scale-110 transition-transform">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-900 mb-2">{% trans "Carte Visiteur" %}</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          {% trans "Permettez à vos invités de stationner dans votre zone grâce à des codes temporaires personnalisés." %}
+        </p>
+        <ul class="mt-5 space-y-2 text-sm text-slate-700">
+          <li class="flex items-start gap-2"><span class="text-accent-500 mt-0.5 font-bold">→</span> {% trans "100 codes par an" %}</li>
+          <li class="flex items-start gap-2"><span class="text-accent-500 mt-0.5 font-bold">→</span> {% trans "Durée jusqu'à 72 h" %}</li>
+          <li class="flex items-start gap-2"><span class="text-accent-500 mt-0.5 font-bold">→</span> {% trans "Souvent gratuite" %}</li>
+        </ul>
+      </div>
+
+      {# Pro #}
+      <div class="card card-hover p-7 reveal group" style="transition-delay:200ms">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-signal-400 to-signal-600 text-brand-900 flex items-center justify-center mb-5 shadow group-hover:scale-110 transition-transform">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-900 mb-2">{% trans "Carte Professionnelle" %}</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          {% trans "Accès complet à une commune pour les professionnels — artisans, commerciaux, services à domicile." %}
+        </p>
+        <ul class="mt-5 space-y-2 text-sm text-slate-700">
+          <li class="flex items-start gap-2"><span class="text-signal-600 mt-0.5 font-bold">→</span> {% trans "Toutes les zones d'une commune" %}</li>
+          <li class="flex items-start gap-2"><span class="text-signal-600 mt-0.5 font-bold">→</span> {% trans "Validation par un agent" %}</li>
+          <li class="flex items-start gap-2"><span class="text-signal-600 mt-0.5 font-bold">→</span> {% trans "TVA professionnelle requise" %}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# STATS + IMAGE STREET #}
+<section class="section bg-white -mx-4 sm:-mx-6 px-4 sm:px-6 rounded-3xl">
+  <div class="container-wide">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="reveal relative">
+        <div class="absolute -inset-4 bg-gradient-to-tr from-brand-500/20 to-accent-500/20 rounded-3xl blur-2xl"></div>
+        <div class="relative rounded-3xl overflow-hidden shadow-brand-lg group" style="height:500px;">
+          <img src="{% static 'img/brussels/street.png' %}"
+               alt="Une rue de Bruxelles avec tram"
+               class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+        </div>
+        <div class="hidden lg:block absolute -bottom-6 -right-6 bg-white rounded-2xl shadow-brand-lg p-5 max-w-xs animate-float">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <div>
+              <div class="text-xs text-slate-500">{% trans "Activation" %}</div>
+              <div class="font-bold text-slate-900">{% trans "< 30 secondes" %}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:150ms">
+        <p class="text-xs uppercase tracking-widest text-brand-600 font-semibold mb-2">{% trans "Pourquoi Parking.Belgium ?" %}</p>
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">{% trans "Une plateforme pensée pour le quotidien des Bruxellois" %}</h2>
+        <p class="mt-4 text-slate-600 leading-relaxed">
+          {% trans "Une seule application pour les 19 communes — finis les sites séparés et les démarches en mairie. Une expérience moderne, sécurisée et multilingue." %}
+        </p>
+
+        <div class="mt-8 grid grid-cols-2 gap-6">
+          <div>
+            <div class="text-4xl font-bold text-brand-600">19</div>
+            <div class="text-sm text-slate-600 mt-1">{% trans "Communes desservies par une plateforme unique" %}</div>
+          </div>
+          <div>
+            <div class="text-4xl font-bold text-accent-600">100%</div>
+            <div class="text-sm text-slate-600 mt-1">{% trans "Démarches en ligne, sans déplacement" %}</div>
+          </div>
+          <div>
+            <div class="text-4xl font-bold text-brand-600">3</div>
+            <div class="text-sm text-slate-600 mt-1">{% trans "Langues officielles : FR · NL · EN" %}</div>
+          </div>
+          <div>
+            <div class="text-4xl font-bold text-signal-500">256</div>
+            <div class="text-sm text-slate-600 mt-1">{% trans "Bits de chiffrement TLS" %}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# COMMENT ÇA MARCHE — 4 étapes #}
+<section id="comment" class="section">
+  <div class="container-wide">
+    <div class="text-center mb-14 reveal">
+      <p class="text-xs uppercase tracking-widest text-accent-600 font-semibold mb-2">{% trans "En 4 étapes simples" %}</p>
+      <h2 class="text-3xl sm:text-5xl font-bold text-slate-900">{% trans "Comment ça marche ?" %}</h2>
+      <p class="mt-4 text-slate-600 max-w-2xl mx-auto">{% trans "De l'inscription à l'activation de votre carte, tout se fait en ligne en moins de 10 minutes." %}</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {% for step in "1234" %}
+        <div class="reveal" style="transition-delay:{{ forloop.counter0 }}00ms">
+          <div class="relative card p-6 h-full hover:shadow-brand transition-all hover:-translate-y-1">
+            <div class="absolute -top-4 left-6">
+              <div class="w-10 h-10 rounded-full bg-brand-gradient text-white font-bold flex items-center justify-center shadow-brand text-base">
+                {{ forloop.counter }}
+              </div>
+            </div>
+            <div class="mt-4">
+              <h3 class="text-lg font-semibold text-slate-900">
+                {% if forloop.counter == 1 %}{% trans "Créez votre compte" %}
+                {% elif forloop.counter == 2 %}{% trans "Ajoutez votre véhicule" %}
+                {% elif forloop.counter == 3 %}{% trans "Demandez votre carte" %}
+                {% else %}{% trans "Payez en ligne" %}{% endif %}
+              </h3>
+              <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                {% if forloop.counter == 1 %}{% trans "Inscription en 2 minutes avec votre adresse à Bruxelles. La commune est détectée automatiquement." %}
+                {% elif forloop.counter == 2 %}{% trans "Renseignez la plaque, marque, modèle et joignez votre certificat d'immatriculation." %}
+                {% elif forloop.counter == 3 %}{% trans "Choisissez le type de carte. L'attribution des zones est automatique selon votre adresse." %}
+                {% else %}{% trans "Carte bancaire ou Stripe. Activation immédiate et reçu envoyé par email." %}{% endif %}
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# DÉCOUVRIR BRUXELLES — mosaïque d'images #}
+<section class="section bg-gradient-to-br from-brand-50 via-white to-accent-50 -mx-4 sm:-mx-6 px-4 sm:px-6 rounded-3xl">
+  <div class="container-wide">
+    <div class="text-center mb-14 reveal">
+      <p class="text-xs uppercase tracking-widest text-brand-600 font-semibold mb-2">{% trans "Au cœur de la Région" %}</p>
+      <h2 class="text-3xl sm:text-5xl font-bold text-slate-900">{% trans "Bruxelles," %} <span class="text-gradient">{% trans "votre ville" %}</span></h2>
+      <p class="mt-4 text-slate-600 max-w-2xl mx-auto">{% trans "Une plateforme qui sert tous les quartiers, du centre historique aux communes périphériques." %}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:h-[600px]">
+      {# Atomium — large #}
+      <div class="md:col-span-7 group relative overflow-hidden rounded-2xl shadow-card hover:shadow-brand-lg transition-all reveal bg-slate-900" style="min-height:400px;">
+        <img src="{% static 'img/brussels/atomium.png' %}"
+             alt="Atomium au coucher de soleil"
+             class="w-full h-72 md:h-full object-cover group-hover:scale-110 transition-transform duration-700">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-950/90 via-brand-900/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+          <div class="text-xs uppercase tracking-widest text-accent-300 font-semibold">{% trans "Heysel · Laeken" %}</div>
+          <h3 class="mt-1 text-2xl sm:text-3xl font-bold">{% trans "L'Atomium" %}</h3>
+          <p class="mt-2 text-sm text-white/80 max-w-md">{% trans "Symbole de Bruxelles depuis l'Expo 58 — emblématique du quartier nord-ouest desservi par notre plateforme." %}</p>
+        </div>
+      </div>
+
+      {# Grand Place — droite haute #}
+      <div class="md:col-span-5 grid grid-rows-2 gap-4">
+        <div class="group relative overflow-hidden rounded-2xl shadow-card hover:shadow-brand-lg transition-all reveal bg-slate-900" style="min-height:180px;transition-delay:100ms;">
+          <img src="{% static 'img/brussels/grand-place.png' %}"
+               alt="Grand Place de Bruxelles"
+               class="w-full h-56 md:h-full object-cover group-hover:scale-110 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-brand-950/85 via-brand-950/10 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-5 text-white">
+            <div class="text-xs uppercase tracking-widest text-signal-300 font-semibold">{% trans "Centre · Bruxelles-Ville" %}</div>
+            <h3 class="mt-1 text-xl font-bold">{% trans "Grand-Place" %}</h3>
+            <p class="mt-1 text-xs text-white/80">{% trans "Patrimoine UNESCO — cœur historique." %}</p>
+          </div>
+        </div>
+
+        <div class="group relative overflow-hidden rounded-2xl shadow-card hover:shadow-brand-lg transition-all reveal bg-slate-900" style="min-height:180px;transition-delay:200ms;">
+          <img src="{% static 'img/brussels/mont-des-arts.png' %}"
+               alt="Mont des Arts"
+               class="w-full h-56 md:h-full object-cover group-hover:scale-110 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-brand-950/85 via-brand-950/10 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-5 text-white">
+            <div class="text-xs uppercase tracking-widest text-accent-300 font-semibold">{% trans "Quartier des Musées" %}</div>
+            <h3 class="mt-1 text-xl font-bold">{% trans "Mont des Arts" %}</h3>
+            <p class="mt-1 text-xs text-white/80">{% trans "Jardin et perspective sur la ville basse." %}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 text-center reveal">
+      <a href="{% url 'gis_data:map' %}" class="btn-outline btn-lg">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+        {% trans "Explorer toutes les zones de stationnement" %}
       </a>
-    </section>
-  {% endif %}
+    </div>
+  </div>
+</section>
+
+{# POUR LES PROFESSIONNELS — split avec image #}
+<section class="section">
+  <div class="container-wide">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="reveal order-2 lg:order-1">
+        <p class="text-xs uppercase tracking-widest text-signal-600 font-semibold mb-2">{% trans "Pour les pros" %}</p>
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">{% trans "Artisans, commerçants, services à domicile :" %} <span class="text-signal-500">{% trans "stationnez sans contrainte" %}</span></h2>
+        <p class="mt-4 text-slate-600 leading-relaxed">
+          {% trans "La carte professionnelle vous donne accès à toutes les zones de stationnement d'une commune choisie. Idéale pour les interventions à domicile, les livraisons ou les rendez-vous clients dans Bruxelles." %}
+        </p>
+
+        <div class="mt-8 space-y-4">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-signal-100 text-signal-700 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <h4 class="font-semibold text-slate-900">{% trans "Toutes les zones d'une commune" %}</h4>
+              <p class="text-sm text-slate-600 mt-0.5">{% trans "Un seul abonnement pour toute une commune ciblée." %}</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-signal-100 text-signal-700 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div>
+              <h4 class="font-semibold text-slate-900">{% trans "Validation rapide par un agent" %}</h4>
+              <p class="text-sm text-slate-600 mt-0.5">{% trans "Vérification du n° TVA et de la légitimité professionnelle en 24-48 h." %}</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-signal-100 text-signal-700 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div>
+              <h4 class="font-semibold text-slate-900">{% trans "Tarif progressif" %}</h4>
+              <p class="text-sm text-slate-600 mt-0.5">{% trans "Le prix s'adapte au nombre de cartes pro déjà actives — selon la politique de chaque commune." %}</p>
+            </div>
+          </div>
+        </div>
+
+        {% if not user.is_authenticated %}
+          <div class="mt-8">
+            <a href="{% url 'accounts:register' %}" class="btn-primary">{% trans "Créer mon compte pro" %}</a>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="reveal order-1 lg:order-2">
+        <div class="relative">
+          <div class="absolute -inset-4 bg-gradient-to-tr from-signal-300/30 to-brand-500/20 rounded-3xl blur-2xl"></div>
+          <div class="relative rounded-3xl overflow-hidden shadow-brand-lg group" style="height:500px;">
+            <img src="{% static 'img/brussels/pro.png' %}"
+                 alt="Galeries Royales Saint-Hubert — quartier commerçant de Bruxelles"
+                 class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          </div>
+          <div class="hidden lg:block absolute -top-6 -left-6 bg-white rounded-2xl shadow-brand-lg p-5 max-w-[220px] animate-float">
+            <div class="text-xs uppercase tracking-widest text-signal-600 font-bold">{% trans "Pro" %}</div>
+            <div class="mt-1 text-3xl font-bold text-slate-900">19/19</div>
+            <div class="mt-1 text-xs text-slate-600">{% trans "Communes prises en charge" %}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# TÉMOIGNAGES #}
+<section class="section bg-white -mx-4 sm:-mx-6 px-4 sm:px-6 rounded-3xl">
+  <div class="container-wide">
+    <div class="text-center mb-14 reveal">
+      <p class="text-xs uppercase tracking-widest text-brand-600 font-semibold mb-2">{% trans "Ils nous font confiance" %}</p>
+      <h2 class="text-3xl sm:text-5xl font-bold text-slate-900">{% trans "Une expérience repensée" %}</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="card p-6 reveal" style="transition-delay:0ms">
+        <div class="flex gap-1 text-signal-400 mb-3">★★★★★</div>
+        <p class="text-slate-700 leading-relaxed italic">
+          « {% trans "J'ai obtenu ma carte riverain en 5 minutes, depuis mon canapé. Plus besoin de me déplacer en mairie ni d'attendre 3 semaines." %} »
+        </p>
+        <div class="mt-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-brand-100 text-brand-700 font-semibold flex items-center justify-center">M</div>
+          <div>
+            <div class="font-semibold text-slate-900 text-sm">Marie L.</div>
+            <div class="text-xs text-slate-500">{% trans "Schaerbeek · Riveraine" %}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-6 reveal" style="transition-delay:100ms">
+        <div class="flex gap-1 text-signal-400 mb-3">★★★★★</div>
+        <p class="text-slate-700 leading-relaxed italic">
+          « {% trans "En tant qu'artisan, ma carte pro me permet de circuler librement dans Ixelles pour mes interventions. Plus jamais d'amende." %} »
+        </p>
+        <div class="mt-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-signal-100 text-signal-700 font-semibold flex items-center justify-center">A</div>
+          <div>
+            <div class="font-semibold text-slate-900 text-sm">Ahmed K.</div>
+            <div class="text-xs text-slate-500">{% trans "Ixelles · Artisan" %}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-6 reveal" style="transition-delay:200ms">
+        <div class="flex gap-1 text-signal-400 mb-3">★★★★★</div>
+        <p class="text-slate-700 leading-relaxed italic">
+          « {% trans "Les codes visiteurs sont magiques : je les envoie à ma famille avant qu'elle vienne. Tellement plus simple que les anciennes vignettes papier." %} »
+        </p>
+        <div class="mt-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-accent-100 text-accent-700 font-semibold flex items-center justify-center">S</div>
+          <div>
+            <div class="font-semibold text-slate-900 text-sm">Sophie D.</div>
+            <div class="text-xs text-slate-500">{% trans "Uccle · Riveraine" %}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# FAQ #}
+<section id="faq" class="section">
+  <div class="container-wide grid lg:grid-cols-3 gap-10">
+    <div class="reveal">
+      <p class="text-xs uppercase tracking-widest text-brand-600 font-semibold mb-2">{% trans "Questions fréquentes" %}</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">{% trans "Tout ce qu'il faut savoir" %}</h2>
+      <p class="mt-4 text-slate-600">{% trans "Vous ne trouvez pas votre réponse ? Contactez votre commune." %}</p>
+    </div>
+
+    <div class="lg:col-span-2 space-y-3 reveal" style="transition-delay:150ms">
+      <details class="card p-5 group">
+        <summary class="font-semibold text-slate-900 cursor-pointer flex items-center justify-between gap-2">
+          <span>{% trans "Combien coûte une carte riverain ?" %}</span>
+          <svg class="w-5 h-5 text-brand-500 transition-transform group-open:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-slate-600 leading-relaxed">{% trans "Le tarif est défini par chaque commune et peut varier selon le rang de votre véhicule (1ère, 2ème…). Le prix exact s'affiche avant paiement." %}</p>
+      </details>
+      <details class="card p-5 group">
+        <summary class="font-semibold text-slate-900 cursor-pointer flex items-center justify-between gap-2">
+          <span>{% trans "Que se passe-t-il si je déménage ?" %}</span>
+          <svg class="w-5 h-5 text-brand-500 transition-transform group-open:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-slate-600 leading-relaxed">{% trans "Vos cartes actives sont automatiquement suspendues et un agent vous contactera. Vous pouvez ensuite refaire une demande pour votre nouvelle adresse." %}</p>
+      </details>
+      <details class="card p-5 group">
+        <summary class="font-semibold text-slate-900 cursor-pointer flex items-center justify-between gap-2">
+          <span>{% trans "Puis-je changer la plaque de mon véhicule ?" %}</span>
+          <svg class="w-5 h-5 text-brand-500 transition-transform group-open:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-slate-600 leading-relaxed">{% trans "Oui, via une demande validée par un agent. Joignez votre nouveau certificat d'immatriculation pour accélérer le traitement." %}</p>
+      </details>
+      <details class="card p-5 group">
+        <summary class="font-semibold text-slate-900 cursor-pointer flex items-center justify-between gap-2">
+          <span>{% trans "Comment fonctionnent les codes visiteurs ?" %}</span>
+          <svg class="w-5 h-5 text-brand-500 transition-transform group-open:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-slate-600 leading-relaxed">{% trans "Vous générez un code unique avec la plaque de votre invité. Le code est valide pour la durée choisie (jusqu'à 72 h) et donne droit au stationnement dans vos zones." %}</p>
+      </details>
+      <details class="card p-5 group">
+        <summary class="font-semibold text-slate-900 cursor-pointer flex items-center justify-between gap-2">
+          <span>{% trans "Quels sont les moyens de paiement acceptés ?" %}</span>
+          <svg class="w-5 h-5 text-brand-500 transition-transform group-open:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-slate-600 leading-relaxed">{% trans "Carte bancaire (Visa, Mastercard, Amex) et Bancontact via Stripe. Paiement 100% sécurisé, sans saisie de coordonnées sur notre serveur." %}</p>
+      </details>
+      <details class="card p-5 group">
+        <summary class="font-semibold text-slate-900 cursor-pointer flex items-center justify-between gap-2">
+          <span>{% trans "Mes données sont-elles sécurisées ?" %}</span>
+          <svg class="w-5 h-5 text-brand-500 transition-transform group-open:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </summary>
+        <p class="mt-3 text-sm text-slate-600 leading-relaxed">{% trans "Toutes les données transitent en HTTPS. Les paiements ne touchent jamais à votre numéro de carte (pris en charge par Stripe). Conformité RGPD." %}</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+{# CTA FINAL — Grand Place en background #}
+<section class="section">
+  <div class="container-narrow reveal">
+    <div class="relative overflow-hidden rounded-3xl shadow-brand-lg bg-slate-900">
+      <img src="{% static 'img/brussels/grand-place.png' %}"
+           alt="Grand-Place de Bruxelles au coucher du soleil"
+           class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-br from-brand-950/90 via-brand-900/70 to-brand-800/50"></div>
+
+      <div class="relative p-10 sm:p-16 text-white text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-semibold mb-6">
+          <span class="w-2 h-2 rounded-full bg-signal-400 animate-pulse"></span>
+          {% trans "Inscription en 2 minutes" %}
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-bold leading-tight">{% trans "Prêt à demander" %}<br>{% trans "votre carte ?" %}</h2>
+        <p class="mt-4 text-brand-100 max-w-xl mx-auto text-lg">
+          {% trans "Carte active dès paiement. Aucune démarche en mairie." %}
+        </p>
+        {% if not user.is_authenticated %}
+          <div class="mt-8 flex justify-center gap-3 flex-wrap">
+            <a href="{% url 'accounts:register' %}" class="bg-white text-brand-700 hover:bg-brand-50 px-7 py-3.5 rounded-xl font-semibold transition-all hover:-translate-y-0.5 shadow-2xl">
+              {% trans "Créer mon compte" %} →
+            </a>
+            <a href="{% url 'accounts:login' %}" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-7 py-3.5 rounded-xl font-semibold transition-all backdrop-blur">
+              {% trans "Se connecter" %}
+            </a>
+          </div>
+        {% else %}
+          <div class="mt-8">
+            <a href="{% url 'core:post_login_redirect' %}" class="bg-white text-brand-700 hover:bg-brand-50 px-7 py-3.5 rounded-xl font-semibold transition-all hover:-translate-y-0.5 shadow-2xl">
+              {% trans "Aller à mon espace" %} →
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}
