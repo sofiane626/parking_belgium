@@ -566,3 +566,81 @@ def approve_professional(permit: Permit, *, agent, notes: str = "") -> Permit:
     permit.decision_notes = notes
     permit.save()
     return _maybe_auto_activate(permit)
+
+
+# ----- public lookups (consumed by the REST API) ---------------------------
+
+def is_plate_authorized(
+    plate: str,
+    *,
+    zone: Optional[str] = None,
+    at: Optional[dt.datetime] = None,
+) -> Optional[Permit]:
+    """
+    Vérifie si la plaque ``plate`` est autorisée à se garer.
+
+    Renvoie le ``Permit`` couvrant la plaque (le plus récemment activé en cas
+    d'overlap) si une carte ACTIVE valide à ``at`` existe, sinon ``None``.
+
+    Trois pistes d'autorisation sont testées :
+
+    1. Une carte ``RESIDENT`` ou ``PROFESSIONAL`` ACTIVE attachée à un véhicule
+       non archivé portant exactement cette plaque.
+    2. Un ``VisitorCode`` actif émis sous une carte ``VISITOR`` ACTIVE — ces
+       codes ne sont pas liés au véhicule du citoyen mais à une plaque tierce
+       saisie au moment de la génération.
+
+    Si ``zone`` est fournie, la zone doit faire partie des zones autorisées
+    par le permit (PermitZone.zone_code).
+    """
+    from apps.vehicles.models import Vehicle, normalize_plate
+    from .models import VisitorCode, VisitorCodeStatus
+
+    plate = normalize_plate(plate or "")
+    if not plate:
+        return None
+
+    moment = at or timezone.now()
+    today = timezone.localdate(moment) if timezone.is_aware(moment) else moment.date()
+
+    # --- 1. Carte directement liée à un véhicule (RESIDENT / PROFESSIONAL) ---
+    direct_qs = (
+        Permit.objects
+        .filter(
+            status=PermitStatus.ACTIVE,
+            vehicle__plate=plate,
+            vehicle__archived_at__isnull=True,
+            valid_from__lte=today,
+            valid_until__gte=today,
+        )
+        .select_related("vehicle", "citizen", "target_commune")
+        .prefetch_related("zones")
+        .order_by("-activated_at")
+    )
+    if zone:
+        direct_qs = direct_qs.filter(zones__zone_code=zone)
+    direct = direct_qs.first()
+    if direct:
+        return direct
+
+    # --- 2. Code visiteur actif émis sous une carte VISITOR active -----------
+    code_qs = (
+        VisitorCode.objects
+        .filter(
+            plate=plate,
+            status=VisitorCodeStatus.ACTIVE,
+            valid_from__lte=moment,
+            valid_until__gte=moment,
+            permit__status=PermitStatus.ACTIVE,
+        )
+        .select_related("permit", "permit__citizen")
+        .prefetch_related("permit__zones")
+        .order_by("-valid_from")
+    )
+    if zone:
+        code_qs = code_qs.filter(permit__zones__zone_code=zone)
+    code = code_qs.first()
+    if code:
+        return code.permit
+
+    return None
