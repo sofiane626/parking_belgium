@@ -636,6 +636,156 @@ def approve_professional(permit: Permit, *, agent, notes: str = "") -> Permit:
     return _maybe_auto_activate(permit)
 
 
+# ----- back-office edits (agent / admin / super_admin) ---------------------
+
+@transaction.atomic
+def update_validity(permit: Permit, *, valid_until: dt.date, agent) -> Permit:
+    """
+    Modifie la date de fin de validité d'une carte ACTIVE ou SUSPENDED.
+
+    On refuse `valid_from` parce qu'on ne réécrit pas le passé : si une carte
+    a déjà commencé, elle a commencé. Pour étendre, on bouge ``valid_until``.
+    Pour annuler complètement, on ``cancel`` ou on suspend.
+    """
+    if permit.status not in {PermitStatus.ACTIVE, PermitStatus.SUSPENDED}:
+        raise PermitError(
+            f"Validité éditable uniquement sur ACTIVE ou SUSPENDED (statut actuel : {permit.status})."
+        )
+    if permit.valid_from and valid_until < permit.valid_from:
+        raise PermitError("La date de fin doit être postérieure à la date de début.")
+    old = permit.valid_until
+    permit.valid_until = valid_until
+    permit.save(update_fields=["valid_until", "updated_at"])
+    audit_log(
+        AuditAction.PERMIT_APPROVED,  # action générique d'admin sur permit
+        actor=agent, target=permit,
+        severity="notice",
+        payload={"diff": {"valid_until": [str(old) if old else None, str(valid_until)]}},
+    )
+    return permit
+
+
+@transaction.atomic
+def set_main_zone_code(permit: Permit, *, zone_code: str, agent) -> PermitZone:
+    """
+    Modifie le ``zone_code`` de la zone principale d'une carte. Si aucune
+    zone principale n'existe, on en crée une (source = MANUAL).
+
+    L'agent est responsable de la cohérence avec le GIS — on ne valide pas
+    que ``zone_code`` correspond à un polygone existant (un agent peut
+    saisir un code valide hors-shapefile, par exemple en cas de migration).
+    """
+    zone_code = (zone_code or "").strip()
+    if not zone_code:
+        raise PermitError("Le code de zone ne peut pas être vide.")
+    main = PermitZone.objects.filter(permit=permit, is_main=True).first()
+    if main is None:
+        # Pas de zone principale → on en crée une.
+        if PermitZone.objects.filter(permit=permit, zone_code=zone_code).exists():
+            raise PermitError("Cette zone existe déjà sur la carte (sans flag principal).")
+        new_main = PermitZone.objects.create(
+            permit=permit, zone_code=zone_code, is_main=True, source=ZoneSource.MANUAL,
+        )
+        audit_log(
+            AuditAction.PERMIT_APPROVED, actor=agent, target=permit, severity="notice",
+            payload={"diff": {"main_zone_code": [None, zone_code]}},
+        )
+        return new_main
+    if main.zone_code == zone_code:
+        return main
+    # Vérifier qu'on ne crée pas un doublon avec une zone secondaire existante
+    if PermitZone.objects.filter(permit=permit, zone_code=zone_code).exclude(pk=main.pk).exists():
+        raise PermitError("Cette zone est déjà attribuée comme zone secondaire.")
+    old_code = main.zone_code
+    main.zone_code = zone_code
+    # Si le nouveau code n'a plus de provenance polygone/règle correspondante,
+    # on bascule en MANUAL pour refléter l'origine de l'édition.
+    main.source = ZoneSource.MANUAL
+    main.source_polygon = None
+    main.source_rule = None
+    main.save(update_fields=["zone_code", "source", "source_polygon", "source_rule"])
+    audit_log(
+        AuditAction.PERMIT_APPROVED, actor=agent, target=permit, severity="notice",
+        payload={"diff": {"main_zone_code": [old_code, zone_code]}},
+    )
+    return main
+
+
+@transaction.atomic
+def suspend_permit(permit: Permit, *, agent, reason: str) -> Permit:
+    """
+    Suspension par un agent (différente de ``suspend_active_permits_for_*``
+    qui est déclenchée par changement d'adresse/plaque). Refuse si la carte
+    n'est pas ACTIVE.
+    """
+    if permit.status != PermitStatus.ACTIVE:
+        raise PermitError(f"Seule une carte ACTIVE peut être suspendue (statut : {permit.status}).")
+    if not reason:
+        raise PermitError("Une raison est requise pour suspendre.")
+    permit.status = PermitStatus.SUSPENDED
+    permit.suspended_at = timezone.now()
+    permit.suspension_reason = reason
+    permit.save(update_fields=["status", "suspended_at", "suspension_reason", "updated_at"])
+    # Coupe aussi les codes visiteurs actifs sous cette carte si c'est une visiteur.
+    from .models import VisitorCode, VisitorCodeStatus
+    VisitorCode.objects.filter(
+        permit=permit, status=VisitorCodeStatus.ACTIVE,
+    ).update(status=VisitorCodeStatus.CANCELLED, cancelled_at=timezone.now())
+    audit_log(
+        AuditAction.PERMIT_SUSPENDED,
+        actor=agent, target=permit,
+        payload={"context": {"reason": reason, "trigger": "agent_action"}},
+    )
+    return permit
+
+
+@transaction.atomic
+def reactivate_permit(permit: Permit, *, agent, notes: str = "") -> Permit:
+    """
+    Repasse une carte SUSPENDED en ACTIVE. Rare en pratique (suspicion levée,
+    régularisation). Refuse hors SUSPENDED.
+    """
+    if permit.status != PermitStatus.SUSPENDED:
+        raise PermitError(f"Seule une carte SUSPENDED peut être réactivée (statut : {permit.status}).")
+    permit.status = PermitStatus.ACTIVE
+    permit.suspended_at = None
+    permit.suspension_reason = ""
+    permit.save(update_fields=["status", "suspended_at", "suspension_reason", "updated_at"])
+    audit_log(
+        AuditAction.PERMIT_ACTIVATED,  # même évènement métier qu'à la première activation
+        actor=agent, target=permit,
+        payload={"context": {"trigger": "agent_reactivation", "notes": notes}},
+    )
+    return permit
+
+
+@transaction.atomic
+def cancel_visitor_code_by_agent(code, *, agent, reason: str = "") -> "VisitorCode":
+    """
+    Variante de ``cancel_visitor_code`` qui contourne le check d'ownership
+    citoyen — utilisée par les agents pour annuler le code d'un autre user
+    (signalement, fraude, perte de téléphone…).
+    """
+    from .models import VisitorCode, VisitorCodeStatus
+    if not getattr(agent, "is_back_office", False):
+        raise PermissionDenied
+    if code.status != VisitorCodeStatus.ACTIVE:
+        raise PermitError("Code déjà annulé.")
+    code.status = VisitorCodeStatus.CANCELLED
+    code.cancelled_at = timezone.now()
+    code.save(update_fields=["status", "cancelled_at"])
+    audit_log(
+        AuditAction.PERMIT_CANCELLED,  # même action métier (annulation), severity notice
+        actor=agent, target=code, severity="notice",
+        payload={"context": {
+            "reason": reason or "Annulation par agent",
+            "permit_id": code.permit_id,
+            "plate": code.plate,
+        }},
+    )
+    return code
+
+
 # ----- public lookups (consumed by the REST API) ---------------------------
 
 def is_plate_authorized(

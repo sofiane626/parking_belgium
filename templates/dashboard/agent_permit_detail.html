@@ -53,6 +53,179 @@
       </dl>
     </section>
 
+    {# ──────────── ÉDITION (carte ACTIVE / SUSPENDED) ──────────── #}
+    {% if permit.status == "active" or permit.status == "suspended" %}
+      <section class="mt-4 rounded-lg bg-white border-2 border-amber-200 p-5">
+        <div class="flex items-center justify-between mb-1">
+          <h2 class="text-sm font-semibold text-amber-900 uppercase tracking-wide">{% trans "Édition (action sensible)" %}</h2>
+          <span class="text-xs text-amber-700">{% trans "Toute modification est journalisée dans l'audit." %}</span>
+        </div>
+
+        {# Validité : changer la date de fin #}
+        <form method="post" action="{% url 'dashboard:agent_permit_edit_validity' permit.pk %}"
+              class="mt-3 pt-3 border-t border-amber-100 flex items-end gap-3 flex-wrap">
+          {% csrf_token %}
+          <div class="flex-1 min-w-[180px]">
+            <label class="block text-xs text-slate-500 mb-1">{% trans "Valide jusqu'au" %}</label>
+            <input type="date" name="valid_until" required
+                   value="{{ permit.valid_until|date:'Y-m-d' }}"
+                   class="w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm">
+          </div>
+          <button class="px-3 py-1.5 text-sm bg-amber-600 text-white rounded-md hover:bg-amber-700">
+            {% trans "Mettre à jour la validité" %}
+          </button>
+        </form>
+
+        {# Code de la zone principale #}
+        <form method="post" action="{% url 'dashboard:agent_permit_edit_main_zone' permit.pk %}"
+              class="mt-3 pt-3 border-t border-amber-100 flex items-end gap-3 flex-wrap">
+          {% csrf_token %}
+          <div class="flex-1 min-w-[180px]">
+            <label class="block text-xs text-slate-500 mb-1">{% trans "Code de la zone principale" %}</label>
+            <input type="text" name="zone_code" required
+                   value="{{ main_zone.zone_code|default:'' }}"
+                   placeholder="ex: ANDR_6Centre"
+                   class="w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-mono">
+          </div>
+          <button class="px-3 py-1.5 text-sm bg-amber-600 text-white rounded-md hover:bg-amber-700">
+            {% trans "Mettre à jour la zone" %}
+          </button>
+        </form>
+
+        {# Zones autorisées (principale + secondaires) — liste + retrait + ajout #}
+        <div class="mt-3 pt-3 border-t border-amber-100">
+          <p class="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-2">
+            {% trans "Zones autorisées" %} ({{ zones|length }})
+          </p>
+          {% if zones %}
+            <ul class="mb-3 space-y-1 text-sm">
+              {% for z in zones %}
+                <li class="flex items-center justify-between bg-white border border-slate-200 rounded-md px-3 py-1.5">
+                  <span>
+                    <code class="font-mono">{{ z.zone_code }}</code>
+                    {% if z.is_main %}<span class="ml-2 text-xs text-amber-700 font-medium">({% trans "principale" %})</span>{% endif %}
+                    <span class="ml-2 text-xs text-slate-400">{{ z.get_source_display }}</span>
+                  </span>
+                  {% if not z.is_main %}
+                    <form method="post"
+                          action="{% url 'dashboard:agent_permit_remove_zone' permit.pk z.pk %}"
+                          class="inline"
+                          onsubmit="return confirm('{% trans "Retirer cette zone ?" %}');">
+                      {% csrf_token %}
+                      <button class="text-xs text-red-600 hover:underline">{% trans "Retirer" %}</button>
+                    </form>
+                  {% else %}
+                    <span class="text-xs text-slate-400 italic">{% trans "modifiable via le champ ci-dessus" %}</span>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <form method="post" action="{% url 'dashboard:agent_permit_add_zone' permit.pk %}"
+                class="flex items-end gap-2 flex-wrap">
+            {% csrf_token %}
+            <div class="flex-1 min-w-[180px]">
+              <label class="block text-xs text-slate-500 mb-1">{% trans "Ajouter une zone secondaire" %}</label>
+              <input type="text" name="zone_code" required
+                     placeholder="ex: SCH_4A"
+                     class="w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-mono">
+            </div>
+            <button class="px-3 py-1.5 text-sm bg-amber-600 text-white rounded-md hover:bg-amber-700">
+              + {% trans "Ajouter" %}
+            </button>
+          </form>
+        </div>
+
+        {# Suspendre (si ACTIVE) ou Réactiver (si SUSPENDED) #}
+        {% if permit.status == "active" %}
+          <form method="post" action="{% url 'dashboard:agent_permit_suspend' permit.pk %}"
+                class="mt-3 pt-3 border-t border-amber-100 flex items-end gap-3 flex-wrap"
+                onsubmit="return confirm('{% trans "Suspendre cette carte ? Les codes visiteurs actifs seront annulés." %}');">
+            {% csrf_token %}
+            <div class="flex-1 min-w-[200px]">
+              <label class="block text-xs text-slate-500 mb-1">{% trans "Raison de la suspension (obligatoire)" %}</label>
+              <input type="text" name="reason" required
+                     placeholder="{% trans 'ex : signalement de fraude' %}"
+                     class="w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm">
+            </div>
+            <button class="px-3 py-1.5 text-sm bg-red-600 text-white rounded-md hover:bg-red-700">
+              {% trans "Suspendre la carte" %}
+            </button>
+          </form>
+        {% elif permit.status == "suspended" %}
+          <form method="post" action="{% url 'dashboard:agent_permit_reactivate' permit.pk %}"
+                class="mt-3 pt-3 border-t border-amber-100 flex items-end gap-3 flex-wrap"
+                onsubmit="return confirm('{% trans "Réactiver cette carte ?" %}');">
+            {% csrf_token %}
+            <div class="flex-1 min-w-[200px]">
+              <label class="block text-xs text-slate-500 mb-1">{% trans "Notes (optionnel)" %}</label>
+              <input type="text" name="notes"
+                     placeholder="{% trans 'ex : régularisation reçue' %}"
+                     class="w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm">
+            </div>
+            <button class="px-3 py-1.5 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">
+              {% trans "Réactiver la carte" %}
+            </button>
+          </form>
+        {% endif %}
+      </section>
+    {% endif %}
+
+    {# ──────────── CODES VISITEURS (carte VISITOR) ──────────── #}
+    {% if permit.permit_type == "visitor" %}
+      <section class="mt-4 rounded-lg bg-white border p-5">
+        <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">
+          {% trans "Codes visiteurs émis" %} ({{ visitor_codes|length }})
+        </h2>
+        {% if visitor_codes %}
+          <table class="mt-3 w-full text-sm">
+            <thead class="text-left text-slate-500 border-b">
+              <tr>
+                <th class="py-2 font-medium">{% trans "Code" %}</th>
+                <th class="py-2 font-medium">{% trans "Plaque" %}</th>
+                <th class="py-2 font-medium">{% trans "Validité" %}</th>
+                <th class="py-2 font-medium">{% trans "Statut" %}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for code in visitor_codes %}
+                <tr class="border-b last:border-b-0">
+                  <td class="py-2 font-mono text-xs">{{ code.code }}</td>
+                  <td class="py-2 font-mono text-xs">{{ code.plate }}</td>
+                  <td class="py-2 text-xs">
+                    {{ code.valid_from|date:"d/m H:i" }} → {{ code.valid_until|date:"d/m H:i" }}
+                  </td>
+                  <td class="py-2">
+                    {% if code.status == "active" %}
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">{{ code.get_status_display }}</span>
+                    {% else %}
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-200 text-slate-700">{{ code.get_status_display }}</span>
+                    {% endif %}
+                  </td>
+                  <td class="py-2 text-right">
+                    {% if code.status == "active" %}
+                      <form method="post"
+                            action="{% url 'dashboard:agent_visitor_code_cancel' permit.pk code.pk %}"
+                            class="inline"
+                            onsubmit="return confirm('{% trans "Annuler ce code visiteur ?" %}');">
+                        {% csrf_token %}
+                        <input type="hidden" name="reason" value="Annulation par agent">
+                        <button class="text-xs text-red-600 hover:underline">{% trans "Annuler" %}</button>
+                      </form>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="mt-2 text-sm text-slate-500 italic">{% trans "Aucun code émis pour le moment." %}</p>
+        {% endif %}
+      </section>
+    {% endif %}
+
     {% if permit.permit_type == "professional" and permit.status == "manual_review" %}
       <section class="mt-4 rounded-lg bg-white border p-5">
         <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Zones attribuées (manuelles)" %}</h2>

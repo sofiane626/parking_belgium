@@ -34,8 +34,13 @@ from apps.permits.services import (
     add_manual_zone,
     approve_manual_review,
     approve_professional,
+    cancel_visitor_code_by_agent,
+    reactivate_permit,
     refuse as refuse_permit,
     remove_zone,
+    set_main_zone_code,
+    suspend_permit,
+    update_validity,
 )
 from apps.vehicles.models import PlateChangeRequest, PlateChangeStatus
 from apps.vehicles.services import approve_plate_change, reject_plate_change
@@ -420,10 +425,19 @@ def agent_permit_detail(request: HttpRequest, pk: int) -> HttpResponse:
         pk=pk,
     )
     zones = permit.zones.all()
+    main_zone = next((z for z in zones if z.is_main), None)
+    visitor_codes = (
+        permit.visitor_codes.all().order_by("-created_at")
+        if permit.permit_type == PermitType.VISITOR else []
+    )
     return render(
         request,
         "dashboard/agent_permit_detail.html",
-        {"permit": permit, "zones": zones, "form": AgentDecisionForm()},
+        {
+            "permit": permit, "zones": zones, "main_zone": main_zone,
+            "visitor_codes": visitor_codes,
+            "form": AgentDecisionForm(),
+        },
     )
 
 
@@ -491,6 +505,90 @@ def agent_permit_approve(request: HttpRequest, pk: int) -> HttpResponse:
 @login_required
 def agent_permit_refuse(request: HttpRequest, pk: int) -> HttpResponse:
     return _decide_permit(request, pk, approve=False)
+
+
+# ----- back-office edits on ACTIVE / SUSPENDED permits ---------------------
+
+@login_required
+def agent_permit_edit_validity(request: HttpRequest, pk: int) -> HttpResponse:
+    _require_role(request, *BACK_OFFICE_ROLES)
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+    permit = get_object_or_404(Permit, pk=pk)
+    raw = request.POST.get("valid_until", "").strip()
+    try:
+        import datetime as dt
+        valid_until = dt.date.fromisoformat(raw)
+    except ValueError:
+        messages.error(request, _("Date invalide (format AAAA-MM-JJ requis)."))
+        return redirect("dashboard:agent_permit_detail", pk=pk)
+    try:
+        update_validity(permit, valid_until=valid_until, agent=request.user)
+        messages.success(request, _("Date de validité mise à jour."))
+    except PermitError as exc:
+        messages.error(request, str(exc))
+    return redirect("dashboard:agent_permit_detail", pk=pk)
+
+
+@login_required
+def agent_permit_edit_main_zone(request: HttpRequest, pk: int) -> HttpResponse:
+    _require_role(request, *BACK_OFFICE_ROLES)
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+    permit = get_object_or_404(Permit, pk=pk)
+    code = (request.POST.get("zone_code") or "").strip()
+    try:
+        set_main_zone_code(permit, zone_code=code, agent=request.user)
+        messages.success(request, _("Zone principale mise à jour."))
+    except PermitError as exc:
+        messages.error(request, str(exc))
+    return redirect("dashboard:agent_permit_detail", pk=pk)
+
+
+@login_required
+def agent_permit_suspend(request: HttpRequest, pk: int) -> HttpResponse:
+    _require_role(request, *BACK_OFFICE_ROLES)
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+    permit = get_object_or_404(Permit, pk=pk)
+    reason = (request.POST.get("reason") or "").strip()
+    try:
+        suspend_permit(permit, agent=request.user, reason=reason)
+        messages.success(request, _("Carte suspendue."))
+    except PermitError as exc:
+        messages.error(request, str(exc))
+    return redirect("dashboard:agent_permit_detail", pk=pk)
+
+
+@login_required
+def agent_permit_reactivate(request: HttpRequest, pk: int) -> HttpResponse:
+    _require_role(request, *BACK_OFFICE_ROLES)
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+    permit = get_object_or_404(Permit, pk=pk)
+    notes = (request.POST.get("notes") or "").strip()
+    try:
+        reactivate_permit(permit, agent=request.user, notes=notes)
+        messages.success(request, _("Carte réactivée."))
+    except PermitError as exc:
+        messages.error(request, str(exc))
+    return redirect("dashboard:agent_permit_detail", pk=pk)
+
+
+@login_required
+def agent_visitor_code_cancel(request: HttpRequest, pk: int, code_pk: int) -> HttpResponse:
+    _require_role(request, *BACK_OFFICE_ROLES)
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+    from apps.permits.models import VisitorCode
+    code = get_object_or_404(VisitorCode, pk=code_pk, permit_id=pk)
+    reason = (request.POST.get("reason") or "").strip()
+    try:
+        cancel_visitor_code_by_agent(code, agent=request.user, reason=reason)
+        messages.success(request, _("Code visiteur annulé."))
+    except PermitError as exc:
+        messages.error(request, str(exc))
+    return redirect("dashboard:agent_permit_detail", pk=pk)
 
 
 # ----- admin: configuration ------------------------------------------------

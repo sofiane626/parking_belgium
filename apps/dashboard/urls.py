@@ -25,6 +25,13 @@ urlpatterns = [
     path("agent/permits/<int:pk>/zones/add/", views.agent_permit_add_zone, name="agent_permit_add_zone"),
     path("agent/permits/<int:pk>/zones/<int:zone_pk>/remove/", views.agent_permit_remove_zone, name="agent_permit_remove_zone"),
 
+    # Édition d'une carte ACTIVE / SUSPENDED par un agent / admin
+    path("agent/permits/<int:pk>/edit/validity/", views.agent_permit_edit_validity, name="agent_permit_edit_validity"),
+    path("agent/permits/<int:pk>/edit/main-zone/", views.agent_permit_edit_main_zone, name="agent_permit_edit_main_zone"),
+    path("agent/permits/<int:pk>/suspend/", views.agent_permit_suspend, name="agent_permit_suspend"),
+    path("agent/permits/<int:pk>/reactivate/", views.agent_permit_reactivate, name="agent_permit_reactivate"),
+    path("agent/permits/<int:pk>/visitor-codes/<int:code_pk>/cancel/", views.agent_visitor_code_cancel, name="agent_visitor_code_cancel"),
+
     # Admin — GIS data + polygon rules
     path("admin/gis/", views.gis_versions_list, name="gis_versions"),
     path("admin/gis/polygons/", views.gis_polygons_list, name="gis_polygons"),

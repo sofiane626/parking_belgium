@@ -9,8 +9,7 @@
   {% tailwind_css %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  {# Leaflet pose ses controls (zoom, layers) à z-index 1000 par défaut. On
-     les clampe ici pour qu'ils ne percent jamais la navbar (z-index 10000). #}
+  {# Clamp des controls Leaflet sous la navbar (qui est en z-index 10000). #}
   <style>
     .leaflet-container { position: relative; z-index: 0; isolation: isolate; }
     .leaflet-pane,
