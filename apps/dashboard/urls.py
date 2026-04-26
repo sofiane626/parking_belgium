@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views, views_api_tokens, views_users
+from . import views, views_api_tokens, views_audit, views_users
 
 urlpatterns = [
     path("citizen/", views.citizen_dashboard, name="citizen"),
@@ -49,4 +49,8 @@ urlpatterns = [
     path("admin/api-tokens/", views_api_tokens.admin_api_tokens_list, name="admin_api_tokens"),
     path("admin/api-tokens/issue/", views_api_tokens.admin_api_token_issue, name="admin_api_token_issue"),
     path("admin/api-tokens/<int:user_id>/revoke/", views_api_tokens.admin_api_token_revoke, name="admin_api_token_revoke"),
+
+    # Admin — journal d'audit
+    path("admin/audit/", views_audit.admin_audit_list, name="admin_audit"),
+    path("admin/audit/export.csv", views_audit.admin_audit_export, name="admin_audit_export"),
 ]

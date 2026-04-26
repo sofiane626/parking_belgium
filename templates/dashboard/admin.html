@@ -33,6 +33,10 @@
       <h2 class="font-semibold text-slate-900">{% trans "Tokens API" %}</h2>
       <p class="mt-1 text-sm text-slate-600">{% trans "Émettre / révoquer les tokens d'accès à /api/v1/ pour les agents et partenaires." %}</p>
     </a>
+    <a href="{% url 'dashboard:admin_audit' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Journal d'audit" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Historique horodaté de toutes les actions sensibles (cartes, paiements, rôles, API)." %}</p>
+    </a>
     <a href="{% url 'gis_data:map' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
       <h2 class="font-semibold text-slate-900">{% trans "Carte publique" %}</h2>
       <p class="mt-1 text-sm text-slate-600">{% trans "Visualisation Leaflet des zones." %}</p>

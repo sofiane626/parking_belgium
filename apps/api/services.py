@@ -13,6 +13,7 @@ from django.core.exceptions import PermissionDenied
 from rest_framework.authtoken.models import Token
 
 from apps.accounts.services import can_manage_users
+from apps.audit.services import AuditAction, log as audit_log
 
 User = get_user_model()
 
@@ -53,12 +54,24 @@ def issue_token_for(target_user, *, actor) -> Token:
             "peuvent recevoir un token API."
         )
     Token.objects.filter(user=target_user).delete()
-    return Token.objects.create(user=target_user)
+    token = Token.objects.create(user=target_user)
+    audit_log(
+        AuditAction.API_TOKEN_ISSUED,
+        actor=actor, target=target_user,
+        payload={"context": {"username": target_user.username, "role": target_user.role}},
+    )
+    return token
 
 
 def revoke_token(token: "Token", *, actor) -> None:
     _ensure_actor_can_manage_tokens(actor)
+    target_user = token.user
     token.delete()
+    audit_log(
+        AuditAction.API_TOKEN_REVOKED,
+        actor=actor, target=target_user,
+        payload={"context": {"username": target_user.username}},
+    )
 
 
 def back_office_users_eligible_for_token():

@@ -109,10 +109,30 @@ class Command(BaseCommand):
                 count += 1
 
             version.polygon_count = count
+            activated = False
             if options["activate"]:
                 GISSourceVersion.objects.exclude(pk=version.pk).update(is_active=False)
                 version.is_active = True
+                activated = True
             version.save()
+
+        from apps.audit.services import AuditAction, log as audit_log
+        audit_log(
+            AuditAction.GIS_IMPORTED,
+            actor=None, target=version,
+            payload={"context": {
+                "name": version.name,
+                "source_filename": version.source_filename,
+                "polygon_count": count,
+                "srid": version.srid,
+            }},
+        )
+        if activated:
+            audit_log(
+                AuditAction.GIS_ACTIVE_VERSION_CHANGED,
+                actor=None, target=version,
+                payload={"context": {"name": version.name}},
+            )
 
         flag = "active" if version.is_active else "inactive"
         self.stdout.write(

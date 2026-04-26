@@ -14,6 +14,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.utils import timezone
 
+from apps.audit.services import AuditAction, log as audit_log
 from apps.citizens.models import Address
 from apps.citizens.services import get_or_create_profile
 from apps.rules.models import PolygonRule, RuleAction
@@ -103,6 +104,11 @@ def submit_application(permit: Permit) -> Permit:
     permit.submitted_at = timezone.now()
     permit.save(update_fields=["status", "submitted_at", "updated_at"])
 
+    audit_log(
+        AuditAction.PERMIT_SUBMITTED,
+        actor=permit.citizen, target=permit,
+        payload={"context": {"permit_type": permit.permit_type}},
+    )
     return _evaluate(permit)
 
 
@@ -129,6 +135,11 @@ def _evaluate(permit: Permit) -> Permit:
         permit.decided_at = timezone.now()
         permit.decision_notes = "Attribution automatique refusée par règle."
         permit.save()
+        audit_log(
+            AuditAction.PERMIT_REFUSED,
+            actor=None, target=permit,
+            payload={"context": {"reason": "rule_denied", "snapshot": permit.attribution_snapshot}},
+        )
         return permit
     from . import policies as _pol
     commune = address.commune
@@ -155,6 +166,11 @@ def approve_manual_review(permit: Permit, *, agent, notes: str = "") -> Permit:
     permit.decided_by = agent
     permit.decision_notes = notes
     permit.save()
+    audit_log(
+        AuditAction.PERMIT_APPROVED,
+        actor=agent, target=permit,
+        payload={"context": {"notes": notes}},
+    )
     return _maybe_auto_activate(permit)
 
 
@@ -176,6 +192,11 @@ def refuse(permit: Permit, *, agent, notes: str) -> Permit:
     permit.decided_by = agent
     permit.decision_notes = notes
     permit.save()
+    audit_log(
+        AuditAction.PERMIT_REFUSED,
+        actor=agent, target=permit,
+        payload={"context": {"reason": "agent_decision", "notes": notes}},
+    )
     return permit
 
 
@@ -205,6 +226,15 @@ def mark_paid(permit: Permit, *, validity_days: Optional[int] = None) -> Permit:
     permit.save()
 
     _materialize_zones(permit)
+    audit_log(
+        AuditAction.PERMIT_ACTIVATED,
+        actor=None, target=permit,
+        payload={"context": {
+            "valid_from": str(permit.valid_from),
+            "valid_until": str(permit.valid_until),
+            "permit_type": permit.permit_type,
+        }},
+    )
     return permit
 
 
@@ -260,6 +290,10 @@ def cancel(permit: Permit, *, by_user) -> Permit:
     permit.status = PermitStatus.CANCELLED
     permit.cancelled_at = timezone.now()
     permit.save()
+    audit_log(
+        AuditAction.PERMIT_CANCELLED,
+        actor=by_user, target=permit,
+    )
     return permit
 
 
@@ -291,19 +325,40 @@ def suspend_active_permits_for_citizen(citizen, *, reason: str) -> int:
     VisitorCode.objects.filter(
         permit__in=permit_ids, status=VisitorCodeStatus.ACTIVE,
     ).update(status=VisitorCodeStatus.CANCELLED, cancelled_at=now)
+    audit_log(
+        AuditAction.PERMIT_SUSPENDED,
+        actor=None, target=citizen,
+        payload={"context": {
+            "reason": reason,
+            "permit_ids": permit_ids,
+            "trigger": "address_change",
+        }},
+    )
     return len(permit_ids)
 
 
 @transaction.atomic
 def suspend_active_permits_for_vehicle(vehicle, *, reason: str) -> int:
     qs = Permit.objects.filter(vehicle=vehicle, status__in=ACTIVE_STATUSES)
+    permit_ids = list(qs.values_list("pk", flat=True))
     now = timezone.now()
-    return qs.update(
+    n = qs.update(
         status=PermitStatus.SUSPENDED,
         suspended_at=now,
         suspension_reason=reason,
         updated_at=now,
     )
+    if n:
+        audit_log(
+            AuditAction.PERMIT_SUSPENDED,
+            actor=None, target=vehicle,
+            payload={"context": {
+                "reason": reason,
+                "permit_ids": permit_ids,
+                "trigger": "plate_change",
+            }},
+        )
+    return n
 
 
 @transaction.atomic
@@ -313,11 +368,19 @@ def expire_due(today: Optional[dt.date] = None) -> int:
         status=PermitStatus.ACTIVE,
         valid_until__lt=today,
     )
-    return qs.update(
+    permit_ids = list(qs.values_list("pk", flat=True))
+    n = qs.update(
         status=PermitStatus.EXPIRED,
         expired_at=timezone.now(),
         updated_at=timezone.now(),
     )
+    if n:
+        audit_log(
+            AuditAction.PERMIT_EXPIRED,
+            actor=None, target=None,
+            payload={"context": {"count": n, "permit_ids": permit_ids, "today": str(today)}},
+        )
+    return n
 
 
 # ----- visitor permits & codes ---------------------------------------------
@@ -565,6 +628,11 @@ def approve_professional(permit: Permit, *, agent, notes: str = "") -> Permit:
     permit.decided_by = agent
     permit.decision_notes = notes
     permit.save()
+    audit_log(
+        AuditAction.PERMIT_APPROVED,
+        actor=agent, target=permit,
+        payload={"context": {"notes": notes, "permit_type": "professional"}},
+    )
     return _maybe_auto_activate(permit)
 
 

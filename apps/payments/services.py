@@ -21,6 +21,7 @@ from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
 from django.db import transaction
 from django.utils import timezone
 
+from apps.audit.services import AuditAction, log as audit_log
 from apps.permits.models import Permit, PermitStatus
 from apps.permits.services import PermitError, mark_paid, suspend_active_permits_for_citizen
 
@@ -147,6 +148,15 @@ def confirm_payment(
     payment.confirmed_from_ip = ip
     payment.save(update_fields=["status", "confirmed_at", "confirmed_from_ip"])
 
+    audit_log(
+        AuditAction.PAYMENT_SUCCEEDED,
+        actor=by_user, target=payment, ip=ip,
+        payload={"context": {
+            "amount_cents": payment.amount_cents,
+            "method": payment.method,
+            "permit_id": payment.permit_id,
+        }},
+    )
     _activate_permit_and_notify(payment)
     return payment
 
@@ -186,6 +196,14 @@ def simulate_payment_success(permit: Permit, *, by_user, ip: Optional[str] = Non
         confirmed_from_ip=ip,
         failure_reason="",
     )
+    audit_log(
+        AuditAction.PAYMENT_SIMULATED,
+        actor=by_user, target=payment, ip=ip,
+        payload={"context": {
+            "amount_cents": payment.amount_cents,
+            "permit_id": permit.pk,
+        }},
+    )
     _activate_permit_and_notify(payment)
     return payment
 
@@ -200,6 +218,11 @@ def cancel_payment(payment: Payment, *, by_user, reason: str = "") -> Payment:
     payment.cancelled_at = timezone.now()
     payment.failure_reason = reason or "Annulé par le citoyen."
     payment.save(update_fields=["status", "cancelled_at", "failure_reason"])
+    audit_log(
+        AuditAction.PAYMENT_CANCELLED,
+        actor=by_user, target=payment,
+        payload={"context": {"reason": payment.failure_reason}},
+    )
     return payment
 
 
@@ -239,6 +262,15 @@ def refund_payment(payment: Payment, *, by_user, reason: str) -> Payment:
             reason=f"Paiement #{payment.pk} remboursé : {reason}",
         )
 
+    audit_log(
+        AuditAction.PAYMENT_REFUNDED,
+        actor=by_user, target=payment,
+        payload={"context": {
+            "amount_cents": payment.amount_cents,
+            "reason": reason,
+            "permit_id": permit.pk,
+        }},
+    )
     _send_refund_email(payment)
     return payment
 

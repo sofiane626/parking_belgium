@@ -16,6 +16,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.audit.services import AuditAction, hash_plate, log as audit_log
 from apps.core.models import Commune
 from apps.gis_data.models import GISPolygon
 from apps.permits.services import is_plate_authorized
@@ -87,6 +88,16 @@ class CheckRightView(APIView):
             "checked_at": at or timezone.now(),
             "permit": permit,
         }
+        audit_log(
+            AuditAction.API_CHECK_RIGHT,
+            request=request,
+            payload={"context": {
+                "plate_hash": hash_plate(plate.upper()),
+                "zone": zone,
+                "authorized": permit is not None,
+                "permit_id": permit.pk if permit else None,
+            }},
+        )
         return Response(CheckRightSerializer(payload).data)
 
 

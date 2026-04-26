@@ -21,6 +21,8 @@ from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
+from apps.audit.services import AuditAction, log as audit_log
+
 from .models import Role
 
 User = get_user_model()
@@ -97,19 +99,48 @@ def change_role(target: "User", *, new_role: str, actor) -> "User":
         raise PermissionDenied("Vous n'avez pas le droit d'attribuer ce rôle.")
     if target.role == new_role:
         return target
+    old_role = target.role
     target.role = new_role
     target.save(update_fields=["role"])
+    audit_log(
+        AuditAction.USER_ROLE_CHANGED,
+        actor=actor, target=target,
+        payload={"diff": {"role": [old_role, new_role]}},
+    )
     return target
 
 
 def update_user_basics(target: "User", *, first_name: str, last_name: str,
                        email: str, is_active: bool, actor) -> "User":
     _ensure_can_act_on(actor, target)
+    before = {
+        "first_name": target.first_name, "last_name": target.last_name,
+        "email": target.email, "is_active": target.is_active,
+    }
     target.first_name = first_name
     target.last_name = last_name
     target.email = email
+    was_active = target.is_active
     target.is_active = is_active
     target.save(update_fields=["first_name", "last_name", "email", "is_active"])
+    after = {
+        "first_name": target.first_name, "last_name": target.last_name,
+        "email": target.email, "is_active": target.is_active,
+    }
+    from apps.audit.services import diff_dict
+    diff = diff_dict(before, after)
+    # Si seul le flag is_active a changé → log spécifique deactivated/reactivated
+    if diff and set(diff.keys()) == {"is_active"}:
+        audit_log(
+            AuditAction.USER_REACTIVATED if is_active else AuditAction.USER_DEACTIVATED,
+            actor=actor, target=target,
+        )
+    elif diff:
+        audit_log(
+            AuditAction.USER_BASICS_UPDATED,
+            actor=actor, target=target,
+            payload={"diff": diff},
+        )
     return target
 
 
@@ -141,4 +172,9 @@ def send_password_reset_for(target: "User", *, request, actor) -> bool:
     msg = EmailMultiAlternatives(subject, text_body, None, [target.email])
     msg.attach_alternative(html_body, "text/html")
     msg.send(fail_silently=False)
+    audit_log(
+        AuditAction.PASSWORD_RESET_SENT,
+        actor=actor, target=target, request=request,
+        payload={"context": {"trigger": "admin_initiated"}},
+    )
     return True

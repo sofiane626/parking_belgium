@@ -9,6 +9,8 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.utils import timezone
 
+from apps.audit.services import AuditAction, log as audit_log
+
 from .models import PlateChangeRequest, PlateChangeStatus, Vehicle, normalize_plate
 
 
@@ -77,6 +79,11 @@ def archive_vehicle(vehicle: Vehicle, *, by_user, reason: str = "") -> Vehicle:
     vehicle.archived_at = timezone.now()
     vehicle.archive_reason = reason
     vehicle.save(update_fields=["archived_at", "archive_reason", "updated_at"])
+    audit_log(
+        AuditAction.VEHICLE_ARCHIVED,
+        actor=by_user, target=vehicle,
+        payload={"context": {"plate": vehicle.plate, "reason": reason}},
+    )
     return vehicle
 
 
@@ -98,6 +105,11 @@ def restore_vehicle(vehicle: Vehicle, *, by_user) -> Vehicle:
     vehicle.archived_at = None
     vehicle.archive_reason = ""
     vehicle.save(update_fields=["archived_at", "archive_reason", "updated_at"])
+    audit_log(
+        AuditAction.VEHICLE_RESTORED,
+        actor=by_user, target=vehicle,
+        payload={"context": {"plate": vehicle.plate}},
+    )
     return vehicle
 
 
