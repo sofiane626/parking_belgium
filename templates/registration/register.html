@@ -118,6 +118,25 @@
         })();
       </script>
 
+      {# RGPD — consentement obligatoire #}
+      <fieldset class="rounded-lg border border-slate-200 bg-slate-50 p-4">
+        <label for="id_accept_privacy" class="flex items-start gap-3 cursor-pointer">
+          <input type="checkbox" name="accept_privacy" id="id_accept_privacy"
+                 {% if form.accept_privacy.value %}checked{% endif %}
+                 required
+                 class="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500/30">
+          <span class="text-sm text-slate-700">
+            {% blocktrans %}J'ai lu et j'accepte la{% endblocktrans %}
+            <a href="{% url 'core:legal_privacy' %}" target="_blank" rel="noopener" class="text-brand-700 underline">{% trans "politique de confidentialité" %}</a>
+            {% trans "et les" %}
+            <a href="{% url 'core:legal_terms' %}" target="_blank" rel="noopener" class="text-brand-700 underline">{% trans "conditions générales d'utilisation" %}</a>.
+          </span>
+        </label>
+        {% if form.accept_privacy.errors %}
+          <p class="mt-2 text-xs text-red-700">{{ form.accept_privacy.errors|join:" " }}</p>
+        {% endif %}
+      </fieldset>
+
       <button type="submit" class="btn-primary w-full">
         {% trans "Créer mon compte" %}
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>

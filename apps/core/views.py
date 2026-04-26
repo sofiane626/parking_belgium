@@ -9,6 +9,14 @@ def home(request: HttpRequest) -> HttpResponse:
     return render(request, "core/home.html")
 
 
+def legal_privacy(request: HttpRequest) -> HttpResponse:
+    return render(request, "core/legal_privacy.html")
+
+
+def legal_terms(request: HttpRequest) -> HttpResponse:
+    return render(request, "core/legal_terms.html")
+
+
 def commune_lookup(request: HttpRequest) -> JsonResponse:
     """
     Endpoint AJAX consommé par le formulaire d'inscription pour auto-remplir

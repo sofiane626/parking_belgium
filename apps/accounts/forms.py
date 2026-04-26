@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.citizens.models import Address, CitizenProfile
@@ -43,6 +44,13 @@ class CitizenRegistrationForm(UserCreationForm):
     # commune que celle de son code postal).
     country = forms.CharField(label=_("pays"), max_length=2, initial="BE")
 
+    # RGPD — consentement éclairé obligatoire pour pouvoir enregistrer le compte.
+    accept_privacy = forms.BooleanField(
+        required=True,
+        label=_("J'ai lu et j'accepte la politique de confidentialité et les conditions d'utilisation."),
+        error_messages={"required": _("Vous devez accepter pour créer un compte.")},
+    )
+
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ("username", "email", "first_name", "last_name")
@@ -74,6 +82,13 @@ class CitizenRegistrationForm(UserCreationForm):
     def save(self, commit: bool = True) -> User:
         user = super().save(commit=False)
         user.role = Role.CITIZEN
+        # Snapshot de l'instant exact où l'utilisateur a coché la case.
+        # Stocker des deux côtés (privacy + terms) parce que l'unique case
+        # couvre les deux documents — si on les sépare un jour, le code
+        # consommateur reste correct.
+        now = timezone.now()
+        user.accepted_privacy_at = now
+        user.accepted_terms_at = now
         if not commit:
             return user
         user.save()

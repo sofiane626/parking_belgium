@@ -46,3 +46,20 @@ class CommuneLookupEndpointTests(TestCase):
         resp = self.client.get(url, {"postal_code": "9999"})
         self.assertEqual(resp.status_code, 200)
         self.assertIsNone(resp.json()["id"])
+
+
+class LegalPagesTests(TestCase):
+    """RGPD/ePrivacy : les deux pages doivent être accessibles sans connexion
+    et publier des contenus identifiables (politique, CGU)."""
+
+    def test_privacy_accessible_anonymously(self):
+        resp = self.client.get(reverse("core:legal_privacy"))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, "Politique de confidentialité")
+        # Mention obligatoire RGPD : autorité de contrôle.
+        self.assertContains(resp, "autoriteprotectiondonnees.be")
+
+    def test_terms_accessible_anonymously(self):
+        resp = self.client.get(reverse("core:legal_terms"))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, "Conditions générales")

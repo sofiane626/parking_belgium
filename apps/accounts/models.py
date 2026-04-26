@@ -25,6 +25,18 @@ class User(AbstractUser):
         default=Role.CITIZEN,
     )
 
+    # RGPD : preuve de consentement éclairé. Stocker le timestamp exact rend
+    # auditable la version des CGU/Privacy en vigueur au moment de l'acceptation
+    # (à corréler avec l'historique git si on doit prouver ce qui a été accepté).
+    accepted_privacy_at = models.DateTimeField(
+        _("politique de confidentialité acceptée le"),
+        null=True, blank=True,
+    )
+    accepted_terms_at = models.DateTimeField(
+        _("CGU acceptées le"),
+        null=True, blank=True,
+    )
+
     @property
     def is_citizen(self) -> bool:
         return self.role == Role.CITIZEN

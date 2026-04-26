@@ -27,6 +27,8 @@ class RegistrationFlowTests(TestCase):
             "box": "",
             "postal_code": "1030",  # Schaerbeek — la commune est déduite côté serveur
             "country": "BE",
+            # RGPD — case à cocher obligatoire (« on » = checkbox cochée)
+            "accept_privacy": "on",
         }
 
     def test_full_registration_creates_user_profile_and_address_atomically(self):
@@ -36,6 +38,9 @@ class RegistrationFlowTests(TestCase):
         user = User.objects.get(username="newcitizen")
         self.assertEqual(user.role, Role.CITIZEN)
         self.assertEqual(user.email, "jean@example.be")
+        # Le timestamp d'acceptation est snapshoté à l'inscription
+        self.assertIsNotNone(user.accepted_privacy_at)
+        self.assertIsNotNone(user.accepted_terms_at)
 
         profile = CitizenProfile.objects.get(user=user)
         self.assertEqual(profile.phone, "+32499000000")
@@ -55,6 +60,14 @@ class RegistrationFlowTests(TestCase):
     def test_registration_rejects_missing_address(self):
         payload = self._payload()
         del payload["street"]
+        resp = self.client.post(reverse("accounts:register"), data=payload)
+        self.assertEqual(resp.status_code, 200)
+        self.assertFalse(User.objects.filter(username="newcitizen").exists())
+
+    def test_registration_refused_without_privacy_acceptance(self):
+        """RGPD : pas d'inscription possible sans coche d'acceptation."""
+        payload = self._payload()
+        del payload["accept_privacy"]
         resp = self.client.post(reverse("accounts:register"), data=payload)
         self.assertEqual(resp.status_code, 200)
         self.assertFalse(User.objects.filter(username="newcitizen").exists())

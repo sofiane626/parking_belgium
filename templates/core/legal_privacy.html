@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Politique de confidentialité" %}{% endblock %}
+
+{% block content %}
+<article class="max-w-3xl mx-auto bg-white border border-slate-200 rounded-xl shadow-soft p-8 sm:p-10 prose prose-slate max-w-none">
+
+  <header class="mb-8 not-prose">
+    <p class="text-xs uppercase tracking-wider text-brand-700 font-semibold mb-2">{% trans "Document légal" %}</p>
+    <h1 class="text-3xl font-semibold text-slate-900">{% trans "Politique de confidentialité" %}</h1>
+    <p class="text-sm text-slate-500 mt-2">
+      {% trans "Dernière mise à jour :" %} {% now "d/m/Y" %}
+    </p>
+  </header>
+
+  <section>
+    <h2>{% trans "1. Responsable du traitement" %}</h2>
+    <p>
+      {% blocktrans %}
+      Parking.Belgium est une plateforme académique développée dans le cadre d'un travail
+      de fin d'études. Elle permet la gestion centralisée des cartes de stationnement
+      pour les 19 communes de la Région de Bruxelles-Capitale.
+      {% endblocktrans %}
+    </p>
+    <p>
+      {% blocktrans %}
+      Le responsable du traitement est l'auteur du projet, joignable par courrier
+      électronique à l'adresse <strong>privacy@parking.belgium.local</strong>.
+      Dans une mise en production réelle, ce rôle serait dévolu à la Région
+      bruxelloise ou à chaque commune signataire.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section>
+    <h2>{% trans "2. Base légale" %}</h2>
+    <p>
+      {% blocktrans %}
+      Le traitement repose sur l'article 6.1.e du RGPD : <em>« exécution d'une mission
+      d'intérêt public »</em>. La gestion des cartes de stationnement résidentielles
+      est une compétence communale visant à organiser l'occupation rationnelle de
+      l'espace public.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section>
+    <h2>{% trans "3. Données collectées" %}</h2>
+    <p>{% trans "Pour fonctionner, le service collecte :" %}</p>
+    <ul>
+      <li>{% trans "Identité : nom, prénom, date de naissance, numéro de registre national." %}</li>
+      <li>{% trans "Coordonnées : email, téléphone, adresse postale (avec géocodage)." %}</li>
+      <li>{% trans "Véhicules : plaque d'immatriculation, marque, modèle, certificat d'immatriculation." %}</li>
+      <li>{% trans "Cartes : type (riverain, visiteur, professionnel), zones autorisées, validité." %}</li>
+      <li>{% trans "Paiements : montant, méthode, référence Stripe, statut. Aucun numéro de carte bancaire n'est stocké sur nos serveurs." %}</li>
+      <li>{% trans "Journaux techniques : adresse IP de connexion, dates, actions sensibles (audit RGPD)." %}</li>
+    </ul>
+    <p>
+      {% blocktrans %}
+      Les plaques interrogées par l'API publique (scan-cars communaux) sont
+      stockées sous forme de hash HMAC-SHA256 non réversible — la traçabilité
+      est préservée sans exposer la plaque en clair dans les journaux.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section>
+    <h2>{% trans "4. Destinataires" %}</h2>
+    <ul>
+      <li>{% trans "Agents et administrateurs habilités de votre commune." %}</li>
+      <li>{% trans "Sous-traitants techniques : Stripe (paiement), votre fournisseur SMTP (envoi d'emails). Aucune donnée n'est transmise à des tiers commerciaux." %}</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>{% trans "5. Durées de conservation" %}</h2>
+    <ul>
+      <li>{% trans "Compte actif : tant que l'utilisateur reste inscrit." %}</li>
+      <li>{% trans "Compte inactif : anonymisation après 3 ans sans connexion." %}</li>
+      <li>{% trans "Cartes de stationnement expirées : 10 ans (obligation comptable belge)." %}</li>
+      <li>{% trans "Paiements : 7 ans (obligation TVA)." %}</li>
+      <li>{% trans "Journaux d'audit : 3 ans (recommandation APD)." %}</li>
+      <li>{% trans "Codes visiteurs : 1 an après leur expiration." %}</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>{% trans "6. Vos droits" %}</h2>
+    <p>{% trans "Conformément aux articles 15 à 22 du RGPD, vous disposez des droits suivants :" %}</p>
+    <ul>
+      <li>{% trans "accès à vos données ;" %}</li>
+      <li>{% trans "rectification (modifiable directement depuis votre espace personnel) ;" %}</li>
+      <li>{% trans "effacement (« droit à l'oubli »), sous réserve des durées de conservation légales ;" %}</li>
+      <li>{% trans "limitation du traitement ;" %}</li>
+      <li>{% trans "portabilité (export machine de vos données) ;" %}</li>
+      <li>{% trans "introduction d'une réclamation auprès de l'Autorité de protection des données (APD) — <a href=\"https://www.autoriteprotectiondonnees.be/\" class=\"text-brand-700 underline\">autoriteprotectiondonnees.be</a>." %}</li>
+    </ul>
+    <p>
+      {% blocktrans %}
+      Pour exercer ces droits, écrivez à <strong>privacy@parking.belgium.local</strong>
+      depuis l'adresse email associée à votre compte. Une réponse vous sera apportée
+      dans un délai d'un mois.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section>
+    <h2>{% trans "7. Sécurité" %}</h2>
+    <p>
+      {% blocktrans %}
+      Les mots de passe sont hashés (algorithme PBKDF2). Les communications sont
+      chiffrées en TLS. Les paiements transitent par Stripe (PCI-DSS niveau 1).
+      L'accès aux données back-office est cloisonné par rôle (citoyen / agent /
+      admin / super-admin) et toute action sensible est journalisée.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section>
+    <h2>{% trans "8. Cookies" %}</h2>
+    <p>
+      {% blocktrans %}
+      Le site utilise un unique cookie strictement nécessaire au fonctionnement
+      (cookie de session pour vous garder connecté). Il ne fait l'objet d'aucun
+      partage publicitaire ou analytique. Aucun cookie tiers n'est déposé.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section class="not-prose mt-10 pt-6 border-t border-slate-200">
+    <p class="text-sm text-slate-500">
+      {% trans "Voir aussi :" %}
+      <a href="{% url 'core:legal_terms' %}" class="text-brand-700 underline ml-1">
+        {% trans "Conditions générales d'utilisation" %}
+      </a>
+    </p>
+  </section>
+
+</article>
+{% endblock %}

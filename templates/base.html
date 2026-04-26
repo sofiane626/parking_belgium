@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   {% block extra_head %}{% endblock %}
 </head>
-<body class="h-full flex flex-col bg-slate-50 text-slate-900 antialiased">
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased">
   {% include "_partials/navbar.html" %}
 
   {% if messages %}
@@ -59,6 +59,8 @@
             <li><a href="{% url 'gis_data:map' %}" class="text-brand-200 hover:text-white transition-colors">{% trans "Carte des zones" %}</a></li>
             <li><a href="{% url 'core:home' %}#comment" class="text-brand-200 hover:text-white transition-colors">{% trans "Comment ça marche" %}</a></li>
             <li><a href="{% url 'core:home' %}#faq" class="text-brand-200 hover:text-white transition-colors">{% trans "FAQ" %}</a></li>
+            <li><a href="{% url 'core:legal_privacy' %}" class="text-brand-200 hover:text-white transition-colors">{% trans "Politique de confidentialité" %}</a></li>
+            <li><a href="{% url 'core:legal_terms' %}" class="text-brand-200 hover:text-white transition-colors">{% trans "Conditions d'utilisation" %}</a></li>
           </ul>
         </div>
         <div>
@@ -98,6 +100,53 @@
         });
       }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
       document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+
+  {# Bandeau cookies RGPD/ePrivacy : cookie de session uniquement, ack en localStorage. #}
+  <div id="cookie-banner"
+       style="display:none; position:fixed; right:1rem; bottom:1rem; left:1rem;
+              max-width:22rem; margin-left:auto; z-index:9999;
+              background:#fff; border:1px solid #e2e8f0; border-radius:12px;
+              box-shadow:0 20px 25px -5px rgba(8,68,127,.25), 0 8px 10px -6px rgba(8,68,127,.15);
+              padding:16px;">
+    <div style="display:flex; align-items:flex-start; gap:12px;">
+      <div style="flex-shrink:0; width:32px; height:32px; border-radius:8px;
+                  background:#e8f1fb; color:#08447F; display:flex;
+                  align-items:center; justify-content:center; font-size:16px;">
+        🍪
+      </div>
+      <div style="flex:1; font-size:13px; color:#334155; min-width:0;">
+        <p style="font-weight:600; color:#0f172a; margin:0 0 4px;">{% trans "Cookies" %}</p>
+        <p style="font-size:12px; line-height:1.45; margin:0;">
+          {% blocktrans %}Un seul cookie de session, strictement nécessaire à votre connexion. Aucun cookie de mesure ni tiers.{% endblocktrans %}
+          <a href="{% url 'core:legal_privacy' %}" style="color:#08447F; text-decoration:underline;">{% trans "En savoir plus" %}</a>
+        </p>
+        <div style="margin-top:12px; text-align:right;">
+          <button type="button" id="cookie-accept"
+                  style="padding:6px 12px; font-size:12px; font-weight:500;
+                         border-radius:6px; background:#08447F; color:#fff;
+                         border:none; cursor:pointer;">
+            {% trans "J'ai compris" %}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var KEY = 'pb-cookie-ack-v1';
+      var banner = document.getElementById('cookie-banner');
+      if (!banner) return;
+      try {
+        if (localStorage.getItem(KEY) === '1') return;
+      } catch (e) { /* localStorage indisponible : on affiche quand même */ }
+      banner.style.display = 'block';
+      var btn = document.getElementById('cookie-accept');
+      btn && btn.addEventListener('click', function () {
+        try { localStorage.setItem(KEY, '1'); } catch (e) {}
+        banner.style.display = 'none';
+      });
     })();
   </script>
 

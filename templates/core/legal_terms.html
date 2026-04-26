@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Conditions générales d'utilisation" %}{% endblock %}
+
+{% block content %}
+<article class="max-w-3xl mx-auto bg-white border border-slate-200 rounded-xl shadow-soft p-8 sm:p-10 prose prose-slate max-w-none">
+
+  <header class="mb-8 not-prose">
+    <p class="text-xs uppercase tracking-wider text-brand-700 font-semibold mb-2">{% trans "Document légal" %}</p>
+    <h1 class="text-3xl font-semibold text-slate-900">{% trans "Conditions générales d'utilisation" %}</h1>
+    <p class="text-sm text-slate-500 mt-2">
+      {% trans "Dernière mise à jour :" %} {% now "d/m/Y" %}
+    </p>
+  </header>
+
+  <section>
+    <h2>{% trans "1. Objet" %}</h2>
+    <p>
+      {% blocktrans %}
+      Les présentes conditions régissent l'usage de la plateforme Parking.Belgium
+      (« le Service ») par toute personne créant un compte (« l'Utilisateur »).
+      Le Service permet la demande, le paiement et la gestion de cartes de
+      stationnement valables dans les 19 communes de la Région de Bruxelles-Capitale.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section>
+    <h2>{% trans "2. Création de compte" %}</h2>
+    <ul>
+      <li>{% trans "L'inscription est réservée aux personnes physiques majeures résidant en Région bruxelloise (carte riverain ou visiteur) ou y exerçant une activité professionnelle (carte professionnelle)." %}</li>
+      <li>{% trans "L'Utilisateur s'engage à fournir des informations exactes et à les tenir à jour." %}</li>
+      <li>{% trans "Toute déclaration mensongère (fausse plaque, fausse adresse, faux numéro de registre national) entraîne la révocation immédiate des cartes émises et l'exclusion du Service, sans préjudice des poursuites légales." %}</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>{% trans "3. Cartes de stationnement" %}</h2>
+    <ul>
+      <li>{% trans "Les conditions d'éligibilité (résidence, type de véhicule, activité) sont fixées par chaque commune et peuvent évoluer." %}</li>
+      <li>{% trans "Une carte est strictement personnelle et liée à un véhicule (sauf carte visiteur)." %}</li>
+      <li>{% trans "L'Utilisateur s'interdit toute revente, prêt ou cession de sa carte." %}</li>
+      <li>{% trans "Un changement d'adresse, de plaque ou la cession du véhicule doit être déclaré sans délai. À défaut, la carte est suspendue." %}</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>{% trans "4. Paiement" %}</h2>
+    <p>
+      {% blocktrans %}
+      Le paiement est effectué via Stripe Checkout (carte bancaire) ou par formulaire
+      sécurisé. Les tarifs sont déterminés par la commune et affichés avant validation.
+      Aucune information de carte bancaire n'est conservée par Parking.Belgium.
+      {% endblocktrans %}
+    </p>
+    <p>
+      {% blocktrans %}
+      Le remboursement est possible en cas d'erreur de facturation ou de révocation
+      par la commune ; il est traité par un administrateur dans un délai de 14 jours.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section>
+    <h2>{% trans "5. Responsabilité de l'Utilisateur" %}</h2>
+    <ul>
+      <li>{% trans "L'Utilisateur est seul responsable de la confidentialité de ses identifiants." %}</li>
+      <li>{% trans "Il est responsable des actions effectuées depuis son compte." %}</li>
+      <li>{% trans "Il signale sans délai toute compromission suspectée à privacy@parking.belgium.local." %}</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>{% trans "6. Disponibilité du Service" %}</h2>
+    <p>
+      {% blocktrans %}
+      Le Service est fourni « en l'état ». Aucune garantie de disponibilité 24/7
+      n'est offerte dans cette version académique. En production, un objectif de
+      99,5 % serait visé, avec maintenances planifiées annoncées 48 h à l'avance.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section>
+    <h2>{% trans "7. Données personnelles" %}</h2>
+    <p>
+      {% blocktrans %}
+      Le traitement des données est décrit dans la
+      <a href="/legal/privacy/" class="text-brand-700 underline">politique de confidentialité</a>,
+      qui fait partie intégrante des présentes conditions.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section>
+    <h2>{% trans "8. Propriété intellectuelle" %}</h2>
+    <p>
+      {% blocktrans %}
+      L'interface, le code source et les contenus rédactionnels sont la propriété
+      de l'auteur du projet. Les données géographiques (zones de stationnement)
+      sont fournies par la Région de Bruxelles-Capitale et restent sa propriété.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section>
+    <h2>{% trans "9. Évolution des conditions" %}</h2>
+    <p>
+      {% blocktrans %}
+      Les présentes conditions peuvent être modifiées. Toute modification
+      substantielle sera notifiée par email aux utilisateurs au moins 30 jours
+      avant son entrée en vigueur. Continuer à utiliser le Service vaut
+      acceptation des nouvelles conditions.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section>
+    <h2>{% trans "10. Droit applicable et juridiction" %}</h2>
+    <p>
+      {% blocktrans %}
+      Les présentes conditions sont régies par le droit belge. Tout litige relève
+      des tribunaux de l'arrondissement judiciaire de Bruxelles.
+      {% endblocktrans %}
+    </p>
+  </section>
+
+  <section class="not-prose mt-10 pt-6 border-t border-slate-200">
+    <p class="text-sm text-slate-500">
+      {% trans "Voir aussi :" %}
+      <a href="{% url 'core:legal_privacy' %}" class="text-brand-700 underline ml-1">
+        {% trans "Politique de confidentialité" %}
+      </a>
+    </p>
+  </section>
+
+</article>
+{% endblock %}
