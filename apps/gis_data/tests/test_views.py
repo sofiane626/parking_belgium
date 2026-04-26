@@ -25,9 +25,13 @@ class MapEndpointsTests(TestCase):
         )
 
     def test_map_page_renders(self):
+        # Le HTML de la page monte le bundle React. La référence à
+        # polygons.geojson est désormais dans le bundle JS externe (compilé),
+        # pas dans le HTML — on vérifie juste le mount-point + le bundle.
         r = self.client.get(reverse("gis_data:map"))
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, "polygons.geojson")
+        self.assertContains(r, 'id="react-map-root"')
+        self.assertContains(r, "map-bundle.js")
 
     def test_geojson_returns_active_features(self):
         r = self.client.get(reverse("gis_data:polygons_geojson"))

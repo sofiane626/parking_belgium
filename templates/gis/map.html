@@ -1,194 +1,34 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load static i18n %}
 
 {% block title %}{% trans "Carte des zones" %}{% endblock %}
 
 {% block extra_head %}
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <style>
-    #map { height: calc(100vh - 280px); min-height: 500px; border-radius: 8px;
-            position: relative; z-index: 0; isolation: isolate; }
-    .leaflet-tooltip-zone { background: rgba(15,23,42,0.92); color: #fff; border: 0; padding: 4px 8px; border-radius: 4px; font-size: 11px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-    .leaflet-tooltip-zone:before { display: none; }
-    .leaflet-popup-content dl { font-size: 12px; margin: 0; }
-    .leaflet-popup-content dt { color: #64748b; }
-    .leaflet-popup-content dd { margin: 0 0 4px 0; font-weight: 500; }
-    .legend-swatch { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:6px; vertical-align:middle; }
-  </style>
+  <link rel="stylesheet" href="{% static 'frontend/map-bundle.css' %}">
 {% endblock %}
 
 {% block content %}
   <header class="mb-4">
-    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Carte des zones de stationnement" %}</h1>
-    <p class="text-sm text-slate-600">{% trans "Survolez une zone pour son nom, cliquez pour ses attributs." %}</p>
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Carte interactive des zones de stationnement" %}</h1>
+    <p class="text-sm text-slate-600">
+      {% trans "Survolez une zone pour son nom, cliquez pour ses détails. Filtrez par commune ou recherchez un zonecode." %}
+      <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-brand-100 text-brand-800">
+        ⚛ React
+      </span>
+    </p>
   </header>
 
-  <div class="bg-white border rounded-lg p-3 mb-3 flex flex-wrap items-center gap-3 text-sm">
-    <div class="flex items-center gap-2">
-      <label for="commune-filter" class="text-slate-700">{% trans "Commune :" %}</label>
-      <select id="commune-filter" class="rounded-md border border-slate-300 bg-white px-3 py-1.5">
-        <option value="">{% trans "Toutes" %}</option>
-        {% for c in communes %}
-          <option value="{{ c.niscode }}">{{ c.name_fr }}</option>
-        {% endfor %}
-      </select>
-    </div>
+  {# Mount point du bundle React. Le composant fetch /map/polygons.geojson au mount. #}
+  <div id="react-map-root"></div>
 
-    <div class="flex items-center gap-2 flex-1 min-w-[220px]">
-      <label for="search-box" class="text-slate-700">{% trans "Recherche :" %}</label>
-      <input id="search-box" type="search" placeholder="{% trans 'zonecode ou nom…' %}"
-             class="flex-1 rounded-md border border-slate-300 bg-white px-3 py-1.5">
-    </div>
-
-    <button id="reset-view" class="text-emerald-700 hover:underline">{% trans "↻ Réinitialiser la vue" %}</button>
-
-    <span id="visible-count" class="ml-auto text-xs text-slate-500"></span>
-  </div>
-
-  <div id="map" class="bg-slate-100"></div>
-
-  <div class="mt-3 bg-white border rounded-lg p-3">
-    <span class="text-xs font-semibold text-slate-700 mr-2">{% trans "Légende communes :" %}</span>
-    <span id="legend" class="text-xs text-slate-600"></span>
-  </div>
-
-  <p class="mt-2 text-xs text-slate-500">
+  <p class="mt-3 text-xs text-slate-500">
     {% trans "Fond de carte" %} :
     <a href="https://carto.com/attributions" class="underline">CARTO</a> /
     <a href="https://www.openstreetmap.org/copyright" class="underline">OpenStreetMap</a>.
     {% trans "Données zonales : Lambert 72 (EPSG:31370) reprojetées en WGS84." %}
   </p>
+{% endblock %}
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script>
-    (function () {
-      // Basemaps — CartoDB CDN (no key, no rate limit, designed for overlays).
-      const subdomains = 'abcd';
-      const cartoVoyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        subdomains, maxZoom: 19, attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap',
-      });
-      const cartoLight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        subdomains, maxZoom: 19, attribution: '&copy; CARTO &copy; OpenStreetMap',
-      });
-      const cartoDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        subdomains, maxZoom: 19, attribution: '&copy; CARTO &copy; OpenStreetMap',
-      });
-
-      const map = L.map('map', {
-        center: [50.847, 4.357], zoom: 12, layers: [cartoVoyager],
-      });
-      L.control.layers({
-        'Voyager': cartoVoyager,
-        'Clair': cartoLight,
-        'Sombre': cartoDark,
-      }, null, { position: 'topright' }).addTo(map);
-
-      // Stable color per commune (same niscode → same color across reloads).
-      const palette = [
-        '#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6',
-        '#ec4899', '#14b8a6', '#f97316', '#06b6d4', '#84cc16',
-        '#a855f7', '#eab308', '#0ea5e9', '#22c55e', '#d946ef',
-        '#f43f5e', '#6366f1', '#65a30d', '#dc2626', '#475569',
-      ];
-      const communes = {};
-      function colorFor(niscode, communeName) {
-        if (!niscode) return '#94a3b8';
-        if (!(niscode in communes)) {
-          const idx = Object.keys(communes).length % palette.length;
-          communes[niscode] = { name: communeName || niscode, color: palette[idx] };
-          renderLegend();
-        }
-        return communes[niscode].color;
-      }
-      function renderLegend() {
-        const items = Object.values(communes)
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map(c => `<span class="mr-3 inline-flex items-center"><span class="legend-swatch" style="background:${c.color}"></span>${c.name}</span>`);
-        document.getElementById('legend').innerHTML = items.join('');
-      }
-
-      function styleFor(feature) {
-        const c = colorFor(feature.properties.niscode, feature.properties.commune);
-        return { color: c, weight: 1, fillColor: c, fillOpacity: 0.32 };
-      }
-
-      function popupFor(p) {
-        return `
-          <dl>
-            <dt>Zonecode</dt><dd><code>${p.zonecode || '—'}</code></dd>
-            <dt>Commune</dt><dd>${p.commune || '—'}</dd>
-            <dt>Type</dt><dd>${p.type || '—'}</dd>
-            <dt>Nom (fr)</dt><dd>${p.name_fr || '—'}</dd>
-            <dt>Nom (nl)</dt><dd>${p.name_nl || '—'}</dd>
-          </dl>
-        `;
-      }
-
-      let allData = null;
-      let layer = null;
-      let initialBounds = null;
-
-      function buildLayer(filterFn) {
-        if (layer) { map.removeLayer(layer); }
-        const filtered = filterFn
-          ? { ...allData, features: allData.features.filter(filterFn) }
-          : allData;
-        layer = L.geoJSON(filtered, {
-          style: styleFor,
-          onEachFeature: (feat, lyr) => {
-            lyr.bindPopup(popupFor(feat.properties));
-            const label = feat.properties.zonecode + (feat.properties.name_fr ? ' — ' + feat.properties.name_fr : '');
-            lyr.bindTooltip(label, { className: 'leaflet-tooltip-zone', sticky: true });
-            lyr.on('mouseover', () => lyr.setStyle({ weight: 3, fillOpacity: 0.5 }));
-            lyr.on('mouseout', () => layer.resetStyle(lyr));
-          },
-        }).addTo(map);
-        const total = allData.features.length;
-        const shown = filtered.features.length;
-        document.getElementById('visible-count').textContent =
-          `${shown} / ${total} zone${total > 1 ? 's' : ''} affichée${shown > 1 ? 's' : ''}`;
-      }
-
-      function applyFilters() {
-        if (!allData) return;
-        const commune = document.getElementById('commune-filter').value;
-        const q = document.getElementById('search-box').value.trim().toLowerCase();
-        buildLayer((f) => {
-          const p = f.properties;
-          if (commune && p.niscode !== commune) return false;
-          if (q) {
-            const hay = [p.zonecode, p.name_fr, p.name_nl, p.name_en, p.commune].join(' ').toLowerCase();
-            if (!hay.includes(q)) return false;
-          }
-          return true;
-        });
-      }
-
-      function resetView() {
-        document.getElementById('commune-filter').value = '';
-        document.getElementById('search-box').value = '';
-        applyFilters();
-        if (initialBounds) map.fitBounds(initialBounds, { padding: [20, 20] });
-      }
-
-      document.getElementById('commune-filter').addEventListener('change', applyFilters);
-      document.getElementById('search-box').addEventListener('input', applyFilters);
-      document.getElementById('reset-view').addEventListener('click', resetView);
-
-      fetch('{% url "gis_data:polygons_geojson" %}')
-        .then(r => r.json())
-        .then(data => {
-          allData = data;
-          // Pre-populate palette + legend with full set so it stays stable.
-          data.features.forEach(f => colorFor(f.properties.niscode, f.properties.commune));
-          buildLayer(null);
-          if (data.features.length) {
-            initialBounds = layer.getBounds();
-            map.fitBounds(initialBounds, { padding: [20, 20] });
-          }
-        });
-    })();
-  </script>
+{% block extra_body %}
+  <script type="module" src="{% static 'frontend/map-bundle.js' %}"></script>
 {% endblock %}

@@ -1,0 +1,203 @@
+/* Styles dédiés au bundle React de la carte interactive.
+   Indépendants de Tailwind — pas de dépendance sur la config CSS de Django. */
+
+.pb-map-shell {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  min-height: 70vh;
+}
+
+@media (max-width: 900px) {
+  .pb-map-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+
+.pb-sidebar {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.pb-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #475569;
+  margin: 0 0 8px;
+}
+
+.pb-input,
+.pb-select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+  color: #0f172a;
+}
+
+.pb-input:focus,
+.pb-select:focus {
+  outline: none;
+  border-color: #2375C0;
+  box-shadow: 0 0 0 3px rgba(35, 117, 192, 0.15);
+}
+
+.pb-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.pb-btn-primary { background: #08447F; color: #fff; }
+.pb-btn-primary:hover { background: #06335F; }
+
+.pb-btn-ghost { background: #f1f5f9; color: #475569; }
+.pb-btn-ghost:hover { background: #e2e8f0; }
+
+/* ── Stats ───────────────────────────────────────────────── */
+
+.pb-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.pb-stat-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.pb-stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #08447F;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.pb-stat-label {
+  font-size: 11px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+
+/* ── Liste des communes (légende) ────────────────────────── */
+
+.pb-commune-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.pb-commune-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.pb-commune-row:hover { background: #f1f5f9; }
+
+.pb-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.pb-commune-count {
+  font-size: 11px;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Carte ───────────────────────────────────────────────── */
+
+.pb-map-container {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+}
+
+.pb-map-container .leaflet-container {
+  height: calc(100vh - 200px);
+  min-height: 480px;
+  border-radius: 12px;
+}
+
+/* ── Détails zone sélectionnée ───────────────────────────── */
+
+.pb-zone-detail {
+  background: #fff;
+  border: 1px solid #08447F;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+}
+
+.pb-zone-detail dt {
+  color: #64748b;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 6px;
+}
+
+.pb-zone-detail dt:first-child { margin-top: 0; }
+
+.pb-zone-detail dd {
+  margin: 2px 0 0;
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.pb-zone-detail dd code {
+  font-family: ui-monospace, monospace;
+  background: #f1f5f9;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+/* ── Skeleton de chargement ──────────────────────────────── */
+
+.pb-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 480px;
+  background: #f8fafc;
+  border-radius: 12px;
+  color: #64748b;
+  font-size: 14px;
+}
