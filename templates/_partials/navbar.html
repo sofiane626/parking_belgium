@@ -1,5 +1,6 @@
 {% load i18n %}
-<header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 shadow-soft">
+<header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 shadow-soft"
+        style="z-index:10000;">
   <nav class="container-wide h-16 flex items-center justify-between gap-4">
 
     {# ---- Brand + primary links (per role) ---- #}
@@ -47,7 +48,8 @@
             <svg class="h-4 w-4 transition-transform" data-dropdown-icon fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
           </button>
           <div data-dropdown-panel
-               class="hidden absolute right-0 mt-2 w-60 bg-white border border-slate-200 rounded-xl shadow-brand py-2 text-sm z-40 origin-top-right animate-scale-in">
+               class="hidden absolute right-0 mt-2 w-60 bg-white border border-slate-200 rounded-xl shadow-brand py-2 text-sm origin-top-right animate-scale-in"
+               style="z-index:10001;">
             {% if user.is_super_admin or user.is_admin_role %}
               <div class="px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">{% trans "Administration" %}</div>
               <a href="{% url 'dashboard:admin_users' %}" class="block px-4 py-2 text-slate-700 hover:bg-brand-50 hover:text-brand-700 transition-colors">{% trans "Gérer les utilisateurs" %}</a>

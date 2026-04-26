@@ -4,16 +4,136 @@
 {% block title %}{% trans "Espace citoyen" %}{% endblock %}
 
 {% block content %}
-  <header class="mb-6">
-    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Espace citoyen" %}</h1>
-    <p class="text-slate-600">{% trans "Bienvenue, " %}{{ user.first_name|default:user.username }}.</p>
+
+  <header class="mb-6 flex items-end justify-between flex-wrap gap-3">
+    <div>
+      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Bonjour" %}, {{ user.first_name|default:user.username }} 👋</h1>
+      <p class="text-slate-600 text-sm mt-1">{% trans "Suivez l'avancement de vos cartes de stationnement et vos démarches." %}</p>
+    </div>
+    {% if journey.badge %}
+      <span class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-full
+        {% if journey.badge_color == 'red' %}bg-red-100 text-red-800 border border-red-200
+        {% elif journey.badge_color == 'signal' %}bg-amber-100 text-amber-800 border border-amber-200
+        {% elif journey.badge_color == 'emerald' %}bg-emerald-100 text-emerald-800 border border-emerald-200
+        {% elif journey.badge_color == 'brand' %}bg-brand-100 text-brand-800 border border-brand-200
+        {% else %}bg-slate-100 text-slate-700 border border-slate-200{% endif %}">
+        {{ journey.badge }}
+      </span>
+    {% endif %}
   </header>
+
+  {# Parcours guidé : stepper + CTA contextuel (CSS inline pour fiabilité). #}
+  <section style="background:#fff; border:1px solid #e2e8f0; border-radius:12px;
+                  box-shadow:0 4px 6px -1px rgba(8,68,127,.08); padding:24px; margin-bottom:24px;">
+
+    {# Stepper visuel #}
+    <ol style="display:flex; align-items:flex-start; justify-content:space-between;
+               gap:8px; margin:0 0 24px; padding:0; list-style:none;">
+      {% for step in journey.steps %}
+        <li style="flex:1; display:flex; flex-direction:column; align-items:center; position:relative;">
+          {% if not forloop.first %}
+            {% if step.state == 'done' or step.state == 'current' %}
+              <span style="position:absolute; top:18px; right:50%; width:100%; height:2px; background:#08447F;"></span>
+            {% else %}
+              <span style="position:absolute; top:18px; right:50%; width:100%; height:2px; background:#e2e8f0;"></span>
+            {% endif %}
+          {% endif %}
+          {% if step.state == 'done' %}
+            <div style="position:relative; z-index:1; width:36px; height:36px; border-radius:50%;
+                        display:flex; align-items:center; justify-content:center;
+                        background:#08447F; color:#fff; font-weight:600; font-size:14px;
+                        box-shadow:0 4px 6px -1px rgba(8,68,127,.3);">✓</div>
+          {% elif step.state == 'current' %}
+            <div style="position:relative; z-index:1; width:36px; height:36px; border-radius:50%;
+                        display:flex; align-items:center; justify-content:center;
+                        background:#FFCD00; color:#08447F; font-weight:700; font-size:14px;
+                        box-shadow:0 0 0 4px rgba(255,205,0,.25);">{{ step.icon }}</div>
+          {% elif step.state == 'blocked' %}
+            <div style="position:relative; z-index:1; width:36px; height:36px; border-radius:50%;
+                        display:flex; align-items:center; justify-content:center;
+                        background:#dc2626; color:#fff; font-weight:600; font-size:14px;">!</div>
+          {% else %}
+            <div style="position:relative; z-index:1; width:36px; height:36px; border-radius:50%;
+                        display:flex; align-items:center; justify-content:center;
+                        background:#f1f5f9; color:#94a3b8; font-weight:600; font-size:14px;
+                        border:1px solid #e2e8f0;">{{ step.icon }}</div>
+          {% endif %}
+          {% if step.state == 'done' %}
+            <span style="margin-top:8px; font-size:12px; text-align:center; color:#08447F; font-weight:500;">{{ step.label }}</span>
+          {% elif step.state == 'current' %}
+            <span style="margin-top:8px; font-size:12px; text-align:center; color:#0f172a; font-weight:600;">{{ step.label }}</span>
+          {% elif step.state == 'blocked' %}
+            <span style="margin-top:8px; font-size:12px; text-align:center; color:#b91c1c; font-weight:500;">{{ step.label }}</span>
+          {% else %}
+            <span style="margin-top:8px; font-size:12px; text-align:center; color:#94a3b8;">{{ step.label }}</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+
+    {# Headline + CTA #}
+    <div style="text-align:center; padding-top:16px; border-top:1px solid #f1f5f9;">
+      <p style="font-size:18px; font-weight:600; color:#0f172a; margin:0 0 8px;">{{ journey.headline }}</p>
+      {% if journey.cta_help %}
+        <p style="font-size:14px; color:#64748b; margin:0 auto 16px; max-width:36rem;">{{ journey.cta_help }}</p>
+      {% endif %}
+      {% if journey.cta_url %}
+        {% if journey.cta_style == 'signal' %}
+          <a href="{{ journey.cta_url }}"
+             style="display:inline-flex; align-items:center; gap:8px; padding:10px 20px;
+                    border-radius:8px; font-weight:500; font-size:15px; text-decoration:none;
+                    background:#FFCD00; color:#08447F;
+                    box-shadow:0 4px 6px -1px rgba(0,0,0,.1);">
+            {{ journey.cta_label }} →
+          </a>
+        {% elif journey.cta_style == 'outline' %}
+          <a href="{{ journey.cta_url }}"
+             style="display:inline-flex; align-items:center; gap:8px; padding:10px 20px;
+                    border-radius:8px; font-weight:500; font-size:15px; text-decoration:none;
+                    background:#fff; color:#08447F; border:1px solid #2375C0;">
+            {{ journey.cta_label }} →
+          </a>
+        {% else %}
+          <a href="{{ journey.cta_url }}"
+             style="display:inline-flex; align-items:center; gap:8px; padding:10px 20px;
+                    border-radius:8px; font-weight:500; font-size:15px; text-decoration:none;
+                    background:#08447F; color:#fff;
+                    box-shadow:0 4px 6px -1px rgba(8,68,127,.3);">
+            {{ journey.cta_label }} →
+          </a>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    {# Raccourcis toujours accessibles. #}
+    <div style="margin-top:20px; padding-top:16px; border-top:1px solid #f1f5f9;
+                display:flex; flex-wrap:wrap; gap:8px; justify-content:center; font-size:13px;">
+      <a href="{% url 'vehicles:create' %}"
+         style="padding:6px 14px; border-radius:6px; text-decoration:none;
+                background:#f1f5f9; color:#334155;">
+        + {% trans "Ajouter un véhicule" %}
+      </a>
+      <a href="{% url 'permits:list' %}"
+         style="padding:6px 14px; border-radius:6px; text-decoration:none;
+                background:#f1f5f9; color:#334155;">
+        🪪 {% trans "Toutes mes cartes" %}
+      </a>
+      <a href="{% url 'companies:list' %}"
+         style="padding:6px 14px; border-radius:6px; text-decoration:none;
+                background:#f1f5f9; color:#334155;">
+        🏢 {% trans "Mes entreprises" %}
+      </a>
+    </div>
+
+  </section>
+
+  {# ────────────── DÉTAILS — Profil / Adresse / Véhicules / Cartes ────────────── #}
 
   <div class="grid md:grid-cols-2 gap-4">
     <section class="rounded-lg bg-white border p-5">
       <div class="flex items-center justify-between">
         <h2 class="font-semibold text-slate-900">{% trans "Profil" %}</h2>
-        <a href="{% url 'citizens:profile_edit' %}" class="text-sm text-emerald-700 hover:underline">{% trans "Modifier" %}</a>
+        <a href="{% url 'citizens:profile_edit' %}" class="text-sm text-brand-700 hover:underline">{% trans "Modifier" %}</a>
       </div>
       <dl class="mt-3 text-sm space-y-1.5 text-slate-700">
         <div class="flex justify-between"><dt class="text-slate-500">{% trans "Nom" %}</dt><dd>{{ user.get_full_name|default:"—" }}</dd></div>
@@ -32,7 +152,7 @@
             {% trans "Demande en cours" %}
           </a>
         {% else %}
-          <a href="{% url 'citizens:address_change_create' %}" class="text-sm text-emerald-700 hover:underline">
+          <a href="{% url 'citizens:address_change_create' %}" class="text-sm text-brand-700 hover:underline">
             {% trans "Demander un changement" %}
           </a>
         {% endif %}
@@ -56,7 +176,10 @@
     <div class="flex items-center justify-between">
       <h2 class="font-semibold text-slate-900">{% trans "Mes véhicules" %} ({{ vehicles|length }})</h2>
       <a href="{% url 'vehicles:create' %}"
-         class="bg-emerald-600 text-white text-sm px-3 py-1.5 rounded-md hover:bg-emerald-700">{% trans "Ajouter un véhicule" %}</a>
+         style="background:#08447F; color:#fff; padding:6px 14px; border-radius:6px;
+                font-size:13px; font-weight:500; text-decoration:none;">
+        + {% trans "Ajouter un véhicule" %}
+      </a>
     </div>
     {% if vehicles %}
       <table class="mt-3 w-full text-sm">
@@ -70,8 +193,11 @@
         </thead>
         <tbody>
           {% for v in vehicles %}
-            <tr class="border-b last:border-b-0">
-              <td class="py-2 font-mono">{{ v.plate }}</td>
+            <tr class="border-b last:border-b-0 {% if v.is_archived %}opacity-50{% endif %}">
+              <td class="py-2 font-mono">
+                {{ v.plate }}
+                {% if v.is_archived %}<span class="ml-1 text-[10px] uppercase text-slate-400">archivé</span>{% endif %}
+              </td>
               <td class="py-2">{{ v.brand }} {{ v.model }}</td>
               <td class="py-2">
                 {% if v.registration_document %}
@@ -81,7 +207,15 @@
                 {% endif %}
               </td>
               <td class="py-2 text-right">
-                <a href="{% url 'vehicles:detail' v.pk %}" class="text-emerald-700 hover:underline">{% trans "Détails" %}</a>
+                {% if not v.is_archived and v.pk not in busy_vehicle_ids %}
+                  <a href="{% url 'permits:create_for_vehicle' v.pk %}"
+                     style="display:inline-block; padding:4px 10px; margin-right:8px;
+                            background:#08447F; color:#fff; border-radius:6px;
+                            font-size:12px; font-weight:500; text-decoration:none;">
+                    + {% trans "Demander une carte" %}
+                  </a>
+                {% endif %}
+                <a href="{% url 'vehicles:detail' v.pk %}" class="text-brand-700 hover:underline text-xs">{% trans "Détails" %}</a>
               </td>
             </tr>
           {% endfor %}
@@ -92,10 +226,72 @@
     {% endif %}
   </section>
 
+  {# ──────────── CARTE VISITEUR ──────────── #}
+  <section style="margin-top:16px; padding:20px; border-radius:12px;
+                  {% if visitor_permit %}background:#ecfdf5; border:1px solid #a7f3d0;
+                  {% elif has_active_resident %}background:#fff; border:1px solid #e2e8f0;
+                  {% else %}background:#f8fafc; border:1px dashed #cbd5e1;{% endif %}">
+    <div class="flex items-start justify-between gap-4 flex-wrap">
+      <div class="flex items-start gap-3">
+        <div style="width:40px; height:40px; border-radius:10px;
+                    background:{% if visitor_permit %}#10b981{% else %}#e8f1fb{% endif %};
+                    color:{% if visitor_permit %}#fff{% else %}#08447F{% endif %};
+                    display:flex; align-items:center; justify-content:center; font-size:18px;">
+          🎟️
+        </div>
+        <div>
+          <h2 class="font-semibold text-slate-900">{% trans "Carte visiteur" %}</h2>
+          <p class="text-sm text-slate-600 mt-0.5">
+            {% trans "Émettez des codes temporaires pour permettre à vos invités de stationner devant chez vous." %}
+          </p>
+        </div>
+      </div>
+
+      {% if visitor_permit %}
+        <a href="{% url 'permits:detail' visitor_permit.pk %}"
+           style="padding:8px 16px; background:#08447F; color:#fff; border-radius:6px;
+                  font-size:13px; font-weight:500; text-decoration:none; white-space:nowrap;">
+          {% trans "Gérer mes codes" %} →
+        </a>
+      {% elif has_active_resident %}
+        <form method="post" action="{% url 'permits:visitor_create' %}" style="margin:0;">
+          {% csrf_token %}
+          <button type="submit"
+                  style="padding:8px 16px; background:#08447F; color:#fff; border:none;
+                         border-radius:6px; font-size:13px; font-weight:500; cursor:pointer; white-space:nowrap;">
+            + {% trans "Créer ma carte visiteur" %}
+          </button>
+        </form>
+      {% else %}
+        <span class="text-xs text-slate-500 italic max-w-xs text-right">
+          {% trans "Disponible une fois que vous aurez une carte riverain active." %}
+        </span>
+      {% endif %}
+    </div>
+
+    {% if visitor_permit %}
+      <div class="mt-3 pt-3 border-t border-emerald-200 flex items-center gap-4 text-sm flex-wrap">
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+          ✓ {% trans "Active" %}
+        </span>
+        {% if visitor_permit.valid_until %}
+          <span class="text-xs text-slate-600">
+            {% trans "Valide jusqu'au" %} <strong>{{ visitor_permit.valid_until|date:"d/m/Y" }}</strong>
+          </span>
+        {% endif %}
+        {% if visitor_quota_left is not None %}
+          <span class="text-xs text-slate-600 ml-auto">
+            <strong>{{ visitor_quota_left }}</strong> {% trans "code(s) restant(s) cette année" %}
+          </span>
+        {% endif %}
+      </div>
+    {% endif %}
+  </section>
+
   <section class="mt-4 rounded-lg bg-white border p-5">
     <div class="flex items-center justify-between">
       <h2 class="font-semibold text-slate-900">{% trans "Mes cartes en cours" %} ({{ permits|length }})</h2>
-      <a href="{% url 'permits:list' %}" class="text-sm text-emerald-700 hover:underline">{% trans "Toutes mes cartes →" %}</a>
+      <a href="{% url 'permits:list' %}" class="text-sm text-brand-700 hover:underline">{% trans "Toutes mes cartes →" %}</a>
     </div>
     {% if permits %}
       <table class="mt-3 w-full text-sm">
@@ -116,7 +312,7 @@
               <td class="py-2">{% include "_partials/permit_status_badge.html" with status=p.status label=p.get_status_display %}</td>
               <td class="py-2 text-xs">{% if p.valid_until %}{{ p.valid_from|date:"d/m/Y" }} → {{ p.valid_until|date:"d/m/Y" }}{% else %}—{% endif %}</td>
               <td class="py-2 text-right">
-                <a href="{% url 'permits:detail' p.pk %}" class="text-emerald-700 hover:underline">{% trans "Voir" %}</a>
+                <a href="{% url 'permits:detail' p.pk %}" class="text-brand-700 hover:underline">{% trans "Voir" %}</a>
               </td>
             </tr>
           {% endfor %}

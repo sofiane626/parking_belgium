@@ -4,63 +4,189 @@
 {% block title %}{{ vehicle.plate }} — {% trans "Véhicule" %}{% endblock %}
 
 {% block content %}
-  <div class="max-w-xl mx-auto bg-white border rounded-lg p-6 shadow-sm">
-    <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-semibold {% if vehicle.is_archived %}text-slate-400 line-through{% else %}text-slate-900{% endif %} font-mono">{{ vehicle.plate }}</h1>
-      <span class="text-sm text-slate-500">{{ vehicle.get_vehicle_type_display }}</span>
+<div class="max-w-3xl mx-auto">
+
+  {# Lien retour clair en haut, séparé des actions #}
+  <a href="{% url 'vehicles:list' %}" class="inline-flex items-center gap-1 text-sm text-slate-600 hover:text-brand-700 mb-4">
+    ← {% trans "Mes véhicules" %}
+  </a>
+
+  {# ──────────── CARTE PRINCIPALE : info véhicule ──────────── #}
+  <section style="background:#fff; border:1px solid #e2e8f0; border-radius:12px;
+                  box-shadow:0 4px 6px -1px rgba(8,68,127,.08); padding:24px; margin-bottom:16px;">
+
+    <div class="flex items-start justify-between gap-4 flex-wrap">
+      <div class="flex items-center gap-4">
+        {# Icône véhicule #}
+        <div style="width:56px; height:56px; border-radius:12px;
+                    background:#e8f1fb; color:#08447F; display:flex;
+                    align-items:center; justify-content:center; font-size:24px;">
+          🚗
+        </div>
+        <div>
+          <h1 style="font-size:24px; font-weight:600; font-family:ui-monospace,monospace;
+                     {% if vehicle.is_archived %}color:#94a3b8; text-decoration:line-through;{% else %}color:#0f172a;{% endif %}
+                     margin:0;">
+            {{ vehicle.plate }}
+          </h1>
+          <p class="text-sm text-slate-500 mt-1">
+            {{ vehicle.brand }} {{ vehicle.model }}
+            {% if vehicle.color %} · {{ vehicle.color }}{% endif %}
+            <span class="text-xs text-slate-400 ml-1">({{ vehicle.get_vehicle_type_display }})</span>
+          </p>
+        </div>
+      </div>
+      {% if vehicle.is_archived %}
+        <span style="display:inline-block; padding:4px 10px; border-radius:999px; font-size:11px;
+                     font-weight:600; background:#f1f5f9; color:#475569; border:1px solid #cbd5e1;">
+          {% trans "Archivé" %}
+        </span>
+      {% endif %}
     </div>
 
     {% if vehicle.is_archived %}
-      <div class="mt-3 rounded-md border border-slate-300 bg-slate-100 px-4 py-3 text-sm text-slate-700">
-        <div class="flex items-center justify-between gap-2">
+      <div class="mt-5 rounded-lg border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+        <div class="flex items-center justify-between gap-2 flex-wrap">
           <div>
-            <p class="font-medium">{% trans "Véhicule archivé" %} — {{ vehicle.archived_at|date:"d/m/Y H:i" }}</p>
+            <p class="font-medium">{% trans "Archivé le" %} {{ vehicle.archived_at|date:"d/m/Y H:i" }}</p>
             {% if vehicle.archive_reason %}<p class="text-xs italic mt-1">{{ vehicle.archive_reason }}</p>{% endif %}
           </div>
           <form method="post" action="{% url 'vehicles:restore' vehicle.pk %}">{% csrf_token %}
-            <button class="px-3 py-1.5 text-xs bg-emerald-600 text-white rounded-md hover:bg-emerald-700">{% trans "Restaurer" %}</button>
+            <button style="padding:6px 14px; background:#08447F; color:#fff; border:none;
+                           border-radius:6px; font-size:13px; font-weight:500; cursor:pointer;">
+              {% trans "Restaurer ce véhicule" %}
+            </button>
           </form>
         </div>
       </div>
     {% endif %}
 
-    <dl class="mt-4 space-y-1.5 text-sm text-slate-700">
-      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Marque" %}</dt><dd>{{ vehicle.brand }}</dd></div>
-      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Modèle" %}</dt><dd>{{ vehicle.model }}</dd></div>
-      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Couleur" %}</dt><dd>{{ vehicle.color|default:"—" }}</dd></div>
-      <div class="flex justify-between"><dt class="text-slate-500">{% trans "Ajouté le" %}</dt><dd>{{ vehicle.created_at|date:"d/m/Y H:i" }}</dd></div>
-      <div class="flex justify-between">
-        <dt class="text-slate-500">{% trans "Certificat d'immatriculation" %}</dt>
+    {# Détails sous forme de petite grille — chaque item en bloc (label au-dessus, valeur en dessous) pour éviter tout chevauchement. #}
+    <dl class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
+      <div>
+        <dt class="text-slate-500 text-xs uppercase tracking-wide mb-1">{% trans "Ajouté le" %}</dt>
+        <dd class="text-slate-700">{{ vehicle.created_at|date:"d/m/Y" }}</dd>
+      </div>
+      <div>
+        <dt class="text-slate-500 text-xs uppercase tracking-wide mb-1">{% trans "Certificat d'immatriculation" %}</dt>
         <dd>
           {% if vehicle.registration_document %}
-            <a href="{{ vehicle.registration_document.url }}" target="_blank" class="text-emerald-700 hover:underline">{% trans "Télécharger" %}</a>
+            <a href="{{ vehicle.registration_document.url }}" target="_blank"
+               style="color:#08447F; font-weight:500; text-decoration:underline;">
+              📄 {% trans "Télécharger" %}
+            </a>
           {% else %}
-            <span class="text-slate-400">—</span>
+            <span class="text-amber-700">⚠ {% trans "Manquant" %}</span>
           {% endif %}
         </dd>
       </div>
     </dl>
+  </section>
 
-    {% if pending_plate_change %}
-      <div class="mt-5 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-        {% trans "Une demande de changement de plaque est en cours d'examen." %}
-        <a href="{% url 'vehicles:plate_change_detail' pending_plate_change.pk %}" class="ml-2 underline">{% trans "Voir la demande" %}</a>
-      </div>
+  {# ──────────── BANDEAU CHANGEMENT DE PLAQUE EN COURS ──────────── #}
+  {% if pending_plate_change %}
+    <div class="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900 flex items-center justify-between gap-3 flex-wrap">
+      <span>⏳ {% trans "Changement de plaque en cours d'examen par un agent." %}</span>
+      <a href="{% url 'vehicles:plate_change_detail' pending_plate_change.pk %}" class="underline font-medium">
+        {% trans "Voir la demande" %}
+      </a>
+    </div>
+  {% endif %}
+
+  {# ──────────── ACTIONS PRINCIPALES (cartes) ──────────── #}
+  {% if not vehicle.is_archived %}
+
+    {# Cartes déjà liées à ce véhicule. #}
+    {% if active_permits %}
+      <section style="background:#fff; border:1px solid #e2e8f0; border-radius:12px;
+                      padding:20px; margin-bottom:16px;">
+        <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide mb-3">
+          {% trans "Cartes liées à ce véhicule" %}
+        </h2>
+        <div class="space-y-2">
+          {% for p in active_permits %}
+            <a href="{% url 'permits:detail' p.pk %}"
+               class="flex items-center justify-between gap-3 p-3 rounded-lg border border-slate-200 hover:border-brand-300 hover:bg-brand-50/30 transition-colors">
+              <div class="flex items-center gap-3">
+                <div style="width:36px; height:36px; border-radius:8px; background:#e8f1fb; color:#08447F;
+                            display:flex; align-items:center; justify-content:center; font-size:16px;">🪪</div>
+                <div>
+                  <p class="font-medium text-slate-900 text-sm">
+                    {% trans "Carte" %} {{ p.get_permit_type_display|lower }} #{{ p.pk }}
+                  </p>
+                  {% if p.valid_until %}
+                    <p class="text-xs text-slate-500">{% trans "Valide jusqu'au" %} {{ p.valid_until|date:"d/m/Y" }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              {% include "_partials/permit_status_badge.html" with status=p.status label=p.get_status_display %}
+            </a>
+          {% endfor %}
+        </div>
+      </section>
     {% endif %}
 
-    <div class="mt-6 flex justify-between flex-wrap gap-2">
-      <a href="{% url 'vehicles:list' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Liste" %}</a>
-      <div class="flex gap-2 flex-wrap">
-        {% if not vehicle.is_archived %}
-          <a href="{% url 'permits:create_for_vehicle' vehicle.pk %}" class="px-3 py-1.5 text-sm bg-emerald-600 text-white rounded-md hover:bg-emerald-700">{% trans "Carte riverain" %}</a>
-          <a href="{% url 'permits:professional_create' vehicle.pk %}" class="px-3 py-1.5 text-sm border border-emerald-600 text-emerald-700 rounded-md hover:bg-emerald-50">{% trans "Carte professionnelle" %}</a>
-          {% if not pending_plate_change %}
-            <a href="{% url 'vehicles:plate_change_create' vehicle.pk %}" class="px-3 py-1.5 text-sm border rounded-md hover:bg-slate-100">{% trans "Changement de plaque" %}</a>
-          {% endif %}
-          <a href="{% url 'vehicles:edit' vehicle.pk %}" class="px-3 py-1.5 text-sm border rounded-md hover:bg-slate-100">{% trans "Modifier" %}</a>
-          <a href="{% url 'vehicles:delete' vehicle.pk %}" class="px-3 py-1.5 text-sm border border-amber-300 text-amber-700 rounded-md hover:bg-amber-50">{% trans "Archiver" %}</a>
+    {# CTA pour les types de carte qui n'existent pas encore — on les affiche toujours, indépendamment des autres types existants. #}
+    {% if not has_resident_permit or not has_pro_permit %}
+      <section class="grid sm:grid-cols-2 gap-4 mb-4">
+        {% if not has_resident_permit %}
+          <a href="{% url 'permits:create_for_vehicle' vehicle.pk %}"
+             style="display:block; padding:20px; background:#08447F; color:#fff;
+                    border-radius:12px; text-decoration:none;
+                    box-shadow:0 4px 6px -1px rgba(8,68,127,.3);">
+            <div style="font-size:24px; margin-bottom:8px;">🪪</div>
+            <p style="font-weight:600; font-size:16px; margin:0 0 4px;">{% trans "Demander une carte riverain" %}</p>
+            <p style="font-size:13px; opacity:.85; margin:0;">
+              {% trans "Stationnement dans votre commune de résidence. Attribution automatique." %}
+            </p>
+            <p style="font-size:13px; margin-top:10px; font-weight:500;">{% trans "Commencer" %} →</p>
+          </a>
         {% endif %}
+        {% if not has_pro_permit %}
+          <a href="{% url 'permits:professional_create' vehicle.pk %}"
+             style="display:block; padding:20px; background:#fff; color:#08447F;
+                    border:2px solid #2375C0; border-radius:12px; text-decoration:none;">
+            <div style="font-size:24px; margin-bottom:8px;">💼</div>
+            <p style="font-weight:600; font-size:16px; margin:0 0 4px;">{% trans "Demander une carte professionnelle" %}</p>
+            <p style="font-size:13px; color:#475569; margin:0;">
+              {% trans "Pour exercer une activité dans une autre commune. Validation manuelle par un agent." %}
+            </p>
+            <p style="font-size:13px; margin-top:10px; font-weight:500;">{% trans "Commencer" %} →</p>
+          </a>
+        {% endif %}
+      </section>
+    {% endif %}
+
+    {# ──────────── ACTIONS SECONDAIRES (gérer le véhicule) ──────────── #}
+    <section style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px;">
+      <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+        {% trans "Gérer ce véhicule" %}
+      </p>
+      <div class="flex flex-wrap gap-2 text-sm">
+        <a href="{% url 'vehicles:edit' vehicle.pk %}"
+           style="padding:6px 14px; background:#fff; color:#334155; border:1px solid #cbd5e1;
+                  border-radius:6px; text-decoration:none;">
+          ✏️ {% trans "Modifier les détails" %}
+        </a>
+        {% if not pending_plate_change %}
+          <a href="{% url 'vehicles:plate_change_create' vehicle.pk %}"
+             style="padding:6px 14px; background:#fff; color:#334155; border:1px solid #cbd5e1;
+                    border-radius:6px; text-decoration:none;">
+            🔄 {% trans "Changer la plaque" %}
+          </a>
+        {% endif %}
+        <a href="{% url 'vehicles:delete' vehicle.pk %}"
+           style="padding:6px 14px; background:#fff; color:#b45309; border:1px solid #fcd34d;
+                  border-radius:6px; text-decoration:none;">
+          📦 {% trans "Archiver" %}
+        </a>
       </div>
-    </div>
-  </div>
+      <p class="text-xs text-slate-500 mt-3 italic">
+        {% trans "L'archivage masque le véhicule de votre espace mais préserve l'historique des cartes liées. Réservé aux véhicules vendus ou hors d'usage." %}
+      </p>
+    </section>
+
+  {% endif %}
+
+</div>
 {% endblock %}

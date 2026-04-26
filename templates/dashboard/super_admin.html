@@ -2,25 +2,40 @@
 {% load i18n %}
 {% block title %}{% trans "Back-office super admin" %}{% endblock %}
 {% block content %}
-  <h1 class="text-2xl font-semibold text-slate-900">{% trans "Back-office — super admin" %}</h1>
+  <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+    <div>
+      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Back-office — super admin" %}</h1>
+      <p class="text-sm text-slate-500 mt-1">
+        {% trans "Vous disposez de tous les accès admin, plus la possibilité de promouvoir/rétrograder les administrateurs." %}
+      </p>
+    </div>
+    <span class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-full bg-purple-100 text-purple-800 border border-purple-200">
+      ⬢ {% trans "Super Admin" %}
+    </span>
+  </div>
 
-  <section class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    <a href="{% url 'dashboard:admin_users' %}" class="rounded-lg bg-white border p-5 hover:border-purple-300 hover:bg-purple-50/30 transition">
-      <h2 class="font-semibold text-slate-900">{% trans "Gérer les utilisateurs" %}</h2>
-      <p class="mt-1 text-sm text-slate-600">{% trans "Tous les rôles (citoyens, agents, admins, super-admins)." %}</p>
-    </a>
-    <a href="{% url 'dashboard:admin_permit_config' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
-      <h2 class="font-semibold text-slate-900">{% trans "Configuration globale" %}</h2>
-      <p class="mt-1 text-sm text-slate-600">{% trans "Tarifs par défaut, limites véhicules/cartes, codes visiteurs." %}</p>
-    </a>
-    <a href="{% url 'dashboard:admin_policies' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
-      <h2 class="font-semibold text-slate-900">{% trans "Politiques par commune" %}</h2>
-      <p class="mt-1 text-sm text-slate-600">{% trans "Règles fines : prix, validité, limites par (commune × type)." %}</p>
-    </a>
-    <a href="{% url 'dashboard:gis_versions' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
-      <h2 class="font-semibold text-slate-900">{% trans "Données GIS" %}</h2>
-      <p class="mt-1 text-sm text-slate-600">{% trans "Versions importées, polygones, règles d'attribution." %}</p>
-    </a>
+  {# Section EXCLUSIVE super-admin : promouvoir des admins #}
+  <section class="rounded-xl border-2 border-purple-300 bg-purple-50/50 p-5 mb-6 shadow-soft">
+    <div class="flex items-start gap-4">
+      <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-purple-600 text-white flex items-center justify-center text-xl">
+        ⬢
+      </div>
+      <div class="flex-1">
+        <h2 class="font-semibold text-purple-900 text-lg">{% trans "Actions réservées au super-admin" %}</h2>
+        <p class="text-sm text-purple-800 mt-1 mb-4">
+          {% trans "Seul un super-admin peut nommer ou révoquer des administrateurs et d'autres super-admins." %}
+        </p>
+        <a href="{% url 'dashboard:admin_users' %}?role=admin"
+           class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors">
+          {% trans "Gérer les administrateurs" %}
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {# Toutes les cartes admin (mêmes accès que dashboard:admin) #}
+  <section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
     <a href="{% url 'dashboard:agent_requests' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
       <h2 class="font-semibold text-slate-900">{% trans "Demandes citoyens" %}</h2>
       <p class="mt-1 text-sm text-slate-600">{% trans "Validation des changements d'adresse et de plaque." %}</p>
@@ -28,6 +43,34 @@
     <a href="{% url 'dashboard:agent_permits' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
       <h2 class="font-semibold text-slate-900">{% trans "Cartes en revue" %}</h2>
       <p class="mt-1 text-sm text-slate-600">{% trans "Demandes de cartes en attente de décision." %}</p>
+    </a>
+    <a href="{% url 'dashboard:admin_permit_config' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Configuration globale" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Tarifs par défaut, limites véhicules/cartes, codes visiteurs." %}</p>
+    </a>
+    <a href="{% url 'dashboard:admin_policies' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Politiques par commune" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Règles fines : prix, validité, limites par (commune × type de carte)." %}</p>
+    </a>
+    <a href="{% url 'dashboard:gis_versions' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Données GIS" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Versions importées, polygones, règles d'attribution." %}</p>
+    </a>
+    <a href="{% url 'dashboard:admin_users' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Gérer les utilisateurs" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Lister, éditer, changer les rôles, désactiver, réinitialiser les mots de passe." %}</p>
+    </a>
+    <a href="{% url 'dashboard:admin_api_tokens' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Tokens API" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Émettre / révoquer les tokens d'accès à /api/v1/ pour les agents et partenaires." %}</p>
+    </a>
+    <a href="{% url 'dashboard:admin_audit' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Journal d'audit" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Historique horodaté de toutes les actions sensibles (cartes, paiements, rôles, API)." %}</p>
+    </a>
+    <a href="{% url 'gis_data:map' %}" class="rounded-lg bg-white border p-5 hover:border-emerald-300 hover:bg-emerald-50/30 transition">
+      <h2 class="font-semibold text-slate-900">{% trans "Carte publique" %}</h2>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Visualisation Leaflet des zones." %}</p>
     </a>
   </section>
 {% endblock %}

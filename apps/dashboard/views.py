@@ -56,15 +56,42 @@ def citizen_dashboard(request: HttpRequest) -> HttpResponse:
     _require_role(request, "citizen")
     profile = get_or_create_profile(request.user)
     address = Address.objects.filter(profile=profile).first()
-    vehicles = request.user.vehicles.all()
+    vehicles = list(request.user.vehicles.all())
     pending_address_request = AddressChangeRequest.objects.filter(
         profile=profile, status=RequestStatus.PENDING
     ).first()
-    permits = (
+    permits = list(
         Permit.objects.filter(citizen=request.user)
         .exclude(status__in=[PermitStatus.CANCELLED, PermitStatus.EXPIRED, PermitStatus.REFUSED])
         .select_related("vehicle")
     )
+    from apps.citizens.journey import compute_journey
+    from apps.permits.models import PermitType
+    journey = compute_journey(
+        request.user,
+        profile=profile, address=address,
+        vehicles_qs=vehicles, permits_qs=permits,
+        pending_address_request=pending_address_request,
+    )
+    # Pour chaque véhicule actif : a-t-il déjà une carte en cours ? Sinon on
+    # affiche le bouton "Demander une carte" directement sur sa ligne.
+    busy_vehicle_ids = {p.vehicle_id for p in permits if p.vehicle_id}
+
+    # ---- Section "Carte visiteur" : prérequis = carte riverain ACTIVE.
+    has_active_resident = any(
+        p.permit_type == PermitType.RESIDENT and p.status == PermitStatus.ACTIVE
+        for p in permits
+    )
+    visitor_permit = next(
+        (p for p in permits
+         if p.permit_type == PermitType.VISITOR and p.status == PermitStatus.ACTIVE),
+        None,
+    )
+    visitor_quota_left = None
+    if visitor_permit:
+        from apps.permits.services import remaining_visitor_quota
+        visitor_quota_left = remaining_visitor_quota(visitor_permit)
+
     return render(
         request,
         "dashboard/citizen.html",
@@ -74,6 +101,11 @@ def citizen_dashboard(request: HttpRequest) -> HttpResponse:
             "vehicles": vehicles,
             "pending_address_request": pending_address_request,
             "permits": permits,
+            "journey": journey,
+            "busy_vehicle_ids": busy_vehicle_ids,
+            "has_active_resident": has_active_resident,
+            "visitor_permit": visitor_permit,
+            "visitor_quota_left": visitor_quota_left,
         },
     )
 

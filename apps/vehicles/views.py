@@ -44,10 +44,28 @@ def vehicle_detail(request: HttpRequest, pk: int) -> HttpResponse:
     pending_plate_change = vehicle.plate_change_requests.filter(
         status=PlateChangeStatus.PENDING
     ).first()
+    # Cartes en cours/actives liées à ce véhicule (pour afficher l'état réel
+    # au lieu d'un bouton "Demander une carte" qui ne s'applique pas).
+    from apps.permits.models import Permit, PermitStatus, PermitType
+    active_permits = list(
+        vehicle.permits.exclude(
+            status__in=[PermitStatus.CANCELLED, PermitStatus.EXPIRED, PermitStatus.REFUSED]
+        ).order_by("-created_at")
+    )
+    # On masque le CTA d'un type donné seulement si une carte de CE type est
+    # déjà en cours — pour ne pas empêcher d'en demander un autre type.
+    has_resident_permit = any(p.permit_type == PermitType.RESIDENT for p in active_permits)
+    has_pro_permit = any(p.permit_type == PermitType.PROFESSIONAL for p in active_permits)
     return render(
         request,
         "vehicles/detail.html",
-        {"vehicle": vehicle, "pending_plate_change": pending_plate_change},
+        {
+            "vehicle": vehicle,
+            "pending_plate_change": pending_plate_change,
+            "active_permits": active_permits,
+            "has_resident_permit": has_resident_permit,
+            "has_pro_permit": has_pro_permit,
+        },
     )
 
 

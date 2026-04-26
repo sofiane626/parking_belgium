@@ -6,7 +6,8 @@
 {% block extra_head %}
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <style>#poly-map { height: 320px; border-radius: 8px; }</style>
+  <style>#poly-map { height: 320px; border-radius: 8px;
+          position: relative; z-index: 0; isolation: isolate; }</style>
 {% endblock %}
 
 {% block content %}
@@ -119,8 +120,10 @@
   <script>
     (function () {
       const map = L.map('poly-map').setView([50.847, 4.357], 12);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19, attribution: '&copy; OpenStreetMap',
+      // Même fond de carte que /map/ pour rester visuellement cohérent.
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        subdomains: 'abcd', maxZoom: 19,
+        attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap',
       }).addTo(map);
       fetch('{% url "gis_data:polygons_geojson" %}').then(r => r.json()).then(data => {
         const f = data.features.find(x => x.id === {{ polygon.pk }});
