@@ -133,7 +133,7 @@ export default function AuditTable({ apiUrl, exportUrl }) {
           </div>
         </div>
         <a href={exportHref} className="pba-btn pba-btn-ghost">
-          📥 Exporter CSV
+          Exporter CSV
         </a>
       </div>
 
@@ -189,7 +189,7 @@ export default function AuditTable({ apiUrl, exportUrl }) {
         )}
         {!loading && !nextCursor && items.length > 0 && (
           <div className="pba-footer">
-            ▾ Fin de la liste — {items.length} entrée{items.length > 1 ? 's' : ''} affichée{items.length > 1 ? 's' : ''}
+            Fin de la liste · {items.length} entrée{items.length > 1 ? 's' : ''} affichée{items.length > 1 ? 's' : ''}
           </div>
         )}
       </div>

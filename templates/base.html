@@ -29,11 +29,11 @@
           {% elif m.tags == 'success' %}border-emerald-500 bg-emerald-50 text-emerald-900
           {% elif m.tags == 'warning' %}border-signal-400 bg-signal-50 text-signal-700
           {% else %}border-brand-500 bg-brand-50 text-brand-900{% endif %}">
-          <span class="mt-0.5 flex-shrink-0">
-            {% if m.tags == 'error' %}⚠
+          <span class="mt-0.5 flex-shrink-0 font-semibold">
+            {% if m.tags == 'error' %}!
             {% elif m.tags == 'success' %}✓
-            {% elif m.tags == 'warning' %}⚡
-            {% else %}ℹ{% endif %}
+            {% elif m.tags == 'warning' %}!
+            {% else %}i{% endif %}
           </span>
           <span class="flex-1">{{ m }}</span>
         </div>
@@ -120,8 +120,9 @@
     <div style="display:flex; align-items:flex-start; gap:12px;">
       <div style="flex-shrink:0; width:32px; height:32px; border-radius:8px;
                   background:#e8f1fb; color:#08447F; display:flex;
-                  align-items:center; justify-content:center; font-size:16px;">
-        🍪
+                  align-items:center; justify-content:center;
+                  font-weight:700; font-size:14px;">
+        C
       </div>
       <div style="flex:1; font-size:13px; color:#334155; min-width:0;">
         <p style="font-weight:600; color:#0f172a; margin:0 0 4px;">{% trans "Cookies" %}</p>

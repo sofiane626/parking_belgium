@@ -10,16 +10,11 @@
 {% block content %}
 <div class="max-w-7xl mx-auto">
 
-  <div class="flex items-center justify-between mb-6 flex-wrap gap-2">
-    <div>
-      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Journal d'audit" %}</h1>
-      <p class="text-sm text-slate-500 mt-1">
-        {% trans "Filtres temps réel, scroll infini, payload JSON expandable. Export CSV à droite." %}
-      </p>
-    </div>
-    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-brand-100 text-brand-800">
-      ⚛ {% trans "DataTable React" %}
-    </span>
+  <div class="mb-6">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Journal d'audit" %}</h1>
+    <p class="text-sm text-slate-500 mt-1">
+      {% trans "Recherche, filtres et export CSV des entrées du journal." %}
+    </p>
   </div>
 
   {# Mount-point du bundle React audit. #}

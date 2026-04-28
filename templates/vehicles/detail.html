@@ -17,11 +17,13 @@
 
     <div class="flex items-start justify-between gap-4 flex-wrap">
       <div class="flex items-center gap-4">
-        {# Icône véhicule #}
+        {# Pastille avec initiale de la plaque, sobre. #}
         <div style="width:56px; height:56px; border-radius:12px;
                     background:#e8f1fb; color:#08447F; display:flex;
-                    align-items:center; justify-content:center; font-size:24px;">
-          🚗
+                    align-items:center; justify-content:center;
+                    font-weight:700; font-size:20px;
+                    font-family:ui-monospace,monospace;">
+          {{ vehicle.plate|slice:":1"|upper }}
         </div>
         <div>
           <h1 style="font-size:24px; font-weight:600; font-family:ui-monospace,monospace;
@@ -73,10 +75,10 @@
           {% if vehicle.registration_document %}
             <a href="{{ vehicle.registration_document.url }}" target="_blank"
                style="color:#08447F; font-weight:500; text-decoration:underline;">
-              📄 {% trans "Télécharger" %}
+              {% trans "Télécharger" %}
             </a>
           {% else %}
-            <span class="text-amber-700">⚠ {% trans "Manquant" %}</span>
+            <span class="text-amber-700">{% trans "Manquant" %}</span>
           {% endif %}
         </dd>
       </div>
@@ -86,7 +88,7 @@
   {# ──────────── BANDEAU CHANGEMENT DE PLAQUE EN COURS ──────────── #}
   {% if pending_plate_change %}
     <div class="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900 flex items-center justify-between gap-3 flex-wrap">
-      <span>⏳ {% trans "Changement de plaque en cours d'examen par un agent." %}</span>
+      <span>{% trans "Changement de plaque en cours d'examen par un agent." %}</span>
       <a href="{% url 'vehicles:plate_change_detail' pending_plate_change.pk %}" class="underline font-medium">
         {% trans "Voir la demande" %}
       </a>
@@ -109,7 +111,8 @@
                class="flex items-center justify-between gap-3 p-3 rounded-lg border border-slate-200 hover:border-brand-300 hover:bg-brand-50/30 transition-colors">
               <div class="flex items-center gap-3">
                 <div style="width:36px; height:36px; border-radius:8px; background:#e8f1fb; color:#08447F;
-                            display:flex; align-items:center; justify-content:center; font-size:16px;">🪪</div>
+                            display:flex; align-items:center; justify-content:center;
+                            font-weight:700; font-size:13px;">#{{ p.pk }}</div>
                 <div>
                   <p class="font-medium text-slate-900 text-sm">
                     {% trans "Carte" %} {{ p.get_permit_type_display|lower }} #{{ p.pk }}
@@ -134,26 +137,22 @@
              style="display:block; padding:20px; background:#08447F; color:#fff;
                     border-radius:12px; text-decoration:none;
                     box-shadow:0 4px 6px -1px rgba(8,68,127,.3);">
-            <div style="font-size:24px; margin-bottom:8px;">🪪</div>
-            <p style="font-weight:600; font-size:16px; margin:0 0 4px;">{% trans "Demander une carte riverain" %}
-              <span style="display:inline-block; margin-left:6px; padding:2px 8px; font-size:10px; font-weight:600; background:rgba(255,255,255,.2); border-radius:999px;">⚛ Wizard</span>
-            </p>
+            <p style="font-weight:600; font-size:16px; margin:0 0 6px;">{% trans "Demander une carte riverain" %}</p>
             <p style="font-size:13px; opacity:.85; margin:0;">
-              {% trans "Wizard guidé en 5 étapes : aperçu de votre zone, tarif et paiement." %}
+              {% trans "Stationnement dans la commune de résidence. Attribution automatique en 5 étapes." %}
             </p>
-            <p style="font-size:13px; margin-top:10px; font-weight:500;">{% trans "Commencer" %} →</p>
+            <p style="font-size:13px; margin-top:12px; font-weight:500;">{% trans "Commencer" %} →</p>
           </a>
         {% endif %}
         {% if not has_pro_permit %}
           <a href="{% url 'permits:professional_create' vehicle.pk %}"
              style="display:block; padding:20px; background:#fff; color:#08447F;
                     border:2px solid #2375C0; border-radius:12px; text-decoration:none;">
-            <div style="font-size:24px; margin-bottom:8px;">💼</div>
-            <p style="font-weight:600; font-size:16px; margin:0 0 4px;">{% trans "Demander une carte professionnelle" %}</p>
+            <p style="font-weight:600; font-size:16px; margin:0 0 6px;">{% trans "Demander une carte professionnelle" %}</p>
             <p style="font-size:13px; color:#475569; margin:0;">
-              {% trans "Pour exercer une activité dans une autre commune. Validation manuelle par un agent." %}
+              {% trans "Activité professionnelle dans une autre commune. Validation manuelle par un agent." %}
             </p>
-            <p style="font-size:13px; margin-top:10px; font-weight:500;">{% trans "Commencer" %} →</p>
+            <p style="font-size:13px; margin-top:12px; font-weight:500;">{% trans "Commencer" %} →</p>
           </a>
         {% endif %}
       </section>
@@ -168,19 +167,19 @@
         <a href="{% url 'vehicles:edit' vehicle.pk %}"
            style="padding:6px 14px; background:#fff; color:#334155; border:1px solid #cbd5e1;
                   border-radius:6px; text-decoration:none;">
-          ✏️ {% trans "Modifier les détails" %}
+          {% trans "Modifier les détails" %}
         </a>
         {% if not pending_plate_change %}
           <a href="{% url 'vehicles:plate_change_create' vehicle.pk %}"
              style="padding:6px 14px; background:#fff; color:#334155; border:1px solid #cbd5e1;
                     border-radius:6px; text-decoration:none;">
-            🔄 {% trans "Changer la plaque" %}
+            {% trans "Changer la plaque" %}
           </a>
         {% endif %}
         <a href="{% url 'vehicles:delete' vehicle.pk %}"
            style="padding:6px 14px; background:#fff; color:#b45309; border:1px solid #fcd34d;
                   border-radius:6px; text-decoration:none;">
-          📦 {% trans "Archiver" %}
+          {% trans "Archiver" %}
         </a>
       </div>
       <p class="text-xs text-slate-500 mt-3 italic">

@@ -14,7 +14,7 @@ export default function Step4Payment({ eligibility, permitId, paymentStartUrlTpl
     <>
       <h1 className="pbw-title">Paiement</h1>
       <p className="pbw-subtitle">
-        Votre demande a été soumise. Procédez au paiement pour activer votre carte.
+        Demande soumise. Le paiement activera la carte.
       </p>
 
       <div className="pbw-price">
@@ -26,8 +26,8 @@ export default function Step4Payment({ eligibility, permitId, paymentStartUrlTpl
       </div>
 
       <div className="pbw-notice pbw-notice-info">
-        🔒 Paiement sécurisé via Stripe (test mode). Les méthodes disponibles vous seront proposées
-        sur la page de paiement.
+        Paiement par carte bancaire via Stripe. Les méthodes disponibles
+        seront proposées sur la page de paiement.
       </div>
 
       <div className="pbw-actions" style={{ flexWrap: 'wrap' }}>
@@ -38,7 +38,7 @@ export default function Step4Payment({ eligibility, permitId, paymentStartUrlTpl
       </div>
 
       <p style={{ fontSize: 12, color: '#94a3b8', textAlign: 'center', marginTop: 16 }}>
-        Cette demande est conservée — vous pouvez aussi payer plus tard depuis « Mes cartes ».
+        Le paiement reste accessible plus tard depuis « Mes cartes ».
       </p>
     </>
   );

@@ -9,26 +9,42 @@
         {% trans "Vous disposez de tous les accès admin, plus la possibilité de promouvoir/rétrograder les administrateurs." %}
       </p>
     </div>
-    <span class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-full bg-purple-100 text-purple-800 border border-purple-200">
-      ⬢ {% trans "Super Admin" %}
+    <span style="display:inline-flex; align-items:center; gap:8px; padding:6px 14px;
+                 font-size:12px; font-weight:600; border-radius:999px;
+                 background:#f3e8ff; color:#6b21a8; border:1px solid #e9d5ff;">
+      <span style="width:8px; height:8px; border-radius:2px; background:#a855f7; transform:rotate(45deg);"></span>
+      {% trans "Super Admin" %}
     </span>
   </div>
 
   {# Section EXCLUSIVE super-admin : promouvoir des admins #}
-  <section class="rounded-xl border-2 border-purple-300 bg-purple-50/50 p-5 mb-6 shadow-soft">
-    <div class="flex items-start gap-4">
-      <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-purple-600 text-white flex items-center justify-center text-xl">
-        ⬢
+  <section style="border-radius:12px; border:2px solid #d8b4fe;
+                  background:linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+                  padding:20px; margin-bottom:24px;
+                  box-shadow:0 4px 6px -1px rgba(168, 85, 247, 0.1);">
+    <div style="display:flex; align-items:flex-start; gap:16px; flex-wrap:wrap;">
+      <div style="flex-shrink:0; width:48px; height:48px; border-radius:10px;
+                  background:#7e22ce; color:#fff; display:flex;
+                  align-items:center; justify-content:center;
+                  font-weight:700; font-size:18px;
+                  box-shadow:0 4px 8px -2px rgba(126, 34, 206, 0.4);">
+        SA
       </div>
-      <div class="flex-1">
-        <h2 class="font-semibold text-purple-900 text-lg">{% trans "Actions réservées au super-admin" %}</h2>
-        <p class="text-sm text-purple-800 mt-1 mb-4">
+      <div style="flex:1; min-width:250px;">
+        <h2 style="font-size:18px; font-weight:600; color:#581c87; margin:0;">
+          {% trans "Actions réservées au super-admin" %}
+        </h2>
+        <p style="font-size:14px; color:#6b21a8; margin:6px 0 14px;">
           {% trans "Seul un super-admin peut nommer ou révoquer des administrateurs et d'autres super-admins." %}
         </p>
         <a href="{% url 'dashboard:admin_users' %}?role=admin"
-           class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors">
+           style="display:inline-flex; align-items:center; gap:8px;
+                  padding:10px 18px; font-size:14px; font-weight:500;
+                  border-radius:8px; background:#7e22ce; color:#fff;
+                  text-decoration:none;
+                  box-shadow:0 4px 6px -1px rgba(126, 34, 206, 0.3);">
           {% trans "Gérer les administrateurs" %}
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          <svg style="width:16px; height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
         </a>
       </div>
     </div>

@@ -122,72 +122,72 @@ def compute_journey(
     j = CitizenJourney(steps=steps, pending_address_request=pending_address_request)
 
     if suspended:
-        j.headline = "Votre carte est suspendue"
+        j.headline = "Carte suspendue"
         j.badge = "Suspendue"
         j.badge_color = "red"
         j.permit_focus = suspended
         j.cta_label = "Voir le détail de la carte"
         j.cta_url = reverse("permits:detail", args=[suspended.pk])
         j.cta_style = "outline"
-        j.cta_help = "Une suspension intervient typiquement après un changement d'adresse, de plaque ou un remboursement. Contactez votre commune si vous pensez qu'il s'agit d'une erreur."
+        j.cta_help = "Une suspension fait suite à un changement d'adresse, de plaque ou à un remboursement. Contactez votre commune en cas d'erreur."
         return j
 
     if awaiting_payment:
-        j.headline = "Finalisez votre paiement pour activer votre carte"
+        j.headline = "Paiement requis pour activer la carte"
         j.badge = "À payer"
         j.badge_color = "signal"
         j.permit_focus = awaiting_payment
         j.cta_label = "Payer maintenant"
         j.cta_url = reverse("payments:start", args=[awaiting_payment.pk])
         j.cta_style = "signal"
-        j.cta_help = "Paiement sécurisé via Stripe (carte bancaire) ou simulation pour les tests."
+        j.cta_help = "Paiement par carte bancaire via Stripe."
         return j
 
     if in_review or submitted:
         permit = in_review or submitted
-        j.headline = "Votre demande est en cours d'examen"
+        j.headline = "Demande en cours d'examen"
         j.badge = "En revue"
         j.badge_color = "brand"
         j.permit_focus = permit
         j.cta_label = "Voir l'état de la demande"
         j.cta_url = reverse("permits:detail", args=[permit.pk])
         j.cta_style = "outline"
-        j.cta_help = "Un agent communal va valider votre demande sous 48 h ouvrées."
+        j.cta_help = "Validation par un agent communal sous 48 h ouvrées."
         return j
 
     if active:
-        j.headline = "Votre carte est active"
+        j.headline = "Carte active"
         j.badge = "Active"
         j.badge_color = "emerald"
         j.permit_focus = active
         j.cta_label = "Voir ma carte"
         j.cta_url = reverse("permits:detail", args=[active.pk])
         j.cta_style = "outline"
-        j.cta_help = "Vous pouvez aussi demander une carte visiteur pour accueillir des invités."
+        j.cta_help = "Une carte visiteur peut être créée pour accueillir des invités."
         return j
 
     # Pas encore de carte — on guide vers l'action suivante
     if not has_profile or not has_address:
-        j.headline = "Complétez votre profil pour commencer"
+        j.headline = "Profil à compléter"
         j.cta_label = "Compléter mon profil"
         j.cta_url = reverse("citizens:profile_edit")
         j.cta_style = "primary"
-        j.cta_help = "Téléphone, date de naissance et adresse principale sont nécessaires pour demander une carte."
+        j.cta_help = "Téléphone, date de naissance et adresse principale requis pour demander une carte."
     elif not has_vehicle:
-        j.headline = "Ajoutez votre véhicule pour pouvoir demander une carte"
-        j.cta_label = "Ajouter mon premier véhicule"
+        j.headline = "Aucun véhicule enregistré"
+        j.cta_label = "Ajouter un véhicule"
         j.cta_url = reverse("vehicles:create")
         j.cta_style = "primary"
-        j.cta_help = "Vous aurez besoin de votre certificat d'immatriculation (carte grise) au format PDF, JPG ou PNG."
+        j.cta_help = "Le certificat d'immatriculation est requis (PDF, JPG ou PNG)."
     else:
         # On a profil + véhicule, plus qu'à demander la carte. On pointe
         # vers le wizard React qui guide en 5 étapes (incluant l'aperçu de
         # la zone d'attribution avant de soumettre).
         first_vehicle = active_vehicles[0]
-        j.headline = "Tout est prêt — demandez votre carte de stationnement"
+        j.headline = "Demande de carte de stationnement"
         j.cta_label = "Demander ma carte riverain"
         j.cta_url = reverse("permits:wizard", args=[first_vehicle.pk])
         j.cta_style = "primary"
-        j.cta_help = "Wizard guidé en 5 étapes — aperçu de votre zone, tarif et paiement intégré."
+        j.cta_help = "Demande guidée en 5 étapes : zone d'attribution, tarif et paiement."
 
     return j

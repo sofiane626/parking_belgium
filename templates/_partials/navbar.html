@@ -1,34 +1,148 @@
 {% load i18n %}
+{# Détection du lien actif via request.resolver_match (namespace + url_name). #}
+{% with ns=request.resolver_match.namespace url_name=request.resolver_match.url_name %}
 <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 shadow-soft"
         style="z-index:10000;">
+
+  <style>
+    /* Liens de navigation : liseré jaune signal sous le lien actif (couleur du
+       drapeau bruxellois — identité forte). Hover = liseré transparent qui
+       glisse de gauche à droite. */
+    .pb-nav-link {
+      position: relative;
+      padding: 8px 14px;
+      color: #475569;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: color .15s, background .15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pb-nav-link svg { width: 16px; height: 16px; stroke-width: 1.8; }
+    .pb-nav-link:hover { color: #08447F; background: rgba(8, 68, 127, 0.04); }
+    .pb-nav-link::after {
+      content: "";
+      position: absolute;
+      left: 14px; right: 14px; bottom: -22px;
+      height: 3px;
+      background: #FFCD00;
+      border-radius: 2px 2px 0 0;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform .25s ease;
+    }
+    .pb-nav-link:hover::after { transform: scaleX(0.6); opacity: .5; }
+    .pb-nav-link.is-active { color: #08447F; background: rgba(8, 68, 127, 0.06); }
+    .pb-nav-link.is-active::after { transform: scaleX(1); opacity: 1; }
+
+    /* Logo : halo brand au survol (effet de profondeur subtil). */
+    .pb-brand-logo { transition: transform .2s ease, box-shadow .25s ease; }
+    .pb-brand-link:hover .pb-brand-logo {
+      transform: translateY(-1px) scale(1.05);
+      box-shadow: 0 8px 20px -4px rgba(8, 68, 127, 0.45),
+                  0 0 0 4px rgba(255, 205, 0, 0.18);
+    }
+
+    /* Avatar : ring coloré selon le rôle. */
+    .pb-avatar { box-shadow: 0 0 0 2px transparent; transition: box-shadow .2s; }
+    .pb-avatar.role-citizen     { box-shadow: 0 0 0 2px rgba(8, 68, 127, 0.25); }
+    .pb-avatar.role-agent       { box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.45); }
+    .pb-avatar.role-admin       { box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5); }
+    .pb-avatar.role-super_admin { box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.55); }
+
+    /* Séparateur vertical fin entre la zone navigation et l'avatar. */
+    .pb-nav-divider {
+      width: 1px;
+      height: 28px;
+      background: #e2e8f0;
+      margin: 0 6px;
+    }
+  </style>
+
   <nav class="container-wide h-16 flex items-center justify-between gap-4">
 
     {# ---- Brand + primary links (per role) ---- #}
     <div class="flex items-center gap-6 text-sm">
-      <a href="{% url 'core:home' %}" class="flex items-center gap-2 group">
-        <div class="w-9 h-9 rounded-lg bg-brand-gradient text-white flex items-center justify-center font-bold text-lg shadow-brand transform group-hover:scale-105 transition-transform">
+      <a href="{% url 'core:home' %}" class="pb-brand-link flex items-center gap-2.5">
+        <div class="pb-brand-logo w-9 h-9 rounded-lg bg-brand-gradient text-white flex items-center justify-center font-bold text-lg shadow-brand">
           P
         </div>
-        <span class="font-semibold text-slate-900 text-[17px] hidden sm:inline">
-          Parking<span class="text-brand-600">.Belgium</span>
+        <span class="font-semibold text-slate-900 text-[17px] hidden sm:flex flex-col leading-none">
+          <span>Parking<span class="text-brand-600">.Belgium</span></span>
+          <span class="text-[9px] uppercase tracking-[0.18em] text-slate-400 font-semibold mt-0.5">
+            {% trans "Bruxelles · 19 communes" %}
+          </span>
         </span>
       </a>
 
-      <div class="hidden md:flex items-center gap-1">
-        <a href="{% url 'gis_data:map' %}" class="px-3 py-2 text-slate-600 hover:text-brand-700 hover:bg-brand-50 rounded-md transition-colors font-medium">{% trans "Carte des zones" %}</a>
+      <div class="hidden md:flex items-center gap-1 relative">
+        <a href="{% url 'gis_data:map' %}"
+           class="pb-nav-link {% if ns == 'gis_data' %}is-active{% endif %}">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75 3 4.5v13.65l6 2.25 6-2.25 6 2.25V6.75L15 4.5l-6 2.25Zm0 0v13.65m6-13.65v13.65"/></svg>
+          {% trans "Carte des zones" %}
+        </a>
 
         {% if user.is_authenticated %}
-          {% if user.is_super_admin or user.is_admin_role %}
-            <a href="{% url 'dashboard:admin' %}" class="px-3 py-2 text-slate-600 hover:text-brand-700 hover:bg-brand-50 rounded-md transition-colors font-medium">{% trans "Tableau de bord" %}</a>
-            <a href="{% url 'dashboard:agent_requests' %}" class="px-3 py-2 text-slate-600 hover:text-brand-700 hover:bg-brand-50 rounded-md transition-colors font-medium">{% trans "Demandes" %}</a>
-            <a href="{% url 'dashboard:agent_permits' %}" class="px-3 py-2 text-slate-600 hover:text-brand-700 hover:bg-brand-50 rounded-md transition-colors font-medium">{% trans "Cartes" %}</a>
+          {% if user.is_super_admin %}
+            <a href="{% url 'dashboard:super_admin' %}"
+               class="pb-nav-link {% if url_name == 'super_admin' %}is-active{% endif %}">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6Zm9.75 0A2.25 2.25 0 0 1 15.75 3.75H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6Zm-9.75 9.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25Zm9.75 0A2.25 2.25 0 0 1 15.75 13.5H18A2.25 2.25 0 0 1 20.25 15.75V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
+              {% trans "Tableau de bord" %}
+            </a>
+            <a href="{% url 'dashboard:agent_requests' %}"
+               class="pb-nav-link {% if url_name|slice:':14' == 'agent_request' %}is-active{% endif %}">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338A2.25 2.25 0 0 0 17.084 3.75H6.917a2.25 2.25 0 0 0-2.157 1.588l-2.41 7.838a2.25 2.25 0 0 0-.1.662Z"/></svg>
+              {% trans "Demandes" %}
+            </a>
+            <a href="{% url 'dashboard:agent_permits' %}"
+               class="pb-nav-link {% if url_name|slice:':13' == 'agent_permit' %}is-active{% endif %}">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+              {% trans "Cartes" %}
+            </a>
+          {% elif user.is_admin_role %}
+            <a href="{% url 'dashboard:admin' %}"
+               class="pb-nav-link {% if url_name == 'admin' %}is-active{% endif %}">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6Zm9.75 0A2.25 2.25 0 0 1 15.75 3.75H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6Zm-9.75 9.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25Zm9.75 0A2.25 2.25 0 0 1 15.75 13.5H18A2.25 2.25 0 0 1 20.25 15.75V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
+              {% trans "Tableau de bord" %}
+            </a>
+            <a href="{% url 'dashboard:agent_requests' %}"
+               class="pb-nav-link {% if url_name|slice:':14' == 'agent_request' %}is-active{% endif %}">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338A2.25 2.25 0 0 0 17.084 3.75H6.917a2.25 2.25 0 0 0-2.157 1.588l-2.41 7.838a2.25 2.25 0 0 0-.1.662Z"/></svg>
+              {% trans "Demandes" %}
+            </a>
+            <a href="{% url 'dashboard:agent_permits' %}"
+               class="pb-nav-link {% if url_name|slice:':13' == 'agent_permit' %}is-active{% endif %}">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+              {% trans "Cartes" %}
+            </a>
           {% elif user.is_agent %}
-            <a href="{% url 'dashboard:agent' %}" class="px-3 py-2 text-slate-600 hover:text-brand-700 hover:bg-brand-50 rounded-md transition-colors font-medium">{% trans "Tableau de bord" %}</a>
-            <a href="{% url 'dashboard:agent_requests' %}" class="px-3 py-2 text-slate-600 hover:text-brand-700 hover:bg-brand-50 rounded-md transition-colors font-medium">{% trans "Demandes" %}</a>
-            <a href="{% url 'dashboard:agent_permits' %}" class="px-3 py-2 text-slate-600 hover:text-brand-700 hover:bg-brand-50 rounded-md transition-colors font-medium">{% trans "Cartes" %}</a>
+            <a href="{% url 'dashboard:agent' %}"
+               class="pb-nav-link {% if url_name == 'agent' %}is-active{% endif %}">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6Zm9.75 0A2.25 2.25 0 0 1 15.75 3.75H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6Zm-9.75 9.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25Zm9.75 0A2.25 2.25 0 0 1 15.75 13.5H18A2.25 2.25 0 0 1 20.25 15.75V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/></svg>
+              {% trans "Tableau de bord" %}
+            </a>
+            <a href="{% url 'dashboard:agent_requests' %}"
+               class="pb-nav-link {% if url_name|slice:':14' == 'agent_request' %}is-active{% endif %}">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338A2.25 2.25 0 0 0 17.084 3.75H6.917a2.25 2.25 0 0 0-2.157 1.588l-2.41 7.838a2.25 2.25 0 0 0-.1.662Z"/></svg>
+              {% trans "Demandes" %}
+            </a>
+            <a href="{% url 'dashboard:agent_permits' %}"
+               class="pb-nav-link {% if url_name|slice:':13' == 'agent_permit' %}is-active{% endif %}">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+              {% trans "Cartes" %}
+            </a>
           {% else %}
-            <a href="{% url 'dashboard:citizen' %}" class="px-3 py-2 text-slate-600 hover:text-brand-700 hover:bg-brand-50 rounded-md transition-colors font-medium">{% trans "Mon espace" %}</a>
-            <a href="{% url 'permits:list' %}" class="px-3 py-2 text-brand-700 bg-brand-50/60 rounded-md font-semibold">{% trans "Mes cartes" %}</a>
+            <a href="{% url 'dashboard:citizen' %}"
+               class="pb-nav-link {% if url_name == 'citizen' %}is-active{% endif %}">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+              {% trans "Mon espace" %}
+            </a>
+            <a href="{% url 'permits:list' %}"
+               class="pb-nav-link {% if ns == 'permits' %}is-active{% endif %}">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+              {% trans "Mes cartes" %}
+            </a>
           {% endif %}
         {% endif %}
       </div>
@@ -37,15 +151,18 @@
     {# ---- Right: account dropdown ---- #}
     <div class="flex items-center gap-2 text-sm">
       {% if user.is_authenticated %}
+        <span class="pb-nav-divider hidden md:block"></span>
         <div class="relative" data-dropdown>
           <button type="button" data-dropdown-trigger
-                  class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors">
-            <div class="w-8 h-8 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-semibold text-sm">
+                  class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors">
+            <div class="pb-avatar role-{{ user.role }} w-8 h-8 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-semibold text-sm">
               {{ user.username|first|upper }}
             </div>
-            <span class="hidden sm:inline font-medium">{{ user.username }}</span>
-            <span class="hidden sm:inline text-xs text-slate-400 px-1.5 py-0.5 rounded bg-slate-100">{{ user.get_role_display }}</span>
-            <svg class="h-4 w-4 transition-transform" data-dropdown-icon fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            <span class="hidden sm:flex flex-col leading-tight items-start">
+              <span class="font-medium text-slate-900">{{ user.username }}</span>
+              <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">{{ user.get_role_display }}</span>
+            </span>
+            <svg class="h-4 w-4 transition-transform text-slate-400" data-dropdown-icon fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
           </button>
           <div data-dropdown-panel
                class="hidden absolute right-0 mt-2 w-60 bg-white border border-slate-200 rounded-xl shadow-brand py-2 text-sm origin-top-right animate-scale-in"
@@ -75,12 +192,18 @@
           </div>
         </div>
       {% else %}
+        <span class="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          {% trans "Service en ligne" %}
+        </span>
+        <span class="pb-nav-divider hidden md:block"></span>
         <a href="{% url 'accounts:login' %}" class="px-3 py-2 text-slate-700 hover:text-brand-700 hover:bg-brand-50 rounded-md transition-colors font-medium">{% trans "Connexion" %}</a>
         <a href="{% url 'accounts:register' %}" class="btn-primary btn-sm shadow-brand">{% trans "Créer un compte" %}</a>
       {% endif %}
     </div>
   </nav>
 </header>
+{% endwith %}
 
 <script>
 (function () {

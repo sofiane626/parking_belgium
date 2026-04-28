@@ -7,7 +7,7 @@ export default function Step3Summary({ eligibility, onSubmit, onPrev, submitting
     <>
       <h1 className="pbw-title">Récapitulatif</h1>
       <p className="pbw-subtitle">
-        Vérifiez le tarif avant de soumettre votre demande.
+        Vérification du tarif avant soumission.
       </p>
 
       <div className="pbw-price">
@@ -49,7 +49,7 @@ export default function Step3Summary({ eligibility, onSubmit, onPrev, submitting
 
       {eligibility.requires_manual_review && (
         <div className="pbw-notice pbw-notice-warn">
-          ⏳ Cette demande passera en revue manuelle. Vous serez notifié sous 48 h ouvrées.
+          Cette demande passera en revue manuelle. Délai indicatif : 48 h ouvrées.
         </div>
       )}
 
@@ -58,7 +58,7 @@ export default function Step3Summary({ eligibility, onSubmit, onPrev, submitting
           ← Retour
         </button>
         <button type="button" className="pbw-btn pbw-btn-primary" onClick={onSubmit} disabled={submitting}>
-          {submitting ? <><span className="pbw-spinner" style={{ width: 14, height: 14, borderWidth: 2 }}></span> Soumission…</> : 'Soumettre ma demande →'}
+          {submitting ? <><span className="pbw-spinner" style={{ width: 14, height: 14, borderWidth: 2 }}></span> Soumission…</> : 'Soumettre la demande →'}
         </button>
       </div>
     </>

@@ -23,7 +23,7 @@
   {% if issued_token %}
     <div class="mb-6 rounded-lg border border-signal-400 bg-signal-50 p-4 shadow-soft">
       <h2 class="font-semibold text-signal-700 mb-2">
-        ⚡ {% trans "Token créé pour" %} <code>{{ issued_for }}</code>
+        {% trans "Token créé pour" %} <code>{{ issued_for }}</code>
       </h2>
       <p class="text-sm text-slate-700 mb-2">
         {% trans "Copiez ce token maintenant — il ne sera plus jamais affiché en clair." %}

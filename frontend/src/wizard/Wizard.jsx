@@ -81,9 +81,9 @@ export default function Wizard(props) {
       } else if (data.next_step === 'payment') {
         setCurrentStep('payment');
       } else if (data.next_step === 'review') {
-        setError('Votre demande nécessite une revue manuelle par un agent. Vous serez notifié dans les 48 h ouvrées.');
+        setError('Cette demande passe en revue manuelle. Délai indicatif : 48 h ouvrées.');
       } else {
-        setError('Demande refusée. Vérifiez votre adresse et votre véhicule.');
+        setError('Demande refusée. Vérifiez l\'adresse et le véhicule.');
       }
     } catch (_e) {
       setError('Erreur réseau.');
@@ -113,7 +113,7 @@ export default function Wizard(props) {
       <div className="pbw-shell">
         <h1 className="pbw-title">Demande non éligible</h1>
         <p className="pbw-subtitle">
-          L'attribution automatique a été refusée pour votre adresse.
+          L'attribution automatique a été refusée pour cette adresse.
         </p>
         <div className="pbw-notice pbw-notice-error">
           {eligibility.notes.length > 0 ? eligibility.notes.join(' · ') : 'Contactez votre commune pour plus d\'informations.'}

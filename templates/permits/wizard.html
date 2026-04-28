@@ -8,13 +8,10 @@
 {% endblock %}
 
 {% block content %}
-  <div class="max-w-3xl mx-auto mb-4 flex items-center justify-between">
+  <div class="max-w-3xl mx-auto mb-4">
     <a href="{% url 'vehicles:detail' vehicle.pk %}" class="text-sm text-slate-600 hover:text-brand-700">
       ← {% trans "Retour au véhicule" %}
     </a>
-    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-brand-100 text-brand-800">
-      ⚛ {% trans "Wizard React" %}
-    </span>
   </div>
 
   {# Mount-point du bundle React. Tous les paramètres dynamiques passent par data-attributes. #}

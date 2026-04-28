@@ -7,8 +7,8 @@
 
   <header class="mb-6 flex items-end justify-between flex-wrap gap-3">
     <div>
-      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Bonjour" %}, {{ user.first_name|default:user.username }} 👋</h1>
-      <p class="text-slate-600 text-sm mt-1">{% trans "Suivez l'avancement de vos cartes de stationnement et vos démarches." %}</p>
+      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Espace personnel" %}</h1>
+      <p class="text-slate-600 text-sm mt-1">{% trans "Cartes de stationnement et démarches en cours." %}</p>
     </div>
     {% if journey.badge %}
       <span class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-full
@@ -116,12 +116,12 @@
       <a href="{% url 'permits:list' %}"
          style="padding:6px 14px; border-radius:6px; text-decoration:none;
                 background:#f1f5f9; color:#334155;">
-        🪪 {% trans "Toutes mes cartes" %}
+        {% trans "Toutes mes cartes" %}
       </a>
       <a href="{% url 'companies:list' %}"
          style="padding:6px 14px; border-radius:6px; text-decoration:none;
                 background:#f1f5f9; color:#334155;">
-        🏢 {% trans "Mes entreprises" %}
+        {% trans "Mes entreprises" %}
       </a>
     </div>
 
@@ -236,8 +236,8 @@
         <div style="width:40px; height:40px; border-radius:10px;
                     background:{% if visitor_permit %}#10b981{% else %}#e8f1fb{% endif %};
                     color:{% if visitor_permit %}#fff{% else %}#08447F{% endif %};
-                    display:flex; align-items:center; justify-content:center; font-size:18px;">
-          🎟️
+                    display:flex; align-items:center; justify-content:center; font-weight:700;">
+          V
         </div>
         <div>
           <h2 class="font-semibold text-slate-900">{% trans "Carte visiteur" %}</h2>
@@ -272,7 +272,7 @@
     {% if visitor_permit %}
       <div class="mt-3 pt-3 border-t border-emerald-200 flex items-center gap-4 text-sm flex-wrap">
         <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
-          ✓ {% trans "Active" %}
+          {% trans "Active" %}
         </span>
         {% if visitor_permit.valid_until %}
           <span class="text-xs text-slate-600">

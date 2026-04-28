@@ -5,9 +5,9 @@ export default function Step1Vehicle({ eligibility, onNext }) {
   const a = eligibility.address;
   return (
     <>
-      <h1 className="pbw-title">Vérifions vos informations</h1>
+      <h1 className="pbw-title">Informations utilisées pour la demande</h1>
       <p className="pbw-subtitle">
-        Voici le véhicule et l'adresse qui seront utilisés pour cette demande de carte riverain.
+        Véhicule et adresse de référence retenus pour cette carte riverain.
       </p>
 
       <div className="pbw-grid-2">
@@ -32,7 +32,7 @@ export default function Step1Vehicle({ eligibility, onNext }) {
       </div>
 
       <div className="pbw-notice pbw-notice-info">
-        ℹ Si l'une de ces informations est incorrecte, fermez ce wizard et corrigez-la depuis
+        En cas d'information incorrecte, fermez cette page et corrigez-la depuis
         votre espace personnel avant de revenir.
       </div>
 

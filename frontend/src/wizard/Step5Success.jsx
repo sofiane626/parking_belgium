@@ -8,10 +8,9 @@ export default function Step5Success({ eligibility, permitId, permitDetailUrlTpl
     <>
       <div style={{ textAlign: 'center' }}>
         <div className="pbw-success-icon">✓</div>
-        <h1 className="pbw-title">Carte activée !</h1>
+        <h1 className="pbw-title">Carte active</h1>
         <p className="pbw-subtitle">
-          Votre carte de stationnement riverain est désormais active. Un email de confirmation
-          vous a été envoyé.
+          La carte riverain est désormais active. Un email de confirmation a été envoyé.
         </p>
       </div>
 

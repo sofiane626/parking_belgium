@@ -24,12 +24,12 @@ export default function Step2Zone({ eligibility, polygonsGeojsonUrl, onNext, onP
     <>
       <h1 className="pbw-title">Zone d'attribution</h1>
       <p className="pbw-subtitle">
-        Voici la ou les zones où votre carte vous donnera le droit de stationner.
+        Zones autorisées pour cette carte selon l'adresse de référence.
       </p>
 
       {eligibility.requires_manual_review && (
         <div className="pbw-notice pbw-notice-warn">
-          ⚡ Votre demande nécessitera une validation manuelle par un agent (cas particulier détecté).
+          Cette demande nécessitera une validation manuelle par un agent.
         </div>
       )}
 
