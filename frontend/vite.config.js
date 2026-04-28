@@ -11,11 +11,23 @@ export default defineConfig({
     outDir: resolve(__dirname, '../static/frontend'),
     emptyOutDir: true,
     rollupOptions: {
-      input: resolve(__dirname, 'src/main.jsx'),
+      input: {
+        // Bundle séparé pour la carte (/map/) — charge react-leaflet (lourd)
+        map: resolve(__dirname, 'src/main.jsx'),
+        // Bundle séparé pour le wizard de création de carte
+        wizard: resolve(__dirname, 'src/wizard.jsx'),
+        // Bundle pour la datatable d'audit côté back-office
+        audit: resolve(__dirname, 'src/audit.jsx'),
+      },
       output: {
-        entryFileNames: 'map-bundle.js',
-        chunkFileNames: 'map-chunk.[name].js',
-        assetFileNames: 'map-bundle.[ext]',
+        // Nom prévisible : <entry>-bundle.js → map-bundle.js, wizard-bundle.js
+        entryFileNames: '[name]-bundle.js',
+        chunkFileNames: '[name]-chunk.js',
+        assetFileNames: ({ name }) => {
+          // CSS produit par chaque entry → <entry>-bundle.css
+          if (name && name.endsWith('.css')) return '[name]-bundle.css';
+          return '[name][extname]';
+        },
       },
     },
   },

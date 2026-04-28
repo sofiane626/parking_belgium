@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Demander une carte riverain" %}{% endblock %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'frontend/wizard-bundle.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-3xl mx-auto mb-4 flex items-center justify-between">
+    <a href="{% url 'vehicles:detail' vehicle.pk %}" class="text-sm text-slate-600 hover:text-brand-700">
+      ← {% trans "Retour au véhicule" %}
+    </a>
+    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-brand-100 text-brand-800">
+      ⚛ {% trans "Wizard React" %}
+    </span>
+  </div>
+
+  {# Mount-point du bundle React. Tous les paramètres dynamiques passent par data-attributes. #}
+  <div id="react-wizard-root"
+       data-vehicle-pk="{{ vehicle.pk }}"
+       data-eligibility-url="{% url 'api:permit-eligibility' vehicle.pk %}"
+       data-submit-url="{% url 'api:permit-submit' vehicle.pk %}"
+       data-payment-start-url-tpl="{% url 'payments:start' 0 %}"
+       data-permit-detail-url-tpl="{% url 'permits:detail' 0 %}"
+       data-polygons-geojson-url="{% url 'gis_data:polygons_geojson' %}"
+       data-csrf-token="{{ csrf_token }}"
+       {% if initial_permit_id %}data-initial-permit-id="{{ initial_permit_id }}"{% endif %}
+       {% if initial_step %}data-initial-step="{{ initial_step }}"{% endif %}></div>
+
+  <script>
+    // Le template Django génère les URL avec un placeholder pk=0 ; on le
+    // remplace par __PK__ dans les attributs pour que le JS puisse y injecter
+    // l'ID réel du permit créé en cours de wizard.
+    (function () {
+      var root = document.getElementById('react-wizard-root');
+      if (!root) return;
+      ['paymentStartUrlTpl', 'permitDetailUrlTpl'].forEach(function (key) {
+        if (root.dataset[key]) root.dataset[key] = root.dataset[key].replace(/\/0\//, '/__PK__/');
+      });
+    })();
+  </script>
+{% endblock %}
+
+{% block extra_body %}
+  <script type="module" src="{% static 'frontend/wizard-bundle.js' %}"></script>
+{% endblock %}

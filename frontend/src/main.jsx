@@ -1,7 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import 'leaflet/dist/leaflet.css';
-import './app.css';
+import './app.css';  // contient @import de leaflet.css
 import App from './App.jsx';
 
 const container = document.getElementById('react-map-root');

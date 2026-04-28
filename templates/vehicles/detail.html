@@ -130,14 +130,16 @@
     {% if not has_resident_permit or not has_pro_permit %}
       <section class="grid sm:grid-cols-2 gap-4 mb-4">
         {% if not has_resident_permit %}
-          <a href="{% url 'permits:create_for_vehicle' vehicle.pk %}"
+          <a href="{% url 'permits:wizard' vehicle.pk %}"
              style="display:block; padding:20px; background:#08447F; color:#fff;
                     border-radius:12px; text-decoration:none;
                     box-shadow:0 4px 6px -1px rgba(8,68,127,.3);">
             <div style="font-size:24px; margin-bottom:8px;">🪪</div>
-            <p style="font-weight:600; font-size:16px; margin:0 0 4px;">{% trans "Demander une carte riverain" %}</p>
+            <p style="font-weight:600; font-size:16px; margin:0 0 4px;">{% trans "Demander une carte riverain" %}
+              <span style="display:inline-block; margin-left:6px; padding:2px 8px; font-size:10px; font-weight:600; background:rgba(255,255,255,.2); border-radius:999px;">⚛ Wizard</span>
+            </p>
             <p style="font-size:13px; opacity:.85; margin:0;">
-              {% trans "Stationnement dans votre commune de résidence. Attribution automatique." %}
+              {% trans "Wizard guidé en 5 étapes : aperçu de votre zone, tarif et paiement." %}
             </p>
             <p style="font-size:13px; margin-top:10px; font-weight:500;">{% trans "Commencer" %} →</p>
           </a>

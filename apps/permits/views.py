@@ -49,6 +49,30 @@ def permit_detail(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 @login_required
+def permit_wizard(request: HttpRequest, vehicle_pk: int) -> HttpResponse:
+    """
+    Wizard React multi-étapes pour la création d'une carte riverain.
+
+    Le serveur ne fait QUE servir le shell HTML qui monte le bundle React.
+    Toute la logique vit dans :
+    - ``apps.api.views.PermitEligibilityView`` (lecture)
+    - ``apps.api.views.PermitSubmitView`` (création)
+    - ``apps.payments.views`` (paiement Stripe / simulation)
+
+    Si le query-string contient ``?step=success&permit_id=N``, le wizard saute
+    direct à l'étape 5 (utilisé pour le retour après Stripe Checkout).
+    """
+    vehicle = get_object_or_404(Vehicle, pk=vehicle_pk, owner=request.user)
+    initial_permit_id = request.GET.get("permit_id")
+    initial_step = request.GET.get("step")
+    return render(request, "permits/wizard.html", {
+        "vehicle": vehicle,
+        "initial_permit_id": initial_permit_id,
+        "initial_step": initial_step,
+    })
+
+
+@login_required
 def permit_create_for_vehicle(request: HttpRequest, vehicle_pk: int) -> HttpResponse:
     """
     One-shot: create a resident draft for this vehicle and immediately submit

@@ -208,7 +208,7 @@
               </td>
               <td class="py-2 text-right">
                 {% if not v.is_archived and v.pk not in busy_vehicle_ids %}
-                  <a href="{% url 'permits:create_for_vehicle' v.pk %}"
+                  <a href="{% url 'permits:wizard' v.pk %}"
                      style="display:inline-block; padding:4px 10px; margin-right:8px;
                             background:#08447F; color:#fff; border-radius:6px;
                             font-size:12px; font-weight:500; text-decoration:none;">

@@ -65,30 +65,16 @@ def _filtered_qs(request: HttpRequest):
 
 @login_required
 def admin_audit_list(request: HttpRequest) -> HttpResponse:
+    """
+    Sert le shell HTML qui monte la datatable React. Toutes les données
+    (filtres + lignes + pagination + counts) sont fournies par
+    ``apps.api.views.AuditLogListView`` et consommées côté JS.
+
+    L'export CSV (vue séparée ci-dessous) garde la logique de filtrage côté
+    serveur — le React lui passe ses query params en l'état.
+    """
     _ensure_admin(request)
-    qs = _filtered_qs(request)
-
-    paginator = Paginator(qs, 50)
-    page = paginator.get_page(request.GET.get("page"))
-
-    return render(request, "dashboard/admin_audit_list.html", {
-        "page": page,
-        "actions": AuditAction.choices,
-        "severities": AuditSeverity.choices,
-        "target_types": (
-            AuditLog.objects.exclude(target_type="")
-            .order_by("target_type").values_list("target_type", flat=True).distinct()
-        ),
-        "filters": {
-            "action": request.GET.get("action", ""),
-            "severity": request.GET.get("severity", ""),
-            "target_type": request.GET.get("target_type", ""),
-            "actor": request.GET.get("actor", ""),
-            "date_from": request.GET.get("date_from", ""),
-            "date_to": request.GET.get("date_to", ""),
-        },
-        "total_count": qs.count(),
-    })
+    return render(request, "dashboard/admin_audit_list.html")
 
 
 @login_required

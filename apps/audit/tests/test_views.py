@@ -32,25 +32,20 @@ class AuditViewTests(TestCase):
         log(AuditAction.AUTH_FAILED, actor=None,
             payload={"context": {"username": "intruder"}})
 
-    def test_admin_sees_list(self):
+    def test_admin_sees_react_mount(self):
+        # La page Django ne fait que servir le shell HTML qui monte la
+        # datatable React. Les lignes elles-mêmes arrivent via
+        # /api/v1/audit/ — couvert par apps.api.tests.test_audit_endpoint.
         self.client.force_login(self.admin)
         resp = self.client.get(reverse("dashboard:admin_audit"))
         self.assertEqual(resp.status_code, 200)
-        self.assertContains(resp, "permit_activated")
-        self.assertContains(resp, "auth_failed")
+        self.assertContains(resp, 'id="react-audit-root"')
+        self.assertContains(resp, "audit-bundle.js")
 
     def test_citizen_refused(self):
         self.client.force_login(self.citizen)
         resp = self.client.get(reverse("dashboard:admin_audit"))
         self.assertEqual(resp.status_code, 403)
-
-    def test_filter_by_severity(self):
-        self.client.force_login(self.admin)
-        resp = self.client.get(reverse("dashboard:admin_audit"), {"severity": "warning"})
-        self.assertContains(resp, "auth_failed")
-        # PERMIT_ACTIVATED est INFO → ne doit pas apparaître dans le tbody.
-        # Vérifie via le compteur total renvoyé en context.
-        self.assertEqual(resp.context["total_count"], 1)
 
     def test_csv_export(self):
         self.client.force_login(self.admin)

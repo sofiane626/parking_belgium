@@ -181,13 +181,13 @@ def compute_journey(
         j.cta_help = "Vous aurez besoin de votre certificat d'immatriculation (carte grise) au format PDF, JPG ou PNG."
     else:
         # On a profil + véhicule, plus qu'à demander la carte. On pointe
-        # directement vers la création de carte (au lieu du détail véhicule
-        # depuis lequel le citoyen devait deviner où trouver le bouton).
+        # vers le wizard React qui guide en 5 étapes (incluant l'aperçu de
+        # la zone d'attribution avant de soumettre).
         first_vehicle = active_vehicles[0]
         j.headline = "Tout est prêt — demandez votre carte de stationnement"
         j.cta_label = "Demander ma carte riverain"
-        j.cta_url = reverse("permits:create_for_vehicle", args=[first_vehicle.pk])
+        j.cta_url = reverse("permits:wizard", args=[first_vehicle.pk])
         j.cta_style = "primary"
-        j.cta_help = "L'attribution est automatique pour la plupart des adresses bruxelloises. Le tarif dépend de votre commune."
+        j.cta_help = "Wizard guidé en 5 étapes — aperçu de votre zone, tarif et paiement intégré."
 
     return j

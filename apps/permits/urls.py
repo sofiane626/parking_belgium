@@ -6,6 +6,7 @@ urlpatterns = [
     path("", views.permit_list, name="list"),
     path("<int:pk>/", views.permit_detail, name="detail"),
     path("vehicle/<int:vehicle_pk>/new/", views.permit_create_for_vehicle, name="create_for_vehicle"),
+    path("vehicle/<int:vehicle_pk>/wizard/", views.permit_wizard, name="wizard"),
     path("<int:pk>/pay/", views.permit_pay, name="pay"),
     path("<int:pk>/cancel/", views.permit_cancel, name="cancel"),
 

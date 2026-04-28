@@ -1,158 +1,35 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load static i18n %}
 
 {% block title %}{% trans "Journal d'audit" %}{% endblock %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'frontend/audit-bundle.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="max-w-7xl mx-auto">
 
-  <div class="flex items-center justify-between mb-6">
+  <div class="flex items-center justify-between mb-6 flex-wrap gap-2">
     <div>
       <h1 class="text-2xl font-semibold text-slate-900">{% trans "Journal d'audit" %}</h1>
       <p class="text-sm text-slate-500 mt-1">
-        {% blocktrans count counter=total_count %}
-          {{ counter }} entrée correspond aux filtres.
-        {% plural %}
-          {{ counter }} entrées correspondent aux filtres.
-        {% endblocktrans %}
+        {% trans "Filtres temps réel, scroll infini, payload JSON expandable. Export CSV à droite." %}
       </p>
     </div>
-    <a href="{% url 'dashboard:admin_audit_export' %}?{{ request.GET.urlencode }}"
-       class="btn-outline">
-      {% trans "Exporter CSV" %}
-    </a>
+    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-brand-100 text-brand-800">
+      ⚛ {% trans "DataTable React" %}
+    </span>
   </div>
 
-  {# Filtres #}
-  <form method="get" class="card mb-6 grid sm:grid-cols-2 lg:grid-cols-6 gap-3">
-    <div class="lg:col-span-2">
-      <label class="block text-xs text-slate-500 mb-1">{% trans "Action" %}</label>
-      <select name="action" class="input w-full">
-        <option value="">{% trans "Toutes" %}</option>
-        {% for value, label in actions %}
-          <option value="{{ value }}" {% if filters.action == value %}selected{% endif %}>{{ label }}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div>
-      <label class="block text-xs text-slate-500 mb-1">{% trans "Sévérité" %}</label>
-      <select name="severity" class="input w-full">
-        <option value="">{% trans "Toutes" %}</option>
-        {% for value, label in severities %}
-          <option value="{{ value }}" {% if filters.severity == value %}selected{% endif %}>{{ label }}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div>
-      <label class="block text-xs text-slate-500 mb-1">{% trans "Type cible" %}</label>
-      <select name="target_type" class="input w-full">
-        <option value="">{% trans "Tous" %}</option>
-        {% for tt in target_types %}
-          <option value="{{ tt }}" {% if filters.target_type == tt %}selected{% endif %}>{{ tt }}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div>
-      <label class="block text-xs text-slate-500 mb-1">{% trans "Acteur (username)" %}</label>
-      <input type="text" name="actor" value="{{ filters.actor }}" class="input w-full" placeholder="alice">
-    </div>
-    <div>
-      <label class="block text-xs text-slate-500 mb-1">{% trans "Du" %}</label>
-      <input type="date" name="date_from" value="{{ filters.date_from }}" class="input w-full">
-    </div>
-    <div>
-      <label class="block text-xs text-slate-500 mb-1">{% trans "Au" %}</label>
-      <input type="date" name="date_to" value="{{ filters.date_to }}" class="input w-full">
-    </div>
-
-    <div class="lg:col-span-6 flex justify-end gap-2">
-      <a href="{% url 'dashboard:admin_audit' %}" class="btn-ghost">{% trans "Réinitialiser" %}</a>
-      <button type="submit" class="btn-primary">{% trans "Filtrer" %}</button>
-    </div>
-  </form>
-
-  {# Tableau #}
-  <div class="bg-white border rounded-lg overflow-hidden shadow-soft">
-    <table class="w-full text-sm">
-      <thead class="bg-slate-50 text-left text-slate-500 border-b">
-        <tr>
-          <th class="px-3 py-2 font-medium">{% trans "Date" %}</th>
-          <th class="px-3 py-2 font-medium">{% trans "Sévérité" %}</th>
-          <th class="px-3 py-2 font-medium">{% trans "Action" %}</th>
-          <th class="px-3 py-2 font-medium">{% trans "Acteur" %}</th>
-          <th class="px-3 py-2 font-medium">{% trans "Cible" %}</th>
-          <th class="px-3 py-2 font-medium">{% trans "IP" %}</th>
-          <th class="px-3 py-2 font-medium">{% trans "Détails" %}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for log in page %}
-          <tr class="border-b last:border-b-0 align-top">
-            <td class="px-3 py-2 whitespace-nowrap text-xs text-slate-500">
-              {{ log.created_at|date:"d/m/Y H:i:s" }}
-            </td>
-            <td class="px-3 py-2">
-              <span class="inline-block px-2 py-0.5 text-xs rounded-full font-medium
-                {% if log.severity == 'critical' %}bg-red-100 text-red-800
-                {% elif log.severity == 'warning' %}bg-amber-100 text-amber-800
-                {% elif log.severity == 'notice' %}bg-blue-100 text-blue-800
-                {% else %}bg-slate-100 text-slate-700{% endif %}">
-                {{ log.get_severity_display }}
-              </span>
-            </td>
-            <td class="px-3 py-2 font-mono text-xs">{{ log.action }}</td>
-            <td class="px-3 py-2 text-xs">
-              {% if log.actor_id %}
-                <span class="font-medium">{{ log.actor.username }}</span>
-                {% if log.actor_role %}<span class="text-slate-400">· {{ log.actor_role }}</span>{% endif %}
-              {% else %}
-                <span class="text-slate-400 italic">{% trans "système" %}</span>
-              {% endif %}
-            </td>
-            <td class="px-3 py-2 text-xs">
-              {% if log.target_type %}
-                <span class="text-slate-600">{{ log.target_type }}{% if log.target_id %} #{{ log.target_id }}{% endif %}</span>
-                {% if log.target_label %}<div class="text-slate-400 truncate max-w-xs">{{ log.target_label }}</div>{% endif %}
-              {% else %}
-                <span class="text-slate-300">—</span>
-              {% endif %}
-            </td>
-            <td class="px-3 py-2 text-xs font-mono text-slate-500">{{ log.ip|default:"—" }}</td>
-            <td class="px-3 py-2">
-              {% if log.payload %}
-                <details class="text-xs">
-                  <summary class="cursor-pointer text-brand-700 hover:underline">{% trans "Voir" %}</summary>
-                  <pre class="mt-2 p-2 bg-slate-50 rounded border text-xs overflow-x-auto">{{ log.payload|safe }}</pre>
-                </details>
-              {% else %}
-                <span class="text-slate-300">—</span>
-              {% endif %}
-            </td>
-          </tr>
-        {% empty %}
-          <tr><td colspan="7" class="px-4 py-6 text-center text-slate-500 italic">
-            {% trans "Aucune entrée correspondant aux filtres." %}
-          </td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
-  {% if page.paginator.num_pages > 1 %}
-    <div class="mt-4 flex items-center justify-between text-sm text-slate-600">
-      <span>{% blocktrans with current=page.number total=page.paginator.num_pages %}Page {{ current }}/{{ total }}{% endblocktrans %}</span>
-      <div class="flex gap-2">
-        {% if page.has_previous %}
-          <a href="?{% for k, v in filters.items %}{% if v %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page.previous_page_number }}"
-             class="px-2 py-1 border rounded">←</a>
-        {% endif %}
-        {% if page.has_next %}
-          <a href="?{% for k, v in filters.items %}{% if v %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page.next_page_number }}"
-             class="px-2 py-1 border rounded">→</a>
-        {% endif %}
-      </div>
-    </div>
-  {% endif %}
+  {# Mount-point du bundle React audit. #}
+  <div id="react-audit-root"
+       data-api-url="{% url 'api:audit-list' %}"
+       data-export-url="{% url 'dashboard:admin_audit_export' %}"></div>
 
 </div>
+{% endblock %}
+
+{% block extra_body %}
+  <script type="module" src="{% static 'frontend/audit-bundle.js' %}"></script>
 {% endblock %}

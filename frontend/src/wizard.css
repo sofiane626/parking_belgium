@@ -1,0 +1,323 @@
+@import 'leaflet/dist/leaflet.css';
+
+/* Wizard de création de carte riverain — styles indépendants. */
+
+.pbw-shell {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(8, 68, 127, 0.08);
+  padding: 32px;
+}
+
+@media (max-width: 640px) {
+  .pbw-shell { padding: 20px; border-radius: 8px; }
+}
+
+/* ── Stepper ─────────────────────────────────────────────── */
+
+.pbw-stepper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  gap: 4px;
+}
+
+.pbw-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  font-size: 12px;
+}
+
+.pbw-step + .pbw-step::before {
+  content: "";
+  position: absolute;
+  left: -50%;
+  right: 50%;
+  top: 16px;
+  height: 2px;
+  background: #e2e8f0;
+  z-index: 0;
+}
+
+.pbw-step.is-done + .pbw-step::before,
+.pbw-step.is-current::before { background: #08447F; }
+
+.pbw-bullet {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  background: #f1f5f9;
+  color: #94a3b8;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.pbw-step.is-done .pbw-bullet {
+  background: #08447F;
+  color: #fff;
+  border-color: #08447F;
+}
+
+.pbw-step.is-current .pbw-bullet {
+  background: #FFCD00;
+  color: #08447F;
+  border-color: #FFCD00;
+  box-shadow: 0 0 0 4px rgba(255, 205, 0, 0.25);
+  transform: scale(1.1);
+}
+
+.pbw-step-label {
+  margin-top: 6px;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.pbw-step.is-current .pbw-step-label,
+.pbw-step.is-done .pbw-step-label { color: #08447F; font-weight: 500; }
+
+/* ── Step content (animé entre étapes) ──────────────────── */
+
+.pbw-step-content {
+  animation: pbw-fade-in 0.35s ease;
+}
+
+@keyframes pbw-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pbw-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 6px;
+}
+
+.pbw-subtitle {
+  color: #64748b;
+  margin: 0 0 20px;
+  font-size: 14px;
+}
+
+/* ── Cartes d'information ───────────────────────────────── */
+
+.pbw-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  background: #f8fafc;
+  margin-bottom: 12px;
+}
+
+.pbw-card.is-highlight {
+  background: linear-gradient(135deg, #08447F 0%, #2375C0 100%);
+  color: #fff;
+  border-color: transparent;
+}
+
+.pbw-card-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  margin: 0 0 4px;
+}
+
+.pbw-card.is-highlight .pbw-card-label { color: rgba(255, 255, 255, 0.7); }
+
+.pbw-card-value {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #0f172a;
+}
+
+.pbw-card.is-highlight .pbw-card-value { color: #fff; }
+
+.pbw-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pbw-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+@media (max-width: 640px) {
+  .pbw-grid-2, .pbw-grid-3 { grid-template-columns: 1fr; }
+}
+
+.pbw-zone-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  margin: 2px 4px 2px 0;
+}
+
+/* ── Mini-carte (étape 2) ───────────────────────────────── */
+
+.pbw-mini-map {
+  height: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  margin: 16px 0;
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+}
+
+.pbw-mini-map .leaflet-container {
+  height: 280px;
+  border-radius: 12px;
+}
+
+/* ── Pricing ───────────────────────────────────────────── */
+
+.pbw-price {
+  text-align: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #FFCD00 0%, #FFA500 100%);
+  border-radius: 16px;
+  color: #08447F;
+  margin: 16px 0;
+}
+
+.pbw-price-amount {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.pbw-price-currency {
+  font-size: 24px;
+  margin-left: 4px;
+}
+
+.pbw-price-detail {
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* ── Boutons ───────────────────────────────────────────── */
+
+.pbw-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pbw-actions-end { justify-content: flex-end; }
+
+.pbw-btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pbw-btn:hover:not(:disabled) { transform: translateY(-1px); }
+
+.pbw-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pbw-btn-primary { background: #08447F; color: #fff; }
+.pbw-btn-primary:hover:not(:disabled) { background: #06335F; }
+
+.pbw-btn-signal { background: #FFCD00; color: #08447F; font-weight: 600; }
+.pbw-btn-signal:hover:not(:disabled) { background: #FFA500; }
+
+.pbw-btn-ghost { background: #f1f5f9; color: #475569; }
+.pbw-btn-ghost:hover:not(:disabled) { background: #e2e8f0; }
+
+.pbw-btn-outline { background: #fff; color: #08447F; border: 1px solid #2375C0; }
+.pbw-btn-outline:hover:not(:disabled) { background: #f0f7ff; }
+
+/* ── Loader / states ───────────────────────────────────── */
+
+.pbw-loading,
+.pbw-error {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+}
+
+.pbw-error {
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 12px;
+}
+
+.pbw-spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #08447F;
+  border-radius: 50%;
+  animation: pbw-spin 0.7s linear infinite;
+}
+
+@keyframes pbw-spin { to { transform: rotate(360deg); } }
+
+/* ── Succès ────────────────────────────────────────────── */
+
+.pbw-success-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  background: #10b981;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 700;
+  animation: pbw-pop 0.4s ease;
+}
+
+@keyframes pbw-pop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* ── Avertissements ────────────────────────────────────── */
+
+.pbw-notice {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+.pbw-notice-warn { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+.pbw-notice-info { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+.pbw-notice-error { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
