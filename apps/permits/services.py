@@ -590,6 +590,23 @@ def create_professional_permit(citizen, vehicle, company, target_commune) -> Per
     return permit
 
 
+def _sync_snapshot_from_zones(permit: Permit) -> None:
+    """
+    Resynchronise ``permit.attribution_snapshot`` (``main_zone`` +
+    ``additional_zones``) avec les ``PermitZone`` réelles. Indispensable après
+    un ajout/retrait/modification manuelle pour que les vues qui lisent le
+    snapshot (détail citoyen "Détail de l'attribution", emails, etc.) ne
+    montrent pas un état périmé.
+    """
+    snap = dict(permit.attribution_snapshot or {})
+    zones = list(PermitZone.objects.filter(permit=permit))
+    main = next((z for z in zones if z.is_main), None)
+    snap["main_zone"] = main.zone_code if main else None
+    snap["additional_zones"] = [z.zone_code for z in zones if not z.is_main]
+    permit.attribution_snapshot = snap
+    permit.save(update_fields=["attribution_snapshot", "updated_at"])
+
+
 @transaction.atomic
 def add_manual_zone(permit: Permit, *, zone_code: str, is_main: bool = False) -> PermitZone:
     """Agent-only: add an explicit zone to a permit (used during pro review)."""
@@ -600,15 +617,19 @@ def add_manual_zone(permit: Permit, *, zone_code: str, is_main: bool = False) ->
         raise PermitError("Zone déjà attribuée.")
     if is_main and PermitZone.objects.filter(permit=permit, is_main=True).exists():
         raise PermitError("Une zone principale existe déjà.")
-    return PermitZone.objects.create(
+    pz = PermitZone.objects.create(
         permit=permit, zone_code=zone_code, is_main=is_main, source=ZoneSource.MANUAL,
     )
+    _sync_snapshot_from_zones(permit)
+    return pz
 
 
 @transaction.atomic
 def remove_zone(zone: PermitZone) -> None:
     """Agent-only zone removal — works on any source (the agent owns the final scope)."""
+    permit = zone.permit
     zone.delete()
+    _sync_snapshot_from_zones(permit)
 
 
 # Kept as alias for backwards-compat in older callers/tests.
@@ -690,6 +711,7 @@ def set_main_zone_code(permit: Permit, *, zone_code: str, agent) -> PermitZone:
             AuditAction.PERMIT_APPROVED, actor=agent, target=permit, severity="notice",
             payload={"diff": {"main_zone_code": [None, zone_code]}},
         )
+        _sync_snapshot_from_zones(permit)
         return new_main
     if main.zone_code == zone_code:
         return main
@@ -708,6 +730,7 @@ def set_main_zone_code(permit: Permit, *, zone_code: str, agent) -> PermitZone:
         AuditAction.PERMIT_APPROVED, actor=agent, target=permit, severity="notice",
         payload={"diff": {"main_zone_code": [old_code, zone_code]}},
     )
+    _sync_snapshot_from_zones(permit)
     return main
 
 

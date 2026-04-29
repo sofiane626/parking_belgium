@@ -430,12 +430,32 @@ def agent_permit_detail(request: HttpRequest, pk: int) -> HttpResponse:
         permit.visitor_codes.all().order_by("-created_at")
         if permit.permit_type == PermitType.VISITOR else []
     )
+    # Liste des zonecodes existants sur la version GIS active — alimente les
+    # selects "Code de la zone principale" et "Ajouter une zone secondaire"
+    # pour empêcher la saisie d'un code orphelin (qui ne correspondrait à
+    # aucun polygone et ne serait donc pas visible côté citoyen).
+    available_zones = list(
+        GISPolygon.objects
+        .filter(version__is_active=True)
+        .order_by("commune__name_fr", "zonecode")
+        .values_list("zonecode", "commune__name_fr")
+        .distinct()
+    )
+    # Si la zone principale courante n'est plus dans le GIS actif (cas edge :
+    # V2 importée qui retire un zonecode), on l'inclut quand même pour ne pas
+    # casser l'UI. Idem pour les zones secondaires existantes.
+    existing_codes = {z.zone_code for z in zones}
+    known_codes = {code for code, _ in available_zones}
+    for orphan in existing_codes - known_codes:
+        available_zones.append((orphan, "(zone orpheline)"))
     return render(
         request,
         "dashboard/agent_permit_detail.html",
         {
             "permit": permit, "zones": zones, "main_zone": main_zone,
             "visitor_codes": visitor_codes,
+            "available_zones": available_zones,
+            "existing_codes": existing_codes,
             "form": AgentDecisionForm(),
         },
     )
@@ -490,7 +510,7 @@ def agent_permit_remove_zone(request: HttpRequest, pk: int, zone_pk: int) -> Htt
         return HttpResponseNotAllowed(["POST"])
     zone = get_object_or_404(PermitZone, pk=zone_pk, permit_id=pk)
     try:
-        remove_manual_zone(zone)
+        remove_zone(zone)
         messages.success(request, _("Zone retirée."))
     except PermitError as exc:
         messages.error(request, str(exc))

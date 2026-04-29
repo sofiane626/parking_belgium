@@ -76,16 +76,20 @@
           </button>
         </form>
 
-        {# Code de la zone principale #}
+        {# Code de la zone principale — select alimenté par les polygones GIS actifs #}
         <form method="post" action="{% url 'dashboard:agent_permit_edit_main_zone' permit.pk %}"
               class="mt-3 pt-3 border-t border-amber-100 flex items-end gap-3 flex-wrap">
           {% csrf_token %}
-          <div class="flex-1 min-w-[180px]">
+          <div class="flex-1 min-w-[220px]">
             <label class="block text-xs text-slate-500 mb-1">{% trans "Code de la zone principale" %}</label>
-            <input type="text" name="zone_code" required
-                   value="{{ main_zone.zone_code|default:'' }}"
-                   placeholder="ex: ANDR_6Centre"
-                   class="w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-mono">
+            <select name="zone_code" required
+                    class="w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-mono">
+              {% for code, commune_name in available_zones %}
+                <option value="{{ code }}" {% if main_zone.zone_code == code %}selected{% endif %}>
+                  {{ code }}{% if commune_name %} — {{ commune_name }}{% endif %}
+                </option>
+              {% endfor %}
+            </select>
           </div>
           <button class="px-3 py-1.5 text-sm bg-amber-600 text-white rounded-md hover:bg-amber-700">
             {% trans "Mettre à jour la zone" %}
@@ -125,16 +129,27 @@
           <form method="post" action="{% url 'dashboard:agent_permit_add_zone' permit.pk %}"
                 class="flex items-end gap-2 flex-wrap">
             {% csrf_token %}
-            <div class="flex-1 min-w-[180px]">
+            <div class="flex-1 min-w-[220px]">
               <label class="block text-xs text-slate-500 mb-1">{% trans "Ajouter une zone secondaire" %}</label>
-              <input type="text" name="zone_code" required
-                     placeholder="ex: SCH_4A"
-                     class="w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-mono">
+              <select name="zone_code" required
+                      class="w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-mono">
+                <option value="">{% trans "— Choisir une zone —" %}</option>
+                {% for code, commune_name in available_zones %}
+                  {% if code not in existing_codes %}
+                    <option value="{{ code }}">
+                      {{ code }}{% if commune_name %} — {{ commune_name }}{% endif %}
+                    </option>
+                  {% endif %}
+                {% endfor %}
+              </select>
             </div>
             <button class="px-3 py-1.5 text-sm bg-amber-600 text-white rounded-md hover:bg-amber-700">
               + {% trans "Ajouter" %}
             </button>
           </form>
+          <p class="text-xs text-slate-500 mt-2 italic">
+            {% trans "Seuls les codes correspondant à un polygone GIS de la version active sont proposés. Cette liste se met à jour à chaque rechargement de la page." %}
+          </p>
         </div>
 
         {# Suspendre (si ACTIVE) ou Réactiver (si SUSPENDED) #}
@@ -248,10 +263,19 @@
 
         <form method="post" action="{% url 'dashboard:agent_permit_add_zone' permit.pk %}" class="mt-3 flex gap-2 items-end flex-wrap">
           {% csrf_token %}
-          <div class="flex-1 min-w-[180px]">
+          <div class="flex-1 min-w-[220px]">
             <label class="block text-xs text-slate-500">{% trans "Zonecode" %}</label>
-            <input name="zone_code" required placeholder="ex: ANDR_6Centre"
-                   class="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm">
+            <select name="zone_code" required
+                    class="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-mono">
+              <option value="">{% trans "— Choisir une zone —" %}</option>
+              {% for code, commune_name in available_zones %}
+                {% if code not in existing_codes %}
+                  <option value="{{ code }}">
+                    {{ code }}{% if commune_name %} — {{ commune_name }}{% endif %}
+                  </option>
+                {% endif %}
+              {% endfor %}
+            </select>
           </div>
           <label class="text-sm flex items-center gap-1">
             <input type="checkbox" name="is_main" value="1"> {% trans "principale" %}
