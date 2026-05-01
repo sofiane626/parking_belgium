@@ -372,56 +372,52 @@
   </div>
 </section>
 
-{# TÉMOIGNAGES #}
-<section class="section bg-white -mx-4 sm:-mx-6 px-4 sm:px-6 rounded-3xl">
-  <div class="container-wide">
-    <div class="text-center mb-14 reveal">
-      <p class="text-xs uppercase tracking-widest text-brand-600 font-semibold mb-2">{% trans "Ils nous font confiance" %}</p>
-      <h2 class="text-3xl sm:text-5xl font-bold text-slate-900">{% trans "Une expérience repensée" %}</h2>
-    </div>
+{# SPLASH visuel minimaliste — photo Bruxelles, slogan, CTAs. Aucune liste, aucune card. #}
+<section style="position:relative; margin:48px -1rem; min-height:520px;
+                border-radius:24px; overflow:hidden;
+                background:#0f172a;" class="reveal">
+  <img src="{% static 'img/brussels/grand-place.png' %}"
+       alt="Bruxelles"
+       style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.55;">
+  {# Voile sombre directionnel pour la lisibilité du texte. #}
+  <div style="position:absolute; inset:0;
+              background:linear-gradient(120deg, rgba(8,68,127,0.85) 0%, rgba(15,23,42,0.6) 60%, rgba(15,23,42,0.3) 100%);"></div>
 
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="card p-6 reveal" style="transition-delay:0ms">
-        <div class="flex gap-1 text-signal-400 mb-3">★★★★★</div>
-        <p class="text-slate-700 leading-relaxed italic">
-          « {% trans "J'ai obtenu ma carte riverain en 5 minutes, depuis mon canapé. Plus besoin de me déplacer en mairie ni d'attendre 3 semaines." %} »
-        </p>
-        <div class="mt-4 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-brand-100 text-brand-700 font-semibold flex items-center justify-center">M</div>
-          <div>
-            <div class="font-semibold text-slate-900 text-sm">Marie L.</div>
-            <div class="text-xs text-slate-500">{% trans "Schaerbeek · Riveraine" %}</div>
-          </div>
-        </div>
-      </div>
+  <div style="position:relative; z-index:1; max-width:1100px; margin:0 auto;
+              padding:80px 32px; text-align:center; color:#fff;">
+    <p style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+              color:#FFCD00; font-weight:700; margin:0 0 16px;">
+      {% trans "Région de Bruxelles-Capitale" %}
+    </p>
+    <h2 style="font-size:clamp(2.5rem, 6vw, 4.5rem); font-weight:700;
+               line-height:1.05; margin:0 0 20px;
+               text-shadow:0 4px 20px rgba(0,0,0,0.4);">
+      {% trans "Bruxelles," %}
+      <span style="color:#FFCD00;">{% trans "simplifiée." %}</span>
+    </h2>
+    <p style="font-size:18px; max-width:640px; margin:0 auto 36px;
+              color:rgba(255,255,255,0.92); line-height:1.5;">
+      {% trans "Une plateforme. 19 communes. Aucun guichet." %}
+    </p>
 
-      <div class="card p-6 reveal" style="transition-delay:100ms">
-        <div class="flex gap-1 text-signal-400 mb-3">★★★★★</div>
-        <p class="text-slate-700 leading-relaxed italic">
-          « {% trans "En tant qu'artisan, ma carte pro me permet de circuler librement dans Ixelles pour mes interventions. Plus jamais d'amende." %} »
-        </p>
-        <div class="mt-4 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-signal-100 text-signal-700 font-semibold flex items-center justify-center">A</div>
-          <div>
-            <div class="font-semibold text-slate-900 text-sm">Ahmed K.</div>
-            <div class="text-xs text-slate-500">{% trans "Ixelles · Artisan" %}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card p-6 reveal" style="transition-delay:200ms">
-        <div class="flex gap-1 text-signal-400 mb-3">★★★★★</div>
-        <p class="text-slate-700 leading-relaxed italic">
-          « {% trans "Les codes visiteurs sont magiques : je les envoie à ma famille avant qu'elle vienne. Tellement plus simple que les anciennes vignettes papier." %} »
-        </p>
-        <div class="mt-4 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-accent-100 text-accent-700 font-semibold flex items-center justify-center">S</div>
-          <div>
-            <div class="font-semibold text-slate-900 text-sm">Sophie D.</div>
-            <div class="text-xs text-slate-500">{% trans "Uccle · Riveraine" %}</div>
-          </div>
-        </div>
-      </div>
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <a href="{% url 'accounts:register' %}"
+         style="display:inline-flex; align-items:center; gap:8px;
+                padding:14px 28px; border-radius:10px;
+                background:#FFCD00; color:#08447F; font-weight:600; font-size:15px;
+                text-decoration:none;
+                box-shadow:0 10px 25px -5px rgba(255,205,0,0.4);">
+        {% trans "Créer un compte" %}
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+      </a>
+      <a href="{% url 'gis_data:map' %}"
+         style="display:inline-flex; align-items:center; gap:8px;
+                padding:14px 28px; border-radius:10px;
+                background:rgba(255,255,255,0.12); color:#fff; font-weight:500; font-size:15px;
+                text-decoration:none; backdrop-filter:blur(8px);
+                border:1px solid rgba(255,255,255,0.2);">
+        {% trans "Voir la carte des zones" %}
+      </a>
     </div>
   </div>
 </section>
@@ -482,43 +478,5 @@
   </div>
 </section>
 
-{# CTA FINAL — Grand Place en background #}
-<section class="section">
-  <div class="container-narrow reveal">
-    <div class="relative overflow-hidden rounded-3xl shadow-brand-lg bg-slate-900">
-      <img src="{% static 'img/brussels/grand-place.png' %}"
-           alt="Grand-Place de Bruxelles au coucher du soleil"
-           class="absolute inset-0 w-full h-full object-cover">
-      <div class="absolute inset-0 bg-gradient-to-br from-brand-950/90 via-brand-900/70 to-brand-800/50"></div>
-
-      <div class="relative p-10 sm:p-16 text-white text-center">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-semibold mb-6">
-          <span class="w-2 h-2 rounded-full bg-signal-400 animate-pulse"></span>
-          {% trans "Inscription en 2 minutes" %}
-        </div>
-        <h2 class="text-3xl sm:text-5xl font-bold leading-tight">{% trans "Prêt à demander" %}<br>{% trans "votre carte ?" %}</h2>
-        <p class="mt-4 text-brand-100 max-w-xl mx-auto text-lg">
-          {% trans "Carte active dès paiement. Aucune démarche en mairie." %}
-        </p>
-        {% if not user.is_authenticated %}
-          <div class="mt-8 flex justify-center gap-3 flex-wrap">
-            <a href="{% url 'accounts:register' %}" class="bg-white text-brand-700 hover:bg-brand-50 px-7 py-3.5 rounded-xl font-semibold transition-all hover:-translate-y-0.5 shadow-2xl">
-              {% trans "Créer mon compte" %} →
-            </a>
-            <a href="{% url 'accounts:login' %}" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-7 py-3.5 rounded-xl font-semibold transition-all backdrop-blur">
-              {% trans "Se connecter" %}
-            </a>
-          </div>
-        {% else %}
-          <div class="mt-8">
-            <a href="{% url 'core:post_login_redirect' %}" class="bg-white text-brand-700 hover:bg-brand-50 px-7 py-3.5 rounded-xl font-semibold transition-all hover:-translate-y-0.5 shadow-2xl">
-              {% trans "Aller à mon espace" %} →
-            </a>
-          </div>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-</section>
 
 {% endblock %}
