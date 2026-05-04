@@ -3,15 +3,56 @@
 
 {% block title %}{% trans "Espace citoyen" %}{% endblock %}
 
+{% block extra_head %}
+<style>
+  /* Stepper compact sur mobile (5 étapes en 375px). */
+  .pbc-stepper-bullet { width: 28px; height: 28px; font-size: 13px; }
+  .pbc-stepper-label { font-size: 10px; }
+  .pbc-stepper-line { top: 14px; }
+  @media (min-width: 640px) {
+    .pbc-stepper-bullet { width: 36px; height: 36px; font-size: 14px; }
+    .pbc-stepper-label  { font-size: 12px; }
+    .pbc-stepper-line   { top: 18px; }
+  }
+  /* Cards d'item (véhicule/permit) — empilent en mobile, alignent en grille en desktop. */
+  .pbc-row {
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 14px; border-bottom: 1px solid #f1f5f9;
+  }
+  .pbc-row:last-child { border-bottom: none; }
+  .pbc-row-meta {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 6px 12px; font-size: 12px; color: #64748b;
+  }
+  .pbc-row-meta strong { color: #0f172a; font-weight: 500; }
+  .pbc-row-actions {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 4px;
+  }
+  @media (min-width: 768px) {
+    .pbc-row {
+      flex-direction: row; align-items: center;
+      gap: 16px; padding: 12px 16px;
+    }
+    .pbc-row-meta { flex: 1; gap: 16px; }
+    .pbc-row-actions { margin-top: 0; }
+  }
+  /* Padding adaptatif pour les sections principales. */
+  .pbc-section { padding: 16px; }
+  @media (min-width: 640px) { .pbc-section { padding: 20px; } }
+  @media (min-width: 768px) { .pbc-section { padding: 24px; } }
+</style>
+{% endblock %}
+
 {% block content %}
 
-  <header class="mb-6 flex items-end justify-between flex-wrap gap-3">
+  <header class="mb-5 sm:mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 sm:gap-3">
     <div>
-      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Espace personnel" %}</h1>
+      <h1 class="text-xl sm:text-2xl font-semibold text-slate-900">{% trans "Espace personnel" %}</h1>
       <p class="text-slate-600 text-sm mt-1">{% trans "Cartes de stationnement et démarches en cours." %}</p>
     </div>
     {% if journey.badge %}
-      <span class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-full
+      <span class="self-start inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-full
         {% if journey.badge_color == 'red' %}bg-red-100 text-red-800 border border-red-200
         {% elif journey.badge_color == 'signal' %}bg-amber-100 text-amber-800 border border-amber-200
         {% elif journey.badge_color == 'emerald' %}bg-emerald-100 text-emerald-800 border border-emerald-200
@@ -22,50 +63,49 @@
     {% endif %}
   </header>
 
-  {# Parcours guidé : stepper + CTA contextuel (CSS inline pour fiabilité). #}
-  <section style="background:#fff; border:1px solid #e2e8f0; border-radius:12px;
-                  box-shadow:0 4px 6px -1px rgba(8,68,127,.08); padding:24px; margin-bottom:24px;">
+  {# Parcours guidé : stepper + CTA contextuel. #}
+  <section class="pbc-section bg-white border border-slate-200 rounded-xl shadow-soft mb-5">
 
-    {# Stepper visuel #}
+    {# Stepper visuel (compact en mobile). #}
     <ol style="display:flex; align-items:flex-start; justify-content:space-between;
-               gap:8px; margin:0 0 24px; padding:0; list-style:none;">
+               gap:4px; margin:0 0 20px; padding:0; list-style:none;">
       {% for step in journey.steps %}
         <li style="flex:1; display:flex; flex-direction:column; align-items:center; position:relative;">
           {% if not forloop.first %}
             {% if step.state == 'done' or step.state == 'current' %}
-              <span style="position:absolute; top:18px; right:50%; width:100%; height:2px; background:#08447F;"></span>
+              <span class="pbc-stepper-line" style="position:absolute; right:50%; width:100%; height:2px; background:#08447F;"></span>
             {% else %}
-              <span style="position:absolute; top:18px; right:50%; width:100%; height:2px; background:#e2e8f0;"></span>
+              <span class="pbc-stepper-line" style="position:absolute; right:50%; width:100%; height:2px; background:#e2e8f0;"></span>
             {% endif %}
           {% endif %}
           {% if step.state == 'done' %}
-            <div style="position:relative; z-index:1; width:36px; height:36px; border-radius:50%;
+            <div class="pbc-stepper-bullet" style="position:relative; z-index:1; border-radius:50%;
                         display:flex; align-items:center; justify-content:center;
-                        background:#08447F; color:#fff; font-weight:600; font-size:14px;
+                        background:#08447F; color:#fff; font-weight:600;
                         box-shadow:0 4px 6px -1px rgba(8,68,127,.3);">✓</div>
           {% elif step.state == 'current' %}
-            <div style="position:relative; z-index:1; width:36px; height:36px; border-radius:50%;
+            <div class="pbc-stepper-bullet" style="position:relative; z-index:1; border-radius:50%;
                         display:flex; align-items:center; justify-content:center;
-                        background:#FFCD00; color:#08447F; font-weight:700; font-size:14px;
-                        box-shadow:0 0 0 4px rgba(255,205,0,.25);">{{ step.icon }}</div>
+                        background:#FFCD00; color:#08447F; font-weight:700;
+                        box-shadow:0 0 0 3px rgba(255,205,0,.25);">{{ step.icon }}</div>
           {% elif step.state == 'blocked' %}
-            <div style="position:relative; z-index:1; width:36px; height:36px; border-radius:50%;
+            <div class="pbc-stepper-bullet" style="position:relative; z-index:1; border-radius:50%;
                         display:flex; align-items:center; justify-content:center;
-                        background:#dc2626; color:#fff; font-weight:600; font-size:14px;">!</div>
+                        background:#dc2626; color:#fff; font-weight:600;">!</div>
           {% else %}
-            <div style="position:relative; z-index:1; width:36px; height:36px; border-radius:50%;
+            <div class="pbc-stepper-bullet" style="position:relative; z-index:1; border-radius:50%;
                         display:flex; align-items:center; justify-content:center;
-                        background:#f1f5f9; color:#94a3b8; font-weight:600; font-size:14px;
+                        background:#f1f5f9; color:#94a3b8; font-weight:600;
                         border:1px solid #e2e8f0;">{{ step.icon }}</div>
           {% endif %}
           {% if step.state == 'done' %}
-            <span style="margin-top:8px; font-size:12px; text-align:center; color:#08447F; font-weight:500;">{{ step.label }}</span>
+            <span class="pbc-stepper-label" style="margin-top:6px; text-align:center; color:#08447F; font-weight:500; line-height:1.2;">{{ step.label }}</span>
           {% elif step.state == 'current' %}
-            <span style="margin-top:8px; font-size:12px; text-align:center; color:#0f172a; font-weight:600;">{{ step.label }}</span>
+            <span class="pbc-stepper-label" style="margin-top:6px; text-align:center; color:#0f172a; font-weight:600; line-height:1.2;">{{ step.label }}</span>
           {% elif step.state == 'blocked' %}
-            <span style="margin-top:8px; font-size:12px; text-align:center; color:#b91c1c; font-weight:500;">{{ step.label }}</span>
+            <span class="pbc-stepper-label" style="margin-top:6px; text-align:center; color:#b91c1c; font-weight:500; line-height:1.2;">{{ step.label }}</span>
           {% else %}
-            <span style="margin-top:8px; font-size:12px; text-align:center; color:#94a3b8;">{{ step.label }}</span>
+            <span class="pbc-stepper-label" style="margin-top:6px; text-align:center; color:#94a3b8; line-height:1.2;">{{ step.label }}</span>
           {% endif %}
         </li>
       {% endfor %}
@@ -73,14 +113,15 @@
 
     {# Headline + CTA #}
     <div style="text-align:center; padding-top:16px; border-top:1px solid #f1f5f9;">
-      <p style="font-size:18px; font-weight:600; color:#0f172a; margin:0 0 8px;">{{ journey.headline }}</p>
+      <p class="text-base sm:text-lg" style="font-weight:600; color:#0f172a; margin:0 0 6px;">{{ journey.headline }}</p>
       {% if journey.cta_help %}
-        <p style="font-size:14px; color:#64748b; margin:0 auto 16px; max-width:36rem;">{{ journey.cta_help }}</p>
+        <p class="text-xs sm:text-sm" style="color:#64748b; margin:0 auto 14px; max-width:36rem;">{{ journey.cta_help }}</p>
       {% endif %}
       {% if journey.cta_url %}
         {% if journey.cta_style == 'signal' %}
           <a href="{{ journey.cta_url }}"
-             style="display:inline-flex; align-items:center; gap:8px; padding:10px 20px;
+             style="display:inline-flex; align-items:center; justify-content:center; gap:8px;
+                    padding:12px 20px; width:100%; max-width:320px;
                     border-radius:8px; font-weight:500; font-size:15px; text-decoration:none;
                     background:#FFCD00; color:#08447F;
                     box-shadow:0 4px 6px -1px rgba(0,0,0,.1);">
@@ -88,14 +129,16 @@
           </a>
         {% elif journey.cta_style == 'outline' %}
           <a href="{{ journey.cta_url }}"
-             style="display:inline-flex; align-items:center; gap:8px; padding:10px 20px;
+             style="display:inline-flex; align-items:center; justify-content:center; gap:8px;
+                    padding:12px 20px; width:100%; max-width:320px;
                     border-radius:8px; font-weight:500; font-size:15px; text-decoration:none;
                     background:#fff; color:#08447F; border:1px solid #2375C0;">
             {{ journey.cta_label }} →
           </a>
         {% else %}
           <a href="{{ journey.cta_url }}"
-             style="display:inline-flex; align-items:center; gap:8px; padding:10px 20px;
+             style="display:inline-flex; align-items:center; justify-content:center; gap:8px;
+                    padding:12px 20px; width:100%; max-width:320px;
                     border-radius:8px; font-weight:500; font-size:15px; text-decoration:none;
                     background:#08447F; color:#fff;
                     box-shadow:0 4px 6px -1px rgba(8,68,127,.3);">
@@ -106,20 +149,20 @@
     </div>
 
     {# Raccourcis toujours accessibles. #}
-    <div style="margin-top:20px; padding-top:16px; border-top:1px solid #f1f5f9;
-                display:flex; flex-wrap:wrap; gap:8px; justify-content:center; font-size:13px;">
+    <div style="margin-top:16px; padding-top:14px; border-top:1px solid #f1f5f9;
+                display:flex; flex-wrap:wrap; gap:6px; justify-content:center; font-size:12px;">
       <a href="{% url 'vehicles:create' %}"
-         style="padding:6px 14px; border-radius:6px; text-decoration:none;
+         style="padding:6px 12px; border-radius:6px; text-decoration:none;
                 background:#f1f5f9; color:#334155;">
-        + {% trans "Ajouter un véhicule" %}
+        + {% trans "Véhicule" %}
       </a>
       <a href="{% url 'permits:list' %}"
-         style="padding:6px 14px; border-radius:6px; text-decoration:none;
+         style="padding:6px 12px; border-radius:6px; text-decoration:none;
                 background:#f1f5f9; color:#334155;">
-        {% trans "Toutes mes cartes" %}
+        {% trans "Mes cartes" %}
       </a>
       <a href="{% url 'companies:list' %}"
-         style="padding:6px 14px; border-radius:6px; text-decoration:none;
+         style="padding:6px 12px; border-radius:6px; text-decoration:none;
                 background:#f1f5f9; color:#334155;">
         {% trans "Mes entreprises" %}
       </a>
@@ -127,33 +170,32 @@
 
   </section>
 
-  {# ────────────── DÉTAILS — Profil / Adresse / Véhicules / Cartes ────────────── #}
-
-  <div class="grid md:grid-cols-2 gap-4">
-    <section class="rounded-lg bg-white border p-5">
+  {# ─── PROFIL + ADRESSE ─── #}
+  <div class="grid sm:grid-cols-2 gap-4">
+    <section class="pbc-section bg-white border border-slate-200 rounded-xl">
       <div class="flex items-center justify-between">
         <h2 class="font-semibold text-slate-900">{% trans "Profil" %}</h2>
         <a href="{% url 'citizens:profile_edit' %}" class="text-sm text-brand-700 hover:underline">{% trans "Modifier" %}</a>
       </div>
       <dl class="mt-3 text-sm space-y-1.5 text-slate-700">
-        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Nom" %}</dt><dd>{{ user.get_full_name|default:"—" }}</dd></div>
-        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Email" %}</dt><dd>{{ user.email|default:"—" }}</dd></div>
-        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Téléphone" %}</dt><dd>{{ profile.phone|default:"—" }}</dd></div>
-        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Date de naissance" %}</dt><dd>{{ profile.date_of_birth|default:"—" }}</dd></div>
-        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Numéro national" %}</dt><dd>{{ profile.national_number|default:"—" }}</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 shrink-0">{% trans "Nom" %}</dt><dd class="text-right truncate">{{ user.get_full_name|default:"—" }}</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 shrink-0">{% trans "Email" %}</dt><dd class="text-right truncate">{{ user.email|default:"—" }}</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 shrink-0">{% trans "Téléphone" %}</dt><dd class="text-right">{{ profile.phone|default:"—" }}</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 shrink-0">{% trans "Né(e) le" %}</dt><dd class="text-right">{{ profile.date_of_birth|default:"—" }}</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 shrink-0">{% trans "N° national" %}</dt><dd class="text-right truncate">{{ profile.national_number|default:"—" }}</dd></div>
       </dl>
     </section>
 
-    <section class="rounded-lg bg-white border p-5">
-      <div class="flex items-center justify-between">
+    <section class="pbc-section bg-white border border-slate-200 rounded-xl">
+      <div class="flex items-center justify-between gap-2">
         <h2 class="font-semibold text-slate-900">{% trans "Adresse principale" %}</h2>
         {% if pending_address_request %}
-          <a href="{% url 'citizens:address_change_detail' pending_address_request.pk %}" class="text-sm text-amber-700 hover:underline">
+          <a href="{% url 'citizens:address_change_detail' pending_address_request.pk %}" class="text-sm text-amber-700 hover:underline whitespace-nowrap">
             {% trans "Demande en cours" %}
           </a>
         {% else %}
-          <a href="{% url 'citizens:address_change_create' %}" class="text-sm text-brand-700 hover:underline">
-            {% trans "Demander un changement" %}
+          <a href="{% url 'citizens:address_change_create' %}" class="text-sm text-brand-700 hover:underline whitespace-nowrap">
+            {% trans "Modifier" %}
           </a>
         {% endif %}
       </div>
@@ -172,84 +214,92 @@
     </section>
   </div>
 
-  <section class="mt-4 rounded-lg bg-white border p-5">
-    <div class="flex items-center justify-between">
-      <h2 class="font-semibold text-slate-900">{% trans "Mes véhicules" %} ({{ vehicles|length }})</h2>
+  {# ─── VÉHICULES ─── #}
+  <section class="mt-4 bg-white border border-slate-200 rounded-xl overflow-hidden">
+    <div class="pbc-section border-b border-slate-100 flex items-center justify-between gap-2">
+      <h2 class="font-semibold text-slate-900">{% trans "Mes véhicules" %} <span class="text-slate-400 font-normal">({{ vehicles|length }})</span></h2>
       <a href="{% url 'vehicles:create' %}"
-         style="background:#08447F; color:#fff; padding:6px 14px; border-radius:6px;
-                font-size:13px; font-weight:500; text-decoration:none;">
-        + {% trans "Ajouter un véhicule" %}
+         style="background:#08447F; color:#fff; padding:6px 12px; border-radius:6px;
+                font-size:12px; font-weight:500; text-decoration:none; white-space:nowrap;">
+        + {% trans "Ajouter" %}
       </a>
     </div>
     {% if vehicles %}
-      <table class="mt-3 w-full text-sm">
-        <thead class="text-left text-slate-500 border-b">
-          <tr>
-            <th class="py-2 font-medium">{% trans "Plaque" %}</th>
-            <th class="py-2 font-medium">{% trans "Marque / modèle" %}</th>
-            <th class="py-2 font-medium">{% trans "Document" %}</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for v in vehicles %}
-            <tr class="border-b last:border-b-0 {% if v.is_archived %}opacity-50{% endif %}">
-              <td class="py-2 font-mono">
-                {{ v.plate }}
-                {% if v.is_archived %}<span class="ml-1 text-[10px] uppercase text-slate-400">archivé</span>{% endif %}
-              </td>
-              <td class="py-2">{{ v.brand }} {{ v.model }}</td>
-              <td class="py-2">
-                {% if v.registration_document %}
-                  <span class="text-emerald-700 text-xs">✓</span>
-                {% else %}
-                  <span class="text-amber-700 text-xs">⚠</span>
-                {% endif %}
-              </td>
-              <td class="py-2 text-right">
-                {% if not v.is_archived and v.pk not in busy_vehicle_ids %}
-                  <a href="{% url 'permits:wizard' v.pk %}"
-                     style="display:inline-block; padding:4px 10px; margin-right:8px;
-                            background:#08447F; color:#fff; border-radius:6px;
-                            font-size:12px; font-weight:500; text-decoration:none;">
-                    + {% trans "Demander une carte" %}
-                  </a>
-                {% endif %}
-                <a href="{% url 'vehicles:detail' v.pk %}" class="text-brand-700 hover:underline text-xs">{% trans "Détails" %}</a>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div>
+        {% for v in vehicles %}
+          <div class="pbc-row {% if v.is_archived %}opacity-50{% endif %}">
+            <div class="flex items-center gap-3">
+              <div style="width:36px; height:36px; border-radius:8px; background:#e8f1fb; color:#08447F;
+                          display:flex; align-items:center; justify-content:center;
+                          font-weight:700; font-family:ui-monospace,monospace; font-size:13px; flex-shrink:0;">
+                {{ v.plate|slice:":1"|upper }}
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="font-mono font-semibold text-slate-900">{{ v.plate }}</span>
+                  {% if v.is_archived %}
+                    <span class="text-[10px] uppercase text-slate-400">{% trans "archivé" %}</span>
+                  {% endif %}
+                </div>
+                <div class="pbc-row-meta mt-0.5">
+                  <span><strong>{{ v.brand }} {{ v.model }}</strong></span>
+                  {% if v.registration_document %}
+                    <span class="text-emerald-700">✓ {% trans "carte grise" %}</span>
+                  {% else %}
+                    <span class="text-amber-700">{% trans "carte grise manquante" %}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="pbc-row-actions">
+              {% if not v.is_archived and v.pk not in busy_vehicle_ids %}
+                <a href="{% url 'permits:wizard' v.pk %}"
+                   style="display:inline-flex; align-items:center; padding:6px 12px;
+                          background:#08447F; color:#fff; border-radius:6px;
+                          font-size:12px; font-weight:500; text-decoration:none;">
+                  + {% trans "Demander une carte" %}
+                </a>
+              {% endif %}
+              <a href="{% url 'vehicles:detail' v.pk %}"
+                 style="display:inline-flex; align-items:center; padding:6px 12px;
+                        background:#f1f5f9; color:#334155; border-radius:6px;
+                        font-size:12px; font-weight:500; text-decoration:none;">
+                {% trans "Détails" %}
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
     {% else %}
-      <p class="mt-3 text-sm text-slate-500 italic">{% trans "Aucun véhicule. Ajoutez-en un pour pouvoir demander une carte." %}</p>
+      <p class="pbc-section text-sm text-slate-500 italic">{% trans "Aucun véhicule. Ajoutez-en un pour pouvoir demander une carte." %}</p>
     {% endif %}
   </section>
 
-  {# ──────────── CARTE VISITEUR ──────────── #}
-  <section style="margin-top:16px; padding:20px; border-radius:12px;
-                  {% if visitor_permit %}background:#ecfdf5; border:1px solid #a7f3d0;
-                  {% elif has_active_resident %}background:#fff; border:1px solid #e2e8f0;
-                  {% else %}background:#f8fafc; border:1px dashed #cbd5e1;{% endif %}">
-    <div class="flex items-start justify-between gap-4 flex-wrap">
-      <div class="flex items-start gap-3">
-        <div style="width:40px; height:40px; border-radius:10px;
+  {# ─── CARTE VISITEUR ─── #}
+  <section class="mt-4 rounded-xl pbc-section
+                  {% if visitor_permit %}bg-emerald-50 border border-emerald-200
+                  {% elif has_active_resident %}bg-white border border-slate-200
+                  {% else %}bg-slate-50 border border-dashed border-slate-300{% endif %}">
+    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+      <div class="flex items-start gap-3 min-w-0 flex-1">
+        <div style="width:36px; height:36px; border-radius:8px; flex-shrink:0;
                     background:{% if visitor_permit %}#10b981{% else %}#e8f1fb{% endif %};
                     color:{% if visitor_permit %}#fff{% else %}#08447F{% endif %};
                     display:flex; align-items:center; justify-content:center; font-weight:700;">
           V
         </div>
-        <div>
+        <div class="min-w-0">
           <h2 class="font-semibold text-slate-900">{% trans "Carte visiteur" %}</h2>
           <p class="text-sm text-slate-600 mt-0.5">
-            {% trans "Émettez des codes temporaires pour permettre à vos invités de stationner devant chez vous." %}
+            {% trans "Codes temporaires pour vos invités." %}
           </p>
         </div>
       </div>
 
       {% if visitor_permit %}
         <a href="{% url 'permits:detail' visitor_permit.pk %}"
-           style="padding:8px 16px; background:#08447F; color:#fff; border-radius:6px;
+           style="display:inline-flex; align-items:center; justify-content:center;
+                  padding:10px 16px; background:#08447F; color:#fff; border-radius:6px;
                   font-size:13px; font-weight:500; text-decoration:none; white-space:nowrap;">
           {% trans "Gérer mes codes" %} →
         </a>
@@ -257,20 +307,21 @@
         <form method="post" action="{% url 'permits:visitor_create' %}" style="margin:0;">
           {% csrf_token %}
           <button type="submit"
-                  style="padding:8px 16px; background:#08447F; color:#fff; border:none;
+                  style="display:inline-flex; align-items:center; justify-content:center;
+                         padding:10px 16px; width:100%; background:#08447F; color:#fff; border:none;
                          border-radius:6px; font-size:13px; font-weight:500; cursor:pointer; white-space:nowrap;">
             + {% trans "Créer ma carte visiteur" %}
           </button>
         </form>
       {% else %}
-        <span class="text-xs text-slate-500 italic max-w-xs text-right">
-          {% trans "Disponible une fois que vous aurez une carte riverain active." %}
+        <span class="text-xs text-slate-500 italic sm:text-right sm:max-w-xs">
+          {% trans "Disponible dès qu'une carte riverain sera active." %}
         </span>
       {% endif %}
     </div>
 
     {% if visitor_permit %}
-      <div class="mt-3 pt-3 border-t border-emerald-200 flex items-center gap-4 text-sm flex-wrap">
+      <div class="mt-3 pt-3 border-t border-emerald-200 flex items-center gap-3 text-sm flex-wrap">
         <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
           {% trans "Active" %}
         </span>
@@ -280,47 +331,57 @@
           </span>
         {% endif %}
         {% if visitor_quota_left is not None %}
-          <span class="text-xs text-slate-600 ml-auto">
-            <strong>{{ visitor_quota_left }}</strong> {% trans "code(s) restant(s) cette année" %}
+          <span class="text-xs text-slate-600 sm:ml-auto">
+            <strong>{{ visitor_quota_left }}</strong> {% trans "code(s) restant(s)" %}
           </span>
         {% endif %}
       </div>
     {% endif %}
   </section>
 
-  <section class="mt-4 rounded-lg bg-white border p-5">
-    <div class="flex items-center justify-between">
-      <h2 class="font-semibold text-slate-900">{% trans "Mes cartes en cours" %} ({{ permits|length }})</h2>
-      <a href="{% url 'permits:list' %}" class="text-sm text-brand-700 hover:underline">{% trans "Toutes mes cartes →" %}</a>
+  {# ─── CARTES EN COURS ─── #}
+  <section class="mt-4 bg-white border border-slate-200 rounded-xl overflow-hidden">
+    <div class="pbc-section border-b border-slate-100 flex items-center justify-between gap-2">
+      <h2 class="font-semibold text-slate-900">{% trans "Mes cartes en cours" %} <span class="text-slate-400 font-normal">({{ permits|length }})</span></h2>
+      <a href="{% url 'permits:list' %}" class="text-sm text-brand-700 hover:underline whitespace-nowrap">{% trans "Toutes" %} →</a>
     </div>
     {% if permits %}
-      <table class="mt-3 w-full text-sm">
-        <thead class="text-left text-slate-500 border-b">
-          <tr>
-            <th class="py-2 font-medium">{% trans "Type" %}</th>
-            <th class="py-2 font-medium">{% trans "Véhicule" %}</th>
-            <th class="py-2 font-medium">{% trans "Statut" %}</th>
-            <th class="py-2 font-medium">{% trans "Validité" %}</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for p in permits %}
-            <tr class="border-b last:border-b-0">
-              <td class="py-2">{{ p.get_permit_type_display }}</td>
-              <td class="py-2 font-mono text-xs">{{ p.vehicle.plate|default:"—" }}</td>
-              <td class="py-2">{% include "_partials/permit_status_badge.html" with status=p.status label=p.get_status_display %}</td>
-              <td class="py-2 text-xs">{% if p.valid_until %}{{ p.valid_from|date:"d/m/Y" }} → {{ p.valid_until|date:"d/m/Y" }}{% else %}—{% endif %}</td>
-              <td class="py-2 text-right">
-                <a href="{% url 'permits:detail' p.pk %}" class="text-brand-700 hover:underline">{% trans "Voir" %}</a>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div>
+        {% for p in permits %}
+          <div class="pbc-row">
+            <div class="flex items-center gap-3 min-w-0">
+              <div style="width:36px; height:36px; border-radius:8px; background:#e8f1fb; color:#08447F;
+                          display:flex; align-items:center; justify-content:center;
+                          font-weight:700; font-size:12px; flex-shrink:0;">
+                #{{ p.pk }}
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="font-medium text-slate-900 text-sm">{{ p.get_permit_type_display }}</span>
+                  {% include "_partials/permit_status_badge.html" with status=p.status label=p.get_status_display %}
+                </div>
+                <div class="pbc-row-meta mt-0.5">
+                  {% if p.vehicle %}<span class="font-mono">{{ p.vehicle.plate }}</span>{% endif %}
+                  {% if p.valid_until %}
+                    <span>{{ p.valid_from|date:"d/m/Y" }} → {{ p.valid_until|date:"d/m/Y" }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="pbc-row-actions">
+              <a href="{% url 'permits:detail' p.pk %}"
+                 style="display:inline-flex; align-items:center; padding:6px 12px;
+                        background:#f1f5f9; color:#334155; border-radius:6px;
+                        font-size:12px; font-weight:500; text-decoration:none;">
+                {% trans "Voir" %}
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
     {% else %}
-      <p class="mt-3 text-sm text-slate-500 italic">
-        {% trans "Aucune carte. Pour demander une carte riverain, allez sur la page détail d'un véhicule." %}
+      <p class="pbc-section text-sm text-slate-500 italic">
+        {% trans "Aucune carte. Demandez-en une depuis la page d'un véhicule." %}
       </p>
     {% endif %}
   </section>

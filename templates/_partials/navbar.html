@@ -60,11 +60,20 @@
     }
   </style>
 
-  <nav class="container-wide h-16 flex items-center justify-between gap-4">
+  <nav class="container-wide h-16 flex items-center justify-between gap-3">
 
     {# ---- Brand + primary links (per role) ---- #}
-    <div class="flex items-center gap-6 text-sm">
-      <a href="{% url 'core:home' %}" class="pb-brand-link flex items-center gap-2.5">
+    <div class="flex items-center gap-3 sm:gap-6 text-sm min-w-0">
+      {# Bouton burger : ouvre le panel mobile sous la navbar. #}
+      <button type="button"
+              data-mobile-toggle
+              aria-label="{% trans 'Menu' %}"
+              class="md:hidden -ml-1 p-2 rounded-md text-slate-600 hover:bg-slate-100">
+        <svg data-mobile-icon-open width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/></svg>
+        <svg data-mobile-icon-close class="hidden" width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+
+      <a href="{% url 'core:home' %}" class="pb-brand-link flex items-center gap-2.5 min-w-0">
         <div class="pb-brand-logo w-9 h-9 rounded-lg bg-brand-gradient text-white flex items-center justify-center font-bold text-lg shadow-brand">
           P
         </div>
@@ -202,11 +211,45 @@
       {% endif %}
     </div>
   </nav>
+
+  {# Panel mobile : liens primaires en colonne. #}
+  <div data-mobile-panel
+       class="hidden md:hidden border-t border-slate-200 bg-white">
+    <div class="container-wide py-3 flex flex-col gap-1">
+      <a href="{% url 'gis_data:map' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium {% if ns == 'gis_data' %}bg-brand-50 text-brand-700{% endif %}">
+        {% trans "Carte des zones" %}
+      </a>
+      {% if user.is_authenticated %}
+        {% if user.is_super_admin %}
+          <a href="{% url 'dashboard:super_admin' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium {% if url_name == 'super_admin' %}bg-brand-50 text-brand-700{% endif %}">{% trans "Tableau de bord" %}</a>
+          <a href="{% url 'dashboard:agent_requests' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium">{% trans "Demandes" %}</a>
+          <a href="{% url 'dashboard:agent_permits' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium">{% trans "Cartes" %}</a>
+        {% elif user.is_admin_role %}
+          <a href="{% url 'dashboard:admin' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium {% if url_name == 'admin' %}bg-brand-50 text-brand-700{% endif %}">{% trans "Tableau de bord" %}</a>
+          <a href="{% url 'dashboard:agent_requests' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium">{% trans "Demandes" %}</a>
+          <a href="{% url 'dashboard:agent_permits' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium">{% trans "Cartes" %}</a>
+        {% elif user.is_agent %}
+          <a href="{% url 'dashboard:agent' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium {% if url_name == 'agent' %}bg-brand-50 text-brand-700{% endif %}">{% trans "Tableau de bord" %}</a>
+          <a href="{% url 'dashboard:agent_requests' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium">{% trans "Demandes" %}</a>
+          <a href="{% url 'dashboard:agent_permits' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium">{% trans "Cartes" %}</a>
+        {% else %}
+          <a href="{% url 'dashboard:citizen' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium {% if url_name == 'citizen' %}bg-brand-50 text-brand-700{% endif %}">{% trans "Mon espace" %}</a>
+          <a href="{% url 'permits:list' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium {% if ns == 'permits' %}bg-brand-50 text-brand-700{% endif %}">{% trans "Mes cartes" %}</a>
+          <a href="{% url 'vehicles:list' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium">{% trans "Mes véhicules" %}</a>
+          <a href="{% url 'companies:list' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium">{% trans "Mes entreprises" %}</a>
+        {% endif %}
+      {% else %}
+        <a href="{% url 'accounts:login' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium">{% trans "Connexion" %}</a>
+        <a href="{% url 'accounts:register' %}" class="px-3 py-2 rounded-md bg-brand-600 text-white font-medium hover:bg-brand-700 text-center">{% trans "Créer un compte" %}</a>
+      {% endif %}
+    </div>
+  </div>
 </header>
 {% endwith %}
 
 <script>
 (function () {
+  // Dropdown account (avatar)
   document.querySelectorAll('[data-dropdown]').forEach(function (root) {
     var btn = root.querySelector('[data-dropdown-trigger]');
     var panel = root.querySelector('[data-dropdown-panel]');
@@ -226,5 +269,19 @@
       i.style.transform = '';
     });
   });
+
+  // Burger menu mobile (panel principal sous la navbar)
+  var burger = document.querySelector('[data-mobile-toggle]');
+  var mPanel = document.querySelector('[data-mobile-panel]');
+  var mOpen  = document.querySelector('[data-mobile-icon-open]');
+  var mClose = document.querySelector('[data-mobile-icon-close]');
+  if (burger && mPanel) {
+    burger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      mPanel.classList.toggle('hidden');
+      if (mOpen)  mOpen.classList.toggle('hidden');
+      if (mClose) mClose.classList.toggle('hidden');
+    });
+  }
 })();
 </script>
