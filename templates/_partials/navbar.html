@@ -58,6 +58,16 @@
       background: #e2e8f0;
       margin: 0 6px;
     }
+
+    /* Bouton burger + panel mobile : visibles uniquement < 768px (md).
+       On force la règle ici pour ne pas dépendre de la compilation Tailwind
+       de `md:hidden` (qui peut être éludée par le purge dans certains cas). */
+    .pb-mobile-toggle { display: none; }
+    .pb-mobile-panel  { display: none; }
+    @media (max-width: 767.98px) {
+      .pb-mobile-toggle { display: inline-flex; align-items: center; justify-content: center; }
+      .pb-mobile-panel.is-open { display: block; }
+    }
   </style>
 
   <nav class="container-wide h-16 flex items-center justify-between gap-3">
@@ -68,7 +78,7 @@
       <button type="button"
               data-mobile-toggle
               aria-label="{% trans 'Menu' %}"
-              class="md:hidden -ml-1 p-2 rounded-md text-slate-600 hover:bg-slate-100">
+              class="pb-mobile-toggle -ml-1 p-2 rounded-md text-slate-600 hover:bg-slate-100">
         <svg data-mobile-icon-open width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/></svg>
         <svg data-mobile-icon-close class="hidden" width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
       </button>
@@ -214,7 +224,7 @@
 
   {# Panel mobile : liens primaires en colonne. #}
   <div data-mobile-panel
-       class="hidden md:hidden border-t border-slate-200 bg-white">
+       class="pb-mobile-panel border-t border-slate-200 bg-white">
     <div class="container-wide py-3 flex flex-col gap-1">
       <a href="{% url 'gis_data:map' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium {% if ns == 'gis_data' %}bg-brand-50 text-brand-700{% endif %}">
         {% trans "Carte des zones" %}
@@ -278,7 +288,7 @@
   if (burger && mPanel) {
     burger.addEventListener('click', function (e) {
       e.stopPropagation();
-      mPanel.classList.toggle('hidden');
+      mPanel.classList.toggle('is-open');
       if (mOpen)  mOpen.classList.toggle('hidden');
       if (mClose) mClose.classList.toggle('hidden');
     });
