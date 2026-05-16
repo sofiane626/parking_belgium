@@ -253,11 +253,6 @@
           </div>
         </div>
       {% else %}
-        <span class="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-slate-500 text-xs font-medium">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-          {% trans "Service en ligne" %}
-        </span>
-        <span class="pb-nav-divider hidden md:block"></span>
         <a href="{% url 'accounts:login' %}" class="px-3 py-2 text-slate-700 hover:text-brand-700 hover:bg-brand-50 rounded-md transition-colors font-medium">{% trans "Connexion" %}</a>
         <a href="{% url 'accounts:register' %}" class="btn-primary btn-sm shadow-brand">{% trans "Créer un compte" %}</a>
       {% endif %}
