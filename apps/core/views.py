@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.utils import translation
 
 from .models import Commune
 
@@ -41,17 +43,44 @@ def commune_lookup(request: HttpRequest) -> JsonResponse:
 def post_login_redirect(request: HttpRequest) -> HttpResponse:
     """
     Single landing endpoint after login. Routes the user to the dashboard
-    matching their role. Keeping this in one place means we never duplicate
-    the role→dashboard mapping across views.
+    matching their role, in the user's preferred language (FR/NL/EN).
+
+    Activates the preferred language *before* reverse() so the redirect URL
+    carries the right ``/fr/`` / ``/nl/`` / ``/en/`` prefix, then sets the
+    language cookie so all subsequent requests use the same locale.
     """
     user = request.user
+
+    # Active la langue préférée pour que reverse() produise une URL avec
+    # le bon préfixe (sinon on retombe sur la langue de la requête courante,
+    # qui peut être différente de celle du compte).
+    valid_codes = {c for c, _name in settings.LANGUAGES}
+    preferred = getattr(user, "preferred_language", None)
+    if preferred in valid_codes:
+        translation.activate(preferred)
+
     if user.is_super_admin:
-        return redirect("dashboard:super_admin")
-    if user.is_admin_role:
-        return redirect("dashboard:admin")
-    if user.is_agent:
-        return redirect("dashboard:agent")
-    return redirect("dashboard:citizen")
+        target = "dashboard:super_admin"
+    elif user.is_admin_role:
+        target = "dashboard:admin"
+    elif user.is_agent:
+        target = "dashboard:agent"
+    else:
+        target = "dashboard:citizen"
+
+    response = redirect(target)
+    if preferred in valid_codes:
+        response.set_cookie(
+            settings.LANGUAGE_COOKIE_NAME,
+            preferred,
+            max_age=settings.LANGUAGE_COOKIE_AGE,
+            path=settings.LANGUAGE_COOKIE_PATH,
+            domain=settings.LANGUAGE_COOKIE_DOMAIN,
+            secure=settings.LANGUAGE_COOKIE_SECURE,
+            httponly=settings.LANGUAGE_COOKIE_HTTPONLY,
+            samesite=settings.LANGUAGE_COOKIE_SAMESITE,
+        )
+    return response
 
 
 def error_403(request: HttpRequest, exception=None) -> HttpResponse:

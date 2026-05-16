@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -8,6 +9,12 @@ class Role(models.TextChoices):
     AGENT = "agent", _("Agent")
     ADMIN = "admin", _("Admin")
     SUPER_ADMIN = "super_admin", _("Super Admin")
+
+
+def _language_choices():
+    # Construit à la volée depuis settings.LANGUAGES pour rester cohérent
+    # avec la config Django (FR, NL, EN actuellement).
+    return [(code, name) for code, name in settings.LANGUAGES]
 
 
 class User(AbstractUser):
@@ -35,6 +42,16 @@ class User(AbstractUser):
     accepted_terms_at = models.DateTimeField(
         _("CGU acceptées le"),
         null=True, blank=True,
+    )
+
+    # Langue préférée du compte (FR par défaut). Utilisée pour les emails
+    # transactionnels et synchronisée avec la session quand l'utilisateur
+    # change de langue via le sélecteur de la navbar.
+    preferred_language = models.CharField(
+        _("langue préférée"),
+        max_length=10,
+        choices=_language_choices(),
+        default="fr",
     )
 
     @property

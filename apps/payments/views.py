@@ -302,7 +302,7 @@ def card_form(request: HttpRequest, pk: int) -> HttpResponse:
 def stripe_webhook(request: HttpRequest) -> HttpResponse:
     """
     Webhook Stripe — la signature est vérifiée via STRIPE_WEBHOOK_SECRET.
-    En local, lance ``stripe listen --forward-to localhost:8000/me/payments/stripe/webhook/``
+    En local, lance ``stripe listen --forward-to localhost:8000/stripe/webhook/``
     et copie le whsec_… affiché dans .env.
     """
     payload = request.body

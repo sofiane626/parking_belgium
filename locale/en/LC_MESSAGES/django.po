@@ -1,0 +1,4547 @@
+# English translations for Parking.Belgium.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the Parking.Belgium
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Parking.Belgium 1.0\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-05-16 14:44+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: templates/core/legal_terms.html:18
+msgid "1. Objet"
+msgstr "1. Purpose"
+
+#: templates/core/legal_privacy.html:18
+msgid "1. Responsable du traitement"
+msgstr "1. Data Controller"
+
+#: templates/core/legal_terms.html:120
+msgid "10. Droit applicable et juridiction"
+msgstr "10. Applicable Law and Jurisdiction"
+
+#: templates/core/home.html:130
+msgid "100 codes par an"
+msgstr "100 codes per year"
+
+#: templates/core/legal_privacy.html:37
+msgid "2. Base légale"
+msgstr "2. Legal Basis"
+
+#: templates/core/legal_terms.html:30
+msgid "2. Création de compte"
+msgstr "2. Account Creation"
+
+#: templates/core/legal_terms.html:39
+msgid "3. Cartes de stationnement"
+msgstr "3. Parking Permits"
+
+#: templates/core/legal_privacy.html:49
+msgid "3. Données collectées"
+msgstr "3. Data Collected"
+
+#: apps/payments/models.py:97
+msgid "4 derniers chiffres"
+msgstr "Last 4 digits"
+
+#: templates/core/legal_privacy.html:69
+msgid "4. Destinataires"
+msgstr "4. Recipients"
+
+#: templates/core/legal_terms.html:49
+msgid "4. Paiement"
+msgstr "4. Payment"
+
+#: templates/core/legal_privacy.html:77
+msgid "5. Durées de conservation"
+msgstr "5. Retention Periods"
+
+#: templates/core/legal_terms.html:66
+msgid "5. Responsabilité de l'Utilisateur"
+msgstr "5. User Responsibility"
+
+#: templates/core/legal_terms.html:75
+msgid "6. Disponibilité du Service"
+msgstr "6. Service Availability"
+
+#: templates/core/legal_privacy.html:89
+msgid "6. Vos droits"
+msgstr "6. Your Rights"
+
+#: templates/core/legal_terms.html:86
+msgid "7. Données personnelles"
+msgstr "7. Personal Data"
+
+#: templates/core/legal_privacy.html:109
+msgid "7. Sécurité"
+msgstr "7. Security"
+
+#: templates/core/legal_privacy.html:121
+msgid "8. Cookies"
+msgstr "8. Cookies"
+
+#: templates/core/legal_terms.html:97
+msgid "8. Propriété intellectuelle"
+msgstr "8. Intellectual Property"
+
+#: templates/core/legal_terms.html:108
+msgid "9. Évolution des conditions"
+msgstr "9. Changes to the Terms"
+
+#: templates/core/home.html:173
+msgid "< 30 secondes"
+msgstr "< 30 seconds"
+
+#: templates/companies/confirm_delete.html:10
+msgid ""
+"<strong>{{ name }}</strong> sera retirée. Ses cartes professionnelles ne "
+"pourront plus être renouvelées."
+msgstr ""
+"<strong>{{ name }}</strong> will be removed. Its professional permits can "
+"no longer be renewed."
+
+#: templates/core/home.html:4
+msgid "Accueil"
+msgstr "Home"
+
+#: templates/core/home.html:143
+msgid ""
+"Accès complet à une commune pour les professionnels — artisans, "
+"commerciaux, services à domicile."
+msgstr ""
+"Full access to a municipality for professionals — craftsmen, sales reps, "
+"home services."
+
+#: templates/core/403.html:7
+msgid "Accès refusé."
+msgstr "Access denied."
+
+#: apps/permits/models.py:222 templates/dashboard/admin_users_list.html:72
+msgid "Actif"
+msgstr "Active"
+
+#: templates/dashboard/gis_polygon_detail.html:52
+msgid "Action"
+msgstr "Action"
+
+#: apps/payments/views.py:129
+msgid "Action non autorisée."
+msgstr "Action not allowed."
+
+#: apps/dashboard/views_users.py:110 apps/dashboard/views_users.py:136
+msgid "Action refusée."
+msgstr "Action refused."
+
+#: templates/dashboard/admin_api_tokens.html:72
+msgid "Actions"
+msgstr "Actions"
+
+#: templates/dashboard/super_admin.html:35
+msgid "Actions réservées au super-admin"
+msgstr "Actions reserved for super-admin"
+
+#: templates/core/home.html:172
+msgid "Activation"
+msgstr "Activation"
+
+#: templates/core/home.html:115
+msgid "Activation immédiate après paiement"
+msgstr "Immediate activation after payment"
+
+#: apps/permits/models.py:46 templates/dashboard/citizen.html:326
+#: templates/dashboard/gis_polygon_detail.html:56
+#: templates/dashboard/gis_versions.html:22
+msgid "Active"
+msgstr "Active"
+
+#: templates/dashboard/gis_polygon_detail.html:77
+msgid "Activer"
+msgstr "Activate"
+
+#: templates/permits/confirm_visitor_create.html:18
+#: templates/permits/list.html:13
+msgid "Activer ma carte visiteur"
+msgstr "Activate my visitor permit"
+
+#: templates/companies/detail.html:12 templates/companies/list.html:19
+msgid "Activité"
+msgstr "Activity"
+
+#: templates/vehicles/detail.html:153
+msgid ""
+"Activité professionnelle dans une autre commune. Validation manuelle par un"
+" agent."
+msgstr "Professional activity in another municipality. Manual approval by an agent."
+
+#: templates/dashboard/admin_policies_list.html:35
+msgid "Activée"
+msgstr "Activated"
+
+#: apps/accounts/models.py:10
+msgid "Admin"
+msgstr "Admin"
+
+#: templates/_partials/navbar.html:232
+msgid "Administration"
+msgstr "Administration"
+
+#: templates/companies/detail.html:13
+msgid "Adresse"
+msgstr "Address"
+
+#: templates/dashboard/agent_request_address.html:15
+msgid "Adresse actuelle"
+msgstr "Current address"
+
+#: templates/dashboard/agent_request_address.html:28
+msgid "Adresse demandée"
+msgstr "Requested address"
+
+#: templates/dashboard/citizen.html:191 templates/registration/register.html:51
+msgid "Adresse principale"
+msgstr "Primary address"
+
+#: apps/accounts/models.py:9
+msgid "Agent"
+msgstr "Agent"
+
+#: templates/core/legal_privacy.html:71
+msgid "Agents et administrateurs habilités de votre commune."
+msgstr "Authorized agents and administrators of your municipality."
+
+#: templates/dashboard/gis_polygons_list.html:37
+msgid "Aire (m²)"
+msgstr "Area (m²)"
+
+#: templates/companies/form.html:36 templates/companies/list.html:9
+#: templates/dashboard/agent_permit_detail.html:147
+#: templates/dashboard/agent_permit_detail.html:283
+#: templates/dashboard/citizen.html:224 templates/vehicles/form.html:47
+#: templates/vehicles/list.html:10
+msgid "Ajouter"
+msgstr "Add"
+
+#: templates/vehicles/form.html:5 templates/vehicles/form.html:11
+msgid "Ajouter un véhicule"
+msgstr "Add a vehicle"
+
+#: templates/companies/form.html:5 templates/companies/form.html:11
+msgid "Ajouter une entreprise"
+msgstr "Add a company"
+
+#: templates/dashboard/gis_polygon_detail.html:94
+msgid "Ajouter une règle"
+msgstr "Add a rule"
+
+#: apps/rules/models.py:20
+msgid "Ajouter une zone"
+msgstr "Add a zone"
+
+#: templates/dashboard/agent_permit_detail.html:133
+msgid "Ajouter une zone secondaire"
+msgstr "Add a secondary zone"
+
+#: templates/core/home.html:230
+msgid "Ajoutez votre véhicule"
+msgstr "Add your vehicle"
+
+#: templates/vehicles/detail.html:69
+msgid "Ajouté le"
+msgstr "Added on"
+
+#: templates/core/home.html:52
+msgid "Aller à mon espace"
+msgstr "Go to my space"
+
+#: templates/payments/card_form.html:90
+msgid "Amex — succès"
+msgstr "Amex — success"
+
+#: templates/citizens/address_change_create.html:28
+#: templates/citizens/profile_edit.html:21
+#: templates/companies/confirm_delete.html:14 templates/companies/form.html:34
+#: templates/dashboard/admin_policy_form.html:88
+#: templates/dashboard/admin_user_edit.html:82
+#: templates/dashboard/agent_permit_detail.html:230
+#: templates/payments/card_form.html:79 templates/payments/process.html:36
+#: templates/permits/confirm_create.html:17
+#: templates/permits/confirm_professional_create.html:35
+#: templates/permits/confirm_visitor_create.html:17
+#: templates/permits/detail.html:104 templates/permits/detail.html:188
+#: templates/permits/visitor_code_form.html:26
+#: templates/vehicles/confirm_delete.html:36 templates/vehicles/form.html:45
+#: templates/vehicles/plate_change_create.html:31
+msgid "Annuler"
+msgstr "Cancel"
+
+#: templates/dashboard/agent_permit_detail.html:227
+msgid "Annuler ce code visiteur ?"
+msgstr "Cancel this visitor code?"
+
+#: templates/citizens/address_change_detail.html:37
+#: templates/vehicles/plate_change_detail.html:38
+msgid "Annuler ma demande"
+msgstr "Cancel my request"
+
+#: templates/vehicles/confirm_delete.html:26
+msgid "Annulez ces cartes ou attendez leur expiration avant d'archiver."
+msgstr "Cancel these permits or wait for their expiration before archiving."
+
+#: apps/payments/models.py:28 apps/permits/models.py:223
+msgid "Annulé"
+msgstr "Cancelled"
+
+#: apps/citizens/models.py:85 apps/permits/models.py:49
+#: apps/vehicles/models.py:96
+msgid "Annulée"
+msgstr "Cancelled"
+
+#: templates/payments/card_form.html:59
+msgid "Année"
+msgstr "Year"
+
+#: apps/audit/models.py:53
+msgid "Appel API check-right"
+msgstr "API call check-right"
+
+#: templates/dashboard/agent_permits_list.html:39
+msgid "Appliquer"
+msgstr "Apply"
+
+#: templates/dashboard/agent_permit_detail.html:304
+#: templates/dashboard/agent_request_address.html:68
+#: templates/dashboard/agent_request_plate.html:56
+msgid "Approuver"
+msgstr "Approve"
+
+#: apps/citizens/models.py:83 apps/vehicles/models.py:94
+msgid "Approuvée"
+msgstr "Approved"
+
+#: templates/vehicles/confirm_delete.html:15
+msgid "Archivage bloqué"
+msgstr "Archiving blocked"
+
+#: templates/vehicles/confirm_delete.html:40 templates/vehicles/detail.html:182
+msgid "Archiver"
+msgstr "Archive"
+
+#: templates/vehicles/confirm_delete.html:8
+msgid "Archiver ce véhicule ?"
+msgstr "Archive this vehicle?"
+
+#: templates/vehicles/confirm_delete.html:4
+msgid "Archiver le véhicule"
+msgstr "Archive vehicle"
+
+#: templates/vehicles/detail.html:44
+msgid "Archivé"
+msgstr "Archived"
+
+#: templates/vehicles/detail.html:53 templates/vehicles/list.html:64
+msgid "Archivé le"
+msgstr "Archived on"
+
+#: templates/core/home.html:314
+msgid "Artisans, commerçants, services à domicile :"
+msgstr "Craftsmen, traders, home services:"
+
+#: templates/dashboard/gis_polygon_detail.html:24
+msgid "Attributs source"
+msgstr "Source attributes"
+
+#: templates/core/home.html:252
+msgid "Au cœur de la Région"
+msgstr "At the heart of the Region"
+
+#: templates/permits/detail.html:113
+msgid "Aucun code généré pour le moment."
+msgstr "No code generated yet."
+
+#: templates/dashboard/agent_permit_detail.html:239
+msgid "Aucun code émis pour le moment."
+msgstr "No code issued yet."
+
+#: templates/dashboard/admin_api_tokens.html:58
+msgid ""
+"Aucun compte back-office éligible (tous ont déjà un token, ou aucun "
+"agent/admin n'existe)."
+msgstr ""
+"No eligible back-office account (all already have a token, or no "
+"agent/admin exists)."
+
+#: apps/payments/views.py:265
+msgid "Aucun paiement carte en cours — recommencez."
+msgstr "No payment in progress — please retry."
+
+#: templates/dashboard/gis_polygons_list.html:73
+msgid "Aucun polygone."
+msgstr "No polygon."
+
+#: templates/dashboard/admin_api_tokens.html:105
+msgid "Aucun token émis pour le moment."
+msgstr "No token issued yet."
+
+#: templates/dashboard/admin_users_list.html:87
+msgid "Aucun utilisateur trouvé."
+msgstr "No user found."
+
+#: templates/vehicles/list.html:50
+msgid "Aucun véhicule actif."
+msgstr "No active vehicle."
+
+#: templates/dashboard/citizen.html:274
+msgid "Aucun véhicule. Ajoutez-en un pour pouvoir demander une carte."
+msgstr "No vehicle. Add one to be able to request a permit."
+
+#: templates/dashboard/citizen.html:212
+msgid "Aucune adresse renseignée."
+msgstr "No address provided."
+
+#: templates/dashboard/agent_request_address.html:23
+msgid "Aucune adresse."
+msgstr "No address."
+
+#: templates/dashboard/agent_permits_list.html:85
+msgid "Aucune carte pour ces filtres."
+msgstr "No permit for these filters."
+
+#: templates/dashboard/citizen.html:384
+msgid "Aucune carte. Demandez-en une depuis la page d'un véhicule."
+msgstr "No permit. Request one from a vehicle page."
+
+#: templates/permits/list.html:50
+msgid ""
+"Aucune carte. Pour en demander une, ajoutez un véhicule puis cliquez sur "
+"\\\"Demander une carte\\\" depuis sa page détail."
+msgstr ""
+"No permit. To request one, add a vehicle then click \\\"Request a "
+"permit\\\" on its detail page."
+
+#: templates/citizens/request_list.html:38
+#: templates/citizens/request_list.html:72
+#: templates/dashboard/agent_requests_list.html:48
+#: templates/dashboard/agent_requests_list.html:82
+msgid "Aucune demande."
+msgstr "No request."
+
+#: templates/companies/list.html:41
+msgid ""
+"Aucune entreprise. Ajoutez-en une pour pouvoir demander une carte "
+"professionnelle."
+msgstr "No company. Add one to be able to request a professional permit."
+
+#: templates/dashboard/admin_policies_list.html:101
+msgid "Aucune politique."
+msgstr "No policy."
+
+#: templates/dashboard/gis_polygon_detail.html:89
+msgid ""
+"Aucune règle. La zonecode du polygone sera utilisée telle quelle par le "
+"moteur d'attribution."
+msgstr "No rule. The polygon zonecode will be used as-is by the attribution engine."
+
+#: templates/dashboard/gis_polygons_list.html:13
+msgid "Aucune version active."
+msgstr "No active version."
+
+#: templates/dashboard/gis_versions.html:47
+msgid "Aucune version importée. Lancez :"
+msgstr "No imported version. Run:"
+
+#: templates/dashboard/agent_permit_detail.html:261
+msgid "Aucune zone — ajoutez-en au moins une avant d'approuver."
+msgstr "No zone — add at least one before approving."
+
+#: apps/vehicles/models.py:20
+msgid "Autre"
+msgstr "Other"
+
+#: apps/audit/models.py:72
+msgid "Avertissement"
+msgstr "Warning"
+
+#: templates/dashboard/admin.html:3
+#: templates/dashboard/admin_permit_config.html:64
+#: templates/dashboard/admin_policies_list.html:104
+#: templates/dashboard/gis_versions.html:52
+msgid "Back-office admin"
+msgstr "Back-office admin"
+
+#: templates/dashboard/agent.html:3
+msgid "Back-office agent"
+msgstr "Back-office agent"
+
+#: templates/dashboard/super_admin.html:3
+msgid "Back-office super admin"
+msgstr "Back-office super admin"
+
+#: templates/dashboard/admin.html:5
+msgid "Back-office — admin"
+msgstr "Back-office — admin"
+
+#: templates/dashboard/agent.html:5
+msgid "Back-office — agent"
+msgstr "Back-office — agent"
+
+#: templates/dashboard/super_admin.html:7
+msgid "Back-office — super admin"
+msgstr "Back-office — super admin"
+
+#: templates/registration/login.html:10
+msgid "Bon retour"
+msgstr "Welcome back"
+
+#: templates/registration/password_reset_email.html:11
+msgid "Bonjour {{ user }},"
+msgstr "Hello {{ user }},"
+
+#: templates/registration/password_reset_email.txt:1
+msgid ""
+"Bonjour {{ user }},\n"
+"\n"
+"Vous (ou quelqu'un d'autre) avez demandé une réinitialisation de mot de "
+"passe\n"
+"pour votre compte Parking.Belgium.\n"
+"\n"
+"Cliquez sur le lien suivant pour définir un nouveau mot de passe :"
+msgstr ""
+"Hello {{ user }},\n"
+"\n"
+"You (or someone else) requested a password reset\n"
+"for your Parking.Belgium account.\n"
+"\n"
+"Click the following link to set a new password:"
+
+#: apps/permits/models.py:41
+msgid "Brouillon"
+msgstr "Draft"
+
+#: templates/_partials/navbar.html:122
+msgid "Bruxelles · 19 communes"
+msgstr "Brussels · 19 municipalities"
+
+#: templates/core/home.html:253 templates/core/home.html:395
+msgid "Bruxelles,"
+msgstr "Brussels,"
+
+#: apps/accounts/models.py:43
+msgid "CGU acceptées le"
+msgstr "Terms accepted on"
+
+#: apps/core/models.py:24
+msgid "CSV ex: 1000,1020,1120 — utilisé pour auto-remplir la commune"
+msgstr "CSV e.g. 1000,1020,1120 — used to auto-fill the municipality"
+
+#: templates/payments/card_form.html:66
+msgid "CVC"
+msgstr "CVC"
+
+#: templates/dashboard/agent_permit_detail.html:4
+#: templates/dashboard/agent_permit_detail.html:10
+#: templates/payments/card_form.html:16 templates/payments/process.html:16
+#: templates/payments/start.html:4 templates/payments/start.html:13
+#: templates/permits/detail.html:4 templates/permits/detail.html:19
+#: templates/vehicles/confirm_delete.html:21 templates/vehicles/detail.html:118
+msgid "Carte"
+msgstr "Permit"
+
+#: templates/core/home.html:141
+msgid "Carte Professionnelle"
+msgstr "Professional Permit"
+
+#: templates/core/home.html:108
+msgid "Carte Riverain"
+msgstr "Resident Permit"
+
+#: templates/core/home.html:125
+msgid "Carte Visiteur"
+msgstr "Visitor Permit"
+
+#: apps/audit/models.py:31
+msgid "Carte activée"
+msgstr "Permit activated"
+
+#: apps/audit/models.py:34
+msgid "Carte annulée"
+msgstr "Permit cancelled"
+
+#: apps/audit/models.py:29
+msgid "Carte approuvée (revue manuelle)"
+msgstr "Permit approved (manual review)"
+
+#: apps/payments/models.py:33
+msgid "Carte bancaire"
+msgstr "Credit card"
+
+#: apps/payments/models.py:34
+msgid "Carte bancaire (Stripe)"
+msgstr "Credit card (Stripe)"
+
+#: templates/core/home.html:468
+#, python-format
+msgid ""
+"Carte bancaire (Visa, Mastercard, Amex) et Bancontact via Stripe. Paiement "
+"100% sécurisé, sans saisie de coordonnées sur notre serveur."
+msgstr ""
+"Credit card (Visa, Mastercard, Amex) and Bancontact via Stripe. 100% secure"
+" payment, no card details entered on our server."
+
+#: templates/core/home.html:238
+msgid "Carte bancaire ou Stripe. Activation immédiate et reçu envoyé par email."
+msgstr "Credit card or Stripe. Immediate activation and receipt sent by email."
+
+#: templates/_partials/navbar.html:131 templates/_partials/navbar.html:272
+#: templates/base.html:66 templates/gis/map.html:4
+msgid "Carte des zones"
+msgstr "Zones map"
+
+#: templates/gis/map.html:12
+msgid "Carte des zones de stationnement"
+msgstr "Parking zones map"
+
+#: apps/audit/models.py:33
+msgid "Carte expirée"
+msgstr "Permit expired"
+
+#: templates/permits/confirm_professional_create.html:8
+msgid "Carte professionnelle"
+msgstr "Professional permit"
+
+#: templates/dashboard/admin.html:41 templates/dashboard/super_admin.html:88
+msgid "Carte publique"
+msgstr "Public map"
+
+#: apps/audit/models.py:30
+msgid "Carte refusée"
+msgstr "Permit refused"
+
+#: apps/dashboard/views.py:592
+msgid "Carte réactivée."
+msgstr "Permit reactivated."
+
+#: apps/audit/models.py:28
+msgid "Carte soumise"
+msgstr "Permit submitted"
+
+#: apps/audit/models.py:32
+msgid "Carte suspendue"
+msgstr "Permit suspended"
+
+#: apps/dashboard/views.py:577
+msgid "Carte suspendue."
+msgstr "Permit suspended."
+
+#: templates/dashboard/citizen.html:292
+#: templates/permits/confirm_visitor_create.html:8
+msgid "Carte visiteur"
+msgstr "Visitor permit"
+
+#: apps/permits/views.py:145
+msgid "Carte visiteur activée."
+msgstr "Visitor permit activated."
+
+#: templates/_partials/navbar.html:149 templates/_partials/navbar.html:165
+#: templates/_partials/navbar.html:181 templates/_partials/navbar.html:278
+#: templates/_partials/navbar.html:282 templates/_partials/navbar.html:286
+#: templates/dashboard/agent_permits_list.html:4
+#: templates/dashboard/agent_permits_list.html:7
+msgid "Cartes"
+msgstr "Permits"
+
+#: templates/core/legal_privacy.html:55
+msgid ""
+"Cartes : type (riverain, visiteur, professionnel), zones autorisées, "
+"validité."
+msgstr "Permits: type (resident, visitor, professional), allowed zones, validity."
+
+#: templates/dashboard/citizen.html:52
+msgid "Cartes de stationnement et démarches en cours."
+msgstr "Parking permits and pending requests."
+
+#: templates/core/legal_privacy.html:81
+msgid "Cartes de stationnement expirées : 10 ans (obligation comptable belge)."
+msgstr "Expired parking permits: 10 years (Belgian accounting obligation)."
+
+#: templates/payments/card_form.html:86
+msgid "Cartes de test disponibles"
+msgstr "Test cards available"
+
+#: templates/dashboard/admin.html:13 templates/dashboard/agent.html:17
+#: templates/dashboard/super_admin.html:60
+msgid "Cartes en revue"
+msgstr "Permits under review"
+
+#: templates/vehicles/detail.html:106
+msgid "Cartes liées à ce véhicule"
+msgstr "Permits linked to this vehicle"
+
+#: templates/registration/password_reset_confirm.html:32
+msgid ""
+"Ce lien de réinitialisation n'est plus valide (déjà utilisé ou expiré). "
+"Demandez-en un nouveau."
+msgstr ""
+"This reset link is no longer valid (already used or expired). Request a new"
+" one."
+
+#: templates/registration/password_reset_email.html:20
+msgid "Ce lien est valable 3 jours."
+msgstr "This link is valid for 3 days."
+
+#: templates/registration/password_reset_email.txt:10
+msgid ""
+"Ce lien est valable 3 jours.\n"
+"\n"
+"Si vous n'êtes pas à l'origine de cette demande, ignorez simplement cet "
+"email —\n"
+"votre mot de passe actuel reste inchangé.\n"
+"\n"
+"— L'équipe Parking.Belgium"
+msgstr ""
+"This link is valid for 3 days.\n"
+"\n"
+"If you did not request this, simply ignore this email —\n"
+"your current password remains unchanged.\n"
+"\n"
+"— The Parking.Belgium team"
+
+#: apps/payments/views.py:98
+msgid "Ce paiement n'est plus actif."
+msgstr "This payment is no longer active."
+
+#: templates/vehicles/confirm_delete.html:16
+msgid "Ce véhicule a encore des cartes en cours ou actives :"
+msgstr "This vehicle still has pending or active permits:"
+
+#: templates/core/home.html:279
+msgid "Centre · Bruxelles-Ville"
+msgstr "Centre · City of Brussels"
+
+#: templates/dashboard/agent_request_plate.html:20
+msgid "Certificat actuel"
+msgstr "Current certificate"
+
+#: templates/vehicles/detail.html:73
+msgid "Certificat d'immatriculation"
+msgstr "Registration certificate"
+
+#: templates/permits/confirm_visitor_create.html:10
+msgid ""
+"Cette carte vous permet de générer jusqu'à 100 codes par an pour vos "
+"visiteurs (durée par défaut 4 h, modifiable). Elle est gratuite et active "
+"immédiatement, valable du 1er janvier au 1er décembre."
+msgstr ""
+"This permit lets you generate up to 100 codes per year for your visitors "
+"(default duration 4 h, adjustable). It is free and active immediately, "
+"valid from January 1 to December 1."
+
+#: templates/citizens/address_change_create.html:10
+msgid ""
+"Cette demande sera examinée par un agent. Une fois approuvée, l'agent met à"
+" jour votre adresse, ce qui suspend automatiquement vos cartes riverain en "
+"cours."
+msgstr ""
+"This request will be reviewed by an agent. Once approved, the agent updates"
+" your address, which automatically suspends your active resident permits."
+
+#: apps/vehicles/forms.py:77
+msgid "Cette plaque est déjà attribuée à un autre véhicule."
+msgstr "This plate is already assigned to another vehicle."
+
+#: apps/vehicles/forms.py:24
+msgid "Cette plaque est déjà enregistrée."
+msgstr "This plate is already registered."
+
+#: templates/dashboard/admin_policy_form.html:14
+msgid ""
+"Cette politique s'applique uniquement à cette commune et à ce type de "
+"carte. Vous pouvez créer plusieurs politiques avec des périodes différentes"
+" (effective_from/until) pour planifier un changement."
+msgstr ""
+"This policy applies only to this municipality and this permit type. You can"
+" create multiple policies with different periods (effective_from/until) to "
+"plan a change."
+
+#: templates/citizens/address_change_detail.html:9
+#: templates/dashboard/agent_request_address.html:9
+msgid "Changement d'adresse"
+msgstr "Address change"
+
+#: templates/dashboard/agent_request_plate.html:9
+#: templates/vehicles/plate_change_detail.html:9
+msgid "Changement de plaque"
+msgstr "Plate change"
+
+#: apps/dashboard/views.py:234
+msgid "Changement de plaque appliqué."
+msgstr "Plate change applied."
+
+#: templates/vehicles/detail.html:91
+msgid "Changement de plaque en cours d'examen par un agent."
+msgstr "Plate change being reviewed by an agent."
+
+#: templates/citizens/request_list.html:11
+#: templates/dashboard/agent_requests_list.html:19
+msgid "Changements d'adresse"
+msgstr "Address changes"
+
+#: templates/citizens/request_list.html:43
+#: templates/dashboard/agent_requests_list.html:53
+msgid "Changements de plaque"
+msgstr "Plate changes"
+
+#: templates/_partials/navbar.html:245
+msgid "Changer d'adresse"
+msgstr "Change address"
+
+#: templates/vehicles/detail.html:176
+msgid "Changer la plaque"
+msgstr "Change plate"
+
+#: templates/permits/confirm_professional_create.html:27
+msgid "Choisir une commune"
+msgstr "Choose a municipality"
+
+#: templates/core/home.html:237
+msgid ""
+"Choisissez le type de carte. L'attribution des zones est automatique selon "
+"votre adresse."
+msgstr "Choose the permit type. Zone attribution is automatic based on your address."
+
+#: templates/registration/password_reset_confirm.html:10
+msgid "Choisissez un mot de passe robuste (8 caractères minimum)."
+msgstr "Choose a strong password (8 characters minimum)."
+
+#: templates/payments/start.html:8
+msgid "Choisissez votre moyen de paiement"
+msgstr "Choose your payment method"
+
+#: templates/dashboard/gis_polygon_detail.html:53
+msgid "Cible"
+msgstr "Target"
+
+#: apps/accounts/models.py:8 templates/dashboard/agent_permits_list.html:49
+#: templates/dashboard/agent_request_address.html:40
+#: templates/dashboard/agent_requests_list.html:25
+msgid "Citoyen"
+msgstr "Citizen"
+
+#: templates/registration/password_reset_email.html:13
+msgid "Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe :"
+msgstr "Click the button below to set a new password:"
+
+#: templates/dashboard/agent_permits_list.html:8
+msgid ""
+"Cliquez sur un chip pour filtrer par statut. Les compteurs reflètent les "
+"filtres type/recherche actifs."
+msgstr ""
+"Click a chip to filter by status. Counters reflect the active type/search "
+"filters."
+
+#: templates/dashboard/agent_permit_detail.html:200
+#: templates/permits/detail.html:81
+msgid "Code"
+msgstr "Code"
+
+#: apps/permits/views.py:180
+msgid "Code annulé."
+msgstr "Code cancelled."
+
+#: templates/dashboard/agent_permit_detail.html:84
+msgid "Code de la zone principale"
+msgstr "Main zone code"
+
+#: apps/permits/views.py:165
+msgid "Code généré."
+msgstr "Code generated."
+
+#: templates/registration/register.html:106
+msgid "Code postal non reconnu en Région bruxelloise (1000–1299)."
+msgstr "Postal code not recognized in the Brussels Region (1000–1299)."
+
+#: apps/dashboard/views.py:608
+msgid "Code visiteur annulé."
+msgstr "Visitor code cancelled."
+
+#: templates/dashboard/citizen.html:294
+msgid "Codes temporaires pour vos invités."
+msgstr "Temporary codes for your guests."
+
+#: templates/dashboard/admin_permit_config.html:31
+#: templates/permits/detail.html:71
+msgid "Codes visiteurs"
+msgstr "Visitor codes"
+
+#: templates/core/legal_privacy.html:84
+msgid "Codes visiteurs : 1 an après leur expiration."
+msgstr "Visitor codes: 1 year after their expiration."
+
+#: templates/dashboard/agent_permit_detail.html:194
+msgid "Codes visiteurs émis"
+msgstr "Visitor codes issued"
+
+#: templates/core/home.html:71
+msgid "Codes visiteurs/an"
+msgstr "Visitor codes/year"
+
+#: templates/core/home.html:437
+msgid "Combien coûte une carte riverain ?"
+msgstr "How much does a resident permit cost?"
+
+#: templates/vehicles/detail.html:144 templates/vehicles/detail.html:155
+msgid "Commencer"
+msgstr "Start"
+
+#: templates/core/home.html:458
+msgid "Comment fonctionnent les codes visiteurs ?"
+msgstr "How do visitor codes work?"
+
+#: templates/base.html:67
+msgid "Comment ça marche"
+msgstr "How it works"
+
+#: templates/core/home.html:214
+msgid "Comment ça marche ?"
+msgstr "How does it work?"
+
+#: templates/companies/list.html:20
+#: templates/dashboard/admin_policies_list.html:17
+#: templates/dashboard/admin_policies_list.html:56
+#: templates/dashboard/admin_policy_form.html:25
+#: templates/dashboard/gis_polygons_list.html:34 templates/payments/start.html:15
+#: templates/registration/register.html:65
+msgid "Commune"
+msgstr "Municipality"
+
+#: templates/dashboard/gis_polygons_list.html:18
+msgid "Commune :"
+msgstr "Municipality:"
+
+#: templates/permits/confirm_professional_create.html:24
+msgid "Commune cible"
+msgstr "Target municipality"
+
+#: apps/permits/views.py:206
+msgid "Commune cible requise."
+msgstr "Target municipality required."
+
+#: templates/registration/register.html:103
+msgid "Commune détectée pour ce code postal."
+msgstr "Municipality detected for this postal code."
+
+#: apps/dashboard/views.py:717
+msgid "Commune requise."
+msgstr "Municipality required."
+
+#: templates/core/home.html:63
+msgid "Communes"
+msgstr "Municipalities"
+
+#: templates/core/home.html:189
+msgid "Communes desservies par une plateforme unique"
+msgstr "Municipalities served by a single platform"
+
+#: templates/core/home.html:367
+msgid "Communes prises en charge"
+msgstr "Supported municipalities"
+
+#: templates/base.html:74 templates/dashboard/admin_api_tokens.html:68
+#: templates/registration/register.html:28
+msgid "Compte"
+msgstr "Account"
+
+#: templates/dashboard/admin_user_edit.html:72
+msgid "Compte actif (l'utilisateur peut se connecter)"
+msgstr "Active account (user can log in)"
+
+#: templates/core/legal_privacy.html:79
+msgid "Compte actif : tant que l'utilisateur reste inscrit."
+msgstr "Active account: as long as the user remains registered."
+
+#: templates/core/legal_privacy.html:80
+msgid "Compte inactif : anonymisation après 3 ans sans connexion."
+msgstr "Inactive account: anonymization after 3 years without login."
+
+#: templates/base.html:70
+msgid "Conditions d'utilisation"
+msgstr "Terms of use"
+
+#: templates/core/legal_privacy.html:135 templates/core/legal_terms.html:4
+#: templates/core/legal_terms.html:11
+msgid "Conditions générales d'utilisation"
+msgstr "General terms of use"
+
+#: templates/_partials/navbar.html:234 templates/dashboard/admin.html:17
+#: templates/dashboard/admin_permit_config.html:4
+#: templates/dashboard/admin_permit_config.html:10
+#: templates/dashboard/super_admin.html:64
+msgid "Configuration globale"
+msgstr "Global configuration"
+
+#: apps/audit/models.py:61
+msgid "Configuration globale modifiée"
+msgstr "Global configuration modified"
+
+#: apps/dashboard/views.py:626
+msgid "Configuration mise à jour."
+msgstr "Configuration updated."
+
+#: apps/payments/emails.py:91
+#, python-format
+msgid "Confirmation de paiement — Carte de stationnement #%(pk)s"
+msgstr "Payment confirmation — Parking permit #%(pk)s"
+
+#: templates/payments/process.html:27
+msgid "Confirmer et payer"
+msgstr "Confirm and pay"
+
+#: templates/payments/process.html:4 templates/payments/process.html:10
+msgid "Confirmer le paiement"
+msgstr "Confirm payment"
+
+#: templates/core/legal_privacy.html:90
+msgid ""
+"Conformément aux articles 15 à 22 du RGPD, vous disposez des droits "
+"suivants :"
+msgstr ""
+"In accordance with articles 15 to 22 of the GDPR, you have the following "
+"rights:"
+
+#: templates/registration/login.html:11
+msgid "Connectez-vous à votre espace Parking.Belgium."
+msgstr "Sign in to your Parking.Belgium space."
+
+#: templates/_partials/navbar.html:261 templates/_partials/navbar.html:294
+#: templates/registration/login.html:4
+msgid "Connexion"
+msgstr "Sign in"
+
+#: templates/base.html:128
+msgid "Cookies"
+msgstr "Cookies"
+
+#: templates/core/legal_privacy.html:53
+msgid "Coordonnées : email, téléphone, adresse postale (avec géocodage)."
+msgstr "Contact details: email, phone, postal address (with geocoding)."
+
+#: templates/dashboard/admin_api_tokens.html:29
+msgid "Copiez ce token maintenant — il ne sera plus jamais affiché en clair."
+msgstr "Copy this token now — it will never be shown in clear text again."
+
+#: templates/vehicles/list.html:21
+msgid "Couleur"
+msgstr "Color"
+
+#: templates/payments/start.html:72
+msgid "Court-circuite tout — staff/DEBUG uniquement"
+msgstr "Bypasses everything — staff/DEBUG only"
+
+#: apps/audit/models.py:73
+msgid "Critique"
+msgstr "Critical"
+
+#: apps/permits/views.py:216
+msgid "Création impossible."
+msgstr "Creation not possible."
+
+#: templates/dashboard/admin_policy_form.html:90
+msgid "Créer"
+msgstr "Create"
+
+#: templates/dashboard/gis_polygon_detail.html:110
+msgid "Créer la règle"
+msgstr "Create rule"
+
+#: templates/dashboard/citizen.html:313
+msgid "Créer ma carte visiteur"
+msgstr "Create my visitor permit"
+
+#: templates/core/home.html:39 templates/registration/register.html:141
+msgid "Créer mon compte"
+msgstr "Create my account"
+
+#: templates/core/home.html:351
+msgid "Créer mon compte pro"
+msgstr "Create my pro account"
+
+#: templates/_partials/navbar.html:262 templates/_partials/navbar.html:295
+#: templates/base.html:81 templates/core/home.html:410
+#: templates/registration/login.html:37 templates/registration/register.html:4
+msgid "Créer un compte"
+msgstr "Create an account"
+
+#: templates/registration/register.html:10
+msgid "Créer un compte citoyen"
+msgstr "Create a citizen account"
+
+#: templates/core/home.html:229
+msgid "Créez votre compte"
+msgstr "Create your account"
+
+#: apps/dashboard/views.py:547
+msgid "Date de validité mise à jour."
+msgstr "Validity date updated."
+
+#: apps/dashboard/views.py:543
+msgid "Date invalide (format AAAA-MM-JJ requis)."
+msgstr "Invalid date (YYYY-MM-DD format required)."
+
+#: templates/core/home.html:215
+msgid ""
+"De l'inscription à l'activation de votre carte, tout se fait en ligne en "
+"moins de 10 minutes."
+msgstr ""
+"From registration to permit activation, everything is done online in less "
+"than 10 minutes."
+
+#: templates/citizens/address_change_detail.html:4
+#: templates/vehicles/plate_change_detail.html:4
+msgid "Demande #"
+msgstr "Request #"
+
+#: apps/citizens/views.py:67 apps/permits/views.py:129 apps/vehicles/views.py:197
+msgid "Demande annulée."
+msgstr "Request cancelled."
+
+#: apps/dashboard/views.py:480
+msgid "Demande approuvée."
+msgstr "Request approved."
+
+#: apps/dashboard/views.py:180
+msgid "Demande d'adresse approuvée."
+msgstr "Address request approved."
+
+#: apps/dashboard/views.py:186
+msgid "Demande d'adresse refusée."
+msgstr "Address request refused."
+
+#: templates/citizens/address_change_create.html:4
+#: templates/citizens/address_change_create.html:8
+#: templates/dashboard/agent_request_address.html:4
+msgid "Demande de changement d'adresse"
+msgstr "Address change request"
+
+#: templates/dashboard/agent_request_plate.html:4
+#: templates/vehicles/plate_change_create.html:4
+#: templates/vehicles/plate_change_create.html:8
+msgid "Demande de changement de plaque"
+msgstr "Plate change request"
+
+#: apps/dashboard/views.py:240
+msgid "Demande de plaque refusée."
+msgstr "Plate request refused."
+
+#: templates/dashboard/citizen.html:194
+msgid "Demande en cours"
+msgstr "Request in progress"
+
+#: apps/permits/views.py:211
+msgid ""
+"Demande envoyée — toutes les zones de cette commune sont attribuées en "
+"attendant validation."
+msgstr "Request sent — all zones of this municipality are assigned pending approval."
+
+#: apps/citizens/views.py:48 apps/vehicles/views.py:174
+msgid "Demande envoyée. Un agent va l'examiner."
+msgstr "Request sent. An agent will review it."
+
+#: apps/permits/views.py:105
+msgid "Demande impossible."
+msgstr "Request not possible."
+
+#: apps/permits/views.py:108
+msgid "Demande introduite."
+msgstr "Request submitted."
+
+#: apps/dashboard/views.py:483
+msgid "Demande refusée."
+msgstr "Request refused."
+
+#: templates/vehicles/form.html:17
+msgid "Demander un changement de plaque"
+msgstr "Request a plate change"
+
+#: templates/registration/password_reset_confirm.html:36
+msgid "Demander un nouveau lien"
+msgstr "Request a new link"
+
+#: templates/dashboard/citizen.html:260
+msgid "Demander une carte"
+msgstr "Request a permit"
+
+#: templates/permits/confirm_professional_create.html:4
+#: templates/vehicles/detail.html:151
+msgid "Demander une carte professionnelle"
+msgstr "Request a professional permit"
+
+#: templates/permits/confirm_create.html:4
+#: templates/permits/confirm_create.html:8 templates/permits/wizard.html:4
+#: templates/vehicles/detail.html:140
+msgid "Demander une carte riverain"
+msgstr "Request a resident permit"
+
+#: templates/permits/confirm_visitor_create.html:4
+msgid "Demander une carte visiteur"
+msgstr "Request a visitor permit"
+
+#: templates/_partials/navbar.html:144 templates/_partials/navbar.html:160
+#: templates/_partials/navbar.html:176 templates/_partials/navbar.html:277
+#: templates/_partials/navbar.html:281 templates/_partials/navbar.html:285
+msgid "Demandes"
+msgstr "Requests"
+
+#: templates/dashboard/admin.html:9 templates/dashboard/agent.html:10
+#: templates/dashboard/agent_requests_list.html:4
+#: templates/dashboard/agent_requests_list.html:8
+#: templates/dashboard/super_admin.html:56
+msgid "Demandes citoyens"
+msgstr "Citizen requests"
+
+#: templates/dashboard/admin.html:14 templates/dashboard/super_admin.html:61
+msgid "Demandes de cartes en attente de décision."
+msgstr "Permit requests awaiting decision."
+
+#: templates/permits/list.html:10
+msgid "Demandes en cours, cartes actives, historique."
+msgstr "Pending requests, active permits, history."
+
+#: templates/core/home.html:231
+msgid "Demandez votre carte"
+msgstr "Request your permit"
+
+#: templates/core/home.html:32
+msgid ""
+"Demandez votre carte riverain, générez vos codes visiteurs ou obtenez une "
+"carte professionnelle pour la Région bruxelloise — depuis chez vous, en "
+"quelques minutes."
+msgstr ""
+"Request your resident permit, generate your visitor codes or obtain a "
+"professional permit for the Brussels Region — from home, in just a few "
+"minutes."
+
+#: templates/dashboard/admin_user_edit.html:16
+msgid "Dernière connexion"
+msgstr "Last login"
+
+#: templates/dashboard/admin_permit_config.html:59
+msgid "Dernière mise à jour"
+msgstr "Last update"
+
+#: templates/core/legal_privacy.html:13 templates/core/legal_terms.html:13
+msgid "Dernière mise à jour :"
+msgstr "Last update:"
+
+#: templates/dashboard/admin_policy_form.html:41
+msgid "Disponibilité"
+msgstr "Availability"
+
+#: templates/core/home.html:75
+msgid "Disponible"
+msgstr "Available"
+
+#: templates/dashboard/citizen.html:318
+msgid "Disponible dès qu'une carte riverain sera active."
+msgstr "Available as soon as a resident permit is active."
+
+#: templates/vehicles/list.html:22
+msgid "Document"
+msgstr "Document"
+
+#: templates/vehicles/form.html:32
+msgid "Document actuel :"
+msgstr "Current document:"
+
+#: templates/core/legal_privacy.html:10 templates/core/legal_terms.html:10
+msgid "Document légal"
+msgstr "Legal document"
+
+#: templates/_partials/navbar.html:236 templates/dashboard/admin.html:25
+#: templates/dashboard/super_admin.html:72
+msgid "Données GIS"
+msgstr "GIS data"
+
+#: templates/gis/map.html:25
+msgid "Données zonales : Lambert 72 (EPSG:31370) reprojetées en WGS84."
+msgstr "Zone data: Lambert 72 (EPSG:31370) reprojected to WGS84."
+
+#: templates/permits/visitor_code_form.html:21
+msgid "Durée (heures)"
+msgstr "Duration (hours)"
+
+#: templates/core/home.html:131
+msgid "Durée de 4h30"
+msgstr "Duration of 4h30"
+
+#: templates/citizens/address_change_detail.html:26
+#: templates/dashboard/agent_permit_detail.html:51
+#: templates/dashboard/agent_request_address.html:46
+#: templates/dashboard/agent_request_plate.html:34
+#: templates/permits/detail.html:33
+#: templates/vehicles/plate_change_detail.html:27
+msgid "Décidée le"
+msgstr "Decided on"
+
+#: templates/dashboard/agent_permit_detail.html:290
+#: templates/dashboard/agent_request_address.html:54
+#: templates/dashboard/agent_request_plate.html:42
+msgid "Décision"
+msgstr "Decision"
+
+#: templates/_partials/navbar.html:251
+msgid "Déconnexion"
+msgstr "Sign out"
+
+#: templates/registration/password_reset_confirm.html:4
+#: templates/registration/password_reset_confirm.html:9
+msgid "Définir un nouveau mot de passe"
+msgstr "Set a new password"
+
+#: templates/registration/register.html:148
+msgid "Déjà inscrit ? Se connecter"
+msgstr "Already registered? Sign in"
+
+#: templates/core/home.html:193
+msgid "Démarches en ligne, sans déplacement"
+msgstr "Online steps, without traveling"
+
+#: templates/companies/list.html:17
+msgid "Dénomination"
+msgstr "Denomination"
+
+#: templates/dashboard/gis_polygon_detail.html:77
+msgid "Désactiver"
+msgstr "Deactivate"
+
+#: templates/dashboard/admin_user_edit.html:101
+msgid "Désactiver ce compte ?"
+msgstr "Deactivate this account?"
+
+#: templates/dashboard/admin_user_edit.html:106
+msgid "Désactiver le compte"
+msgstr "Deactivate account"
+
+#: templates/dashboard/admin_users_list.html:74
+msgid "Désactivé"
+msgstr "Deactivated"
+
+#: templates/permits/detail.html:120
+msgid "Détail de l'attribution"
+msgstr "Attribution details"
+
+#: templates/companies/list.html:32
+#: templates/dashboard/agent_request_address.html:38
+#: templates/dashboard/citizen.html:267 templates/vehicles/list.html:41
+#: templates/vehicles/list.html:77
+msgid "Détails"
+msgstr "Details"
+
+#: templates/dashboard/admin_user_edit.html:45
+#: templates/dashboard/admin_users_list.html:44
+#: templates/dashboard/citizen.html:182
+msgid "Email"
+msgstr "Email"
+
+#: apps/audit/models.py:47
+msgid "Email de reset envoyé"
+msgstr "Reset email sent"
+
+#: apps/dashboard/views_users.py:112
+#, python-format
+msgid "Email de réinitialisation envoyé à %(email)s."
+msgstr "Reset email sent to %(email)s."
+
+#: templates/registration/password_reset_done.html:4
+#: templates/registration/password_reset_done.html:9
+msgid "Email envoyé"
+msgstr "Email sent"
+
+#: templates/core/home.html:213
+msgid "En 4 étapes simples"
+msgstr "In 4 simple steps"
+
+#: apps/citizens/models.py:82 apps/payments/models.py:24
+#: apps/vehicles/models.py:93
+msgid "En attente"
+msgstr "Pending"
+
+#: apps/permits/models.py:45
+msgid "En attente de paiement"
+msgstr "Awaiting payment"
+
+#: templates/payments/process.html:42
+msgid "En confirmant, vous acceptez l'activation immédiate de votre carte."
+msgstr "By confirming, you accept the immediate activation of your permit."
+
+#: templates/base.html:131
+msgid "En savoir plus"
+msgstr "Learn more"
+
+#: templates/dashboard/admin_api_tokens.html:113
+msgid "Endpoints disponibles"
+msgstr "Available endpoints"
+
+#: templates/dashboard/agent_permit_detail.html:23
+msgid "Engine d'attribution — snapshot"
+msgstr "Attribution engine — snapshot"
+
+#: templates/citizens/profile_edit.html:22 templates/companies/form.html:36
+#: templates/dashboard/admin_permit_config.html:60
+#: templates/dashboard/admin_policy_form.html:90
+#: templates/dashboard/admin_user_edit.html:79
+#: templates/registration/password_reset_confirm.html:24
+#: templates/vehicles/form.html:47
+msgid "Enregistrer"
+msgstr "Save"
+
+#: templates/dashboard/agent_permit_detail.html:16
+#: templates/permits/confirm_professional_create.html:15
+#: templates/permits/detail.html:24
+msgid "Entreprise"
+msgstr "Company"
+
+#: apps/companies/views.py:39
+msgid "Entreprise ajoutée."
+msgstr "Company added."
+
+#: apps/permits/views.py:204
+msgid "Entreprise invalide."
+msgstr "Invalid company."
+
+#: apps/companies/views.py:53
+msgid "Entreprise mise à jour."
+msgstr "Company updated."
+
+#: apps/companies/views.py:65
+msgid "Entreprise supprimée."
+msgstr "Company deleted."
+
+#: templates/dashboard/admin_user_edit.html:95
+msgid ""
+"Envoie un email à {{ email }} avec un lien pour définir un nouveau mot de "
+"passe."
+msgstr "Sends an email to {{ email }} with a link to set a new password."
+
+#: templates/citizens/address_change_create.html:30
+#: templates/vehicles/plate_change_create.html:33
+msgid "Envoyer la demande"
+msgstr "Send request"
+
+#: templates/registration/password_reset_form.html:24
+msgid "Envoyer le lien de réinitialisation"
+msgstr "Send reset link"
+
+#: templates/core/500.html:7
+msgid "Erreur interne."
+msgstr "Internal error."
+
+#: templates/dashboard/citizen.html:4
+msgid "Espace citoyen"
+msgstr "Citizen space"
+
+#: templates/dashboard/citizen.html:51
+msgid "Espace personnel"
+msgstr "Personal space"
+
+#: apps/audit/models.py:144
+msgid "Ex: permit, payment, user, vehicle, gis_polygon, api_token."
+msgstr "E.g.: permit, payment, user, vehicle, gis_polygon, api_token."
+
+#: templates/vehicles/confirm_delete.html:34
+msgid "Ex: véhicule vendu"
+msgstr "E.g.: vehicle sold"
+
+#: templates/dashboard/agent_permits_list.html:67
+#: templates/dashboard/agent_requests_list.html:40
+#: templates/dashboard/agent_requests_list.html:74
+msgid "Examiner"
+msgstr "Review"
+
+#: apps/permits/models.py:48
+msgid "Expirée"
+msgstr "Expired"
+
+#: templates/core/home.html:45
+msgid "Explorer la carte"
+msgstr "Explore the map"
+
+#: templates/core/home.html:302
+msgid "Explorer toutes les zones de stationnement"
+msgstr "Explore all parking zones"
+
+#: apps/permits/models.py:323
+msgid "Exponentielle (base × facteur^(rang-1))"
+msgstr "Exponential (base × factor^(rank-1))"
+
+#: templates/base.html:68
+msgid "FAQ"
+msgstr "FAQ"
+
+#: templates/dashboard/gis_versions.html:18
+msgid "Fichier source"
+msgstr "Source file"
+
+#: templates/dashboard/agent_permit_detail.html:311
+msgid "File des cartes"
+msgstr "Permits queue"
+
+#: templates/dashboard/agent_request_address.html:75
+#: templates/dashboard/agent_request_plate.html:63
+msgid "File des demandes"
+msgstr "Requests queue"
+
+#: templates/dashboard/admin_policies_list.html:47
+#: templates/dashboard/admin_users_list.html:36
+msgid "Filtrer"
+msgstr "Filter"
+
+#: templates/gis/map.html:22
+msgid "Fond de carte"
+msgstr "Base map"
+
+#: apps/rules/models.py:22
+msgid "Forcer revue manuelle"
+msgstr "Force manual review"
+
+#: apps/companies/models.py:33
+msgid "Format : BE0XXXXXXXXX."
+msgstr "Format: BE0XXXXXXXXX."
+
+#: apps/companies/models.py:14
+msgid "Format attendu : BE0XXXXXXXXX (10 chiffres après BE0)."
+msgstr "Expected format: BE0XXXXXXXXX (10 digits after BE0)."
+
+#: templates/dashboard/admin_policy_form.html:65
+msgid "Format grille :"
+msgstr "Grid format:"
+
+#: templates/_partials/file_dropzone.html:12
+msgid "Glissez le document ici, ou cliquez pour parcourir."
+msgstr "Drag the document here, or click to browse."
+
+#: templates/core/home.html:280
+msgid "Grand-Place"
+msgstr "Grand-Place"
+
+#: apps/permits/models.py:322
+msgid "Grille (selon rang)"
+msgstr "Grid (by rank)"
+
+#: templates/permits/visitor_code_form.html:27
+msgid "Générer le code"
+msgstr "Generate code"
+
+#: templates/permits/visitor_code_form.html:4
+msgid "Générer un code visiteur"
+msgstr "Generate a visitor code"
+
+#: templates/permits/detail.html:75
+msgid "Générer un nouveau code"
+msgstr "Generate a new code"
+
+#: templates/dashboard/gis_polygon_detail.html:39
+msgid "Géométrie"
+msgstr "Geometry"
+
+#: templates/dashboard/admin_users_list.html:80
+msgid "Gérer"
+msgstr "Manage"
+
+#: templates/vehicles/detail.html:164
+msgid "Gérer ce véhicule"
+msgstr "Manage this vehicle"
+
+#: templates/dashboard/admin_user_edit.html:4
+msgid "Gérer l'utilisateur"
+msgstr "Manage user"
+
+#: templates/dashboard/super_admin.html:46
+msgid "Gérer les administrateurs"
+msgstr "Manage administrators"
+
+#: templates/_partials/navbar.html:233 templates/dashboard/admin.html:29
+#: templates/dashboard/super_admin.html:76
+msgid "Gérer les utilisateurs"
+msgstr "Manage users"
+
+#: templates/dashboard/citizen.html:304
+msgid "Gérer mes codes"
+msgstr "Manage my codes"
+
+#: templates/core/home.html:265
+msgid "Heysel · Laeken"
+msgstr "Heysel · Laeken"
+
+#: templates/dashboard/admin.html:38 templates/dashboard/super_admin.html:85
+msgid ""
+"Historique horodaté de toutes les actions sensibles (cartes, paiements, "
+"rôles, API)."
+msgstr ""
+"Timestamped history of all sensitive actions (permits, payments, roles, "
+"API)."
+
+#: apps/payments/models.py:102
+msgid "ID transaction externe"
+msgstr "External transaction ID"
+
+#: apps/audit/models.py:157
+msgid "IP source"
+msgstr "Source IP"
+
+#: templates/dashboard/admin_policy_form.html:22
+msgid "Identité"
+msgstr "Identity"
+
+#: templates/core/legal_privacy.html:52
+msgid "Identité : nom, prénom, date de naissance, numéro de registre national."
+msgstr "Identity: last name, first name, date of birth, national register number."
+
+#: templates/core/legal_terms.html:69
+msgid "Il est responsable des actions effectuées depuis son compte."
+msgstr "He is responsible for the actions performed from his account."
+
+#: templates/core/legal_terms.html:70
+msgid ""
+"Il signale sans délai toute compromission suspectée à "
+"privacy@parking.belgium.local."
+msgstr ""
+"He reports any suspected compromise without delay to "
+"privacy@parking.belgium.local."
+
+#: apps/audit/models.py:65
+msgid "Import GIS effectué"
+msgstr "GIS import completed"
+
+#: templates/dashboard/gis_versions.html:21
+msgid "Importée"
+msgstr "Imported"
+
+#: templates/dashboard/admin_users_list.html:34
+msgid "Inclure inactifs"
+msgstr "Include inactive"
+
+#: templates/registration/password_reset_form.html:10
+msgid ""
+"Indiquez l'adresse email de votre compte. Vous recevrez un lien pour "
+"définir un nouveau mot de passe."
+msgstr ""
+"Enter the email address of your account. You will receive a link to set a "
+"new password."
+
+#: templates/registration/password_change_form.html:9
+msgid "Indiquez votre mot de passe actuel puis le nouveau (deux fois)."
+msgstr "Enter your current password then the new one (twice)."
+
+#: apps/audit/models.py:70
+msgid "Information"
+msgstr "Information"
+
+#: templates/core/home.html:235
+msgid ""
+"Inscription en 2 minutes avec votre adresse à Bruxelles. La commune est "
+"détectée automatiquement."
+msgstr ""
+"Registration in 2 minutes with your Brussels address. The municipality is "
+"detected automatically."
+
+#: templates/dashboard/admin_user_edit.html:15
+#: templates/dashboard/admin_users_list.html:47
+msgid "Inscrit le"
+msgstr "Registered on"
+
+#: templates/base.html:138
+msgid "J'ai compris"
+msgstr "Got it"
+
+#: templates/registration/register.html:129
+msgid "J'ai lu et j'accepte la"
+msgstr "I have read and accept the"
+
+#: apps/accounts/forms.py:50
+msgid ""
+"J'ai lu et j'accepte la politique de confidentialité et les conditions "
+"d'utilisation."
+msgstr "I have read and accept the privacy policy and terms of use."
+
+#: templates/core/home.html:293
+msgid "Jardin et perspective sur la ville basse."
+msgstr "Garden and view over the lower city."
+
+#: apps/payments/views.py:118
+msgid "Jeton de paiement manquant."
+msgstr "Payment token missing."
+
+#: templates/dashboard/admin.html:37 templates/dashboard/admin_audit_list.html:4
+#: templates/dashboard/admin_audit_list.html:14
+#: templates/dashboard/super_admin.html:84
+msgid "Journal d'audit"
+msgstr "Audit log"
+
+#: templates/core/legal_privacy.html:83
+msgid "Journaux d'audit : 3 ans (recommandation APD)."
+msgstr "Audit logs: 3 years (DPA recommendation)."
+
+#: templates/core/legal_privacy.html:57
+msgid ""
+"Journaux techniques : adresse IP de connexion, dates, actions sensibles "
+"(audit RGPD)."
+msgstr "Technical logs: login IP address, dates, sensitive actions (GDPR audit)."
+
+#: templates/core/home.html:266
+msgid "L'Atomium"
+msgstr "The Atomium"
+
+#: templates/core/legal_terms.html:68
+msgid ""
+"L'Utilisateur est seul responsable de la confidentialité de ses "
+"identifiants."
+msgstr "The User is solely responsible for the confidentiality of their credentials."
+
+#: templates/core/legal_terms.html:33
+msgid ""
+"L'Utilisateur s'engage à fournir des informations exactes et à les tenir à "
+"jour."
+msgstr "The User undertakes to provide accurate information and keep it up to date."
+
+#: templates/core/legal_terms.html:43
+msgid "L'Utilisateur s'interdit toute revente, prêt ou cession de sa carte."
+msgstr "The User shall not resell, lend or transfer their permit."
+
+#: templates/dashboard/agent_request_address.html:56
+msgid ""
+"L'approbation applique l'adresse demandée et déclenche la suspension des "
+"cartes riverain liées (à venir)."
+msgstr ""
+"Approval applies the requested address and triggers the suspension of "
+"linked resident permits (coming soon)."
+
+#: templates/dashboard/agent_request_plate.html:44
+msgid ""
+"L'approbation applique la plaque au véhicule. La carte riverain liée devra "
+"être adaptée (à venir)."
+msgstr ""
+"Approval applies the plate to the vehicle. The linked resident permit will "
+"need to be adapted (coming soon)."
+
+#: templates/dashboard/agent_permit_detail.html:292
+msgid "L'approbation place la carte en attente de paiement. Le refus est définitif."
+msgstr "Approval places the permit awaiting payment. Refusal is final."
+
+#: templates/vehicles/detail.html:186
+msgid ""
+"L'archivage masque le véhicule de votre espace mais préserve l'historique "
+"des cartes liées. Réservé aux véhicules vendus ou hors d'usage."
+msgstr ""
+"Archiving hides the vehicle from your space but preserves the history of "
+"linked permits. Reserved for sold or out-of-use vehicles."
+
+#: templates/core/legal_terms.html:32
+msgid ""
+"L'inscription est réservée aux personnes physiques majeures résidant en "
+"Région bruxelloise (carte riverain ou visiteur) ou y exerçant une activité "
+"professionnelle (carte professionnelle)."
+msgstr ""
+"Registration is reserved for adult individuals residing in the Brussels "
+"Region (resident or visitor permit) or carrying out a professional activity"
+" there (professional permit)."
+
+#: templates/core/legal_terms.html:99
+msgid ""
+"L'interface, le code source et les contenus rédactionnels sont la propriété"
+"\n"
+"      de l'auteur du projet. Les données géographiques (zones de "
+"stationnement)\n"
+"      sont fournies par la Région de Bruxelles-Capitale et restent sa "
+"propriété."
+msgstr ""
+"The interface, source code and editorial content are the property\n"
+"      of the project author. The geographic data (parking zones)\n"
+"      are provided by the Brussels-Capital Region and remain its property."
+
+#: templates/dashboard/admin_user_edit.html:110
+msgid ""
+"L'utilisateur ne pourra plus se connecter, mais ses données restent "
+"intactes."
+msgstr "The user will no longer be able to log in, but their data remains intact."
+
+#: templates/dashboard/admin_user_edit.html:112
+msgid "L'utilisateur pourra à nouveau se connecter avec ses identifiants."
+msgstr "The user will be able to log in again with their credentials."
+
+#: templates/registration/password_reset_email.html:22
+msgid "L'équipe Parking.Belgium"
+msgstr "The Parking.Belgium team"
+
+#: templates/permits/confirm_professional_create.html:32
+msgid "La carte donnera accès à toutes les zones de cette commune."
+msgstr "The permit will grant access to all zones of this municipality."
+
+#: templates/core/home.html:316
+msgid ""
+"La carte professionnelle vous donne accès à toutes les zones de "
+"stationnement d'une commune choisie. Idéale pour les interventions à "
+"domicile, les livraisons ou les rendez-vous clients dans Bruxelles."
+msgstr ""
+"The professional permit gives you access to all parking zones of a chosen "
+"municipality. Ideal for home interventions, deliveries or client meetings "
+"in Brussels."
+
+#: apps/accounts/forms.py:37
+msgid "La commune est déduite automatiquement à partir du code postal."
+msgstr "The municipality is automatically deduced from the postal code."
+
+#: apps/rules/forms.py:45
+msgid "La date de fin doit être après la date de début."
+msgstr "End date must be after start date."
+
+#: apps/vehicles/forms.py:72
+msgid "La nouvelle plaque doit être différente de l'actuelle."
+msgstr "The new plate must differ from the current one."
+
+#: templates/vehicles/confirm_delete.html:10
+msgid ""
+"La plaque <strong>{{ plate }}</strong> sera archivée. L'historique des "
+"cartes liées (actives passées, expirées, refusées…) reste consultable. Vous"
+" pourrez restaurer le véhicule plus tard si besoin."
+msgstr ""
+"The plate <strong>{{ plate }}</strong> will be archived. The history of "
+"linked permits (past active, expired, refused…) remains accessible. You can"
+" restore the vehicle later if needed."
+
+#: apps/permits/views.py:161
+msgid "La plaque est requise."
+msgstr "Plate is required."
+
+#: templates/_partials/navbar.html:300
+msgid "Langue"
+msgstr "Language"
+
+#: templates/core/home.html:197
+msgid "Langues officielles : FR · NL · EN"
+msgstr "Official languages: FR · NL · EN"
+
+#: templates/dashboard/gis_polygons_list.html:36
+msgid "Layer"
+msgstr "Layer"
+
+#: templates/core/legal_terms.html:77
+#, python-format
+msgid ""
+"Le Service est fourni « en l'état ». Aucune garantie de disponibilité 24/7\n"
+"      n'est offerte dans cette version académique. En production, un "
+"objectif de\n"
+"      99,5 % serait visé, avec maintenances planifiées annoncées 48 h à "
+"l'avance."
+msgstr ""
+"The Service is provided \"as is\". No 24/7 availability guarantee\n"
+"      is offered in this academic version. In production, a target of\n"
+"      99.5% would be aimed for, with planned maintenance announced 48h in "
+"advance."
+
+#: templates/dashboard/citizen.html:209
+msgid ""
+"Le changement d'adresse impacte vos cartes riverain — il doit être validé "
+"par un agent."
+msgstr ""
+"Address change affects your resident permits — it must be approved by an "
+"agent."
+
+#: apps/vehicles/forms.py:30 apps/vehicles/forms.py:52 apps/vehicles/forms.py:83
+msgid "Le fichier dépasse 5 Mo."
+msgstr "File exceeds 5 MB."
+
+#: templates/core/legal_terms.html:51
+msgid ""
+"Le paiement est effectué via Stripe Checkout (carte bancaire) ou par "
+"formulaire\n"
+"      sécurisé. Les tarifs sont déterminés par la commune et affichés avant"
+" validation.\n"
+"      Aucune information de carte bancaire n'est conservée par "
+"Parking.Belgium."
+msgstr ""
+"Payment is made via Stripe Checkout (credit card) or via a secure form.\n"
+"      Prices are set by the municipality and shown before validation.\n"
+"      No credit card information is stored by Parking.Belgium."
+
+#: apps/payments/views.py:181
+msgid "Le paiement par carte n'est pas configuré sur cette instance."
+msgstr "Card payment is not configured on this instance."
+
+#: templates/core/home.html:344
+msgid ""
+"Le prix s'adapte au nombre de cartes pro déjà actives — selon la politique "
+"de chaque commune."
+msgstr ""
+"The price adapts to the number of pro permits already active — according to"
+" each municipality's policy."
+
+#: templates/core/legal_terms.html:58
+msgid ""
+"Le remboursement est possible en cas d'erreur de facturation ou de "
+"révocation\n"
+"      par la commune ; il est traité par un administrateur dans un délai de"
+" 14 jours."
+msgstr ""
+"Refund is possible in case of billing error or revocation\n"
+"      by the municipality; it is processed by an administrator within 14 "
+"days."
+
+#: templates/core/legal_privacy.html:27
+msgid ""
+"Le responsable du traitement est l'auteur du projet, joignable par courrier"
+"\n"
+"      électronique à l'adresse "
+"<strong>privacy@parking.belgium.local</strong>.\n"
+"      Dans une mise en production réelle, ce rôle serait dévolu à la Région"
+"\n"
+"      bruxelloise ou à chaque commune signataire."
+msgstr ""
+"The data controller is the project author, reachable by\n"
+"      email at <strong>privacy@parking.belgium.local</strong>.\n"
+"      In a real production deployment, this role would be assigned to the "
+"Brussels\n"
+"      Region or to each signatory municipality."
+
+#: templates/core/legal_privacy.html:123
+msgid ""
+"Le site utilise un unique cookie strictement nécessaire au fonctionnement\n"
+"      (cookie de session pour vous garder connecté). Il ne fait l'objet "
+"d'aucun\n"
+"      partage publicitaire ou analytique. Aucun cookie tiers n'est déposé."
+msgstr ""
+"The site uses a single cookie strictly necessary for operation\n"
+"      (session cookie to keep you logged in). It is not shared\n"
+"      for advertising or analytics. No third-party cookies are set."
+
+#: templates/core/home.html:440
+msgid ""
+"Le tarif est défini par chaque commune et peut varier selon le rang de "
+"votre véhicule (1ère, 2ème…). Le prix exact s'affiche avant paiement."
+msgstr ""
+"The price is set by each municipality and may vary according to the rank of"
+" your vehicle (1st, 2nd…). The exact price is shown before payment."
+
+#: templates/core/legal_terms.html:88
+msgid ""
+"Le traitement des données est décrit dans la\n"
+"      <a href=\"/legal/privacy/\" class=\"text-brand-700 "
+"underline\">politique de confidentialité</a>,\n"
+"      qui fait partie intégrante des présentes conditions."
+msgstr ""
+"Data processing is described in the\n"
+"      <a href=\"/legal/privacy/\" class=\"text-brand-700 "
+"underline\">privacy policy</a>,\n"
+"      which is an integral part of these terms."
+
+#: templates/core/legal_privacy.html:39
+msgid ""
+"Le traitement repose sur l'article 6.1.e du RGPD : <em>« exécution d'une "
+"mission\n"
+"      d'intérêt public »</em>. La gestion des cartes de stationnement "
+"résidentielles\n"
+"      est une compétence communale visant à organiser l'occupation "
+"rationnelle de\n"
+"      l'espace public."
+msgstr ""
+"Processing is based on article 6.1.e of the GDPR: <em>\"performance of a "
+"task\n"
+"      carried out in the public interest\"</em>. The management of "
+"residential parking permits\n"
+"      is a municipal competence aimed at organizing the rational occupation"
+" of public space."
+
+#: templates/core/legal_terms.html:41
+msgid ""
+"Les conditions d'éligibilité (résidence, type de véhicule, activité) sont "
+"fixées par chaque commune et peuvent évoluer."
+msgstr ""
+"Eligibility conditions (residence, vehicle type, activity) are set by each "
+"municipality and may evolve."
+
+#: templates/core/legal_privacy.html:111
+msgid ""
+"Les mots de passe sont hashés (algorithme PBKDF2). Les communications sont\n"
+"      chiffrées en TLS. Les paiements transitent par Stripe (PCI-DSS niveau"
+" 1).\n"
+"      L'accès aux données back-office est cloisonné par rôle (citoyen / "
+"agent /\n"
+"      admin / super-admin) et toute action sensible est journalisée."
+msgstr ""
+"Passwords are hashed (PBKDF2 algorithm). Communications are\n"
+"      encrypted in TLS. Payments go through Stripe (PCI-DSS level 1).\n"
+"      Access to back-office data is partitioned by role (citizen / agent /\n"
+"      admin / super-admin) and every sensitive action is logged."
+
+#: templates/core/legal_privacy.html:60
+msgid ""
+"Les plaques interrogées par l'API publique (scan-cars communaux) sont\n"
+"      stockées sous forme de hash HMAC-SHA256 non réversible — la "
+"traçabilité\n"
+"      est préservée sans exposer la plaque en clair dans les journaux."
+msgstr ""
+"Plates queried by the public API (municipal scan cars) are\n"
+"      stored as a non-reversible HMAC-SHA256 hash — traceability\n"
+"      is preserved without exposing the plate in clear text in the logs."
+
+#: templates/core/legal_terms.html:110
+msgid ""
+"Les présentes conditions peuvent être modifiées. Toute modification\n"
+"      substantielle sera notifiée par email aux utilisateurs au moins 30 "
+"jours\n"
+"      avant son entrée en vigueur. Continuer à utiliser le Service vaut\n"
+"      acceptation des nouvelles conditions."
+msgstr ""
+"These terms may be modified. Any substantial change\n"
+"      will be notified by email to users at least 30 days\n"
+"      before its entry into force. Continued use of the Service constitutes"
+"\n"
+"      acceptance of the new terms."
+
+#: templates/core/legal_terms.html:20
+msgid ""
+"Les présentes conditions régissent l'usage de la plateforme Parking.Belgium"
+"\n"
+"      (« le Service ») par toute personne créant un compte (« l'Utilisateur"
+" »).\n"
+"      Le Service permet la demande, le paiement et la gestion de cartes de\n"
+"      stationnement valables dans les 19 communes de la Région de "
+"Bruxelles-Capitale."
+msgstr ""
+"These terms govern the use of the Parking.Belgium platform\n"
+"      (\"the Service\") by any person creating an account (\"the User\").\n"
+"      The Service allows requesting, paying for and managing parking "
+"permits\n"
+"      valid in the 19 municipalities of the Brussels-Capital Region."
+
+#: templates/core/legal_terms.html:122
+msgid ""
+"Les présentes conditions sont régies par le droit belge. Tout litige relève"
+"\n"
+"      des tribunaux de l'arrondissement judiciaire de Bruxelles."
+msgstr ""
+"These terms are governed by Belgian law. Any dispute falls\n"
+"      under the jurisdiction of the courts of the judicial district of "
+"Brussels."
+
+#: templates/registration/password_reset_confirm.html:30
+msgid "Lien invalide ou expiré"
+msgstr "Invalid or expired link"
+
+#: templates/payments/process.html:11
+msgid "Lien sécurisé valable 15 minutes."
+msgstr "Secure link valid for 15 minutes."
+
+#: templates/base.html:64
+msgid "Liens utiles"
+msgstr "Useful links"
+
+#: templates/dashboard/admin_policy_form.html:71
+msgid "Limites"
+msgstr "Limits"
+
+#: templates/dashboard/admin_permit_config.html:12
+msgid ""
+"Limites cross-cutting et valeurs par défaut. Pour les règles spécifiques "
+"par commune et par type de carte (prix, validité, attribution auto, "
+"limites),"
+msgstr ""
+"Cross-cutting limits and default values. For rules specific to each "
+"municipality and permit type (price, validity, auto attribution, limits),"
+
+#: templates/dashboard/admin_permit_config.html:46
+msgid "Limites par citoyen"
+msgstr "Limits per citizen"
+
+#: templates/companies/detail.html:22
+msgid "Liste"
+msgstr "List"
+
+#: apps/permits/models.py:373
+msgid "Liste de [rang_seuil, prix_centimes] — ex: [[1,1000],[2,2500],[3,5000]]."
+msgstr "List of [rank_threshold, price_cents] — e.g.: [[1,1000],[2,2500],[3,5000]]."
+
+#: templates/dashboard/gis_polygon_detail.html:116
+msgid "Liste des polygones"
+msgstr "Polygon list"
+
+#: templates/dashboard/admin.html:30 templates/dashboard/super_admin.html:77
+msgid ""
+"Lister, éditer, changer les rôles, désactiver, réinitialiser les mots de "
+"passe."
+msgstr "List, edit, change roles, deactivate, reset passwords."
+
+#: templates/core/home.html:113
+msgid "Liée à votre adresse principale"
+msgstr "Linked to your primary address"
+
+#: templates/vehicles/detail.html:81
+msgid "Manquant"
+msgstr "Missing"
+
+#: templates/vehicles/list.html:19
+msgid "Marque"
+msgstr "Brand"
+
+#: templates/vehicles/list.html:63
+msgid "Marque / modèle"
+msgstr "Brand / model"
+
+#: templates/payments/card_form.html:89
+msgid "Mastercard — succès"
+msgstr "Mastercard — success"
+
+#: templates/_partials/navbar.html:109
+msgid "Menu"
+msgstr "Menu"
+
+#: templates/_partials/navbar.html:192 templates/_partials/navbar.html:289
+#: templates/dashboard/citizen.html:162 templates/permits/detail.html:178
+#: templates/permits/list.html:4 templates/permits/list.html:9
+msgid "Mes cartes"
+msgstr "My permits"
+
+#: templates/dashboard/citizen.html:345
+msgid "Mes cartes en cours"
+msgstr "My active permits"
+
+#: templates/_partials/navbar.html:242
+#: templates/citizens/address_change_detail.html:42
+#: templates/citizens/request_list.html:4 templates/citizens/request_list.html:7
+#: templates/vehicles/plate_change_detail.html:43
+msgid "Mes demandes"
+msgstr "My requests"
+
+#: templates/core/home.html:472
+msgid "Mes données sont-elles sécurisées ?"
+msgstr "Is my data secure?"
+
+#: templates/_partials/navbar.html:241 templates/_partials/navbar.html:291
+#: templates/companies/list.html:4 templates/companies/list.html:8
+#: templates/dashboard/citizen.html:167
+msgid "Mes entreprises"
+msgstr "My companies"
+
+#: templates/_partials/navbar.html:240 templates/_partials/navbar.html:290
+#: templates/dashboard/citizen.html:220 templates/vehicles/detail.html:11
+#: templates/vehicles/list.html:4 templates/vehicles/list.html:8
+msgid "Mes véhicules"
+msgstr "My vehicles"
+
+#: templates/dashboard/agent_permit_detail.html:75
+msgid "Mettre à jour la validité"
+msgstr "Update validity"
+
+#: templates/dashboard/agent_permit_detail.html:95
+msgid "Mettre à jour la zone"
+msgstr "Update zone"
+
+#: templates/registration/password_change_form.html:26
+msgid "Mettre à jour le mot de passe"
+msgstr "Update password"
+
+#: templates/companies/detail.html:24 templates/dashboard/citizen.html:178
+#: templates/dashboard/citizen.html:198
+msgid "Modifier"
+msgstr "Edit"
+
+#: templates/companies/form.html:5 templates/companies/form.html:11
+msgid "Modifier l'entreprise"
+msgstr "Edit company"
+
+#: templates/citizens/profile_edit.html:4 templates/citizens/profile_edit.html:8
+msgid "Modifier le profil"
+msgstr "Edit profile"
+
+#: templates/vehicles/form.html:5 templates/vehicles/form.html:11
+msgid "Modifier le véhicule"
+msgstr "Edit vehicle"
+
+#: templates/vehicles/detail.html:170
+msgid "Modifier les détails"
+msgstr "Edit details"
+
+#: templates/_partials/navbar.html:248
+#: templates/registration/password_change_form.html:4
+#: templates/registration/password_change_form.html:8
+msgid "Modifier mon mot de passe"
+msgstr "Change my password"
+
+#: templates/_partials/navbar.html:244
+msgid "Modifier mon profil"
+msgstr "Edit my profile"
+
+#: templates/vehicles/list.html:20
+msgid "Modèle"
+msgstr "Model"
+
+#: templates/payments/card_form.html:52
+msgid "Mois"
+msgstr "Month"
+
+#: templates/_partials/navbar.html:239
+msgid "Mon compte"
+msgstr "My account"
+
+#: templates/_partials/navbar.html:187 templates/_partials/navbar.html:288
+#: templates/base.html:77
+msgid "Mon espace"
+msgstr "My space"
+
+#: templates/core/home.html:292
+msgid "Mont des Arts"
+msgstr "Mont des Arts"
+
+#: templates/payments/card_form.html:17 templates/payments/process.html:19
+msgid "Montant"
+msgstr "Amount"
+
+#: templates/payments/start.html:16
+msgid "Montant à payer"
+msgstr "Amount to pay"
+
+#: templates/base.html:78
+msgid "Mot de passe"
+msgstr "Password"
+
+#: templates/registration/password_change_done.html:9
+msgid "Mot de passe mis à jour"
+msgstr "Password updated"
+
+#: templates/registration/password_change_done.html:4
+msgid "Mot de passe modifié"
+msgstr "Password changed"
+
+#: templates/base.html:82 templates/registration/password_reset_form.html:4
+msgid "Mot de passe oublié"
+msgstr "Password forgotten"
+
+#: templates/registration/login.html:36
+#: templates/registration/password_reset_form.html:8
+msgid "Mot de passe oublié ?"
+msgstr "Forgot password?"
+
+#: templates/registration/password_reset_complete.html:4
+#: templates/registration/password_reset_complete.html:9
+msgid "Mot de passe réinitialisé"
+msgstr "Password reset"
+
+#: templates/citizens/address_change_detail.html:22
+#: templates/vehicles/list.html:65 templates/vehicles/plate_change_detail.html:23
+msgid "Motif"
+msgstr "Reason"
+
+#: templates/vehicles/confirm_delete.html:32
+msgid "Motif d'archivage (optionnel)"
+msgstr "Reason for archiving (optional)"
+
+#: templates/dashboard/agent_request_address.html:43
+#: templates/dashboard/agent_request_plate.html:30
+msgid "Motif du citoyen"
+msgstr "Citizen reason"
+
+#: apps/vehicles/models.py:18
+msgid "Moto"
+msgstr "Motorcycle"
+
+#: templates/dashboard/admin_user_edit.html:38
+#: templates/dashboard/citizen.html:181 templates/dashboard/gis_versions.html:17
+msgid "Nom"
+msgstr "Name"
+
+#: templates/dashboard/gis_polygons_list.html:35
+msgid "Nom (fr)"
+msgstr "Name (fr)"
+
+#: templates/dashboard/admin_policies_list.html:39
+msgid "Non"
+msgstr "No"
+
+#: apps/audit/models.py:71
+msgid "Notable"
+msgstr "Notable"
+
+#: templates/dashboard/agent_permit_detail.html:52
+#: templates/dashboard/agent_request_address.html:47
+#: templates/dashboard/agent_request_plate.html:35
+msgid "Notes"
+msgstr "Notes"
+
+#: templates/dashboard/agent_permit_detail.html:177
+msgid "Notes (optionnel)"
+msgstr "Notes (optional)"
+
+#: templates/citizens/address_change_detail.html:29
+#: templates/permits/detail.html:35
+#: templates/vehicles/plate_change_detail.html:30
+msgid "Notes de l'agent"
+msgstr "Agent notes"
+
+#: templates/dashboard/agent_permit_detail.html:41
+#: templates/permits/detail.html:133
+msgid "Notes engine"
+msgstr "Engine notes"
+
+#: apps/dashboard/views.py:175 apps/dashboard/views.py:225
+#: apps/dashboard/views.py:471
+msgid "Notes invalides."
+msgstr "Invalid notes."
+
+#: templates/dashboard/agent_request_plate.html:25
+#: templates/vehicles/plate_change_detail.html:18
+msgid "Nouveau certificat"
+msgstr "New certificate"
+
+#: templates/permits/visitor_code_form.html:8
+msgid "Nouveau code visiteur"
+msgstr "New visitor code"
+
+#: templates/citizens/address_change_detail.html:14
+#: templates/citizens/request_list.html:18
+#: templates/dashboard/agent_requests_list.html:26
+msgid "Nouvelle adresse"
+msgstr "New address"
+
+#: templates/dashboard/admin_policies_list.html:12
+#: templates/dashboard/admin_policy_form.html:5
+#: templates/dashboard/admin_policy_form.html:11
+msgid "Nouvelle politique"
+msgstr "New policy"
+
+#: apps/audit/models.py:119
+msgid "Null = action déclenchée par le système (cron, signal)."
+msgstr "Null = action triggered by the system (cron, signal)."
+
+#: templates/payments/card_form.html:32
+msgid "Numéro de carte"
+msgstr "Card number"
+
+#: templates/dashboard/citizen.html:185
+msgid "N° national"
+msgstr "National no."
+
+#: templates/dashboard/citizen.html:184
+msgid "Né(e) le"
+msgstr "Born on"
+
+#: templates/dashboard/admin_policies_list.html:38
+msgid "Oui"
+msgstr "Yes"
+
+#: templates/core/home.html:454
+msgid ""
+"Oui, via une demande validée par un agent. Joignez votre nouveau certificat"
+" d'immatriculation pour accélérer le traitement."
+msgstr ""
+"Yes, via a request validated by an agent. Attach your new registration "
+"certificate to speed up processing."
+
+#: apps/vehicles/models.py:63 apps/vehicles/models.py:119
+msgid "PDF, JPG, PNG ou WebP — max 5 Mo."
+msgstr "PDF, JPG, PNG or WebP — max 5 MB."
+
+#: templates/core/home.html:121
+msgid "POPULAIRE"
+msgstr "POPULAR"
+
+#: templates/payments/start.html:55
+msgid "Page hostée Stripe — Bancontact, cartes"
+msgstr "Stripe-hosted page — Bancontact, cards"
+
+#: templates/core/404.html:7
+msgid "Page introuvable."
+msgstr "Page not found."
+
+#: templates/dashboard/admin_users_list.html:95
+msgid "Page {{ current }}/{{ total }}"
+msgstr "Page {{ current }}/{{ total }}"
+
+#: templates/payments/start.html:4
+msgid "Paiement"
+msgstr "Payment"
+
+#: apps/audit/models.py:39
+msgid "Paiement annulé"
+msgstr "Payment cancelled"
+
+#: apps/payments/views.py:146
+msgid "Paiement annulé."
+msgstr "Payment cancelled."
+
+#: apps/payments/views.py:230
+msgid "Paiement annulé. Vous pouvez reprendre quand vous voulez."
+msgstr "Payment cancelled. You can resume whenever you want."
+
+#: apps/payments/models.py:35
+msgid "Paiement interne gratuit"
+msgstr "Free internal payment"
+
+#: apps/payments/views.py:205
+msgid "Paiement introuvable."
+msgstr "Payment not found."
+
+#: templates/payments/card_form.html:4
+msgid "Paiement par carte"
+msgstr "Card payment"
+
+#: apps/audit/models.py:38
+msgid "Paiement remboursé"
+msgstr "Payment refunded"
+
+#: apps/audit/models.py:40
+msgid "Paiement simulé (debug/staff)"
+msgstr "Simulated payment (debug/staff)"
+
+#: templates/payments/card_form.html:10
+msgid "Paiement sécurisé"
+msgstr "Secure payment"
+
+#: apps/audit/models.py:37
+msgid "Paiement validé"
+msgstr "Payment confirmed"
+
+#: apps/payments/views.py:292
+#, python-format
+msgid ""
+"Paiement validé (carte %(brand)s •••• %(last4)s). Carte de stationnement "
+"activée."
+msgstr "Payment confirmed (card %(brand)s •••• %(last4)s). Parking permit activated."
+
+#: apps/payments/views.py:221
+msgid "Paiement validé. Votre carte est active. Email de confirmation envoyé."
+msgstr "Payment confirmed. Your permit is active. Confirmation email sent."
+
+#: apps/payments/views.py:132
+msgid ""
+"Paiement validé. Votre carte est active. Un email de confirmation vous a "
+"été envoyé."
+msgstr ""
+"Payment confirmed. Your permit is active. A confirmation email has been "
+"sent."
+
+#: templates/core/legal_privacy.html:82
+msgid "Paiements : 7 ans (obligation TVA)."
+msgstr "Payments: 7 years (VAT obligation)."
+
+#: templates/core/legal_privacy.html:56
+msgid ""
+"Paiements : montant, méthode, référence Stripe, statut. Aucun numéro de "
+"carte bancaire n'est stocké sur nos serveurs."
+msgstr ""
+"Payments: amount, method, Stripe reference, status. No credit card number "
+"is stored on our servers."
+
+#: templates/core/legal_privacy.html:20
+msgid ""
+"Parking.Belgium est une plateforme académique développée dans le cadre d'un"
+" travail\n"
+"      de fin d'études. Elle permet la gestion centralisée des cartes de "
+"stationnement\n"
+"      pour les 19 communes de la Région de Bruxelles-Capitale."
+msgstr ""
+"Parking.Belgium is an academic platform developed as part of a thesis\n"
+"      project. It enables centralized management of parking permits\n"
+"      for the 19 municipalities of the Brussels-Capital Region."
+
+#: apps/payments/emails.py:112
+#, python-format
+msgid "Parking.Belgium — Remboursement paiement #%(pk)s"
+msgstr "Parking.Belgium — Payment refund #%(pk)s"
+
+#: templates/registration/password_reset_subject.txt:1
+msgid "Parking.Belgium — Réinitialisation de votre mot de passe"
+msgstr "Parking.Belgium — Password reset"
+
+#: apps/accounts/services.py:177
+msgid ""
+"Parking.Belgium — Réinitialisation de votre mot de passe (initiée par un "
+"administrateur)"
+msgstr "Parking.Belgium — Password reset (initiated by an administrator)"
+
+#: templates/core/home.html:281
+msgid "Patrimoine UNESCO — cœur historique."
+msgstr "UNESCO heritage — historic heart."
+
+#: templates/payments/card_form.html:75 templates/permits/detail.html:183
+msgid "Payer"
+msgstr "Pay"
+
+#: templates/payments/start.html:40
+msgid "Payer par carte bancaire"
+msgstr "Pay by credit card"
+
+#: templates/payments/start.html:54
+msgid "Payer via Stripe"
+msgstr "Pay via Stripe"
+
+#: templates/core/home.html:232
+msgid "Payez en ligne"
+msgstr "Pay online"
+
+#: templates/core/home.html:127
+msgid ""
+"Permettez à vos invités de stationner dans votre zone grâce à des codes "
+"temporaires personnalisés."
+msgstr "Let your guests park in your zone thanks to personalized temporary codes."
+
+#: apps/permits/models.py:391
+msgid "Pertinent surtout pour la carte professionnelle."
+msgstr "Mostly relevant for the professional permit."
+
+#: templates/dashboard/agent_permit_detail.html:201
+#: templates/dashboard/agent_requests_list.html:60
+#: templates/permits/detail.html:82 templates/vehicles/list.html:18
+#: templates/vehicles/list.html:62
+msgid "Plaque"
+msgstr "Plate"
+
+#: templates/vehicles/form.html:16
+msgid ""
+"Plaque <strong class=\"font-mono\">{{ plate }}</strong> — non modifiable "
+"ici."
+msgstr "Plate <strong class=\"font-mono\">{{ plate }}</strong> — not editable here."
+
+#: templates/dashboard/agent_request_plate.html:17
+#: templates/vehicles/plate_change_detail.html:15
+msgid "Plaque actuelle"
+msgstr "Current plate"
+
+#: templates/vehicles/plate_change_create.html:10
+msgid ""
+"Plaque actuelle : <strong class=\"font-mono\">{{ plate }}</strong>. La "
+"demande sera examinée par un agent — une fois approuvée, votre carte "
+"riverain liée à ce véhicule sera mise à jour ou suspendue selon les règles "
+"métier."
+msgstr ""
+"Current plate: <strong class=\"font-mono\">{{ plate }}</strong>. The "
+"request will be reviewed by an agent — once approved, your resident permit "
+"linked to this vehicle will be updated or suspended according to business "
+"rules."
+
+#: templates/citizens/request_list.html:51
+msgid "Plaque actuelle → demandée"
+msgstr "Current → requested"
+
+#: templates/dashboard/agent_request_plate.html:18
+#: templates/vehicles/plate_change_detail.html:16
+msgid "Plaque demandée"
+msgstr "Requested plate"
+
+#: templates/permits/visitor_code_form.html:16
+msgid "Plaque visiteur"
+msgstr "Visitor plate"
+
+#: templates/core/home.html:201
+msgid "Plateforme accessible à toute heure"
+msgstr "Platform available 24/7"
+
+#: templates/base.html:60
+msgid ""
+"Plateforme centralisée pour les 19 communes de la Région de Bruxelles-"
+"Capitale."
+msgstr ""
+"Centralized platform for the 19 municipalities of the Brussels-Capital "
+"Region."
+
+#: apps/rules/models.py:56
+msgid "Plus petit = plus prioritaire (appliqué en premier)."
+msgstr "Smaller = higher priority (applied first)."
+
+#: templates/dashboard/admin_policy_form.html:11
+msgid "Politique"
+msgstr "Policy"
+
+#: apps/audit/models.py:60
+msgid "Politique commune modifiée"
+msgstr "Municipality policy modified"
+
+#: apps/dashboard/views.py:714
+msgid "Politique créée."
+msgstr "Policy created."
+
+#: templates/base.html:69 templates/core/legal_privacy.html:4
+#: templates/core/legal_privacy.html:11 templates/core/legal_terms.html:133
+msgid "Politique de confidentialité"
+msgstr "Privacy policy"
+
+#: apps/dashboard/views.py:688
+msgid "Politique mise à jour."
+msgstr "Policy updated."
+
+#: apps/dashboard/views.py:739
+msgid "Politique supprimée."
+msgstr "Policy deleted."
+
+#: templates/_partials/navbar.html:235 templates/dashboard/admin.html:21
+#: templates/dashboard/admin_policies_list.html:4
+#: templates/dashboard/admin_policies_list.html:9
+#: templates/dashboard/super_admin.html:68
+msgid "Politiques par commune"
+msgstr "Policies by municipality"
+
+#: templates/dashboard/gis_polygon_detail.html:4
+msgid "Polygone"
+msgstr "Polygon"
+
+#: apps/permits/models.py:53
+msgid "Polygone GIS"
+msgstr "GIS polygon"
+
+#: templates/dashboard/agent_permit_detail.html:26
+#: templates/permits/detail.html:124
+msgid "Polygone source"
+msgstr "Source polygon"
+
+#: templates/dashboard/gis_versions.html:19
+msgid "Polygones"
+msgstr "Polygons"
+
+#: templates/dashboard/gis_polygons_list.html:4
+#: templates/dashboard/gis_polygons_list.html:9
+msgid "Polygones GIS"
+msgstr "GIS polygons"
+
+#: templates/permits/detail.html:53
+msgid "Polygones GIS sur lesquels cette carte donne droit de stationner."
+msgstr "GIS polygons where this permit grants parking rights."
+
+#: templates/core/legal_privacy.html:100
+msgid ""
+"Pour exercer ces droits, écrivez à "
+"<strong>privacy@parking.belgium.local</strong>\n"
+"      depuis l'adresse email associée à votre compte. Une réponse vous sera"
+" apportée\n"
+"      dans un délai d'un mois."
+msgstr ""
+"To exercise these rights, write to "
+"<strong>privacy@parking.belgium.local</strong>\n"
+"      from the email address associated with your account. You will receive"
+" a reply\n"
+"      within one month."
+
+#: templates/core/legal_privacy.html:50
+msgid "Pour fonctionner, le service collecte :"
+msgstr "To function, the service collects:"
+
+#: templates/permits/confirm_professional_create.html:10
+msgid ""
+"Pour le véhicule <strong class=\"font-mono\">{{ plate }}</strong>. La carte"
+" donne accès à <strong>toutes les zones d'une commune</strong> (à choisir "
+"ci-dessous). Un agent valide la légitimité commerciale avant activation."
+msgstr ""
+"For vehicle <strong class=\"font-mono\">{{ plate }}</strong>. The permit "
+"grants access to <strong>all zones of a municipality</strong> (to choose "
+"below). An agent validates commercial legitimacy before activation."
+
+#: templates/core/home.html:313
+msgid "Pour les pros"
+msgstr "For professionals"
+
+#: templates/core/home.html:110
+msgid ""
+"Pour stationner près de chez vous dans votre zone résidentielle. Tarif "
+"préférentiel selon votre commune."
+msgstr ""
+"To park near home in your residential zone. Preferential rate according to "
+"your municipality."
+
+#: templates/core/home.html:180
+msgid "Pourquoi Parking.Belgium ?"
+msgstr "Why Parking.Belgium?"
+
+#: templates/dashboard/gis_polygon_detail.html:54
+msgid "Prio"
+msgstr "Prio"
+
+#: templates/permits/detail.html:37
+msgid "Prix"
+msgstr "Price"
+
+#: apps/permits/models.py:321
+msgid "Prix fixe"
+msgstr "Fixed price"
+
+#: templates/core/home.html:365
+msgid "Pro"
+msgstr "Pro"
+
+#: apps/permits/models.py:37 apps/rules/models.py:16
+msgid "Professionnel"
+msgstr "Professional"
+
+#: templates/dashboard/citizen.html:177 templates/registration/register.html:42
+msgid "Profil"
+msgstr "Profile"
+
+#: apps/citizens/views.py:27
+msgid "Profil mis à jour."
+msgstr "Profile updated."
+
+#: apps/audit/models.py:44
+msgid "Profil utilisateur modifié"
+msgstr "User profile modified"
+
+#: templates/dashboard/agent_request_plate.html:15
+#: templates/dashboard/agent_requests_list.html:59
+msgid "Propriétaire"
+msgstr "Owner"
+
+#: templates/dashboard/admin_user_edit.html:33
+msgid "Prénom"
+msgstr "First name"
+
+#: templates/permits/confirm_visitor_create.html:13
+msgid "Prérequis : avoir une carte riverain active."
+msgstr "Prerequisite: have an active resident permit."
+
+#: templates/core/home.html:451
+msgid "Puis-je changer la plaque de mon véhicule ?"
+msgstr "Can I change my vehicle's plate?"
+
+#: templates/dashboard/admin_policies_list.html:60
+msgid "Période"
+msgstr "Period"
+
+#: templates/core/home.html:291
+msgid "Quartier des Musées"
+msgstr "Museum District"
+
+#: templates/core/home.html:444
+msgid "Que se passe-t-il si je déménage ?"
+msgstr "What happens if I move?"
+
+#: templates/core/home.html:96
+msgid "Quelle carte"
+msgstr "Which permit"
+
+#: templates/core/home.html:465
+msgid "Quels sont les moyens de paiement acceptés ?"
+msgstr "Which payment methods are accepted?"
+
+#: templates/core/home.html:429
+msgid "Questions fréquentes"
+msgstr "Frequently asked questions"
+
+#: templates/permits/detail.html:43
+msgid "Raison"
+msgstr "Reason"
+
+#: templates/dashboard/agent_permit_detail.html:162
+msgid "Raison de la suspension (obligatoire)"
+msgstr "Suspension reason (required)"
+
+#: templates/dashboard/admin_policies_list.html:43
+#: templates/dashboard/agent_permits_list.html:35
+msgid "Recherche"
+msgstr "Search"
+
+#: templates/dashboard/admin_audit_list.html:16
+msgid "Recherche, filtres et export CSV des entrées du journal."
+msgstr "Search, filters and CSV export of log entries."
+
+#: templates/dashboard/admin_users_list.html:30
+msgid "Rechercher (username, email, nom)…"
+msgstr "Search (username, email, name)…"
+
+#: templates/dashboard/agent_permit_detail.html:30
+msgid "Refus auto"
+msgstr "Auto-refusal"
+
+#: templates/dashboard/agent_permit_detail.html:300
+#: templates/dashboard/agent_request_address.html:64
+#: templates/dashboard/agent_request_plate.html:52
+msgid "Refuser"
+msgstr "Refuse"
+
+#: apps/rules/models.py:23
+msgid "Refuser l'attribution automatique"
+msgstr "Refuse automatic attribution"
+
+#: apps/citizens/models.py:84 apps/permits/models.py:44
+#: apps/vehicles/models.py:95 templates/payments/card_form.html:91
+msgid "Refusée"
+msgstr "Refused"
+
+#: apps/payments/models.py:29
+msgid "Remboursé"
+msgstr "Refunded"
+
+#: apps/rules/models.py:21
+msgid "Remplacer la zone principale"
+msgstr "Replace main zone"
+
+#: templates/core/home.html:236
+msgid ""
+"Renseignez la plaque, marque, modèle et joignez votre certificat "
+"d'immatriculation."
+msgstr "Enter the plate, brand, model and attach your registration certificate."
+
+#: templates/registration/register.html:12
+msgid ""
+"Renseignez vos informations en une seule fois — profil et adresse "
+"principale inclus."
+msgstr "Fill in your information at once — profile and primary address included."
+
+#: templates/registration/register.html:71
+#: templates/registration/register.html:95
+msgid "Renseignez votre code postal — la commune se remplit automatiquement."
+msgstr "Enter your postal code — the municipality fills in automatically."
+
+#: templates/payments/start.html:24 templates/payments/start.html:26
+msgid "Reprendre"
+msgstr "Resume"
+
+#: apps/rules/models.py:51
+msgid "Requis pour ADD_ZONE et REPLACE_MAIN_ZONE."
+msgstr "Required for ADD_ZONE and REPLACE_MAIN_ZONE."
+
+#: apps/rules/forms.py:39
+msgid "Requis pour cette action."
+msgstr "Required for this action."
+
+#: templates/vehicles/list.html:79
+msgid "Restaurer"
+msgstr "Restore"
+
+#: templates/vehicles/detail.html:59
+msgid "Restaurer ce véhicule"
+msgstr "Restore this vehicle"
+
+#: templates/dashboard/agent_permit_detail.html:119
+#: templates/dashboard/agent_permit_detail.html:255
+msgid "Retirer"
+msgstr "Remove"
+
+#: templates/dashboard/agent_permit_detail.html:117
+msgid "Retirer cette zone ?"
+msgstr "Remove this zone?"
+
+#: templates/permits/wizard.html:13
+msgid "Retour au véhicule"
+msgstr "Back to vehicle"
+
+#: templates/dashboard/admin_api_tokens.html:18
+msgid "Retour aux utilisateurs"
+msgstr "Back to users"
+
+#: templates/registration/password_reset_done.html:16
+#: templates/registration/password_reset_form.html:29
+msgid "Retour à la connexion"
+msgstr "Back to sign in"
+
+#: templates/dashboard/admin_user_edit.html:8
+msgid "Retour à la liste"
+msgstr "Back to list"
+
+#: templates/companies/list.html:45 templates/permits/list.html:54
+#: templates/registration/password_change_done.html:13
+#: templates/vehicles/list.html:89
+msgid "Retour à mon espace"
+msgstr "Back to my space"
+
+#: apps/permits/models.py:43 templates/dashboard/agent_permit_detail.html:29
+msgid "Revue manuelle"
+msgstr "Manual review"
+
+#: apps/permits/models.py:35 apps/rules/models.py:14
+msgid "Riverain"
+msgstr "Resident"
+
+#: apps/dashboard/views.py:317
+msgid "Règle créée."
+msgstr "Rule created."
+
+#: apps/audit/models.py:62
+msgid "Règle de polygone modifiée"
+msgstr "Polygon rule modified"
+
+#: apps/dashboard/views.py:337
+msgid "Règle mise à jour."
+msgstr "Rule updated."
+
+#: apps/permits/models.py:54
+msgid "Règle métier"
+msgstr "Business rule"
+
+#: apps/dashboard/views.py:349
+msgid "Règle supprimée."
+msgstr "Rule deleted."
+
+#: templates/dashboard/agent_permit_detail.html:32
+msgid "Règles appliquées"
+msgstr "Applied rules"
+
+#: templates/dashboard/admin.html:22 templates/dashboard/super_admin.html:69
+msgid "Règles fines : prix, validité, limites par (commune × type de carte)."
+msgstr "Fine rules: price, validity, limits per (municipality × permit type)."
+
+#: templates/dashboard/gis_polygon_detail.html:45
+msgid "Règles métier"
+msgstr "Business rules"
+
+#: templates/dashboard/admin_user_edit.html:101
+msgid "Réactiver ce compte ?"
+msgstr "Reactivate this account?"
+
+#: templates/dashboard/agent_permit_detail.html:174
+msgid "Réactiver cette carte ?"
+msgstr "Reactivate this permit?"
+
+#: templates/dashboard/agent_permit_detail.html:183
+msgid "Réactiver la carte"
+msgstr "Reactivate permit"
+
+#: templates/dashboard/admin_user_edit.html:106
+msgid "Réactiver le compte"
+msgstr "Reactivate account"
+
+#: templates/payments/process.html:18
+msgid "Référence"
+msgstr "Reference"
+
+#: templates/core/home.html:390
+msgid "Région de Bruxelles-Capitale"
+msgstr "Brussels-Capital Region"
+
+#: templates/dashboard/admin_policies_list.html:48
+#: templates/dashboard/agent_permits_list.html:40
+msgid "Réinit."
+msgstr "Reset"
+
+#: templates/registration/password_reset_email.html:7
+msgid "Réinitialisation de mot de passe"
+msgstr "Password reset"
+
+#: templates/registration/password_reset_email.html:3
+msgid "Réinitialisation mot de passe"
+msgstr "Password reset"
+
+#: templates/dashboard/admin_user_edit.html:93
+msgid "Réinitialiser le mot de passe"
+msgstr "Reset password"
+
+#: templates/registration/password_reset_email.html:17
+msgid "Réinitialiser mon mot de passe"
+msgstr "Reset my password"
+
+#: templates/dashboard/admin_api_tokens.html:99
+msgid "Révoquer"
+msgstr "Revoke"
+
+#: templates/dashboard/admin_api_tokens.html:97
+msgid "Révoquer ce token ?"
+msgstr "Revoke this token?"
+
+#: templates/dashboard/admin_api_tokens.html:69
+#: templates/dashboard/admin_user_edit.html:51
+#: templates/dashboard/admin_users_list.html:45
+msgid "Rôle"
+msgstr "Role"
+
+#: apps/audit/models.py:43
+msgid "Rôle utilisateur modifié"
+msgstr "User role modified"
+
+#: apps/gis_data/models.py:22 templates/dashboard/gis_versions.html:20
+msgid "SRID"
+msgstr "SRID"
+
+#: apps/permits/models.py:55
+msgid "Saisie manuelle"
+msgstr "Manual entry"
+
+#: templates/permits/visitor_code_form.html:10
+msgid "Saisissez la plaque du visiteur et la durée (en heures)."
+msgstr "Enter the visitor's plate and duration (in hours)."
+
+#: templates/payments/card_form.html:11
+msgid "Saisissez les informations de votre carte."
+msgstr "Enter your card information."
+
+#: templates/base.html:80 templates/registration/login.html:30
+#: templates/registration/password_reset_complete.html:13
+msgid "Se connecter"
+msgstr "Sign in"
+
+#: templates/permits/confirm_create.html:13
+msgid ""
+"Selon votre adresse et les règles métier en vigueur, la demande peut être "
+"validée automatiquement, envoyée en revue manuelle, ou refusée."
+msgstr ""
+"Depending on your address and the business rules in force, the request may "
+"be approved automatically, sent to manual review, or refused."
+
+#: templates/dashboard/admin_user_edit.html:65
+msgid "Selon votre niveau de permission, certains rôles ne sont pas attribuables."
+msgstr "According to your permission level, some roles cannot be assigned."
+
+#: templates/registration/register.html:67
+msgid "Sera déduite du code postal"
+msgstr "Will be deduced from postal code"
+
+#: templates/_partials/navbar.html:258
+msgid "Service en ligne"
+msgstr "Online service"
+
+#: templates/base.html:89
+msgid "Service en ligne pour la Région de Bruxelles-Capitale"
+msgstr "Online service for the Brussels-Capital Region"
+
+#: templates/core/home.html:20
+msgid "Service officiel · 19 communes"
+msgstr "Official service · 19 municipalities"
+
+#: templates/dashboard/super_admin.html:38
+msgid ""
+"Seul un super-admin peut nommer ou révoquer des administrateurs et d'autres"
+" super-admins."
+msgstr ""
+"Only a super-admin can appoint or revoke administrators and other super-"
+"admins."
+
+#: templates/dashboard/agent_permit_detail.html:151
+msgid ""
+"Seuls les codes correspondant à un polygone GIS de la version active sont "
+"proposés. Cette liste se met à jour à chaque rechargement de la page."
+msgstr ""
+"Only codes matching a GIS polygon of the active version are offered. This "
+"list updates on every page reload."
+
+#: templates/dashboard/admin_api_tokens.html:54
+msgid "Seuls les comptes back-office actifs sans token sont listés."
+msgstr "Only active back-office accounts without a token are listed."
+
+#: apps/permits/models.py:351
+msgid ""
+"Si décoché, toute demande passe en revue manuelle même si l'engine ne le "
+"requiert pas."
+msgstr ""
+"If unchecked, every request goes to manual review even if the engine does "
+"not require it."
+
+#: templates/registration/password_reset_done.html:11
+msgid ""
+"Si un compte existe pour cette adresse, un email contenant un lien de "
+"réinitialisation vient d'être envoyé."
+msgstr ""
+"If an account exists for this address, an email with a reset link has just "
+"been sent."
+
+#: templates/registration/password_reset_email.html:21
+msgid ""
+"Si vous n'êtes pas à l'origine de cette demande, ignorez simplement cet "
+"email — votre mot de passe actuel reste inchangé."
+msgstr ""
+"If you did not request this, simply ignore this email — your current "
+"password remains unchanged."
+
+#: apps/payments/models.py:36
+msgid "Simulation (test)"
+msgstr "Simulation (test)"
+
+#: templates/payments/start.html:71
+msgid "Simuler le paiement (test)"
+msgstr "Simulate payment (test)"
+
+#: apps/audit/models.py:153
+msgid "Snapshot textuel (str(target)) — survit à la suppression de l'objet."
+msgstr "Text snapshot (str(target)) — survives object deletion."
+
+#: apps/audit/models.py:124
+msgid "Snapshot — préservé même si l'utilisateur change de rôle ensuite."
+msgstr "Snapshot — preserved even if the user changes role later."
+
+#: templates/payments/card_form.html:92
+msgid "Solde insuffisant"
+msgstr "Insufficient balance"
+
+#: templates/permits/confirm_create.html:18
+#: templates/permits/confirm_professional_create.html:36
+msgid "Soumettre la demande"
+msgstr "Submit request"
+
+#: apps/permits/models.py:42 templates/dashboard/agent_permits_list.html:53
+#: templates/dashboard/agent_requests_list.html:27
+#: templates/dashboard/agent_requests_list.html:61
+msgid "Soumise"
+msgstr "Submitted"
+
+#: templates/citizens/address_change_detail.html:24
+#: templates/citizens/request_list.html:17
+#: templates/citizens/request_list.html:49
+#: templates/dashboard/agent_permit_detail.html:50
+#: templates/dashboard/agent_request_address.html:41
+#: templates/dashboard/agent_request_plate.html:32
+#: templates/permits/detail.html:32 templates/permits/list.html:26
+#: templates/vehicles/plate_change_detail.html:25
+msgid "Soumise le"
+msgstr "Submitted on"
+
+#: templates/core/legal_privacy.html:72
+msgid ""
+"Sous-traitants techniques : Stripe (paiement), votre fournisseur SMTP "
+"(envoi d'emails). Aucune donnée n'est transmise à des tiers commerciaux."
+msgstr ""
+"Technical subcontractors: Stripe (payment), your SMTP provider (email "
+"sending). No data is transmitted to commercial third parties."
+
+#: templates/vehicles/detail.html:142
+msgid ""
+"Stationnement dans la commune de résidence. Attribution automatique en 5 "
+"étapes."
+msgstr "Parking in the municipality of residence. Automatic attribution in 5 steps."
+
+#: templates/core/home.html:24
+msgid "Stationnez"
+msgstr "Park"
+
+#: templates/citizens/request_list.html:19
+#: templates/citizens/request_list.html:52
+#: templates/dashboard/admin_users_list.html:46
+#: templates/dashboard/agent_permit_detail.html:203
+#: templates/dashboard/agent_permits_list.html:52
+#: templates/dashboard/agent_requests_list.html:28
+#: templates/dashboard/agent_requests_list.html:62
+#: templates/permits/detail.html:84 templates/permits/list.html:24
+msgid "Statut"
+msgstr "Status"
+
+#: templates/dashboard/admin_policies_list.html:58
+msgid "Stratégie"
+msgstr "Strategy"
+
+#: templates/dashboard/admin_policy_form.html:66
+msgid ""
+"Stratégie exponentielle : prix = base × facteur^(rang−1). Le rang "
+"correspond au n° de carte riverain du citoyen."
+msgstr ""
+"Exponential strategy: price = base × factor^(rank−1). The rank matches the "
+"citizen's resident permit number."
+
+#: apps/payments/models.py:91
+msgid "Stripe PaymentIntent"
+msgstr "Stripe PaymentIntent"
+
+#: apps/payments/models.py:87
+msgid "Stripe session id"
+msgstr "Stripe session id"
+
+#: templates/citizens/request_list.html:8
+msgid "Suivez l'état des demandes que vous avez soumises."
+msgstr "Track the status of the requests you submitted."
+
+#: apps/accounts/models.py:11 templates/dashboard/super_admin.html:16
+msgid "Super Admin"
+msgstr "Super Admin"
+
+#: templates/companies/confirm_delete.html:15 templates/companies/detail.html:25
+#: templates/dashboard/admin_policy_form.html:84
+#: templates/dashboard/gis_polygon_detail.html:80
+msgid "Supprimer"
+msgstr "Delete"
+
+#: templates/companies/confirm_delete.html:8
+msgid "Supprimer cette entreprise ?"
+msgstr "Delete this company?"
+
+#: templates/companies/confirm_delete.html:4
+msgid "Supprimer l'entreprise"
+msgstr "Delete company"
+
+#: templates/gis/map.html:14
+msgid ""
+"Survolez une zone pour son nom, cliquez pour ses détails. Filtres par "
+"commune et recherche par zonecode."
+msgstr ""
+"Hover a zone for its name, click for its details. Filters by municipality "
+"and search by zonecode."
+
+#: templates/dashboard/agent_permit_detail.html:159
+msgid "Suspendre cette carte ? Les codes visiteurs actifs seront annulés."
+msgstr "Suspend this permit? Active visitor codes will be cancelled."
+
+#: templates/dashboard/agent_permit_detail.html:168
+msgid "Suspendre la carte"
+msgstr "Suspend permit"
+
+#: apps/permits/models.py:47
+msgid "Suspendue"
+msgstr "Suspended"
+
+#: templates/permits/detail.html:42
+msgid "Suspendue le"
+msgstr "Suspended on"
+
+#: templates/core/home.html:267
+msgid ""
+"Symbole de Bruxelles depuis l'Expo 58 — emblématique du quartier nord-ouest"
+" desservi par notre plateforme."
+msgstr ""
+"Symbol of Brussels since Expo 58 — emblematic of the north-west district "
+"served by our platform."
+
+#: templates/companies/list.html:18
+msgid "TVA"
+msgstr "VAT"
+
+#: templates/core/home.html:148
+msgid "TVA professionnelle requise"
+msgstr "Professional VAT number required"
+
+#: templates/_partials/navbar.html:139 templates/_partials/navbar.html:155
+#: templates/_partials/navbar.html:171 templates/_partials/navbar.html:276
+#: templates/_partials/navbar.html:280 templates/_partials/navbar.html:284
+msgid "Tableau de bord"
+msgstr "Dashboard"
+
+#: templates/core/home.html:343
+msgid "Tarif progressif"
+msgstr "Progressive pricing"
+
+#: templates/dashboard/admin_policy_form.html:56
+msgid "Tarification"
+msgstr "Pricing"
+
+#: templates/dashboard/admin_permit_config.html:22
+msgid "Tarifs (centimes)"
+msgstr "Prices (cents)"
+
+#: templates/dashboard/admin.html:18 templates/dashboard/super_admin.html:65
+msgid "Tarifs par défaut, limites véhicules/cartes, codes visiteurs."
+msgstr "Default prices, vehicle/permit limits, visitor codes."
+
+#: templates/payments/card_form.html:43
+msgid "Titulaire de la carte"
+msgstr "Permit holder"
+
+#: templates/dashboard/admin_api_tokens.html:70
+msgid "Token (préfixe)"
+msgstr "Token (prefix)"
+
+#: apps/audit/models.py:52
+msgid "Token API révoqué"
+msgstr "API token revoked"
+
+#: apps/audit/models.py:51
+msgid "Token API émis"
+msgstr "API token issued"
+
+#: templates/dashboard/admin_api_tokens.html:26
+msgid "Token créé pour"
+msgstr "Token created for"
+
+#: templates/dashboard/admin.html:33 templates/dashboard/admin_api_tokens.html:4
+#: templates/dashboard/super_admin.html:80
+msgid "Tokens API"
+msgstr "API tokens"
+
+#: templates/dashboard/admin_api_tokens.html:11
+msgid "Tokens d'accès API"
+msgstr "API access tokens"
+
+#: templates/core/home.html:132
+msgid "Toujours gratuite"
+msgstr "Always free"
+
+#: templates/dashboard/admin_policies_list.html:28
+#: templates/dashboard/admin_users_list.html:17
+#: templates/dashboard/agent_permits_list.html:28
+msgid "Tous"
+msgstr "All"
+
+#: templates/base.html:88
+msgid "Tous droits réservés"
+msgstr "All rights reserved"
+
+#: templates/core/home.html:430
+msgid "Tout ce qu'il faut savoir"
+msgstr "Everything you need to know"
+
+#: templates/payments/card_form.html:94
+msgid ""
+"Toute carte Luhn-valide (date future + CVC 3 chiffres) sera acceptée. Aucun"
+" débit réel n'a lieu."
+msgstr ""
+"Any Luhn-valid card (future date + 3-digit CVC) will be accepted. No actual"
+" charge takes place."
+
+#: templates/core/legal_terms.html:34
+msgid ""
+"Toute déclaration mensongère (fausse plaque, fausse adresse, faux numéro de"
+" registre national) entraîne la révocation immédiate des cartes émises et "
+"l'exclusion du Service, sans préjudice des poursuites légales."
+msgstr ""
+"Any false declaration (false plate, false address, false national register "
+"number) leads to immediate revocation of issued permits and exclusion from "
+"the Service, without prejudice to legal action."
+
+#: templates/dashboard/agent_permit_detail.html:61
+msgid "Toute modification est journalisée dans l'audit."
+msgstr "Every change is logged in the audit."
+
+#: templates/dashboard/admin_policies_list.html:19
+#: templates/dashboard/admin_policies_list.html:37
+#: templates/dashboard/citizen.html:346
+#: templates/dashboard/gis_polygons_list.html:20
+msgid "Toutes"
+msgstr "All"
+
+#: templates/core/home.html:475
+msgid ""
+"Toutes les données transitent en HTTPS. Les paiements ne touchent jamais à "
+"votre numéro de carte (pris en charge par Stripe). Conformité RGPD."
+msgstr ""
+"All data is transmitted over HTTPS. Payments never touch your card number "
+"(handled by Stripe). GDPR compliant."
+
+#: templates/core/home.html:146 templates/core/home.html:325
+msgid "Toutes les zones d'une commune"
+msgstr "All zones of a municipality"
+
+#: apps/payments/models.py:25
+msgid "Traitement"
+msgstr "Processing"
+
+#: templates/core/home.html:95
+msgid "Trois formules"
+msgstr "Three plans"
+
+#: templates/core/home.html:98
+msgid ""
+"Trois formules pensées pour couvrir tous les besoins de stationnement à "
+"Bruxelles."
+msgstr "Three plans designed to cover all parking needs in Brussels."
+
+#: apps/vehicles/models.py:19
+msgid "Trottinette électrique"
+msgstr "Electric scooter"
+
+#: templates/dashboard/admin_policies_list.html:26
+#: templates/dashboard/admin_policies_list.html:57
+#: templates/dashboard/agent_permits_list.html:26
+#: templates/dashboard/agent_permits_list.html:51 templates/permits/list.html:22
+msgid "Type"
+msgstr "Type"
+
+#: templates/dashboard/gis_polygon_detail.html:51
+msgid "Type carte"
+msgstr "Permit type"
+
+#: templates/dashboard/admin_policy_form.html:31
+msgid "Type de carte"
+msgstr "Permit type"
+
+#: templates/core/home.html:67
+msgid "Types de cartes"
+msgstr "Permit types"
+
+#: templates/dashboard/agent_request_plate.html:21
+#: templates/dashboard/agent_request_plate.html:26
+#: templates/vehicles/detail.html:78
+#: templates/vehicles/plate_change_detail.html:19
+msgid "Télécharger"
+msgstr "Download"
+
+#: templates/dashboard/citizen.html:183
+msgid "Téléphone"
+msgstr "Phone"
+
+#: templates/core/legal_terms.html:44
+msgid ""
+"Un changement d'adresse, de plaque ou la cession du véhicule doit être "
+"déclaré sans délai. À défaut, la carte est suspendue."
+msgstr ""
+"A change of address, plate or transfer of the vehicle must be declared "
+"without delay. Otherwise, the permit is suspended."
+
+#: templates/core/home.html:326
+msgid "Un seul abonnement pour toute une commune ciblée."
+msgstr "A single subscription for a whole targeted municipality."
+
+#: templates/base.html:130
+msgid ""
+"Un seul cookie de session, strictement nécessaire à votre connexion. Aucun "
+"cookie de mesure ni tiers."
+msgstr ""
+"A single session cookie, strictly necessary for your login. No measurement "
+"or third-party cookies."
+
+#: templates/core/legal_terms.html:42
+msgid ""
+"Une carte est strictement personnelle et liée à un véhicule (sauf carte "
+"visiteur)."
+msgstr ""
+"A permit is strictly personal and linked to a vehicle (except the visitor "
+"permit)."
+
+#: templates/permits/confirm_create.html:10
+msgid ""
+"Une carte riverain sera créée pour le véhicule <strong class=\"font-"
+"mono\">{{ plate }}</strong>, en lien avec votre adresse principale "
+"enregistrée. La zone sera calculée automatiquement."
+msgstr ""
+"A resident permit will be created for vehicle <strong class=\"font-"
+"mono\">{{ plate }}</strong>, linked to your registered primary address. The"
+" zone will be calculated automatically."
+
+#: apps/vehicles/views.py:161
+msgid "Une demande de changement de plaque est déjà en cours pour ce véhicule."
+msgstr "A plate change request is already in progress for this vehicle."
+
+#: apps/permits/views.py:94
+msgid "Une demande pour ce véhicule est déjà en cours."
+msgstr "A request for this vehicle is already in progress."
+
+#: apps/dashboard/views.py:183 apps/dashboard/views.py:237
+msgid "Une note est requise pour refuser."
+msgstr "A note is required to refuse."
+
+#: templates/core/home.html:181
+msgid "Une plateforme pensée pour le quotidien des Bruxellois"
+msgstr "A platform designed for the daily life of Brussels residents"
+
+#: templates/core/home.html:254
+msgid ""
+"Une plateforme qui sert tous les quartiers, du centre historique aux "
+"communes périphériques."
+msgstr ""
+"A platform serving every district, from the historic center to the outer "
+"municipalities."
+
+#: templates/core/home.html:400
+msgid "Une plateforme. 19 communes. Aucun guichet."
+msgstr "One platform. 19 municipalities. No counter."
+
+#: templates/dashboard/admin_policies_list.html:10
+msgid ""
+"Une politique par (commune × type de carte). Plusieurs périodes peuvent se "
+"succéder dans le temps pour planifier un changement."
+msgstr ""
+"One policy per (municipality × permit type). Multiple periods can follow "
+"each other over time to plan a change."
+
+#: templates/core/home.html:183
+msgid ""
+"Une seule application pour les 19 communes — finis les sites séparés et les"
+" démarches en mairie. Une expérience moderne, sécurisée et multilingue."
+msgstr ""
+"A single application for the 19 municipalities — no more separate sites and"
+" trips to city hall. A modern, secure and multilingual experience."
+
+#: templates/payments/start.html:22
+msgid "Une tentative de paiement est déjà en cours."
+msgstr "A payment attempt is already in progress."
+
+#: templates/dashboard/admin_users_list.html:43
+msgid "Utilisateur"
+msgstr "User"
+
+#: apps/audit/models.py:45
+msgid "Utilisateur désactivé"
+msgstr "User deactivated"
+
+#: apps/dashboard/views_users.py:140
+msgid "Utilisateur désactivé."
+msgstr "User deactivated."
+
+#: apps/dashboard/views_users.py:89
+msgid "Utilisateur mis à jour."
+msgstr "User updated."
+
+#: apps/audit/models.py:46
+msgid "Utilisateur réactivé"
+msgstr "User reactivated"
+
+#: apps/dashboard/views_users.py:140
+msgid "Utilisateur réactivé."
+msgstr "User reactivated."
+
+#: templates/dashboard/admin_users_list.html:4
+#: templates/dashboard/admin_users_list.html:9
+msgid "Utilisateurs"
+msgstr "Users"
+
+#: templates/dashboard/admin_api_tokens.html:33
+msgid "Utilisation :"
+msgstr "Usage:"
+
+#: apps/permits/models.py:367
+msgid "Utilisé si stratégie = fixed."
+msgstr "Used if strategy = fixed."
+
+#: templates/dashboard/admin_permit_config.html:42
+msgid "Utilisée quand aucune politique commune+type n'est définie."
+msgstr "Used when no municipality+type policy is defined."
+
+#: templates/dashboard/admin.html:10 templates/dashboard/super_admin.html:57
+msgid "Validation des changements d'adresse et de plaque."
+msgstr "Validation of address and plate changes."
+
+#: templates/core/home.html:147
+msgid "Validation par un agent"
+msgstr "Validation by an agent"
+
+#: templates/core/home.html:334
+msgid "Validation rapide par un agent"
+msgstr "Quick validation by an agent"
+
+#: templates/dashboard/agent_permit_detail.html:69
+#: templates/dashboard/citizen.html:330 templates/vehicles/detail.html:121
+msgid "Valide jusqu'au"
+msgstr "Valid until"
+
+#: templates/dashboard/admin_policies_list.html:59
+#: templates/dashboard/admin_policy_form.html:47
+#: templates/dashboard/agent_permit_detail.html:202
+#: templates/dashboard/gis_polygon_detail.html:55
+#: templates/permits/detail.html:39 templates/permits/detail.html:83
+#: templates/permits/list.html:25
+msgid "Validité"
+msgstr "Validity"
+
+#: templates/core/home.html:114
+msgid "Validité 1 an"
+msgstr "1 year validity"
+
+#: templates/dashboard/admin_permit_config.html:40
+msgid "Validité par défaut"
+msgstr "Default validity"
+
+#: apps/payments/models.py:26
+msgid "Validé"
+msgstr "Confirmed"
+
+#: templates/dashboard/gis_polygon_detail.html:19
+msgid "Version"
+msgstr "Version"
+
+#: apps/audit/models.py:66
+msgid "Version GIS active changée"
+msgstr "Active GIS version changed"
+
+#: templates/dashboard/gis_polygons_list.html:11
+msgid "Version active :"
+msgstr "Active version:"
+
+#: templates/dashboard/gis_polygons_list.html:76
+msgid "Versions"
+msgstr "Versions"
+
+#: templates/dashboard/gis_versions.html:4
+#: templates/dashboard/gis_versions.html:8
+msgid "Versions GIS"
+msgstr "GIS versions"
+
+#: templates/dashboard/admin.html:26 templates/dashboard/super_admin.html:73
+msgid "Versions importées, polygones, règles d'attribution."
+msgstr "Imported versions, polygons, attribution rules."
+
+#: templates/payments/card_form.html:88
+msgid "Visa — succès"
+msgstr "Visa — success"
+
+#: templates/payments/start.html:41
+msgid "Visa, Mastercard, Amex — formulaire sécurisé"
+msgstr "Visa, Mastercard, Amex — secure form"
+
+#: apps/permits/models.py:36 apps/rules/models.py:15
+msgid "Visiteur"
+msgstr "Visitor"
+
+#: templates/dashboard/admin.html:42 templates/dashboard/super_admin.html:89
+msgid "Visualisation Leaflet des zones."
+msgstr "Leaflet visualization of zones."
+
+#: templates/citizens/request_list.html:30
+#: templates/citizens/request_list.html:64 templates/dashboard/citizen.html:376
+#: templates/permits/list.html:41
+msgid "Voir"
+msgstr "View"
+
+#: templates/dashboard/gis_polygons_list.html:50
+msgid "Voir / règles"
+msgstr "View / rules"
+
+#: templates/core/legal_privacy.html:133 templates/core/legal_terms.html:131
+msgid "Voir aussi :"
+msgstr "See also:"
+
+#: templates/core/home.html:419
+msgid "Voir la carte des zones"
+msgstr "View zones map"
+
+#: templates/vehicles/detail.html:93
+msgid "Voir la demande"
+msgstr "View request"
+
+#: templates/dashboard/gis_versions.html:9
+msgid "Voir les polygones de la version active →"
+msgstr "View polygons of the active version →"
+
+#: templates/dashboard/agent_permits_list.html:86
+msgid "Voir toutes les cartes"
+msgstr "View all permits"
+
+#: templates/dashboard/agent_requests_list.html:13
+msgid "Voir toutes les demandes"
+msgstr "View all requests"
+
+#: templates/dashboard/agent_requests_list.html:11
+msgid "Voir uniquement les en attente"
+msgstr "Show only pending"
+
+#: apps/vehicles/models.py:16
+msgid "Voiture particulière"
+msgstr "Passenger car"
+
+#: templates/core/home.html:447
+msgid ""
+"Vos cartes actives sont automatiquement suspendues et un agent vous "
+"contactera. Vous pouvez ensuite refaire une demande pour votre nouvelle "
+"adresse."
+msgstr ""
+"Your active permits are automatically suspended and an agent will contact "
+"you. You can then make a new request for your new address."
+
+#: templates/registration/password_change_done.html:10
+msgid "Votre nouveau mot de passe est actif."
+msgstr "Your new password is active."
+
+#: templates/registration/password_reset_complete.html:10
+msgid "Votre nouveau mot de passe est actif. Vous pouvez vous connecter."
+msgstr "Your new password is active. You can now sign in."
+
+#: templates/registration/password_reset_email.html:12
+msgid ""
+"Vous avez demandé une réinitialisation de mot de passe pour votre compte "
+"Parking.Belgium."
+msgstr "You requested a password reset for your Parking.Belgium account."
+
+#: apps/citizens/views.py:41
+msgid "Vous avez déjà une demande en cours."
+msgstr "You already have a pending request."
+
+#: apps/accounts/forms.py:51
+msgid "Vous devez accepter pour créer un compte."
+msgstr "You must accept to create an account."
+
+#: apps/permits/views.py:193
+msgid "Vous devez d'abord enregistrer une entreprise."
+msgstr "You must first register a company."
+
+#: templates/dashboard/super_admin.html:9
+msgid ""
+"Vous disposez de tous les accès admin, plus la possibilité de "
+"promouvoir/rétrograder les administrateurs."
+msgstr ""
+"You have all admin access, plus the ability to promote/demote "
+"administrators."
+
+#: templates/core/home.html:461
+msgid ""
+"Vous générez un code unique avec la plaque de votre invité. Le code est "
+"valide pour la durée choisie (jusqu'à 72 h) et donne droit au stationnement"
+" dans vos zones."
+msgstr ""
+"You generate a unique code with your guest's plate. The code is valid for "
+"the chosen duration (up to 72 h) and grants parking rights in your zones."
+
+#: apps/dashboard/views_users.py:86
+msgid "Vous n'avez pas le droit d'effectuer cette action."
+msgstr "You are not allowed to perform this action."
+
+#: templates/core/home.html:431
+msgid "Vous ne trouvez pas votre réponse ? Contactez votre commune."
+msgstr "Can't find your answer? Contact your municipality."
+
+#: templates/citizens/request_list.html:50
+#: templates/dashboard/agent_permit_detail.html:13
+#: templates/dashboard/agent_permits_list.html:50
+#: templates/dashboard/agent_request_plate.html:16
+#: templates/dashboard/citizen.html:157 templates/payments/process.html:17
+#: templates/payments/start.html:14 templates/permits/detail.html:21
+#: templates/permits/list.html:23 templates/vehicles/detail.html:4
+#: templates/vehicles/plate_change_detail.html:14
+msgid "Véhicule"
+msgstr "Vehicle"
+
+#: apps/vehicles/views.py:83
+msgid "Véhicule ajouté."
+msgstr "Vehicle added."
+
+#: apps/audit/models.py:56
+msgid "Véhicule archivé"
+msgstr "Vehicle archived"
+
+#: apps/vehicles/views.py:122
+msgid "Véhicule archivé. L'historique des cartes liées reste consultable."
+msgstr "Vehicle archived. Permit history remains accessible."
+
+#: apps/vehicles/views.py:97
+msgid "Véhicule mis à jour."
+msgstr "Vehicle updated."
+
+#: apps/audit/models.py:57
+msgid "Véhicule restauré"
+msgstr "Vehicle restored"
+
+#: apps/vehicles/views.py:150
+msgid "Véhicule restauré."
+msgstr "Vehicle restored."
+
+#: apps/vehicles/models.py:17
+msgid "Véhicule utilitaire léger"
+msgstr "Light commercial vehicle"
+
+#: templates/core/legal_privacy.html:54
+msgid ""
+"Véhicules : plaque d'immatriculation, marque, modèle, certificat "
+"d'immatriculation."
+msgstr "Vehicles: plate number, brand, model, registration certificate."
+
+#: templates/vehicles/list.html:57
+msgid "Véhicules archivés"
+msgstr "Archived vehicles"
+
+#: templates/core/home.html:335
+msgid "Vérification du n° TVA et de la légitimité professionnelle en 24-48 h."
+msgstr "VAT number and professional legitimacy check within 24-48 h."
+
+#: templates/payments/start.html:9
+msgid "Vérifiez les informations ci-dessous avant de procéder."
+msgstr "Check the information below before proceeding."
+
+#: templates/registration/password_reset_done.html:13
+msgid "Vérifiez vos spams si vous ne le voyez pas dans quelques minutes."
+msgstr "Check your spam folder if you do not see it within a few minutes."
+
+#: templates/dashboard/agent_permit_detail.html:48
+msgid "Workflow"
+msgstr "Workflow"
+
+#: apps/dashboard/views.py:500
+msgid "Zone ajoutée."
+msgstr "Zone added."
+
+#: templates/dashboard/agent_permit_detail.html:27
+#: templates/permits/detail.html:127
+msgid "Zone principale"
+msgstr "Main zone"
+
+#: apps/dashboard/views.py:562
+msgid "Zone principale mise à jour."
+msgstr "Main zone updated."
+
+#: apps/dashboard/views.py:514
+msgid "Zone retirée."
+msgstr "Zone removed."
+
+#: templates/dashboard/agent_permit_detail.html:267
+#: templates/dashboard/gis_polygons_list.html:33
+msgid "Zonecode"
+msgstr "Zonecode"
+
+#: templates/dashboard/agent_permit_detail.html:246
+msgid "Zones attribuées (manuelles)"
+msgstr "Assigned zones (manual)"
+
+#: templates/dashboard/agent_permit_detail.html:102
+#: templates/permits/detail.html:50
+msgid "Zones autorisées"
+msgstr "Allowed zones"
+
+#: templates/dashboard/agent_permit_detail.html:28
+#: templates/permits/detail.html:130
+msgid "Zones supplémentaires"
+msgstr "Additional zones"
+
+#: apps/payments/views.py:169
+msgid "[TEST] Paiement simulé avec succès. Carte activée + email envoyé."
+msgstr "[TEST] Payment successfully simulated. Permit activated + email sent."
+
+#: templates/core/legal_privacy.html:92
+msgid "accès à vos données ;"
+msgstr "access to your data;"
+
+#: apps/audit/models.py:128 apps/rules/models.py:43
+msgid "action"
+msgstr "action"
+
+#: apps/gis_data/models.py:25 apps/rules/models.py:60
+#: templates/dashboard/admin_policies_list.html:78
+#: templates/dashboard/gis_polygon_detail.html:70
+#: templates/dashboard/gis_versions.html:35
+msgid "active"
+msgstr "active"
+
+#: apps/companies/models.py:35
+msgid "activité"
+msgstr "activity"
+
+#: apps/citizens/models.py:67
+msgid "adresse"
+msgstr "address"
+
+#: apps/citizens/models.py:68
+msgid "adresses"
+msgstr "addresses"
+
+#: apps/gis_data/models.py:83
+msgid "aire (m²)"
+msgstr "area (m²)"
+
+#: templates/dashboard/citizen.html:241
+msgid "archivé"
+msgstr "archived"
+
+#: apps/vehicles/models.py:69
+msgid "archivé le"
+msgstr "archived on"
+
+#: apps/permits/models.py:349
+msgid "attribution automatique"
+msgstr "automatic attribution"
+
+#: apps/gis_data/models.py:87
+msgid "attributs source"
+msgstr "source attributes"
+
+#: apps/permits/models.py:288
+msgid "autoriser cumul riverain + pro"
+msgstr "allow combining resident + pro"
+
+#: apps/permits/models.py:376
+msgid "base exponentielle (centimes)"
+msgstr "exponential base (cents)"
+
+#: apps/accounts/forms.py:34 apps/citizens/models.py:52
+#: apps/citizens/models.py:105 apps/companies/models.py:39
+msgid "boîte"
+msgstr "box"
+
+#: apps/permits/models.py:149
+msgid "carte"
+msgstr "permit"
+
+#: templates/dashboard/citizen.html:247
+msgid "carte grise"
+msgstr "registration certificate"
+
+#: templates/dashboard/citizen.html:249
+msgid "carte grise manquante"
+msgstr "registration certificate missing"
+
+#: apps/permits/models.py:150
+msgid "cartes"
+msgstr "permits"
+
+#: apps/vehicles/models.py:58
+msgid "certificat d'immatriculation"
+msgstr "registration certificate"
+
+#: templates/dashboard/agent_permits_list.html:36
+msgid "citoyen, email, plaque…"
+msgstr "citizen, email, plate…"
+
+#: apps/permits/models.py:238
+msgid "code"
+msgstr "code"
+
+#: apps/core/models.py:13
+msgid "code NIS"
+msgstr "NIS code"
+
+#: apps/accounts/forms.py:36 apps/citizens/models.py:53
+#: apps/citizens/models.py:106 apps/companies/models.py:40
+msgid "code postal"
+msgstr "postal code"
+
+#: apps/permits/models.py:253
+msgid "code visiteur"
+msgstr "visitor code"
+
+#: templates/dashboard/citizen.html:335
+msgid "code(s) restant(s)"
+msgstr "remaining code(s)"
+
+#: apps/core/models.py:23
+msgid "codes postaux"
+msgstr "postal codes"
+
+#: templates/permits/detail.html:72
+msgid "codes restants cette année"
+msgstr "remaining codes this year"
+
+#: apps/permits/models.py:254
+msgid "codes visiteurs"
+msgstr "visitor codes"
+
+#: apps/permits/models.py:278
+msgid "codes visiteurs / an"
+msgstr "visitor codes / year"
+
+#: apps/citizens/models.py:58 apps/citizens/models.py:111
+#: apps/companies/models.py:45 apps/core/models.py:29
+msgid "commune"
+msgstr "municipality"
+
+#: templates/dashboard/admin_policies_list.html:44
+msgid "commune, niscode, notes"
+msgstr "municipality, niscode, notes"
+
+#: apps/core/models.py:30
+msgid "communes"
+msgstr "municipalities"
+
+#: templates/dashboard/admin_users_list.html:10
+msgid "comptes au total"
+msgstr "total accounts"
+
+#: templates/registration/register.html:132
+msgid "conditions générales d'utilisation"
+msgstr "general terms of use"
+
+#: apps/permits/models.py:299
+msgid "configuration globale"
+msgstr "global configuration"
+
+#: apps/permits/models.py:300
+msgid "configurations globales"
+msgstr "global configurations"
+
+#: apps/audit/models.py:156
+msgid "contenu"
+msgstr "content"
+
+#: apps/vehicles/models.py:56
+msgid "couleur"
+msgstr "color"
+
+#: apps/accounts/forms.py:26 apps/citizens/models.py:20
+msgid "date de naissance"
+msgstr "date of birth"
+
+#: apps/citizens/models.py:135
+msgid "demande de changement d'adresse"
+msgstr "address change request"
+
+#: apps/vehicles/models.py:142
+msgid "demande de changement de plaque"
+msgstr "plate change request"
+
+#: apps/citizens/models.py:136
+msgid "demandes de changement d'adresse"
+msgstr "address change requests"
+
+#: apps/vehicles/models.py:143
+msgid "demandes de changement de plaque"
+msgstr "plate change requests"
+
+#: apps/rules/models.py:61
+msgid "description"
+msgstr "description"
+
+#: apps/permits/models.py:279
+msgid "durée code visiteur — défaut (h)"
+msgstr "visitor code duration — default (h)"
+
+#: apps/permits/models.py:280
+msgid "durée code visiteur — max (h)"
+msgstr "visitor code duration — max (h)"
+
+#: apps/companies/models.py:28
+msgid "dénomination"
+msgstr "denomination"
+
+#: templates/dashboard/admin_policies_list.html:80
+#: templates/dashboard/gis_polygon_detail.html:72
+msgid "désactivée"
+msgstr "deactivated"
+
+#: templates/core/legal_privacy.html:94
+msgid ""
+"effacement (« droit à l'oubli »), sous réserve des durées de conservation "
+"légales ;"
+msgstr "erasure (\"right to be forgotten\"), subject to legal retention periods;"
+
+#: apps/permits/models.py:396
+msgid "effective jusqu'au"
+msgstr "effective until"
+
+#: apps/permits/models.py:395
+msgid "effective à partir du"
+msgstr "effective from"
+
+#: templates/core/home.html:28
+msgid "en toute simplicité"
+msgstr "with ease"
+
+#: apps/companies/models.py:54
+msgid "entreprise"
+msgstr "company"
+
+#: apps/companies/models.py:55
+msgid "entreprises"
+msgstr "companies"
+
+#: apps/audit/models.py:163
+msgid "entrée d'audit"
+msgstr "audit entry"
+
+#: templates/registration/register.html:131
+msgid "et les"
+msgstr "and the"
+
+#: templates/dashboard/agent_permit_detail.html:179
+msgid "ex : régularisation reçue"
+msgstr "e.g.: regularization received"
+
+#: templates/dashboard/agent_permit_detail.html:164
+msgid "ex : signalement de fraude"
+msgstr "e.g.: fraud report"
+
+#: apps/permits/models.py:379
+msgid "facteur exponentiel"
+msgstr "exponential factor"
+
+#: apps/gis_data/models.py:21
+msgid "fichier source"
+msgstr "source file"
+
+#: templates/vehicles/list.html:35
+msgid "fourni"
+msgstr "provided"
+
+#: apps/permits/models.py:370
+msgid "grille tarifaire"
+msgstr "price grid"
+
+#: apps/audit/models.py:147
+msgid "id de la cible"
+msgstr "target id"
+
+#: templates/core/legal_privacy.html:97
+msgid ""
+"introduction d'une réclamation auprès de l'Autorité de protection des "
+"données (APD) — <a href=\\\"https://www.autoriteprotectiondonnees.be/\\\" "
+"class=\\\"text-brand-700 underline\\\">autoriteprotectiondonnees.be</a>."
+msgstr ""
+"filing a complaint with the Data Protection Authority (DPA) — <a "
+"href=\\\"https://www.autoriteprotectiondonnees.be/\\\" class=\\\"text-"
+"brand-700 underline\\\">autoriteprotectiondonnees.be</a>."
+
+#: templates/dashboard/admin_policies_list.html:74
+msgid "j"
+msgstr "d"
+
+#: apps/audit/models.py:164
+msgid "journal d'audit"
+msgstr "audit log"
+
+#: apps/accounts/models.py:51
+msgid "langue préférée"
+msgstr "preferred language"
+
+#: apps/gis_data/models.py:78
+msgid "layer"
+msgstr "layer"
+
+#: apps/audit/models.py:151
+msgid "libellé de la cible"
+msgstr "target label"
+
+#: templates/core/legal_privacy.html:95
+msgid "limitation du traitement ;"
+msgstr "restriction of processing;"
+
+#: templates/vehicles/list.html:37
+msgid "manquant"
+msgstr "missing"
+
+#: apps/vehicles/models.py:54
+msgid "marque"
+msgstr "brand"
+
+#: apps/payments/models.py:96
+msgid "marque carte"
+msgstr "card brand"
+
+#: templates/dashboard/agent_permit_detail.html:122
+msgid "modifiable via le champ ci-dessus"
+msgstr "editable via the field above"
+
+#: apps/vehicles/models.py:55
+msgid "modèle"
+msgstr "model"
+
+#: apps/payments/models.py:60
+msgid "montant (centimes)"
+msgstr "amount (cents)"
+
+#: apps/citizens/models.py:114 apps/vehicles/models.py:121
+msgid "motif"
+msgstr "reason"
+
+#: apps/vehicles/models.py:70
+msgid "motif d'archivage"
+msgstr "archiving reason"
+
+#: apps/payments/models.py:62
+msgid "méthode"
+msgstr "method"
+
+#: apps/permits/models.py:385
+msgid "nb max cartes actives / citoyen (vide = illimité)"
+msgstr "max active permits / citizen (empty = unlimited)"
+
+#: apps/permits/models.py:287
+msgid "nb max cartes pro actives / citoyen"
+msgstr "max active pro permits / citizen"
+
+#: apps/permits/models.py:286
+msgid "nb max entreprises / citoyen"
+msgstr "max companies / citizen"
+
+#: apps/permits/models.py:389
+msgid "nb max véhicules / carte (vide = illimité)"
+msgstr "max vehicles / permit (empty = unlimited)"
+
+#: apps/permits/models.py:285
+msgid "nb max véhicules / citoyen"
+msgstr "max vehicles / citizen"
+
+#: apps/gis_data/models.py:69
+msgid "niscode"
+msgstr "niscode"
+
+#: apps/gis_data/models.py:20
+msgid "nom"
+msgstr "name"
+
+#: apps/core/models.py:16 apps/gis_data/models.py:81
+msgid "nom (en)"
+msgstr "name (en)"
+
+#: apps/core/models.py:14 apps/gis_data/models.py:79
+msgid "nom (fr)"
+msgstr "name (fr)"
+
+#: apps/core/models.py:15 apps/gis_data/models.py:80
+msgid "nom (nl)"
+msgstr "name (nl)"
+
+#: apps/gis_data/models.py:23
+msgid "nombre de polygones"
+msgstr "number of polygons"
+
+#: templates/dashboard/admin_user_edit.html:60
+msgid "non modifiable par votre rôle"
+msgstr "not editable by your role"
+
+#: apps/citizens/models.py:131 apps/gis_data/models.py:24
+#: apps/permits/models.py:398 apps/vehicles/models.py:138
+msgid "notes"
+msgstr "notes"
+
+#: apps/permits/models.py:128
+msgid "notes de décision"
+msgstr "decision notes"
+
+#: apps/vehicles/models.py:114
+msgid "nouveau certificat d'immatriculation"
+msgstr "new registration certificate"
+
+#: apps/vehicles/models.py:112
+msgid "nouvelle plaque"
+msgstr "new plate"
+
+#: apps/accounts/forms.py:33 apps/citizens/models.py:51
+#: apps/citizens/models.py:104 apps/companies/models.py:38
+msgid "numéro"
+msgstr "number"
+
+#: apps/companies/models.py:30
+msgid "numéro TVA"
+msgstr "VAT number"
+
+#: apps/accounts/forms.py:29
+msgid "numéro de registre national"
+msgstr "national register number"
+
+#: apps/citizens/models.py:18
+msgid "numéro national"
+msgstr "national no."
+
+#: templates/dashboard/admin_api_tokens.html:118
+msgid "obtenir un token via username/password"
+msgstr "obtain a token via username/password"
+
+#: apps/payments/models.py:121
+msgid "paiement"
+msgstr "payment"
+
+#: apps/payments/models.py:122
+msgid "paiements"
+msgstr "payments"
+
+#: apps/accounts/forms.py:45 apps/citizens/models.py:60
+#: apps/citizens/models.py:113 apps/companies/models.py:47
+msgid "pays"
+msgstr "country"
+
+#: apps/vehicles/models.py:47
+msgid "plaque"
+msgstr "plate"
+
+#: apps/permits/models.py:239
+msgid "plaque visiteur"
+msgstr "visitor plate"
+
+#: apps/citizens/models.py:61
+msgid "point géocodé"
+msgstr "geocoded point"
+
+#: apps/permits/models.py:411
+msgid "politique commune × type"
+msgstr "policy municipality × type"
+
+#: templates/registration/register.html:130
+msgid "politique de confidentialité"
+msgstr "privacy policy"
+
+#: apps/accounts/models.py:39
+msgid "politique de confidentialité acceptée le"
+msgstr "privacy policy accepted on"
+
+#: apps/permits/models.py:412
+msgid "politiques commune × type"
+msgstr "policies municipality × type"
+
+#: apps/gis_data/models.py:90
+msgid "polygone GIS"
+msgstr "GIS polygon"
+
+#: templates/dashboard/gis_polygons_list.html:11
+msgid "polygones"
+msgstr "polygons"
+
+#: apps/gis_data/models.py:91
+msgid "polygones GIS"
+msgstr "GIS polygons"
+
+#: templates/core/legal_privacy.html:96
+msgid "portabilité (export machine de vos données) ;"
+msgstr "portability (machine export of your data);"
+
+#: templates/core/home.html:96
+msgid "pour vous ?"
+msgstr "for you?"
+
+#: templates/dashboard/agent_permit_detail.html:110
+#: templates/dashboard/agent_permit_detail.html:252
+#: templates/dashboard/agent_permit_detail.html:281
+#: templates/permits/detail.html:59
+msgid "principale"
+msgstr "primary"
+
+#: apps/rules/models.py:54
+msgid "priorité"
+msgstr "priority"
+
+#: apps/permits/models.py:133
+msgid "prix (centimes)"
+msgstr "price (cents)"
+
+#: apps/permits/models.py:365
+msgid "prix fixe (centimes)"
+msgstr "fixed price (cents)"
+
+#: apps/permits/models.py:275
+msgid "prix professionnel défaut (centimes)"
+msgstr "default professional price (cents)"
+
+#: apps/permits/models.py:273
+msgid "prix riverain défaut (centimes)"
+msgstr "default resident price (cents)"
+
+#: apps/permits/models.py:274
+msgid "prix visiteur défaut (centimes)"
+msgstr "default visitor price (cents)"
+
+#: apps/citizens/models.py:26
+msgid "profil citoyen"
+msgstr "citizen profile"
+
+#: apps/citizens/models.py:27
+msgid "profils citoyens"
+msgstr "citizen profiles"
+
+#: apps/permits/models.py:182
+msgid "provenance"
+msgstr "origin"
+
+#: apps/gis_data/models.py:84
+msgid "périmètre (m)"
+msgstr "perimeter (m)"
+
+#: apps/payments/models.py:108
+msgid "raison d'échec"
+msgstr "failure reason"
+
+#: apps/permits/models.py:140
+msgid "raison de suspension"
+msgstr "suspension reason"
+
+#: templates/dashboard/admin_policy_form.html:65
+msgid "rang seuil → prix en centimes."
+msgstr "rank threshold → price in cents."
+
+#: apps/gis_data/models.py:82
+msgid "reciprocit"
+msgstr "reciprocity"
+
+#: templates/core/legal_privacy.html:93
+msgid "rectification (modifiable directement depuis votre espace personnel) ;"
+msgstr "rectification (directly editable from your personal space);"
+
+#: apps/accounts/forms.py:32 apps/citizens/models.py:50
+#: apps/citizens/models.py:103 apps/companies/models.py:37
+msgid "rue"
+msgstr "street"
+
+#: apps/rules/models.py:75
+msgid "règle polygone"
+msgstr "polygon rule"
+
+#: apps/rules/models.py:76
+msgid "règles polygones"
+msgstr "polygon rules"
+
+#: apps/payments/models.py:77
+msgid "référence"
+msgstr "reference"
+
+#: apps/accounts/models.py:29
+msgid "rôle"
+msgstr "role"
+
+#: apps/audit/models.py:122
+msgid "rôle au moment de l'action"
+msgstr "role at time of action"
+
+#: templates/core/home.html:396
+msgid "simplifiée."
+msgstr "simplified."
+
+#: apps/permits/models.py:110
+msgid "snapshot d'attribution"
+msgstr "attribution snapshot"
+
+#: templates/core/home.html:314
+msgid "stationnez sans contrainte"
+msgstr "park hassle-free"
+
+#: apps/citizens/models.py:117 apps/payments/models.py:68
+#: apps/permits/models.py:99 apps/permits/models.py:243
+#: apps/vehicles/models.py:124
+msgid "statut"
+msgstr "status"
+
+#: apps/permits/models.py:359
+msgid "stratégie de prix"
+msgstr "pricing strategy"
+
+#: apps/audit/models.py:134
+msgid "sévérité"
+msgstr "severity"
+
+#: apps/payments/models.py:98
+msgid "titulaire"
+msgstr "holder"
+
+#: apps/gis_data/models.py:77 apps/permits/models.py:94
+#: apps/vehicles/models.py:49
+msgid "type"
+msgstr "type"
+
+#: apps/permits/models.py:341 apps/rules/models.py:38
+msgid "type de carte"
+msgstr "permit type"
+
+#: apps/audit/models.py:142
+msgid "type de cible"
+msgstr "target type"
+
+#: apps/permits/models.py:347
+msgid "type proposé dans cette commune"
+msgstr "type offered in this municipality"
+
+#: apps/accounts/forms.py:24 apps/citizens/models.py:19
+msgid "téléphone"
+msgstr "phone"
+
+#: apps/permits/models.py:241 apps/rules/models.py:59
+msgid "valide jusqu'au"
+msgstr "valid until"
+
+#: apps/permits/models.py:240
+msgid "valide à partir de"
+msgstr "valid from"
+
+#: apps/rules/models.py:58
+msgid "valide à partir du"
+msgstr "valid from"
+
+#: apps/permits/models.py:355
+msgid "validité (jours)"
+msgstr "validity (days)"
+
+#: apps/permits/models.py:282
+msgid "validité par défaut (jours)"
+msgstr "default validity (days)"
+
+#: apps/gis_data/models.py:38
+msgid "version GIS"
+msgstr "GIS version"
+
+#: apps/gis_data/models.py:39
+msgid "versions GIS"
+msgstr "GIS versions"
+
+#: templates/dashboard/agent_permit_detail.html:26
+msgid "voir"
+msgstr "view"
+
+#: templates/dashboard/admin_permit_config.html:13
+msgid "voir les politiques"
+msgstr "view policies"
+
+#: templates/core/home.html:253
+msgid "votre ville"
+msgstr "your city"
+
+#: templates/dashboard/admin_users_list.html:82
+msgid "vous"
+msgstr "you"
+
+#: apps/vehicles/models.py:77
+msgid "véhicule"
+msgstr "vehicle"
+
+#: apps/vehicles/models.py:78
+msgid "véhicules"
+msgstr "vehicles"
+
+#: apps/permits/models.py:201
+msgid "zone de carte"
+msgstr "permit zone"
+
+#: apps/permits/models.py:180
+msgid "zone principale"
+msgstr "main zone"
+
+#: apps/gis_data/models.py:68 apps/permits/models.py:179
+msgid "zonecode"
+msgstr "zonecode"
+
+#: apps/rules/models.py:48
+msgid "zonecode cible"
+msgstr "target zonecode"
+
+#: apps/permits/models.py:202
+msgid "zones de cartes"
+msgstr "permit zones"
+
+#: templates/dashboard/agent.html:19
+#, python-brace-format
+msgid "{{ counter }} carte à examiner.{% plural %}{{ counter }} cartes à examiner."
+msgstr "{{ counter }} permit to review.{% plural %}{{ counter }} permits to review."
+
+#: templates/dashboard/agent.html:12
+#, python-brace-format
+msgid ""
+"{{ counter }} demande en attente.{% plural %}{{ counter }} demandes en "
+"attente."
+msgstr "{{ counter }} pending request.{% plural %}{{ counter }} pending requests."
+
+#: templates/dashboard/admin_policies_list.html:93
+#: templates/dashboard/agent_permits_list.html:76
+#: templates/dashboard/gis_polygons_list.html:60
+msgid "{{ start }}–{{ end }} sur {{ total }}"
+msgstr "{{ start }}–{{ end }} of {{ total }}"
+
+#: apps/audit/models.py:48
+msgid "Échec d'authentification"
+msgstr "Authentication failure"
+
+#: apps/payments/models.py:27
+msgid "Échoué"
+msgstr "Failed"
+
+#: templates/dashboard/admin_policies_list.html:84
+msgid "Éditer"
+msgstr "Edit"
+
+#: templates/dashboard/admin_policy_form.html:5
+msgid "Éditer la politique"
+msgstr "Edit policy"
+
+#: templates/dashboard/agent_permit_detail.html:60
+msgid "Édition (action sensible)"
+msgstr "Edit (sensitive action)"
+
+#: templates/dashboard/admin_api_tokens.html:13
+msgid ""
+"Émettez un token pour qu'un agent ou un service partenaire puisse "
+"interroger l'API publique"
+msgstr "Issue a token so an agent or partner service can query the public API"
+
+#: templates/dashboard/admin_api_tokens.html:51
+msgid "Émettre"
+msgstr "Issue"
+
+#: templates/dashboard/admin.html:34 templates/dashboard/super_admin.html:81
+msgid ""
+"Émettre / révoquer les tokens d'accès à /api/v1/ pour les agents et "
+"partenaires."
+msgstr "Issue / revoke access tokens to /api/v1/ for agents and partners."
+
+#: templates/dashboard/admin_api_tokens.html:41
+msgid "Émettre un nouveau token"
+msgstr "Issue a new token"
+
+#: templates/dashboard/admin_api_tokens.html:71
+msgid "Émis le"
+msgstr "Issued on"
+
+#: templates/dashboard/admin_policies_list.html:61
+msgid "État"
+msgstr "State"
+
+#: templates/core/home.html:26
+msgid "à Bruxelles"
+msgstr "in Brussels"
+
+#: templates/dashboard/admin_api_tokens.html:46
+msgid "— Choisir un compte back-office —"
+msgstr "— Choose a back-office account —"
+
+#: templates/dashboard/agent_permit_detail.html:136
+#: templates/dashboard/agent_permit_detail.html:270
+msgid "— Choisir une zone —"
+msgstr "— Choose a zone —"
+
+#: templates/payments/start.html:80
+msgid "← Retour à la carte"
+msgstr "← Back to map"
+

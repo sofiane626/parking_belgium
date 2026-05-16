@@ -68,6 +68,35 @@
       .pb-mobile-toggle { display: inline-flex; align-items: center; justify-content: center; }
       .pb-mobile-panel.is-open { display: block; }
     }
+
+    /* Sélecteur de langue (FR · NL · EN) : trois boutons connectés dans un
+       petit pill. La langue active est en gras avec un fond brand léger. */
+    .pb-lang-picker {
+      align-items: center;
+      gap: 0;
+      padding: 2px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+    }
+    .pb-lang-btn {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 4px 8px;
+      border-radius: 6px;
+      color: #64748b;
+      background: transparent;
+      transition: background .15s, color .15s;
+      cursor: pointer;
+      border: 0;
+    }
+    .pb-lang-btn:hover { color: #08447F; background: rgba(8, 68, 127, 0.06); }
+    .pb-lang-btn.is-active {
+      background: #FFCD00;
+      color: #1f2937;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
   </style>
 
   <nav class="container-wide h-16 flex items-center justify-between gap-3">
@@ -167,8 +196,21 @@
       </div>
     </div>
 
-    {# ---- Right: account dropdown ---- #}
+    {# ---- Right: language picker + account dropdown ---- #}
     <div class="flex items-center gap-2 text-sm">
+      {# Sélecteur de langue : FR · NL · EN. POST sur i18n/setlang/ avec next=path courant. #}
+      {% get_current_language as CURRENT_LANGUAGE %}
+      {% get_available_languages as AVAILABLE_LANGUAGES %}
+      <form action="{% url 'set_language' %}" method="post" class="pb-lang-picker hidden md:inline-flex">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        {% for code, name in AVAILABLE_LANGUAGES %}
+          <button type="submit" name="language" value="{{ code }}"
+                  class="pb-lang-btn {% if code == CURRENT_LANGUAGE %}is-active{% endif %}"
+                  aria-label="{{ name }}">{{ code|upper }}</button>
+        {% endfor %}
+      </form>
+
       {% if user.is_authenticated %}
         <span class="pb-nav-divider hidden md:block"></span>
         <div class="relative" data-dropdown>
@@ -252,6 +294,20 @@
         <a href="{% url 'accounts:login' %}" class="px-3 py-2 rounded-md text-slate-700 hover:bg-brand-50 hover:text-brand-700 font-medium">{% trans "Connexion" %}</a>
         <a href="{% url 'accounts:register' %}" class="px-3 py-2 rounded-md bg-brand-600 text-white font-medium hover:bg-brand-700 text-center">{% trans "Créer un compte" %}</a>
       {% endif %}
+
+      {# Sélecteur de langue : même affichage pill que sur desktop. #}
+      <div class="mt-2 pt-2 border-t border-slate-100">
+        <div class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold mb-2 px-1">{% trans "Langue" %}</div>
+        <form action="{% url 'set_language' %}" method="post" class="pb-lang-picker" style="display:inline-flex;">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+          {% for code, name in AVAILABLE_LANGUAGES %}
+            <button type="submit" name="language" value="{{ code }}"
+                    class="pb-lang-btn {% if code == CURRENT_LANGUAGE %}is-active{% endif %}"
+                    aria-label="{{ name }}">{{ code|upper }}</button>
+          {% endfor %}
+        </form>
+      </div>
     </div>
   </div>
 </header>

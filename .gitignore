@@ -42,3 +42,7 @@ CONTEXTE.md
 .claude/
 NOTES.md
 TODO.md
+
+# Outils i18n — fichiers temporaires
+tools/_*.json
+tools/__pycache__/

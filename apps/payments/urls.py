@@ -13,7 +13,8 @@ urlpatterns = [
     path("permit/<int:pk>/stripe/", views.stripe_checkout, name="stripe_checkout"),
     path("stripe/success/", views.stripe_success, name="stripe_success"),
     path("stripe/cancel/", views.stripe_cancel, name="stripe_cancel"),
-    path("stripe/webhook/", views.stripe_webhook, name="stripe_webhook"),
+    # Webhook Stripe : déplacé au niveau projet (/stripe/webhook/) pour rester
+    # hors du préfixe de langue i18n. Voir parking_belgium/urls.py.
 
     # Internal-free flow (kept as fallback / secondary path)
     path("confirm/", views.payment_confirm, name="confirm"),

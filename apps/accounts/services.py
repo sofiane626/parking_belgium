@@ -165,9 +165,18 @@ def send_password_reset_for(target: "User", *, request, actor) -> bool:
         "actor": actor,
         "reset_url": url,
     }
-    subject = "Parking.Belgium — Réinitialisation de votre mot de passe (initiée par un administrateur)"
-    text_body = render_to_string("registration/password_reset_admin_email.txt", ctx)
-    html_body = render_to_string("registration/password_reset_admin_email.html", ctx)
+    # Rend l'email dans la langue préférée du destinataire (pas de l'admin).
+    from django.conf import settings as _settings
+    from django.utils import translation as _trans
+    from django.utils.translation import gettext
+    code = getattr(target, "preferred_language", None) or _settings.LANGUAGE_CODE
+    valid = {c for c, _name in _settings.LANGUAGES}
+    if code not in valid:
+        code = _settings.LANGUAGE_CODE
+    with _trans.override(code):
+        subject = gettext("Parking.Belgium — Réinitialisation de votre mot de passe (initiée par un administrateur)")
+        text_body = render_to_string("registration/password_reset_admin_email.txt", ctx)
+        html_body = render_to_string("registration/password_reset_admin_email.html", ctx)
 
     msg = EmailMultiAlternatives(subject, text_body, None, [target.email])
     msg.attach_alternative(html_body, "text/html")
