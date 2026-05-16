@@ -65,6 +65,12 @@ class AuditAction(models.TextChoices):
     GIS_IMPORTED               = "gis_imported",               _("Import GIS effectué")
     GIS_ACTIVE_VERSION_CHANGED = "gis_active_version_changed", _("Version GIS active changée")
 
+    # ---- exports back-office ---------------------------------------------
+    CSV_EXPORTED               = "csv_exported",               _("Export CSV téléchargé")
+
+    # ---- RGPD ------------------------------------------------------------
+    RGPD_PURGED                = "rgpd_purged",                _("Purge RGPD")
+
 
 class AuditSeverity(models.TextChoices):
     INFO     = "info",     _("Information")
@@ -99,6 +105,8 @@ DEFAULT_SEVERITY: dict[str, str] = {
     AuditAction.PAYMENT_SIMULATED:     AuditSeverity.NOTICE,
     AuditAction.USER_DEACTIVATED:      AuditSeverity.NOTICE,
     AuditAction.USER_REACTIVATED:      AuditSeverity.NOTICE,
+    AuditAction.CSV_EXPORTED:          AuditSeverity.NOTICE,
+    AuditAction.RGPD_PURGED:           AuditSeverity.NOTICE,
     # warning
     AuditAction.PERMIT_SUSPENDED:    AuditSeverity.WARNING,
     AuditAction.PAYMENT_REFUNDED:    AuditSeverity.WARNING,

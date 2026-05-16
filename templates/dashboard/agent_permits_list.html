@@ -4,8 +4,19 @@
 {% block title %}{% trans "Cartes" %}{% endblock %}
 
 {% block content %}
-  <h1 class="text-2xl font-semibold text-slate-900">{% trans "Cartes" %}</h1>
-  <p class="mt-1 text-sm text-slate-600">{% trans "Cliquez sur un chip pour filtrer par statut. Les compteurs reflètent les filtres type/recherche actifs." %}</p>
+  <div class="flex items-start justify-between gap-3 flex-wrap">
+    <div>
+      <h1 class="text-2xl font-semibold text-slate-900">{% trans "Cartes" %}</h1>
+      <p class="mt-1 text-sm text-slate-600">{% trans "Cliquez sur un chip pour filtrer par statut. Les compteurs reflètent les filtres type/recherche actifs." %}</p>
+    </div>
+    {% if user.is_admin_role or user.is_super_admin %}
+      <a href="{% url 'dashboard:admin_permits_export' %}?status={{ selected_status }}{% if selected_type %}&permit_type={{ selected_type }}{% endif %}{% if q %}&q={{ q }}{% endif %}"
+         class="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium bg-white border border-slate-300 text-slate-700 hover:bg-slate-50">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/></svg>
+        {% trans "Exporter CSV" %}
+      </a>
+    {% endif %}
+  </div>
 
   {# ----- Status chips with counters ----- #}
   <div class="mt-4 flex flex-wrap gap-2">

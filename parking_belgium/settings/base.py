@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "django_extensions",
+    "drf_spectacular",
     "tailwind",
     "theme",
 ]
@@ -198,4 +199,28 @@ REST_FRAMEWORK = {
         "anon": "10/min",
         "check_right": "120/min",
     },
+    # drf-spectacular pour la documentation OpenAPI auto-générée.
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Parking.Belgium — API publique",
+    "DESCRIPTION": (
+        "API REST de Parking.Belgium pour les 19 communes de la Région bruxelloise. "
+        "L'endpoint principal `/check-right/` est destiné aux véhicules scan-cars communaux "
+        "qui vérifient l'autorisation de stationnement d'une plaque en zone réglementée."
+    ),
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "CONTACT": {"name": "Parking.Belgium", "email": "privacy@parking.belgium.local"},
+    "LICENSE": {"name": "Académique — TFE"},
+    "SERVERS": [
+        {"url": "/api/v1/", "description": "Préfixe stable de l'API"},
+    ],
+    "TAGS": [
+        {"name": "Auth", "description": "Obtention de token"},
+        {"name": "Permits", "description": "Cartes : éligibilité, soumission, droit de stationnement"},
+        {"name": "Reference", "description": "Données de référence (communes, zones)"},
+        {"name": "Audit", "description": "Journal d'audit (back-office)"},
+    ],
 }

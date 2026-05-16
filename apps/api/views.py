@@ -11,6 +11,8 @@ import datetime as dt
 
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListAPIView
@@ -75,6 +77,25 @@ class CheckRightView(APIView):
 
     throttle_classes = [CheckRightThrottle]
 
+    @extend_schema(
+        tags=["Permits"],
+        summary="Vérifier le droit de stationnement d'une plaque",
+        description=(
+            "Endpoint principal de l'API publique, conçu pour les scan-cars communaux. "
+            "Vérifie qu'une plaque est couverte par une carte ACTIVE (riverain, pro, "
+            "ou via un code visiteur) à un instant donné, éventuellement filtré sur "
+            "une zone GIS précise. Throttlé à 120 req/min par token."
+        ),
+        parameters=[
+            OpenApiParameter("plate", OpenApiTypes.STR, required=True,
+                             description="Plaque (normalisée côté serveur, ex: `1-AAA-111`)."),
+            OpenApiParameter("zone", OpenApiTypes.STR, required=False,
+                             description="`zonecode` GIS de la zone scannée. Si absent, vérifie un droit générique."),
+            OpenApiParameter("at", OpenApiTypes.STR, required=False,
+                             description="Instant ISO 8601 (`2026-04-26T14:30:00+02:00`) ou date (`2026-04-26`). Défaut = maintenant."),
+        ],
+        responses={200: CheckRightSerializer},
+    )
     def get(self, request):
         plate = request.query_params.get("plate", "").strip()
         if not plate:
@@ -104,6 +125,7 @@ class CheckRightView(APIView):
         return Response(CheckRightSerializer(payload).data)
 
 
+@extend_schema(tags=["Reference"], summary="Liste des 19 communes")
 class CommuneListView(ListAPIView):
     """``GET /api/v1/communes/`` — liste des 19 communes."""
     queryset = Commune.objects.all().order_by("name_fr")
@@ -111,6 +133,14 @@ class CommuneListView(ListAPIView):
     pagination_class = None
 
 
+@extend_schema(
+    tags=["Reference"],
+    summary="Liste des zones GIS de la version active",
+    parameters=[
+        OpenApiParameter("commune", OpenApiTypes.STR, required=False,
+                         description="Filtre par `niscode` (5 chiffres, ex: `21015`)."),
+    ],
+)
 class ZoneListView(ListAPIView):
     """
     ``GET /api/v1/zones/?commune=21015`` — liste des zones (zonecode +
@@ -136,6 +166,12 @@ class ZoneListView(ListAPIView):
         return qs
 
 
+@extend_schema(
+    tags=["Permits"],
+    summary="Pré-calcul d'éligibilité pour une carte riverain",
+    description="Lecture seule. Alimente le wizard React avant de soumettre une demande.",
+    responses={200: OpenApiTypes.OBJECT},
+)
 class PermitEligibilityView(APIView):
     """
     ``GET /api/v1/permits/eligibility/<vehicle_pk>/`` — pré-calcul des
@@ -214,6 +250,13 @@ class PermitEligibilityView(APIView):
         })
 
 
+@extend_schema(
+    tags=["Permits"],
+    summary="Soumission d'une demande de carte riverain",
+    description="Crée le draft + soumet en une opération atomique. Idempotent côté business.",
+    request=None,
+    responses={200: OpenApiTypes.OBJECT, 400: OpenApiTypes.OBJECT},
+)
 class PermitSubmitView(APIView):
     """
     ``POST /api/v1/permits/submit/<vehicle_pk>/`` — crée le draft puis le
@@ -260,6 +303,12 @@ def _next_step_for(permit_status: str) -> str:
 
 # ----- audit log datatable (consumed by the React audit page) --------------
 
+@extend_schema(
+    tags=["Audit"],
+    summary="Liste paginée du journal d'audit (back-office uniquement)",
+    description="Pagination par cursor. Réservé aux comptes admin / super-admin.",
+    responses={200: OpenApiTypes.OBJECT, 403: OpenApiTypes.OBJECT},
+)
 class AuditLogListView(APIView):
     """
     ``GET /api/v1/audit/`` — liste paginée et filtrée des entrées d'audit.

@@ -278,6 +278,40 @@ def _materialize_zones(permit: Permit) -> None:
         )
 
 
+# ----- expiry (background job) ----------------------------------------------
+
+@transaction.atomic
+def expire_permit(permit: Permit) -> Permit:
+    """
+    Transition ACTIVE/SUSPENDED -> EXPIRED. Idempotent. Also cancels any
+    visitor codes still attached. Called by the ``expire_due`` cron command.
+    """
+    from .models import VisitorCode, VisitorCodeStatus
+    if permit.status == PermitStatus.EXPIRED:
+        return permit
+    if permit.status not in {PermitStatus.ACTIVE, PermitStatus.SUSPENDED}:
+        raise PermitError(f"Cannot expire a permit in status {permit.status}.")
+
+    now = timezone.now()
+    permit.status = PermitStatus.EXPIRED
+    permit.expired_at = now
+    permit.save(update_fields=["status", "expired_at", "updated_at"])
+
+    cancelled = VisitorCode.objects.filter(
+        permit=permit, status=VisitorCodeStatus.ACTIVE,
+    ).update(status=VisitorCodeStatus.CANCELLED, cancelled_at=now)
+
+    audit_log(
+        AuditAction.PERMIT_EXPIRED,
+        actor=None, target=permit,
+        payload={"context": {
+            "valid_until": str(permit.valid_until) if permit.valid_until else None,
+            "visitor_codes_cancelled": cancelled,
+        }},
+    )
+    return permit
+
+
 # ----- citizen-side actions -------------------------------------------------
 
 @transaction.atomic

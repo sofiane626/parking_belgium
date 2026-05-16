@@ -1,5 +1,8 @@
 """URLs DRF v1."""
 from django.urls import path
+from drf_spectacular.views import (
+    SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView,
+)
 from rest_framework.authtoken.views import obtain_auth_token
 
 from .views import (
@@ -20,4 +23,12 @@ urlpatterns = [
          PermitSubmitView.as_view(), name="permit-submit"),
     # Datatable d'audit pour la page back-office (admin).
     path("audit/", AuditLogListView.as_view(), name="audit-list"),
+
+    # ----- OpenAPI / Swagger / Redoc ----------------------------------------
+    # Schéma brut (JSON ou YAML selon le format demandé).
+    path("schema/", SpectacularAPIView.as_view(), name="schema"),
+    # UI interactive Swagger pour tester les endpoints depuis le navigateur.
+    path("docs/", SpectacularSwaggerView.as_view(url_name="api:schema"), name="docs"),
+    # UI Redoc, plus lisible pour de la documentation à présenter.
+    path("redoc/", SpectacularRedocView.as_view(url_name="api:schema"), name="redoc"),
 ]
