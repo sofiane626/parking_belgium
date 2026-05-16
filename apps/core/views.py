@@ -7,6 +7,25 @@ from django.utils import translation
 from .models import Commune
 
 
+def robots_txt(request: HttpRequest) -> HttpResponse:
+    """
+    Sert /robots.txt avec les règles d'indexation. Pages admin et back-office
+    bloquées, sitemap référencé.
+    """
+    lines = [
+        "User-agent: *",
+        "Disallow: /admin/",
+        "Disallow: /dashboard/",
+        "Disallow: /me/",
+        "Disallow: /accounts/password/",
+        "Disallow: /api/v1/audit/",
+        "Allow: /",
+        "",
+        f"Sitemap: {request.scheme}://{request.get_host()}/sitemap.xml",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+
 def home(request: HttpRequest) -> HttpResponse:
     return render(request, "core/home.html")
 

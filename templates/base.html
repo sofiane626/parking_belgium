@@ -1,11 +1,33 @@
-{% load static i18n tailwind_tags %}<!DOCTYPE html>
+{% load static i18n tailwind_tags %}{% get_current_language as CURRENT_LANGUAGE %}{% get_available_languages as AVAILABLE_LANGUAGES %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:'fr' }}" class="h-full scroll-smooth">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#08447F">
-  <meta name="description" content="{% block meta_description %}Plateforme officielle de gestion des cartes de stationnement pour les 19 communes de la Région de Bruxelles-Capitale.{% endblock %}">
+  <meta name="description" content="{% block meta_description %}{% trans "Plateforme officielle de gestion des cartes de stationnement pour les 19 communes de la Région de Bruxelles-Capitale." %}{% endblock %}">
+  <meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}">
+  <meta name="author" content="Parking.Belgium">
   <title>{% block title %}Parking.Belgium{% endblock %} · Parking.Belgium</title>
+
+  {# Open Graph (partages réseaux sociaux) #}
+  <meta property="og:site_name" content="Parking.Belgium">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}{% trans "Parking.Belgium — Stationnez à Bruxelles" %}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{% trans "Plateforme officielle pour les cartes de stationnement résidentielles, visiteurs et professionnelles dans les 19 communes bruxelloises." %}{% endblock %}">
+  <meta property="og:locale" content="{{ LANGUAGE_CODE }}_BE">
+  {% for code, name in AVAILABLE_LANGUAGES %}{% if code != LANGUAGE_CODE %}<meta property="og:locale:alternate" content="{{ code }}_BE">{% endif %}{% endfor %}
+
+  {# Twitter Card #}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Parking.Belgium">
+
+  {# Hreflang — annonce aux moteurs que la même page existe dans les autres langues #}
+  {% for code, name in AVAILABLE_LANGUAGES %}<link rel="alternate" hreflang="{{ code }}" href="{% language code %}{{ request.scheme }}://{{ request.get_host }}{% block hreflang_path %}{{ request.path }}{% endblock %}{% endlanguage %}">{% endfor %}
+  <link rel="alternate" hreflang="x-default" href="{% language "fr" %}{{ request.scheme }}://{{ request.get_host }}{% block hreflang_default_path %}{{ request.path }}{% endblock %}{% endlanguage %}">
+
+  {# Favicons #}
+  <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+
   {% tailwind_css %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

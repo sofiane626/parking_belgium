@@ -46,3 +46,6 @@ TODO.md
 # Outils i18n — fichiers temporaires
 tools/_*.json
 tools/__pycache__/
+
+# Documents TFE (livrables non poussés sur GitHub)
+documents/

@@ -5,8 +5,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from django.contrib.sitemaps.views import sitemap
+
 from apps.accounts.views import set_language_persistent
+from apps.core.sitemaps import StaticViewSitemap
+from apps.core.views import robots_txt
 from apps.payments import views as payment_views
+
+SITEMAPS = {"static": StaticViewSitemap}
 
 handler403 = "apps.core.views.error_403"
 handler404 = "apps.core.views.error_404"
@@ -22,6 +28,9 @@ urlpatterns = [
     # (au lieu de juste le cookie). Garde la même URL que Django (i18n/setlang/).
     path("i18n/setlang/", set_language_persistent, name="set_language"),
     path("stripe/webhook/", payment_views.stripe_webhook, name="stripe_webhook_root"),
+    # SEO — sitemap + robots.txt à la racine, hors préfixe de langue.
+    path("sitemap.xml", sitemap, {"sitemaps": SITEMAPS}, name="sitemap"),
+    path("robots.txt", robots_txt, name="robots_txt"),
 ]
 
 # Routes UI : préfixées par /fr/ /nl/ /en/ (toutes les langues, pas de défaut sans préfixe).

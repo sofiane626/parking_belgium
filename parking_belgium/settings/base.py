@@ -39,9 +39,13 @@ DJANGO_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "django.contrib.sites",        # requis pour sitemaps Django
+    "django.contrib.sitemaps",
     "django.contrib.staticfiles",
     "django.contrib.gis",
 ]
+
+SITE_ID = 1
 
 THIRD_PARTY_APPS = [
     "rest_framework",
