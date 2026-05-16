@@ -214,9 +214,8 @@ SPECTACULAR_SETTINGS = {
     "SERVE_INCLUDE_SCHEMA": False,
     "CONTACT": {"name": "Parking.Belgium", "email": "privacy@parking.belgium.local"},
     "LICENSE": {"name": "Académique — TFE"},
-    "SERVERS": [
-        {"url": "/api/v1/", "description": "Préfixe stable de l'API"},
-    ],
+    # Pas de "SERVERS" custom : les paths déjà extraits par drf-spectacular
+    # commencent par /api/v1/, on ne veut pas redoubler ce préfixe.
     "TAGS": [
         {"name": "Auth", "description": "Obtention de token"},
         {"name": "Permits", "description": "Cartes : éligibilité, soumission, droit de stationnement"},
