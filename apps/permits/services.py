@@ -177,7 +177,16 @@ def approve_manual_review(permit: Permit, *, agent, notes: str = "") -> Permit:
 def _maybe_auto_activate(permit: Permit) -> Permit:
     """Skip the payment step entirely when the price is zero (e.g. visitor)."""
     if permit.status == PermitStatus.AWAITING_PAYMENT and permit.price_cents == 0:
-        return mark_paid(permit)
+        permit = mark_paid(permit)
+        # Pas de Payment associé pour les cartes gratuites → on envoie l'email
+        # d'activation directement ici (sinon le citoyen ne saurait pas que sa
+        # carte est active).
+        try:
+            from apps.payments.emails import send_permit_activated_email
+            send_permit_activated_email(permit=permit)
+        except Exception:  # noqa: BLE001 — never let email rendering break activation
+            pass
+        return permit
     return permit
 
 

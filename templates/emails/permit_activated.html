@@ -1,64 +1,73 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head><meta charset="utf-8"><title>Carte #{{ permit.pk }} activée</title></head>
-<body style="font-family:system-ui,Segoe UI,Arial,sans-serif;background:#f4f4f6;margin:0;padding:24px;color:#1e293b;">
-  <div style="max-width:620px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;">
+<body style="font-family:'Inter',system-ui,Segoe UI,Arial,sans-serif;background:#f8fafc;margin:0;padding:24px;color:#334155;">
+  <div style="max-width:620px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px -3px rgba(15,23,42,0.08);">
 
     {# === HEADER === #}
-    <div style="background:linear-gradient(135deg, #08447F 0%, #2375C0 60%, #06B0D4 100%);color:#fff;padding:22px;">
-      <div style="display:inline-block;background:#ffffff22;padding:4px 10px;border-radius:999px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:600;">
-        ✓ Activée
+    <div style="background:linear-gradient(135deg, #08447F 0%, #2375C0 60%, #06B0D4 100%);color:#fff;padding:24px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div style="width:32px;height:32px;background:#FFCD00;color:#08447F;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;">P</div>
+        <span style="font-weight:600;font-size:14px;letter-spacing:.2px;">Parking.Belgium</span>
       </div>
-      <h1 style="margin:10px 0 4px;font-size:22px;font-weight:600;">Carte de stationnement activée</h1>
-      <p style="margin:0;font-size:13px;opacity:.9;">Parking.Belgium · Région de Bruxelles-Capitale</p>
+      <div style="display:inline-block;background:#FFCD00;color:#08447F;padding:5px 12px;border-radius:999px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:700;">
+        Carte activée
+      </div>
+      <h1 style="margin:14px 0 4px;font-size:22px;font-weight:700;">Votre carte est désormais active</h1>
+      <p style="margin:0;opacity:.9;font-size:13px;">Carte #{{ permit.pk }} · {{ permit.get_permit_type_display }}</p>
     </div>
+    <div style="height:3px;background:#FFCD00;"></div>
 
+    {# === BODY === #}
     <div style="padding:24px;">
-      <p style="margin:0 0 6px;">Bonjour <strong>{{ user.first_name|default:user.username }}</strong>,</p>
-      <p style="margin:0 0 14px;">Votre paiement a bien été reçu. Votre carte
-        <strong>#{{ permit.pk }}</strong>
-        ({{ permit.get_permit_type_display|lower }}) est désormais
-        <strong style="color:#08447F;">ACTIVE</strong>.
+      <p style="margin:0 0 14px;font-size:15px;color:#0F172A;">
+        Bonjour <strong>{{ user.first_name|default:user.username }}</strong>,
+      </p>
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.6;color:#475569;">
+        {% if payment %}Votre paiement a bien été reçu.{% endif %}
+        Votre carte de stationnement
+        <strong>{{ permit.get_permit_type_display|lower }}</strong> #{{ permit.pk }} est désormais
+        <strong style="color:#0F5BA3;">ACTIVE</strong>.
       </p>
 
       {# === DÉTAILS CARTE === #}
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-top:16px;">
-        <h2 style="margin:0 0 10px;font-size:13px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.5px;">Détails de la carte</h2>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:18px;margin-top:18px;">
+        <h2 style="margin:0 0 12px;font-size:12px;font-weight:700;color:#08447F;text-transform:uppercase;letter-spacing:.6px;">Détails de la carte</h2>
         <table style="width:100%;border-collapse:collapse;font-size:14px;">
-          <tr><td style="padding:5px 0;color:#64748b;">Numéro</td><td style="text-align:right;font-weight:500;">#{{ permit.pk }}</td></tr>
-          <tr><td style="padding:5px 0;color:#64748b;">Type</td><td style="text-align:right;font-weight:500;">{{ permit.get_permit_type_display }}</td></tr>
-          <tr><td style="padding:5px 0;color:#64748b;">Validité</td><td style="text-align:right;">{{ permit.valid_from|date:"d/m/Y" }} → {{ permit.valid_until|date:"d/m/Y" }}</td></tr>
-          {% if target_commune %}<tr><td style="padding:5px 0;color:#64748b;">Commune d'exercice</td><td style="text-align:right;">{{ target_commune.name_fr }}</td></tr>{% endif %}
+          <tr><td style="padding:6px 0;color:#64748b;">Numéro</td><td style="text-align:right;font-weight:600;color:#0F172A;">#{{ permit.pk }}</td></tr>
+          <tr><td style="padding:6px 0;color:#64748b;">Type</td><td style="text-align:right;color:#0F172A;">{{ permit.get_permit_type_display }}</td></tr>
+          <tr><td style="padding:6px 0;color:#64748b;">Validité</td><td style="text-align:right;color:#0F172A;">{{ permit.valid_from|date:"d/m/Y" }} → {{ permit.valid_until|date:"d/m/Y" }}</td></tr>
+          {% if target_commune %}<tr><td style="padding:6px 0;color:#64748b;">Commune d'exercice</td><td style="text-align:right;color:#0F172A;">{{ target_commune.name_fr }}</td></tr>{% endif %}
         </table>
       </div>
 
       {# === VÉHICULE === #}
       {% if permit.vehicle %}
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-top:12px;">
-        <h2 style="margin:0 0 10px;font-size:13px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.5px;">Véhicule</h2>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:18px;margin-top:14px;">
+        <h2 style="margin:0 0 12px;font-size:12px;font-weight:700;color:#08447F;text-transform:uppercase;letter-spacing:.6px;">Véhicule</h2>
         <table style="width:100%;border-collapse:collapse;font-size:14px;">
-          <tr><td style="padding:5px 0;color:#64748b;">Plaque</td><td style="text-align:right;font-family:monospace;font-weight:600;">{{ permit.vehicle.plate }}</td></tr>
-          {% if permit.vehicle.brand or permit.vehicle.model %}<tr><td style="padding:5px 0;color:#64748b;">Modèle</td><td style="text-align:right;">{{ permit.vehicle.brand }} {{ permit.vehicle.model }}{% if permit.vehicle.color %} · {{ permit.vehicle.color }}{% endif %}</td></tr>{% endif %}
+          <tr><td style="padding:6px 0;color:#64748b;">Plaque</td><td style="text-align:right;font-family:monospace;font-weight:600;color:#0F172A;">{{ permit.vehicle.plate }}</td></tr>
+          {% if permit.vehicle.brand or permit.vehicle.model %}<tr><td style="padding:6px 0;color:#64748b;">Modèle</td><td style="text-align:right;color:#0F172A;">{{ permit.vehicle.brand }} {{ permit.vehicle.model }}{% if permit.vehicle.color %} · {{ permit.vehicle.color }}{% endif %}</td></tr>{% endif %}
         </table>
       </div>
       {% endif %}
 
       {# === ENTREPRISE (carte pro) === #}
       {% if company %}
-      <div style="background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;padding:16px;margin-top:12px;">
-        <h2 style="margin:0 0 10px;font-size:13px;font-weight:600;color:#3730a3;text-transform:uppercase;letter-spacing:.5px;">Entreprise rattachée</h2>
+      <div style="background:#EDF5FC;border:1px solid #A8CFF1;border-radius:10px;padding:18px;margin-top:14px;">
+        <h2 style="margin:0 0 12px;font-size:12px;font-weight:700;color:#08447F;text-transform:uppercase;letter-spacing:.6px;">Entreprise rattachée</h2>
         <table style="width:100%;border-collapse:collapse;font-size:14px;">
-          <tr><td style="padding:5px 0;color:#64748b;">Nom</td><td style="text-align:right;font-weight:500;">{{ company.name }}</td></tr>
-          <tr><td style="padding:5px 0;color:#64748b;">N° TVA</td><td style="text-align:right;font-family:monospace;">{{ company.vat_number }}</td></tr>
+          <tr><td style="padding:6px 0;color:#64748b;">Nom</td><td style="text-align:right;font-weight:600;color:#0F172A;">{{ company.name }}</td></tr>
+          <tr><td style="padding:6px 0;color:#64748b;">N° TVA</td><td style="text-align:right;font-family:monospace;color:#0F172A;">{{ company.vat_number }}</td></tr>
         </table>
       </div>
       {% endif %}
 
-      {# === ADRESSE DE RÉFÉRENCE === #}
+      {# === ADRESSE === #}
       {% if address %}
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-top:12px;">
-        <h2 style="margin:0 0 8px;font-size:13px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.5px;">Adresse de référence</h2>
-        <p style="margin:0;font-size:14px;line-height:1.5;">
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:18px;margin-top:14px;">
+        <h2 style="margin:0 0 10px;font-size:12px;font-weight:700;color:#08447F;text-transform:uppercase;letter-spacing:.6px;">Adresse de référence</h2>
+        <p style="margin:0;font-size:14px;line-height:1.6;color:#0F172A;">
           {{ address.street }} {{ address.number }}{% if address.box %} bte {{ address.box }}{% endif %}<br>
           {{ address.postal_code }} {{ address.commune.name_fr }}
         </p>
@@ -67,45 +76,71 @@
 
       {# === ZONES AUTORISÉES === #}
       {% if zones %}
-      <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:16px;margin-top:12px;">
-        <h2 style="margin:0 0 10px;font-size:13px;font-weight:600;color:#08447F;text-transform:uppercase;letter-spacing:.5px;">
+      <div style="background:#EDF5FC;border:1px solid #A8CFF1;border-radius:10px;padding:18px;margin-top:14px;">
+        <h2 style="margin:0 0 12px;font-size:12px;font-weight:700;color:#08447F;text-transform:uppercase;letter-spacing:.6px;">
           Zones autorisées ({{ zones|length }})
         </h2>
         {% if main_zone %}
-          <div style="margin-bottom:8px;">
-            <span style="display:inline-block;background:#08447F;color:#fff;padding:4px 10px;border-radius:6px;font-family:monospace;font-size:13px;font-weight:600;">{{ main_zone.zone_code }}</span>
-            <span style="margin-left:6px;font-size:12px;color:#08447F;">— zone principale</span>
+          <div style="margin-bottom:10px;">
+            <span style="display:inline-block;background:#08447F;color:#fff;padding:5px 12px;border-radius:6px;font-family:monospace;font-size:13px;font-weight:700;">{{ main_zone.zone_code }}</span>
+            <span style="margin-left:8px;font-size:12px;color:#08447F;font-weight:500;">— zone principale</span>
           </div>
         {% endif %}
         {% if additional_zones %}
-          <div style="margin-top:6px;">
+          <div style="margin-top:8px;">
             {% for z in additional_zones %}
-              <span style="display:inline-block;background:#fff;border:1px solid #a7f3d0;color:#065f46;padding:3px 9px;border-radius:6px;font-family:monospace;font-size:12px;margin:2px 4px 2px 0;">{{ z.zone_code }}</span>
+              <span style="display:inline-block;background:#fff;border:1px solid #A8CFF1;color:#0F5BA3;padding:4px 10px;border-radius:6px;font-family:monospace;font-size:12px;margin:2px 4px 2px 0;font-weight:500;">{{ z.zone_code }}</span>
             {% endfor %}
           </div>
         {% endif %}
       </div>
       {% endif %}
 
+      {% if payment %}
       {# === PAIEMENT === #}
-      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:16px;margin-top:12px;">
-        <h2 style="margin:0 0 10px;font-size:13px;font-weight:600;color:#92400e;text-transform:uppercase;letter-spacing:.5px;">Reçu de paiement</h2>
+      <div style="background:#FFFDEA;border:1px solid #FFEC85;border-radius:10px;padding:18px;margin-top:14px;">
+        <h2 style="margin:0 0 12px;font-size:12px;font-weight:700;color:#806300;text-transform:uppercase;letter-spacing:.6px;">Reçu de paiement</h2>
         <table style="width:100%;border-collapse:collapse;font-size:14px;">
-          <tr><td style="padding:5px 0;color:#64748b;">Montant</td><td style="text-align:right;font-weight:700;font-size:16px;">{{ amount_eur|floatformat:2 }} €</td></tr>
-          <tr><td style="padding:5px 0;color:#64748b;">Méthode</td><td style="text-align:right;">{{ method_label }}{% if card_mask %} ({{ card_mask }}){% endif %}</td></tr>
-          <tr><td style="padding:5px 0;color:#64748b;">Validé le</td><td style="text-align:right;">{{ payment.confirmed_at|date:"d/m/Y à H:i" }}</td></tr>
-          <tr><td style="padding:5px 0;color:#64748b;">Référence</td><td style="text-align:right;font-family:monospace;font-size:11px;">{{ payment.reference }}</td></tr>
+          <tr><td style="padding:6px 0;color:#64748b;">Montant</td><td style="text-align:right;font-weight:700;font-size:16px;color:#0F172A;">{{ amount_eur|floatformat:2 }} €</td></tr>
+          <tr><td style="padding:6px 0;color:#64748b;">Méthode</td><td style="text-align:right;color:#0F172A;">{{ method_label }}{% if card_mask %} ({{ card_mask }}){% endif %}</td></tr>
+          <tr><td style="padding:6px 0;color:#64748b;">Validé le</td><td style="text-align:right;color:#0F172A;">{{ payment.confirmed_at|date:"d/m/Y à H:i" }}</td></tr>
+          <tr><td style="padding:6px 0;color:#64748b;">Référence</td><td style="text-align:right;font-family:monospace;font-size:11px;color:#475569;">{{ payment.reference }}</td></tr>
         </table>
       </div>
 
-      <p style="margin-top:22px;font-size:13px;color:#64748b;line-height:1.5;">
-        Cet email tient lieu de <strong>preuve d'activation</strong> et de
-        <strong>reçu de paiement</strong>. Conservez-le précieusement.
+      <p style="margin:18px 0 0;font-size:13px;color:#64748b;line-height:1.6;">
+        Cet email tient lieu de <strong style="color:#08447F;">preuve d'activation</strong> et de
+        <strong style="color:#08447F;">reçu de paiement</strong>. Conservez-le précieusement.
       </p>
-      <p style="margin:6px 0 0;font-size:13px;color:#64748b;">
+      {% else %}
+      {# === CARTE GRATUITE === #}
+      <div style="background:#FFFDEA;border-left:4px solid #FFCD00;border-radius:6px;padding:14px;margin-top:14px;">
+        <p style="margin:0;font-size:14px;color:#0F172A;">
+          <strong style="color:#806300;">Carte gratuite</strong> — aucun paiement n'est nécessaire.
+        </p>
+      </div>
+
+      <p style="margin:18px 0 0;font-size:13px;color:#64748b;line-height:1.6;">
+        Cet email tient lieu de <strong style="color:#08447F;">preuve d'activation</strong>. Conservez-le précieusement.
+      </p>
+      {% endif %}
+
+      <div style="text-align:center;margin:22px 0 4px;">
+        <a href="https://parking.belgium/me/permits/" style="display:inline-block;background:#0F5BA3;color:#fff;text-decoration:none;font-weight:600;padding:12px 24px;border-radius:8px;font-size:13px;box-shadow:0 4px 12px -3px rgba(8,68,127,0.35);">
+          Voir ma carte →
+        </a>
+      </div>
+    </div>
+
+    {# === FOOTER === #}
+    <div style="background:#f1f5f9;border-top:1px solid #e2e8f0;padding:18px 24px;text-align:center;">
+      <p style="margin:0;font-size:12px;color:#64748b;line-height:1.5;">
+        <strong style="color:#08447F;">Parking.Belgium</strong> · Service officiel<br>
+        Région de Bruxelles-Capitale · 19 communes
+      </p>
+      <p style="margin:8px 0 0;font-size:11px;color:#94a3b8;">
         En cas de question, contactez votre commune.
       </p>
-      <p style="margin:18px 0 0;font-size:13px;color:#64748b;">— L'équipe Parking.Belgium</p>
     </div>
   </div>
 </body>

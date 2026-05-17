@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>Carte #{{ permit.pk }} expire bientôt</title></head>
+<body style="font-family:'Inter',system-ui,Segoe UI,Arial,sans-serif;background:#f8fafc;margin:0;padding:24px;color:#334155;">
+  <div style="max-width:620px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px -3px rgba(15,23,42,0.08);">
+
+    {# === HEADER — brand sombre avec liseré jaune signal === #}
+    <div style="background:linear-gradient(135deg, #08447F 0%, #2375C0 60%, #06B0D4 100%);color:#fff;padding:24px;position:relative;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div style="width:32px;height:32px;background:#FFCD00;color:#08447F;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;">P</div>
+        <span style="font-weight:600;font-size:14px;letter-spacing:.2px;">Parking.Belgium</span>
+      </div>
+      <div style="display:inline-block;background:#FFCD00;color:#08447F;padding:5px 12px;border-radius:999px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:700;">
+        Rappel d'expiration
+      </div>
+      <h1 style="margin:14px 0 4px;font-size:22px;font-weight:700;">Votre carte expire bientôt</h1>
+      <p style="margin:0;opacity:.9;font-size:13px;">Expiration prévue le <strong>{{ permit.valid_until|date:"d/m/Y" }}</strong> — dans environ 15 jours</p>
+    </div>
+    {# Liseré jaune signal sous le header — accent identitaire Bruxelles #}
+    <div style="height:3px;background:#FFCD00;"></div>
+
+    {# === BODY === #}
+    <div style="padding:24px;">
+      <p style="margin:0 0 16px;font-size:15px;color:#0F172A;">
+        Bonjour <strong>{{ user.first_name|default:user.username }}</strong>,
+      </p>
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.6;color:#475569;">
+        Votre carte de stationnement <strong>{{ permit.get_permit_type_display|lower }}</strong>
+        (#{{ permit.pk }}) arrive à échéance. Pour éviter toute interruption,
+        pensez à la renouveler dès maintenant.
+      </p>
+
+      {# === DÉTAILS === #}
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:18px;margin-top:18px;">
+        <h2 style="margin:0 0 12px;font-size:12px;font-weight:700;color:#08447F;text-transform:uppercase;letter-spacing:.6px;">Détails de la carte</h2>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <tr><td style="padding:6px 0;color:#64748b;">Titulaire</td><td style="text-align:right;color:#0F172A;">{{ user.first_name }} {{ user.last_name }}</td></tr>
+          {% if permit.vehicle %}<tr><td style="padding:6px 0;color:#64748b;">Plaque</td><td style="text-align:right;font-family:monospace;font-weight:600;color:#0F172A;">{{ permit.vehicle.plate }}</td></tr>{% endif %}
+          <tr><td style="padding:6px 0;color:#64748b;">Période en cours</td><td style="text-align:right;color:#0F172A;">{{ permit.valid_from|date:"d/m/Y" }} → {{ permit.valid_until|date:"d/m/Y" }}</td></tr>
+          {% if main_zone %}
+          <tr><td style="padding:6px 0;color:#64748b;">Zone principale</td>
+              <td style="text-align:right;">
+                <span style="background:#08447F;color:#fff;padding:3px 9px;border-radius:6px;font-family:monospace;font-size:13px;font-weight:600;">{{ main_zone.zone_code }}</span>
+              </td>
+          </tr>
+          {% endif %}
+        </table>
+      </div>
+
+      {# === CTA === #}
+      <div style="text-align:center;margin:28px 0 8px;">
+        <a href="https://parking.belgium/me/permits/" style="display:inline-block;background:#0F5BA3;color:#fff;text-decoration:none;font-weight:600;padding:13px 28px;border-radius:8px;font-size:14px;box-shadow:0 4px 12px -3px rgba(8,68,127,0.35);">
+          Renouveler ma carte →
+        </a>
+      </div>
+
+      <p style="margin:18px 0 0;font-size:13px;color:#64748b;line-height:1.6;">
+        Si vous ne souhaitez pas renouveler, vous n'avez rien à faire — la carte
+        expirera automatiquement à la date indiquée.
+      </p>
+    </div>
+
+    {# === FOOTER === #}
+    <div style="background:#f1f5f9;border-top:1px solid #e2e8f0;padding:18px 24px;text-align:center;">
+      <p style="margin:0;font-size:12px;color:#64748b;line-height:1.5;">
+        <strong style="color:#08447F;">Parking.Belgium</strong> · Service officiel<br>
+        Région de Bruxelles-Capitale · 19 communes
+      </p>
+      <p style="margin:8px 0 0;font-size:11px;color:#94a3b8;">
+        Cet email est généré automatiquement. En cas de question, contactez votre commune.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

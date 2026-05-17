@@ -140,6 +140,9 @@ class Permit(models.Model):
     suspension_reason = models.TextField(_("raison de suspension"), blank=True)
     expired_at = models.DateTimeField(null=True, blank=True)
     cancelled_at = models.DateTimeField(null=True, blank=True)
+    # Date à laquelle on a envoyé le rappel d'expiration (J-15). Non null
+    # empêche de re-envoyer le même rappel : la commande cron skip ces lignes.
+    expiry_reminder_sent_at = models.DateTimeField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

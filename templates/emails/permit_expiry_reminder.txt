@@ -1,0 +1,34 @@
+Bonjour {{ user.first_name|default:user.username }},
+
+Votre carte de stationnement #{{ permit.pk }} ({{ permit.get_permit_type_display|lower }})
+expire le {{ permit.valid_until|date:"d/m/Y" }} — dans environ 15 jours.
+
+═══════════════════════════════════════════════
+  RAPPEL D'EXPIRATION
+═══════════════════════════════════════════════
+
+TITULAIRE
+  {{ user.first_name }} {{ user.last_name }}
+
+{% if permit.vehicle %}VÉHICULE
+  Plaque  : {{ permit.vehicle.plate }}
+  {% if permit.vehicle.brand or permit.vehicle.model %}Modèle  : {{ permit.vehicle.brand }} {{ permit.vehicle.model }}{% endif %}
+
+{% endif %}PÉRIODE EN COURS
+  {{ permit.valid_from|date:"d/m/Y" }} → {{ permit.valid_until|date:"d/m/Y" }}
+
+{% if zones %}ZONES AUTORISÉES
+{% if main_zone %}  ► {{ main_zone.zone_code }}
+{% endif %}{% for z in additional_zones %}  • {{ z.zone_code }}
+{% endfor %}{% endif %}
+═══════════════════════════════════════════════
+
+Pour éviter toute interruption de stationnement, pensez à renouveler
+votre carte dès maintenant :
+
+  → https://parking.belgium/me/permits/
+
+Si vous ne souhaitez pas renouveler, vous n'avez rien à faire — la carte
+expirera automatiquement à la date indiquée.
+
+— L'équipe Parking.Belgium

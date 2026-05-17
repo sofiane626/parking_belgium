@@ -1,6 +1,6 @@
 Bonjour {{ user.first_name|default:user.username }},
 
-Votre paiement a bien été reçu et votre carte de stationnement est désormais ACTIVE.
+{% if payment %}Votre paiement a bien été reçu et votre carte de stationnement est désormais ACTIVE.{% else %}Votre carte de stationnement {{ permit.get_permit_type_display|lower }} est désormais ACTIVE.{% endif %}
 
 ═══════════════════════════════════════════════
   CARTE #{{ permit.pk }} — {{ permit.get_permit_type_display|upper }}
@@ -32,7 +32,7 @@ ZONES AUTORISÉES ({{ zones|length }})
 {% if main_zone %}  ► Zone principale : {{ main_zone.zone_code }}
 {% endif %}{% for z in additional_zones %}  • {{ z.zone_code }}
 {% endfor %}{% endif %}
-═══════════════════════════════════════════════
+{% if payment %}═══════════════════════════════════════════════
   PAIEMENT
 ═══════════════════════════════════════════════
   Montant   : {{ amount_eur|floatformat:2 }} €
@@ -41,7 +41,13 @@ ZONES AUTORISÉES ({{ zones|length }})
   Validé le : {{ payment.confirmed_at|date:"d/m/Y à H:i" }}
 
 Cet email tient lieu de preuve d'activation et de reçu de paiement —
-conservez-le précieusement.
+conservez-le précieusement.{% else %}═══════════════════════════════════════════════
+  TARIF
+═══════════════════════════════════════════════
+  Carte gratuite — pas de paiement nécessaire.
+
+Cet email tient lieu de preuve d'activation —
+conservez-le précieusement.{% endif %}
 
 En cas de question, contactez votre commune.
 
