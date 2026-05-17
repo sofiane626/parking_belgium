@@ -7,6 +7,15 @@ from django.utils import translation
 from .models import Commune
 
 
+def healthz(request: HttpRequest) -> JsonResponse:
+    """
+    Endpoint de healthcheck pour les plateformes type Railway / Heroku.
+    Volontairement sans hit DB pour rester rapide et ne pas être affecté
+    par une éventuelle latence Postgres pendant un redémarrage.
+    """
+    return JsonResponse({"ok": True}, status=200)
+
+
 def robots_txt(request: HttpRequest) -> HttpResponse:
     """
     Sert /robots.txt avec les règles d'indexation. Pages admin et back-office

@@ -9,7 +9,7 @@ from django.contrib.sitemaps.views import sitemap
 
 from apps.accounts.views import set_language_persistent
 from apps.core.sitemaps import StaticViewSitemap
-from apps.core.views import robots_txt
+from apps.core.views import healthz, robots_txt
 from apps.payments import views as payment_views
 
 SITEMAPS = {"static": StaticViewSitemap}
@@ -31,6 +31,9 @@ urlpatterns = [
     # SEO — sitemap + robots.txt à la racine, hors préfixe de langue.
     path("sitemap.xml", sitemap, {"sitemaps": SITEMAPS}, name="sitemap"),
     path("robots.txt", robots_txt, name="robots_txt"),
+    # Healthcheck plateforme (Railway, Heroku…). Hors i18n_patterns pour
+    # rester stable et ne pas dépendre du middleware locale.
+    path("healthz/", healthz, name="healthz"),
 ]
 
 # Routes UI : préfixées par /fr/ /nl/ /en/ (toutes les langues, pas de défaut sans préfixe).

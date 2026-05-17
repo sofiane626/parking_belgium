@@ -1,0 +1,29 @@
+# Configuration nixpacks pour Railway.
+# Fournit à la fois Node (Tailwind + Vite) et Python (Django/Gunicorn),
+# avec les bibliothèques système indispensables à GeoDjango sous Linux :
+# GDAL, GEOS et PROJ (équivalents Debian des DLL installées via le bundle
+# PostGIS sur la machine Windows locale).
+
+providers = ["node", "python"]
+
+[phases.setup]
+aptPkgs = [
+    "gdal-bin",
+    "libgdal-dev",
+    "libgeos-dev",
+    "libproj-dev",
+    "proj-data",
+    "proj-bin",
+    "binutils",
+]
+
+[phases.build]
+# Ordre critique :
+#   1. Build du CSS Tailwind  → static/css/dist/styles.css
+#   2. Build des bundles Vite → static/frontend/{map,wizard,audit}-bundle.{js,css}
+#   3. collectstatic           → staticfiles/ (servi par whitenoise)
+cmds = [
+    "cd theme/static_src && npm ci && npm run build",
+    "cd frontend && npm ci && npm run build",
+    "python manage.py collectstatic --noinput",
+]
