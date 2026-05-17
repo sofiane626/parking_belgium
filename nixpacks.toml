@@ -7,6 +7,10 @@
 providers = ["node", "python"]
 
 [phases.setup]
+# Note : Nixpacks lance apt-get install --no-install-recommends, donc on liste
+# explicitement les dépendances transitives de libgdal-dev qui ne seraient pas
+# tirées (libcurl4, libexpat1, libsqlite3-0, libxml2…). Sans elles, ctypes échoue
+# au chargement de libgdal.so avec "cannot open shared object file".
 aptPkgs = [
     "gdal-bin",
     "libgdal-dev",
@@ -15,6 +19,12 @@ aptPkgs = [
     "proj-data",
     "proj-bin",
     "binutils",
+    "libcurl4",
+    "libexpat1",
+    "libsqlite3-0",
+    "libxml2",
+    "libssl3",
+    "zlib1g",
 ]
 
 [phases.build]
