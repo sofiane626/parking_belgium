@@ -42,25 +42,18 @@ MEDIA_ROOT = env("DJANGO_MEDIA_ROOT", default="/data/media")
 # pointe vers le `npm` du PATH par sécurité (Windows path absent sous Linux).
 NPM_BIN_PATH = env("NPM_BIN_PATH", default="npm")
 
-# ----- Email SMTP -----------------------------------------------------------
-# Même logique que dev.py : si EMAIL_HOST est fourni → SMTP réel, sinon backend
-# console (utile pour les premiers déploiements avant que le secret SMTP ne
-# soit configuré). On garde le CertifiSMTPBackend pour rester homogène avec
-# le code applicatif (forçage certifi inoffensif sous Linux).
-_email_host = env("EMAIL_HOST", default="")
-if _email_host:
-    EMAIL_BACKEND = "apps.payments.email_backend.CertifiSMTPBackend"
-    EMAIL_HOST = _email_host
-    EMAIL_PORT = env.int("EMAIL_PORT", default=587)
-    EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
-    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
-    EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
-    EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL", default=False)
-    EMAIL_TIMEOUT = env.int("EMAIL_TIMEOUT", default=15)
-    # En prod, jamais de skip de la vérif SSL (contournement antivirus local
-    # uniquement). On force la valeur à False pour neutraliser un éventuel
-    # oubli dans les variables d'environnement.
-    EMAIL_INSECURE_SKIP_VERIFY = False
+# ----- Email -----------------------------------------------------------
+# Railway bloque tout trafic sortant ressemblant à du SMTP (ports 25, 465,
+# 587, 2525 — testé). Cf. https://docs.railway.app/reference/outbound-emails
+# On passe donc par l'API HTTP de Brevo via django-anymail (HTTPS:443, non
+# bloqué). Le compte Brevo et les templates Django existants sont conservés
+# tels quels — seul le « tuyau » d'envoi change. Si BREVO_API_KEY n'est pas
+# fourni, on retombe sur le backend console (mails dans les logs Railway).
+_brevo_api_key = env("BREVO_API_KEY", default="")
+if _brevo_api_key:
+    INSTALLED_APPS = INSTALLED_APPS + ["anymail"]  # noqa: F405
+    EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
+    ANYMAIL = {"BREVO_API_KEY": _brevo_api_key}
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
