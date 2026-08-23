@@ -8,10 +8,13 @@ from apps.core.models import Commune
 
 from .models import GISPolygon, GISSourceVersion
 
-# Géométries connues comme parasites/invalides dans les shapefiles sources,
-# à exclure de l'affichage sans toucher aux données importées (ex : polygone
-# résiduel hors zone couvrant toute la carte).
-EXCLUDED_POLYGON_IDS = {4000}
+# Le shapefile source porte, en plus des zones de stationnement, un polygone
+# de contour de toute la Région de Bruxelles-Capitale (layer="region",
+# niscode sentinelle "4000" — ce n'est pas un vrai code INS de commune). Ce
+# n'est pas une zone : on l'exclut de l'affichage sans toucher aux données
+# importées. On matche sur le layer plutôt que sur un pk, qui diffère d'un
+# environnement à l'autre selon l'ordre d'import.
+EXCLUDED_LAYERS = {"region"}
 
 
 def map_page(request: HttpRequest) -> HttpResponse:
@@ -37,7 +40,7 @@ def polygons_geojson(request: HttpRequest) -> JsonResponse:
 
     qs = (
         GISPolygon.objects.filter(version=version)
-        .exclude(pk__in=EXCLUDED_POLYGON_IDS)
+        .exclude(layer__in=EXCLUDED_LAYERS)
         .select_related("commune")
     )
     commune_nis = request.GET.get("commune")

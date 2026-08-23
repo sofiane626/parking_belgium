@@ -15,8 +15,7 @@
     </p>
   </header>
 
-  {# Liste des 19 communes (même si toutes n'ont pas encore de zones importées),
-     pour que le front affiche honnêtement la couverture réelle des données. #}
+  {# Liste des 19 communes (même sans zones importées), pour un affichage honnête de la couverture. #}
   {{ communes|json_script:"pb-communes-data" }}
 
   {# Mount point du bundle React. Le composant fetch /map/polygons.geojson au mount. #}
