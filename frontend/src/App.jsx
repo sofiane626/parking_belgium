@@ -13,7 +13,7 @@ function colorForNiscode(niscode, paletteIndex) {
   return PALETTE[paletteIndex % PALETTE.length];
 }
 
-export default function App() {
+export default function App({ allCommunes = [] }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [communeFilter, setCommuneFilter] = useState('');
@@ -30,24 +30,43 @@ export default function App() {
       .catch((e) => setError(e.message));
   }, []);
 
-  // Index commune → couleur stable (premier-arrivé, premier-servi)
-  const communeIndex = useMemo(() => {
-    if (!data) return new Map();
-    const seen = new Map();
+  // Nombre de zones par commune, à partir des données réellement importées.
+  const zoneCountByNis = useMemo(() => {
+    const counts = new Map();
+    if (!data) return counts;
     data.features.forEach((f) => {
       const nis = f.properties.niscode;
-      if (nis && !seen.has(nis)) {
-        seen.set(nis, {
-          name: f.properties.commune || nis,
-          color: colorForNiscode(nis, seen.size),
-          count: 1,
-        });
-      } else if (nis) {
-        seen.get(nis).count += 1;
-      }
+      if (!nis) return;
+      counts.set(nis, (counts.get(nis) || 0) + 1);
     });
-    return seen;
+    return counts;
   }, [data]);
+
+  // Liste des 19 communes (couleur stable par ordre alphabétique, qu'il y ait
+  // ou non des zones importées) — évite de masquer silencieusement les
+  // communes sans données GIS pendant que d'autres pages du site annoncent
+  // une couverture des 19 communes.
+  const communeRows = useMemo(() => {
+    return allCommunes
+      .slice()
+      .sort((a, b) => a.name_fr.localeCompare(b.name_fr))
+      .map((c, idx) => ({
+        niscode: c.niscode,
+        name: c.name_fr,
+        color: colorForNiscode(c.niscode, idx),
+        count: zoneCountByNis.get(c.niscode) || 0,
+        hasData: zoneCountByNis.has(c.niscode),
+      }));
+  }, [allCommunes, zoneCountByNis]);
+
+  const colorByNis = useMemo(
+    () => new Map(communeRows.map((r) => [r.niscode, r.color])),
+    [communeRows],
+  );
+  const communesWithData = useMemo(
+    () => communeRows.filter((r) => r.hasData).length,
+    [communeRows],
+  );
 
   // Features filtrées (commune + recherche)
   const filteredFeatures = useMemo(() => {
@@ -75,10 +94,11 @@ export default function App() {
     return {
       total,
       shown,
-      communes: communeIndex.size,
+      communesWithData,
+      communesTotal: allCommunes.length,
       areaKm2: (totalArea / 1_000_000).toFixed(2),
     };
-  }, [data, filteredFeatures, communeIndex]);
+  }, [data, filteredFeatures, communesWithData, allCommunes]);
 
   if (error) {
     return <div className="pb-loading">Erreur de chargement : {error}</div>;
@@ -103,11 +123,11 @@ export default function App() {
             style={{ marginBottom: 8 }}
           >
             <option value="">Toutes les communes</option>
-            {[...communeIndex.entries()]
-              .sort((a, b) => a[1].name.localeCompare(b[1].name))
-              .map(([nis, info]) => (
-                <option key={nis} value={nis}>{info.name}</option>
-              ))}
+            {communeRows.map((r) => (
+              <option key={r.niscode} value={r.niscode}>
+                {r.name}{!r.hasData ? ' (aucune donnée)' : ''}
+              </option>
+            ))}
           </select>
           <input
             className="pb-input"
@@ -140,8 +160,8 @@ export default function App() {
               <div className="pb-stat-label">Total Région</div>
             </div>
             <div className="pb-stat-card">
-              <div className="pb-stat-value">{stats.communes}</div>
-              <div className="pb-stat-label">Communes</div>
+              <div className="pb-stat-value">{stats.communesWithData}/{stats.communesTotal}</div>
+              <div className="pb-stat-label">Communes avec données</div>
             </div>
             <div className="pb-stat-card">
               <div className="pb-stat-value">{stats.areaKm2}</div>
@@ -175,27 +195,29 @@ export default function App() {
         )}
 
         <section>
-          <p className="pb-section-title">Communes ({communeIndex.size})</p>
+          <p className="pb-section-title">
+            Communes ({communesWithData}/{allCommunes.length} avec données)
+          </p>
           <div className="pb-commune-list">
-            {[...communeIndex.entries()]
-              .sort((a, b) => a[1].name.localeCompare(b[1].name))
-              .map(([nis, info]) => (
-                <div
-                  key={nis}
-                  className="pb-commune-row"
-                  onClick={() => setCommuneFilter(communeFilter === nis ? '' : nis)}
-                  style={{
-                    cursor: 'pointer',
-                    background: communeFilter === nis ? '#e8f1fb' : 'transparent',
-                  }}
-                >
-                  <span>
-                    <span className="pb-swatch" style={{ background: info.color }}></span>
-                    {info.name}
-                  </span>
-                  <span className="pb-commune-count">{info.count}</span>
-                </div>
-              ))}
+            {communeRows.map((r) => (
+              <div
+                key={r.niscode}
+                className="pb-commune-row"
+                onClick={() => r.hasData && setCommuneFilter(communeFilter === r.niscode ? '' : r.niscode)}
+                title={r.hasData ? undefined : 'Import GIS pas encore réalisé pour cette commune'}
+                style={{
+                  cursor: r.hasData ? 'pointer' : 'default',
+                  opacity: r.hasData ? 1 : 0.45,
+                  background: communeFilter === r.niscode ? '#e8f1fb' : 'transparent',
+                }}
+              >
+                <span>
+                  <span className="pb-swatch" style={{ background: r.color }}></span>
+                  {r.name}
+                </span>
+                <span className="pb-commune-count">{r.hasData ? r.count : '—'}</span>
+              </div>
+            ))}
           </div>
         </section>
       </aside>
@@ -233,8 +255,7 @@ export default function App() {
             key={geoKey}
             data={{ type: 'FeatureCollection', features: filteredFeatures }}
             style={(feature) => {
-              const info = communeIndex.get(feature.properties.niscode);
-              const color = info?.color || '#94a3b8';
+              const color = colorByNis.get(feature.properties.niscode) || '#94a3b8';
               return { color, weight: 1, fillColor: color, fillOpacity: 0.32 };
             }}
             onEachFeature={(feature, layer) => {
@@ -245,8 +266,7 @@ export default function App() {
                 click: () => setSelectedZone(p),
                 mouseover: () => layer.setStyle({ weight: 3, fillOpacity: 0.5 }),
                 mouseout: () => {
-                  const info = communeIndex.get(p.niscode);
-                  const color = info?.color || '#94a3b8';
+                  const color = colorByNis.get(p.niscode) || '#94a3b8';
                   layer.setStyle({ color, weight: 1, fillColor: color, fillOpacity: 0.32 });
                 },
               });

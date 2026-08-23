@@ -102,8 +102,11 @@ class Command(BaseCommand):
                     name_nl=feat.get("namedut") or "",
                     name_en=feat.get("nameeng") or "",
                     reciprocit=feat.get("reciprocit") or "",
-                    area=feat.get("area"),
-                    perimeter=feat.get("perimeter"),
+                    # Les shapefiles sources ne portent pas toujours ces
+                    # attributs ; à défaut on calcule depuis la géométrie
+                    # (SRID Lambert 72 = mètres, donc geom.area est déjà en m²).
+                    area=feat.get("area") or geom.area,
+                    perimeter=feat.get("perimeter") or geom.length,
                     attributes_json=attrs,
                 )
                 count += 1

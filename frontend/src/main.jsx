@@ -5,5 +5,7 @@ import App from './App.jsx';
 
 const container = document.getElementById('react-map-root');
 if (container) {
-  createRoot(container).render(<App />);
+  const communesDataEl = document.getElementById('pb-communes-data');
+  const allCommunes = communesDataEl ? JSON.parse(communesDataEl.textContent) : [];
+  createRoot(container).render(<App allCommunes={allCommunes} />);
 }
