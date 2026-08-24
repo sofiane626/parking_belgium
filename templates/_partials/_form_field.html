@@ -4,9 +4,7 @@
     {{ field.label }}{% if field.field.required %} <span class="text-brand-500">*</span>{% endif %}
   </label>
   {{ field }}
-  {# div plutôt que p : le help_text des mots de passe (Django) contient un <ul>,
-     un élément de bloc invalide dans un <p> — le navigateur fermerait le <p>
-     avant, et la liste perdrait le style text-xs/slate-500 hérité. #}
+  {# div plutôt que p : un <ul> (help_text des mots de passe) est un bloc invalide dans un <p>. #}
   {% if field.help_text %}<div class="mt-1.5 text-xs text-slate-500 [&_ul]:list-none [&_ul]:p-0 [&_ul]:m-0 [&_ul]:space-y-0.5">{{ field.help_text|safe }}</div>{% endif %}
   {% if field.errors %}<p class="mt-1.5 text-sm text-red-600 flex items-center gap-1"><span>⚠</span> {{ field.errors|join:", " }}</p>{% endif %}
 </div>
