@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import { MapContainer, WMSTileLayer, GeoJSON } from 'react-leaflet';
+
+const URBIS_WMS_URL = 'https://geoservices-basemap.irisnet.be/geoserver/BaseMaps/ows';
 
 export default function Step2Zone({ eligibility, polygonsGeojsonUrl, onNext, onPrev }) {
   const [geojson, setGeojson] = useState(null);
@@ -54,11 +56,14 @@ export default function Step2Zone({ eligibility, polygonsGeojsonUrl, onNext, onP
 
       <div className="pbw-mini-map">
         <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={false}>
-          <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-            subdomains={['a','b','c','d']}
+          <WMSTileLayer
+            url={URBIS_WMS_URL}
+            layers="UrbISFrenchDutchLabeledColor"
+            format="image/png"
+            version="1.3.0"
+            transparent={false}
             maxZoom={19}
-            attribution="&copy; CARTO &copy; OpenStreetMap"
+            attribution="&copy; UrbIS – CIBG/CIRB &copy; paradigm.brussels"
           />
           {geojson && geojson.features.length > 0 && (
             <GeoJSON

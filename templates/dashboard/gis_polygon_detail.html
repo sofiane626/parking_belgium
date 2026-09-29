@@ -121,9 +121,10 @@
     (function () {
       const map = L.map('poly-map').setView([50.847, 4.357], 12);
       // Même fond de carte que /map/ pour rester visuellement cohérent.
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        subdomains: 'abcd', maxZoom: 19,
-        attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap',
+      L.tileLayer.wms('https://geoservices-basemap.irisnet.be/geoserver/BaseMaps/ows', {
+        layers: 'UrbISFrenchDutchLabeledColor', format: 'image/png',
+        version: '1.3.0', transparent: false, maxZoom: 19,
+        attribution: '&copy; UrbIS – CIBG/CIRB &copy; paradigm.brussels',
       }).addTo(map);
       fetch('{% url "gis_data:polygons_geojson" %}').then(r => r.json()).then(data => {
         const f = data.features.find(x => x.id === {{ polygon.pk }});

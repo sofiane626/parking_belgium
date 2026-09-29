@@ -1,5 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { MapContainer, TileLayer, GeoJSON, LayersControl } from 'react-leaflet';
+import { MapContainer, WMSTileLayer, GeoJSON, LayersControl } from 'react-leaflet';
+
+const URBIS_WMS_URL = 'https://geoservices-basemap.irisnet.be/geoserver/BaseMaps/ows';
+const URBIS_ATTRIBUTION = '&copy; UrbIS – CIBG/CIRB &copy; paradigm.brussels';
 
 const PALETTE = [
   '#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6',
@@ -225,28 +228,26 @@ export default function App({ allCommunes = [] }) {
       <div className="pb-map-container">
         <MapContainer center={[50.847, 4.357]} zoom={12} scrollWheelZoom={true}>
           <LayersControl position="topright">
-            <LayersControl.BaseLayer checked name="Voyager">
-              <TileLayer
-                url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-                subdomains={['a', 'b', 'c', 'd']}
+            <LayersControl.BaseLayer checked name="UrbIS couleur">
+              <WMSTileLayer
+                url={URBIS_WMS_URL}
+                layers="UrbISFrenchDutchLabeledColor"
+                format="image/png"
+                version="1.3.0"
+                transparent={false}
                 maxZoom={19}
-                attribution="&copy; CARTO &copy; OpenStreetMap"
+                attribution={URBIS_ATTRIBUTION}
               />
             </LayersControl.BaseLayer>
-            <LayersControl.BaseLayer name="Clair">
-              <TileLayer
-                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                subdomains={['a', 'b', 'c', 'd']}
+            <LayersControl.BaseLayer name="UrbIS gris">
+              <WMSTileLayer
+                url={URBIS_WMS_URL}
+                layers="UrbISFrenchDutchLabeledGray"
+                format="image/png"
+                version="1.3.0"
+                transparent={false}
                 maxZoom={19}
-                attribution="&copy; CARTO &copy; OpenStreetMap"
-              />
-            </LayersControl.BaseLayer>
-            <LayersControl.BaseLayer name="Sombre">
-              <TileLayer
-                url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                subdomains={['a', 'b', 'c', 'd']}
-                maxZoom={19}
-                attribution="&copy; CARTO &copy; OpenStreetMap"
+                attribution={URBIS_ATTRIBUTION}
               />
             </LayersControl.BaseLayer>
           </LayersControl>
