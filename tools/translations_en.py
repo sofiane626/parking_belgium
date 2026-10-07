@@ -990,4 +990,8 @@ TRANSLATIONS = {
     "Anonymisé le": "Anonymised on",
     "Compte supprimé à votre demande : anonymisation immédiate. Seuls les paiements et l'historique des cartes restent conservés, rattachés à un compte anonyme, pour les durées ci-dessous.": "Account deleted at your request: immediate anonymisation. Only payments and permit history are kept, attached to an anonymous account, for the periods below.",
     "effacement (« droit à l'oubli ») : bouton « Supprimer mon compte » dans votre espace personnel, sous réserve des durées de conservation légales ;": "erasure (\"right to be forgotten\"): \"Delete my account\" button in your personal space, subject to legal retention periods;",
+    # --- Anti brute-force (verrouillage de connexion) ---
+    "Identifiant verrouillé après échecs de connexion": "Username locked after failed logins",
+    "Trop de tentatives de connexion échouées : cet identifiant est temporairement bloqué. Réessayez dans %(minutes)s minutes ou, si vous avez oublié votre mot de passe, utilisez « Mot de passe oublié ».": "Too many failed login attempts: this username is temporarily locked. Try again in %(minutes)s minutes or, if you have forgotten your password, use \"Forgot password\".",
+    "Après plusieurs tentatives de connexion échouées, l'identifiant concerné est temporairement bloqué, afin de protéger les comptes contre les attaques par force brute.": "After several failed login attempts, the username concerned is temporarily locked, to protect accounts against brute-force attacks.",
 }

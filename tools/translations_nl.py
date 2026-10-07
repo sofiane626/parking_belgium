@@ -995,4 +995,8 @@ TRANSLATIONS = {
     "Anonymisé le": "Geanonimiseerd op",
     "Compte supprimé à votre demande : anonymisation immédiate. Seuls les paiements et l'historique des cartes restent conservés, rattachés à un compte anonyme, pour les durées ci-dessous.": "Account verwijderd op uw verzoek: onmiddellijke anonimisering. Enkel de betalingen en de kaarthistoriek worden bewaard, gekoppeld aan een anoniem account, gedurende de hieronder vermelde termijnen.",
     "effacement (« droit à l'oubli ») : bouton « Supprimer mon compte » dans votre espace personnel, sous réserve des durées de conservation légales ;": "wissing (« recht op vergetelheid »): knop « Mijn account verwijderen » in uw persoonlijke ruimte, onder voorbehoud van de wettelijke bewaartermijnen;",
+    # --- Anti brute-force (verrouillage de connexion) ---
+    "Identifiant verrouillé après échecs de connexion": "Gebruikersnaam vergrendeld na mislukte aanmeldingen",
+    "Trop de tentatives de connexion échouées : cet identifiant est temporairement bloqué. Réessayez dans %(minutes)s minutes ou, si vous avez oublié votre mot de passe, utilisez « Mot de passe oublié ».": "Te veel mislukte aanmeldpogingen: deze gebruikersnaam is tijdelijk geblokkeerd. Probeer het over %(minutes)s minuten opnieuw of gebruik « Wachtwoord vergeten » als u uw wachtwoord vergeten bent.",
+    "Après plusieurs tentatives de connexion échouées, l'identifiant concerné est temporairement bloqué, afin de protéger les comptes contre les attaques par force brute.": "Na meerdere mislukte aanmeldpogingen wordt de betrokken gebruikersnaam tijdelijk geblokkeerd, om de accounts te beschermen tegen brute-force-aanvallen.",
 }

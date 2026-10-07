@@ -20,17 +20,26 @@ Désinscription et anonymisation (soft delete RGPD) :
   anonymisation. La ligne utilisateur n'est jamais supprimée : les paiements
   (``Payment.citizen`` en PROTECT, conservation comptable 7 ans) et
   l'historique des cartes y restent rattachés.
+
+Anti brute-force (``is_login_locked`` / ``register_login_failure``) : verrouillage
+d'un identifiant après trop d'échecs de connexion, compteur lu dans le journal
+d'audit. Appelé par le formulaire de connexion web, celui de l'admin Django et
+l'endpoint ``/api/v1/token/``.
 """
 from __future__ import annotations
 
+import datetime as dt
 from dataclasses import dataclass
 
+from django.conf import settings
 from django.contrib.auth import SESSION_KEY, get_user_model
+from django.contrib.auth.models import update_last_login
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sessions.models import Session
 from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
+from django.db.models import Max
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
@@ -433,3 +442,98 @@ def _archive_vehicles(user) -> int:
         archive_vehicle(vehicle, by_user=user, reason=ACCOUNT_DELETION_REASON)
         count += 1
     return count
+
+
+# ----- verrouillage anti brute-force ----------------------------------------
+#
+# Pas de compteur en cache mémoire (faux avec plusieurs workers gunicorn) ni de
+# dépendance externe : le compteur est lu dans le journal d'audit, qui reçoit
+# déjà une ligne AUTH_FAILED par échec (signal user_login_failed). Le
+# verrouillage lui-même est matérialisé par une ligne AUTH_LOCKED, écrite une
+# seule fois au déclenchement.
+#
+# Les tentatives faites pendant le verrouillage sont refusées sans appeler
+# authenticate() : elles ne produisent pas d'AUTH_FAILED et ne prolongent donc
+# pas le blocage. Le compteur ne prend en compte que les échecs postérieurs à
+# la dernière connexion réussie (last_login) et à la fin du dernier verrouillage.
+
+def _lockout_delta() -> dt.timedelta:
+    return dt.timedelta(minutes=settings.LOGIN_LOCKOUT_MINUTES)
+
+
+def _identifier_logs(action: str, identifier: str):
+    from apps.audit.models import AuditLog
+    return AuditLog.objects.filter(
+        action=action, payload__context__username__iexact=identifier,
+    )
+
+
+def lockout_message() -> str:
+    """Message unique, que l'identifiant existe ou non (pas d'énumération de comptes)."""
+    return gettext(
+        "Trop de tentatives de connexion échouées : cet identifiant est temporairement bloqué. Réessayez dans %(minutes)s minutes ou, si vous avez oublié votre mot de passe, utilisez « Mot de passe oublié »."
+    ) % {"minutes": settings.LOGIN_LOCKOUT_MINUTES}
+
+
+def is_login_locked(identifier: str) -> bool:
+    identifier = (identifier or "").strip()
+    if not identifier:
+        return False
+    return _identifier_logs(AuditAction.AUTH_LOCKED, identifier).filter(
+        created_at__gt=timezone.now() - _lockout_delta(),
+    ).exists()
+
+
+def register_login_failure(identifier: str, *, request=None) -> bool:
+    """
+    À appeler après un échec d'authentification (la ligne AUTH_FAILED est déjà
+    écrite par le signal). Verrouille l'identifiant si le seuil est atteint.
+    Renvoie ``True`` si l'identifiant est désormais verrouillé.
+    """
+    identifier = (identifier or "").strip()
+    if not identifier:
+        return False
+    if is_login_locked(identifier):
+        return True
+
+    now = timezone.now()
+    since = now - _lockout_delta()
+    last_success = User.objects.filter(username__iexact=identifier).aggregate(
+        last=Max("last_login"),
+    )["last"]
+    if last_success and last_success > since:
+        since = last_success
+    last_lock = _identifier_logs(AuditAction.AUTH_LOCKED, identifier).aggregate(
+        last=Max("created_at"),
+    )["last"]
+    if last_lock and last_lock + _lockout_delta() > since:
+        since = last_lock + _lockout_delta()
+
+    failures = _identifier_logs(AuditAction.AUTH_FAILED, identifier).filter(
+        created_at__gt=since,
+    ).count()
+    if failures < settings.LOGIN_LOCKOUT_MAX_FAILURES:
+        return False
+
+    audit_log(
+        AuditAction.AUTH_LOCKED,
+        actor=None,
+        target=User.objects.filter(username__iexact=identifier).first(),
+        request=request,
+        payload={"context": {
+            "username": identifier,
+            "failures": failures,
+            "window_minutes": settings.LOGIN_LOCKOUT_MINUTES,
+            "lock_minutes": settings.LOGIN_LOCKOUT_MINUTES,
+        }},
+    )
+    return True
+
+
+def register_login_success(user) -> None:
+    """
+    Remet le compteur à zéro : seuls les échecs postérieurs à ``last_login``
+    sont comptés. Le login web met déjà ``last_login`` à jour (signal
+    user_logged_in) ; l'API token, qui n'ouvre pas de session, passe par ici.
+    """
+    update_last_login(None, user)

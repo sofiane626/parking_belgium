@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.admin.forms import AdminAuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -136,3 +137,32 @@ class AccountDeletionForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         apply_input_styling(self)
+
+
+class LockoutAuthenticationMixin:
+    """
+    Refuse la connexion d'un identifiant verrouillé, même avec le bon mot de
+    passe, et signale chaque échec au service anti brute-force. Toute la
+    logique (compteur, seuil, durée) est dans ``apps.accounts.services``.
+    """
+
+    def clean(self):
+        from .services import is_login_locked, lockout_message, register_login_failure
+
+        username = self.cleaned_data.get("username")
+        if username and is_login_locked(username):
+            raise forms.ValidationError(lockout_message(), code="locked")
+        try:
+            return super().clean()
+        except forms.ValidationError:
+            if username and register_login_failure(username, request=self.request):
+                raise forms.ValidationError(lockout_message(), code="locked")
+            raise
+
+
+class LoginForm(LockoutAuthenticationMixin, AuthenticationForm):
+    """Formulaire de connexion du site (accounts:login)."""
+
+
+class AdminLoginForm(LockoutAuthenticationMixin, AdminAuthenticationForm):
+    """Formulaire de connexion de l'admin Django (/admin/), même protection."""

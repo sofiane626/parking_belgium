@@ -3,10 +3,8 @@ from django.urls import path
 from drf_spectacular.views import (
     SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView,
 )
-from rest_framework.authtoken.views import obtain_auth_token
-
 from .views import (
-    AuditLogListView, CheckRightView, CommuneListView,
+    AuditLogListView, CheckRightView, CommuneListView, LockoutObtainAuthToken,
     PermitEligibilityView, PermitSubmitView, ZoneListView,
 )
 
@@ -14,8 +12,9 @@ urlpatterns = [
     path("check-right/", CheckRightView.as_view(), name="check-right"),
     path("communes/", CommuneListView.as_view(), name="communes"),
     path("zones/", ZoneListView.as_view(), name="zones"),
-    # Standard DRF token endpoint (POST username + password → token).
-    path("token/", obtain_auth_token, name="token"),
+    # Endpoint token DRF (POST username + password → token), avec verrouillage
+    # anti brute-force.
+    path("token/", LockoutObtainAuthToken.as_view(), name="token"),
     # Wizard de création de carte (consommé par le bundle React).
     path("permits/eligibility/<int:vehicle_pk>/",
          PermitEligibilityView.as_view(), name="permit-eligibility"),

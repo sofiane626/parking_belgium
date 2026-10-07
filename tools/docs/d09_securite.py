@@ -64,9 +64,15 @@ def generate() -> str:
     pdf.bullet("Audit de chaque demande de reset (PASSWORD_RESET_SENT).")
 
     pdf.h2("Protection contre le brute-force")
-    pdf.bullet("Throttle anon 10 req/min sur les endpoints publics.")
-    pdf.bullet("Journalisation des AUTH_FAILED (severity warning) — détection des patterns d'attaque.")
-    pdf.bullet("À implémenter en production : verrouillage temporaire après 5 échecs (django-axes ou équivalent).")
+    pdf.bullet("Verrouillage par identifiant : 5 échecs sur 15 minutes bloquent l'identifiant pendant 15 minutes (LOGIN_LOCKOUT_MAX_FAILURES / LOGIN_LOCKOUT_MINUTES dans les settings).")
+    pdf.bullet("Compteur lu en base dans le journal d'audit (lignes AUTH_FAILED écrites par le signal user_login_failed) : exact avec plusieurs workers gunicorn, sans cache partagé ni dépendance externe (pas de django-axes).")
+    pdf.bullet("Trois points d'entrée protégés par le même service (apps.accounts.services) : formulaire de connexion du site, admin Django, POST /api/v1/token/ (réponse 429).")
+    pdf.bullet("Pendant le blocage, même le bon mot de passe est refusé ; ces tentatives ne sont pas soumises à authenticate() et ne prolongent donc pas le blocage.")
+    pdf.bullet("Une connexion réussie remet le compteur à zéro (seuls les échecs postérieurs à last_login comptent).")
+    pdf.bullet("Anti-énumération : un identifiant inexistant est compté et bloqué exactement comme un vrai, avec le même message.")
+    pdf.bullet("Une entrée d'audit AUTH_LOCKED (severity warning) est écrite une seule fois par verrouillage.")
+    pdf.bullet("Limite assumée : un tiers qui connaît un identifiant peut le bloquer 15 minutes ; la durée courte et le « mot de passe oublié » restent disponibles.")
+    pdf.bullet("Throttle anon 10 req/min sur les endpoints API publics (l'endpoint token, non throttlé par DRF, est couvert par le verrouillage).")
 
     # ----- Autorisation -------------------------------------------------
     pdf.h1("3. Autorisation et accès aux ressources")
@@ -173,14 +179,14 @@ def generate() -> str:
     pdf.h1("6. Intrusion Detection System (IDS) et audit")
 
     pdf.h2("Journal d'audit applicatif")
-    pdf.bullet("28 actions auditées (PERMIT_*, PAYMENT_*, USER_*, API_*, GIS_*, RGPD_*).")
+    pdf.bullet("31 actions auditées (PERMIT_*, PAYMENT_*, USER_*, AUTH_*, ACCOUNT_DELETED, API_*, GIS_*, RGPD_*).")
     pdf.bullet("4 niveaux de sévérité : info, notice, warning, critical.")
     pdf.bullet("Service log() résilient — capture les exceptions, ne casse jamais le métier.")
     pdf.bullet("Stockage horodaté (TIMESTAMPTZ), IP source, acteur, cible (polymorphique), diff before/after.")
     pdf.bullet("Page back-office /dashboard/admin/audit/ avec filtres temps réel + export CSV.")
 
     pdf.h2("Détection de patterns suspects (à brancher en production)")
-    pdf.bullet("Plus de 5 AUTH_FAILED dans les 5 min depuis la même IP → alerte Sentry.")
+    pdf.bullet("Plus de 5 AUTH_FAILED dans les 5 min depuis la même IP (attaque répartie sur plusieurs identifiants) → alerte Sentry. Le verrouillage par identifiant, lui, est actif.")
     pdf.bullet("Plus de 100 check-right en 1 min depuis le même token → throttle 429 (déjà actif).")
     pdf.bullet("Changement de rôle en série (3 promotions en 10 min) → alerte critique.")
     pdf.bullet("Détection de scrapping API : requêtes séquentielles sur permits/, communes/ → throttle agressif.")

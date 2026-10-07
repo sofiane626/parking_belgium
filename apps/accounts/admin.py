@@ -1,7 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
+from .forms import AdminLoginForm
 from .models import User
+
+# La connexion à /admin/ subit le même verrouillage anti brute-force que le site.
+admin.site.login_form = AdminLoginForm
 
 
 @admin.register(User)

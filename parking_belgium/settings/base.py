@@ -135,6 +135,13 @@ LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "core:post_login_redirect"
 LOGOUT_REDIRECT_URL = "core:home"
 
+# Anti brute-force (apps.accounts.services) : au-delà de N échecs de connexion
+# pour un même identifiant sur une fenêtre de M minutes, l'identifiant est
+# verrouillé pendant M minutes. Le compteur est lu dans le journal d'audit
+# (base de données), donc partagé entre tous les workers gunicorn.
+LOGIN_LOCKOUT_MAX_FAILURES = 5
+LOGIN_LOCKOUT_MINUTES = 15
+
 # i18n — FR primary, NL and EN supported.
 LANGUAGE_CODE = "fr"
 LANGUAGES = [

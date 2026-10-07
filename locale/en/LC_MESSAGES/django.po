@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parking.Belgium 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-07 17:24+0200\n"
+"POT-Creation-Date: 2026-10-07 17:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -88,7 +88,7 @@ msgstr "7. Personal Data"
 msgid "7. Sécurité"
 msgstr "7. Security"
 
-#: templates/core/legal_privacy.html:122
+#: templates/core/legal_privacy.html:123
 msgid "8. Cookies"
 msgstr "8. Cookies"
 
@@ -317,7 +317,7 @@ msgstr "Year"
 msgid "Anonymisé le"
 msgstr "Anonymised on"
 
-#: apps/audit/models.py:54
+#: apps/audit/models.py:55
 msgid "Appel API check-right"
 msgstr "API call check-right"
 
@@ -334,6 +334,15 @@ msgstr "Approve"
 #: apps/citizens/models.py:83 apps/vehicles/models.py:94
 msgid "Approuvée"
 msgstr "Approved"
+
+#: templates/core/legal_privacy.html:119
+msgid ""
+"Après plusieurs tentatives de connexion échouées, l'identifiant concerné "
+"est temporairement bloqué, afin de protéger les comptes contre les attaques"
+" par force brute."
+msgstr ""
+"After several failed login attempts, the username concerned is temporarily "
+"locked, to protect accounts against brute-force attacks."
 
 #: templates/vehicles/confirm_delete.html:15
 msgid "Archivage bloqué"
@@ -474,7 +483,7 @@ msgstr "No zone — add at least one before approving."
 msgid "Autre"
 msgstr "Other"
 
-#: apps/audit/models.py:79
+#: apps/audit/models.py:80
 msgid "Avertissement"
 msgstr "Warning"
 
@@ -704,7 +713,7 @@ msgstr "Permits under review"
 msgid "Cartes liées à ce véhicule"
 msgstr "Permits linked to this vehicle"
 
-#: apps/accounts/services.py:87
+#: apps/accounts/services.py:96
 msgid "Ce compte a été anonymisé : il n'est plus modifiable ni réactivable."
 msgstr "This account has been anonymised: it can no longer be edited or reactivated."
 
@@ -733,7 +742,7 @@ msgstr ""
 "\n"
 "— The Parking.Belgium team"
 
-#: apps/accounts/forms.py:71
+#: apps/accounts/forms.py:72
 msgid "Ce nom d'utilisateur est réservé. Choisissez-en un autre."
 msgstr "This username is reserved. Please choose another one."
 
@@ -1029,7 +1038,7 @@ msgstr "Anonymised account"
 msgid "Compte inactif : anonymisation après 3 ans sans connexion."
 msgstr "Inactive account: anonymization after 3 years without login."
 
-#: apps/audit/models.py:49
+#: apps/audit/models.py:50
 msgid "Compte supprimé à la demande du titulaire"
 msgstr "Account deleted at the holder's request"
 
@@ -1047,7 +1056,7 @@ msgstr ""
 msgid "Conditions d'utilisation"
 msgstr "Terms of use"
 
-#: templates/core/legal_privacy.html:136 templates/core/legal_terms.html:4
+#: templates/core/legal_privacy.html:137 templates/core/legal_terms.html:4
 #: templates/core/legal_terms.html:11
 msgid "Conditions générales d'utilisation"
 msgstr "General terms of use"
@@ -1059,7 +1068,7 @@ msgstr "General terms of use"
 msgid "Configuration globale"
 msgstr "Global configuration"
 
-#: apps/audit/models.py:62
+#: apps/audit/models.py:63
 msgid "Configuration globale modifiée"
 msgstr "Global configuration modified"
 
@@ -1117,7 +1126,7 @@ msgstr "Color"
 msgid "Court-circuite tout — staff/DEBUG uniquement"
 msgstr "Bypasses everything — staff/DEBUG only"
 
-#: apps/audit/models.py:80
+#: apps/audit/models.py:81
 msgid "Critique"
 msgstr "Critical"
 
@@ -1529,7 +1538,7 @@ msgstr "Citizen space"
 msgid "Espace personnel"
 msgstr "Personal space"
 
-#: apps/audit/models.py:154
+#: apps/audit/models.py:156
 msgid "Ex: permit, payment, user, vehicle, gis_polygon, api_token."
 msgstr "E.g.: permit, payment, user, vehicle, gis_polygon, api_token."
 
@@ -1559,7 +1568,7 @@ msgstr "Explore all parking zones"
 msgid "Exponentielle (base × facteur^(rang-1))"
 msgstr "Exponential (base × factor^(rank-1))"
 
-#: apps/audit/models.py:70
+#: apps/audit/models.py:71
 msgid "Export CSV téléchargé"
 msgstr ""
 
@@ -1684,9 +1693,13 @@ msgstr ""
 msgid "ID transaction externe"
 msgstr "External transaction ID"
 
-#: apps/audit/models.py:167
+#: apps/audit/models.py:169
 msgid "IP source"
 msgstr "Source IP"
+
+#: apps/audit/models.py:49
+msgid "Identifiant verrouillé après échecs de connexion"
+msgstr "Username locked after failed logins"
 
 #: templates/dashboard/admin_policy_form.html:22
 msgid "Identité"
@@ -1712,7 +1725,7 @@ msgstr ""
 "He reports any suspected compromise without delay to "
 "privacy@parking.belgium.local."
 
-#: apps/audit/models.py:66
+#: apps/audit/models.py:67
 msgid "Import GIS effectué"
 msgstr "GIS import completed"
 
@@ -1736,7 +1749,7 @@ msgstr ""
 msgid "Indiquez votre mot de passe actuel puis le nouveau (deux fois)."
 msgstr "Enter your current password then the new one (twice)."
 
-#: apps/audit/models.py:77
+#: apps/audit/models.py:78
 msgid "Information"
 msgstr "Information"
 
@@ -1761,7 +1774,7 @@ msgstr "Got it"
 msgid "J'ai lu et j'accepte la"
 msgstr "I have read and accept the"
 
-#: apps/accounts/forms.py:50
+#: apps/accounts/forms.py:51
 msgid ""
 "J'ai lu et j'accepte la politique de confidentialité et les conditions "
 "d'utilisation."
@@ -1898,7 +1911,7 @@ msgstr ""
 "municipality. Ideal for home interventions, deliveries or client meetings "
 "in Brussels."
 
-#: apps/accounts/forms.py:37
+#: apps/accounts/forms.py:38
 msgid "La commune est déduite automatiquement à partir du code postal."
 msgstr "The municipality is automatically deduced from the postal code."
 
@@ -2020,7 +2033,7 @@ msgstr ""
 "Brussels\n"
 "      Region or to each signatory municipality."
 
-#: templates/core/legal_privacy.html:124
+#: templates/core/legal_privacy.html:125
 msgid ""
 "Le site utilise un unique cookie strictement nécessaire au fonctionnement\n"
 "      (cookie de session pour vous garder connecté). Il ne fait l'objet "
@@ -2335,11 +2348,11 @@ msgstr "Amount to pay"
 msgid "Mot de passe"
 msgstr "Password"
 
-#: apps/accounts/forms.py:131
+#: apps/accounts/forms.py:132
 msgid "Mot de passe actuel"
 msgstr "Current password"
 
-#: apps/accounts/services.py:350
+#: apps/accounts/services.py:359
 msgid "Mot de passe incorrect."
 msgstr "Incorrect password."
 
@@ -2408,7 +2421,7 @@ msgstr ""
 msgid "Non"
 msgstr "No"
 
-#: apps/audit/models.py:78
+#: apps/audit/models.py:79
 msgid "Notable"
 msgstr "Notable"
 
@@ -2459,7 +2472,7 @@ msgstr "New address"
 msgid "Nouvelle politique"
 msgstr "New policy"
 
-#: apps/audit/models.py:129
+#: apps/audit/models.py:131
 msgid "Null = action déclenchée par le système (cron, signal)."
 msgstr "Null = action triggered by the system (cron, signal)."
 
@@ -2611,7 +2624,7 @@ msgstr "Parking.Belgium — Payment refund #%(pk)s"
 msgid "Parking.Belgium — Réinitialisation de votre mot de passe"
 msgstr "Parking.Belgium — Password reset"
 
-#: apps/accounts/services.py:207
+#: apps/accounts/services.py:216
 msgid ""
 "Parking.Belgium — Réinitialisation de votre mot de passe (initiée par un "
 "administrateur)"
@@ -2735,7 +2748,7 @@ msgstr "Smaller = higher priority (applied first)."
 msgid "Politique"
 msgstr "Policy"
 
-#: apps/audit/models.py:61
+#: apps/audit/models.py:62
 msgid "Politique commune modifiée"
 msgstr "Municipality policy modified"
 
@@ -2883,7 +2896,7 @@ msgstr "Prerequisite: have an active resident permit."
 msgid "Puis-je changer la plaque de mon véhicule ?"
 msgstr "Can I change my vehicle's plate?"
 
-#: apps/audit/models.py:73
+#: apps/audit/models.py:74
 msgid "Purge RGPD"
 msgstr ""
 
@@ -3049,7 +3062,7 @@ msgstr ""
 msgid "Règle créée."
 msgstr "Rule created."
 
-#: apps/audit/models.py:63
+#: apps/audit/models.py:64
 msgid "Règle de polygone modifiée"
 msgstr "Polygon rule modified"
 
@@ -3239,11 +3252,11 @@ msgstr "Simulation (test)"
 msgid "Simuler le paiement (test)"
 msgstr "Simulate payment (test)"
 
-#: apps/audit/models.py:163
+#: apps/audit/models.py:165
 msgid "Snapshot textuel (str(target)) — survit à la suppression de l'objet."
 msgstr "Text snapshot (str(target)) — survives object deletion."
 
-#: apps/audit/models.py:134
+#: apps/audit/models.py:136
 msgid "Snapshot — préservé même si l'utilisateur change de rôle ensuite."
 msgstr "Snapshot — preserved even if the user changes role later."
 
@@ -3428,11 +3441,11 @@ msgstr "Permit holder"
 msgid "Token (préfixe)"
 msgstr "Token (prefix)"
 
-#: apps/audit/models.py:53
+#: apps/audit/models.py:54
 msgid "Token API révoqué"
 msgstr "API token revoked"
 
-#: apps/audit/models.py:52
+#: apps/audit/models.py:53
 msgid "Token API émis"
 msgstr "API token issued"
 
@@ -3521,6 +3534,17 @@ msgid ""
 "Trois formules pensées pour couvrir tous les besoins de stationnement à "
 "Bruxelles."
 msgstr "Three plans designed to cover all parking needs in Brussels."
+
+#: apps/accounts/services.py:473
+#, python-format
+msgid ""
+"Trop de tentatives de connexion échouées : cet identifiant est "
+"temporairement bloqué. Réessayez dans %(minutes)s minutes ou, si vous avez "
+"oublié votre mot de passe, utilisez « Mot de passe oublié »."
+msgstr ""
+"Too many failed login attempts: this username is temporarily locked. Try "
+"again in %(minutes)s minutes or, if you have forgotten your password, use "
+"\"Forgot password\"."
 
 #: apps/vehicles/models.py:19
 msgid "Trottinette électrique"
@@ -3744,7 +3768,7 @@ msgstr "Confirmed"
 msgid "Version"
 msgstr "Version"
 
-#: apps/audit/models.py:67
+#: apps/audit/models.py:68
 msgid "Version GIS active changée"
 msgstr "Active GIS version changed"
 
@@ -3791,7 +3815,7 @@ msgstr "View"
 msgid "Voir / règles"
 msgstr "View / rules"
 
-#: templates/core/legal_privacy.html:134 templates/core/legal_terms.html:131
+#: templates/core/legal_privacy.html:135 templates/core/legal_terms.html:131
 msgid "Voir aussi :"
 msgstr "See also:"
 
@@ -3866,7 +3890,7 @@ msgstr "You requested a password reset for your Parking.Belgium account."
 msgid "Vous avez déjà une demande en cours."
 msgstr "You already have a pending request."
 
-#: apps/accounts/forms.py:51
+#: apps/accounts/forms.py:52
 msgid "Vous devez accepter pour créer un compte."
 msgstr "You must accept to create an account."
 
@@ -3914,7 +3938,7 @@ msgstr "Vehicle"
 msgid "Véhicule ajouté."
 msgstr "Vehicle added."
 
-#: apps/audit/models.py:57
+#: apps/audit/models.py:58
 msgid "Véhicule archivé"
 msgstr "Vehicle archived"
 
@@ -3926,7 +3950,7 @@ msgstr "Vehicle archived. Permit history remains accessible."
 msgid "Véhicule mis à jour."
 msgstr "Vehicle updated."
 
-#: apps/audit/models.py:58
+#: apps/audit/models.py:59
 msgid "Véhicule restauré"
 msgstr "Vehicle restored"
 
@@ -4008,7 +4032,7 @@ msgstr "[TEST] Payment successfully simulated. Permit activated + email sent."
 msgid "accès à vos données ;"
 msgstr "access to your data;"
 
-#: apps/audit/models.py:138 apps/rules/models.py:43
+#: apps/audit/models.py:140 apps/rules/models.py:43
 msgid "action"
 msgstr "action"
 
@@ -4063,7 +4087,7 @@ msgstr "allow combining resident + pro"
 msgid "base exponentielle (centimes)"
 msgstr "exponential base (cents)"
 
-#: apps/accounts/forms.py:34 apps/citizens/models.py:52
+#: apps/accounts/forms.py:35 apps/citizens/models.py:52
 #: apps/citizens/models.py:105 apps/companies/models.py:39
 msgid "boîte"
 msgstr "box"
@@ -4100,7 +4124,7 @@ msgstr "code"
 msgid "code NIS"
 msgstr "NIS code"
 
-#: apps/accounts/forms.py:36 apps/citizens/models.py:53
+#: apps/accounts/forms.py:37 apps/citizens/models.py:53
 #: apps/citizens/models.py:106 apps/companies/models.py:40
 msgid "code postal"
 msgstr "postal code"
@@ -4158,7 +4182,7 @@ msgstr "global configuration"
 msgid "configurations globales"
 msgstr "global configurations"
 
-#: apps/audit/models.py:166
+#: apps/audit/models.py:168
 msgid "contenu"
 msgstr "content"
 
@@ -4166,7 +4190,7 @@ msgstr "content"
 msgid "couleur"
 msgstr "color"
 
-#: apps/accounts/forms.py:26 apps/citizens/models.py:20
+#: apps/accounts/forms.py:27 apps/citizens/models.py:20
 msgid "date de naissance"
 msgstr "date of birth"
 
@@ -4235,7 +4259,7 @@ msgstr "company"
 msgid "entreprises"
 msgstr "companies"
 
-#: apps/audit/models.py:173
+#: apps/audit/models.py:175
 msgid "entrée d'audit"
 msgstr "audit entry"
 
@@ -4267,7 +4291,7 @@ msgstr "provided"
 msgid "grille tarifaire"
 msgstr "price grid"
 
-#: apps/audit/models.py:157
+#: apps/audit/models.py:159
 msgid "id de la cible"
 msgstr "target id"
 
@@ -4285,7 +4309,7 @@ msgstr ""
 msgid "j"
 msgstr "d"
 
-#: apps/audit/models.py:174
+#: apps/audit/models.py:176
 msgid "journal d'audit"
 msgstr "audit log"
 
@@ -4297,7 +4321,7 @@ msgstr "preferred language"
 msgid "layer"
 msgstr "layer"
 
-#: apps/audit/models.py:161
+#: apps/audit/models.py:163
 msgid "libellé de la cible"
 msgstr "target label"
 
@@ -4406,7 +4430,7 @@ msgstr "new registration certificate"
 msgid "nouvelle plaque"
 msgstr "new plate"
 
-#: apps/accounts/forms.py:33 apps/citizens/models.py:51
+#: apps/accounts/forms.py:34 apps/citizens/models.py:51
 #: apps/citizens/models.py:104 apps/companies/models.py:38
 msgid "numéro"
 msgstr "number"
@@ -4415,7 +4439,7 @@ msgstr "number"
 msgid "numéro TVA"
 msgstr "VAT number"
 
-#: apps/accounts/forms.py:29
+#: apps/accounts/forms.py:30
 msgid "numéro de registre national"
 msgstr "national register number"
 
@@ -4435,7 +4459,7 @@ msgstr "payment"
 msgid "paiements"
 msgstr "payments"
 
-#: apps/accounts/forms.py:45 apps/citizens/models.py:60
+#: apps/accounts/forms.py:46 apps/citizens/models.py:60
 #: apps/citizens/models.py:113 apps/companies/models.py:47
 msgid "pays"
 msgstr "country"
@@ -4555,7 +4579,7 @@ msgstr "reciprocity"
 msgid "rectification (modifiable directement depuis votre espace personnel) ;"
 msgstr "rectification (directly editable from your personal space);"
 
-#: apps/accounts/forms.py:32 apps/citizens/models.py:50
+#: apps/accounts/forms.py:33 apps/citizens/models.py:50
 #: apps/citizens/models.py:103 apps/companies/models.py:37
 msgid "rue"
 msgstr "street"
@@ -4576,7 +4600,7 @@ msgstr "reference"
 msgid "rôle"
 msgstr "role"
 
-#: apps/audit/models.py:132
+#: apps/audit/models.py:134
 msgid "rôle au moment de l'action"
 msgstr "role at time of action"
 
@@ -4602,7 +4626,7 @@ msgstr "status"
 msgid "stratégie de prix"
 msgstr "pricing strategy"
 
-#: apps/audit/models.py:144
+#: apps/audit/models.py:146
 msgid "sévérité"
 msgstr "severity"
 
@@ -4619,7 +4643,7 @@ msgstr "type"
 msgid "type de carte"
 msgstr "permit type"
 
-#: apps/audit/models.py:152
+#: apps/audit/models.py:154
 msgid "type de cible"
 msgstr "target type"
 
@@ -4627,7 +4651,7 @@ msgstr "target type"
 msgid "type proposé dans cette commune"
 msgstr "type offered in this municipality"
 
-#: apps/accounts/forms.py:24 apps/citizens/models.py:19
+#: apps/accounts/forms.py:25 apps/citizens/models.py:19
 msgid "téléphone"
 msgstr "phone"
 

@@ -178,6 +178,16 @@ python manage.py purge_expired_data          # dry-run
 python manage.py purge_expired_data --apply  # exécution réelle
 ```
 
+### Verrouillage anti brute-force
+
+5 échecs de connexion pour un même identifiant en 15 minutes le bloquent pendant
+15 minutes (`LOGIN_LOCKOUT_MAX_FAILURES`, `LOGIN_LOCKOUT_MINUTES` dans
+`parking_belgium/settings/base.py`). S'applique au formulaire du site, à l'admin
+Django et à `POST /api/v1/token/` (réponse 429), y compris pour les identifiants
+inexistants. Le compteur est lu dans le journal d'audit (`AUTH_FAILED`), le
+déclenchement y est tracé une fois (`AUTH_LOCKED`) ; pas de cache ni de
+dépendance supplémentaire, donc correct avec plusieurs workers gunicorn.
+
 ### Exports CSV
 
 Le dashboard admin propose des exports CSV (UTF-8 BOM, séparateur `;`, compatible

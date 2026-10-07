@@ -14,6 +14,8 @@ from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
@@ -21,6 +23,9 @@ from rest_framework.views import APIView
 
 from rest_framework.permissions import IsAuthenticated
 
+from apps.accounts.services import (
+    is_login_locked, lockout_message, register_login_failure, register_login_success,
+)
 from apps.audit.services import AuditAction, hash_plate, log as audit_log
 from apps.core.models import Commune
 from apps.gis_data.models import GISPolygon
@@ -47,6 +52,29 @@ def _parse_at(raw: str | None) -> dt.datetime | None:
     if timezone.is_naive(parsed):
         parsed = timezone.make_aware(parsed)
     return parsed
+
+
+class LockoutObtainAuthToken(ObtainAuthToken):
+    """
+    ``POST /api/v1/token/`` — échange username + password contre un token,
+    avec le même verrouillage anti brute-force que le formulaire web (logique
+    dans ``apps.accounts.services``). Un identifiant verrouillé reçoit 429,
+    même avec le bon mot de passe et qu'il existe ou non.
+    """
+
+    def post(self, request, *args, **kwargs):
+        identifier = str(request.data.get("username", ""))
+        if is_login_locked(identifier):
+            return Response({"detail": lockout_message()}, status=status.HTTP_429_TOO_MANY_REQUESTS)
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            if register_login_failure(identifier, request=request):
+                return Response({"detail": lockout_message()}, status=status.HTTP_429_TOO_MANY_REQUESTS)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user = serializer.validated_data["user"]
+        register_login_success(user)
+        token, _created = Token.objects.get_or_create(user=user)
+        return Response({"token": token.key})
 
 
 class CheckRightView(APIView):
