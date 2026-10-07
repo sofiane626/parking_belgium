@@ -9,17 +9,34 @@ Garde-fous de hiérarchie (jamais bypassable depuis les vues) :
 - Personne ne peut modifier son propre rôle (anti-coup d'État).
 - Personne ne peut désactiver ou modifier un ``super_admin`` autre que
   soi-même (et un super_admin ne peut pas se désactiver).
+- Un compte anonymisé n'est plus modifiable (pas de ré-identification).
+
+Désinscription et anonymisation (soft delete RGPD) :
+- ``anonymise_user`` est la définition unique d'un « compte anonymisé »,
+  utilisée par la désinscription volontaire et par la commande
+  ``purge_expired_data``.
+- ``delete_citizen_account`` orchestre la désinscription d'un citoyen : clôture
+  des cartes, annulation des demandes, archivage des véhicules, puis
+  anonymisation. La ligne utilisateur n'est jamais supprimée : les paiements
+  (``Payment.citizen`` en PROTECT, conservation comptable 7 ans) et
+  l'historique des cartes y restent rattachés.
 """
 from __future__ import annotations
 
-from django.contrib.auth import get_user_model
+from dataclasses import dataclass
+
+from django.contrib.auth import SESSION_KEY, get_user_model
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sessions.models import Session
 from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMultiAlternatives
+from django.db import transaction
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django.utils.translation import gettext
 
 from apps.audit.services import AuditAction, log as audit_log
 
@@ -27,9 +44,18 @@ from .models import Role
 
 User = get_user_model()
 
+# Préfixe des usernames attribués aux comptes anonymisés. Réservé : le
+# formulaire d'inscription le refuse, ce qui garantit l'unicité de
+# « anonyme-<pk> » sans dépendre du hasard.
+ANONYMOUS_USERNAME_PREFIX = "anonyme-"
+
 
 class UserManagementError(Exception):
     """Erreur fonctionnelle de gestion utilisateur (rôle invalide, garde-fou…)."""
+
+
+class AccountDeletionError(Exception):
+    """Désinscription refusée (mot de passe incorrect…)."""
 
 
 # ----- permission helpers ---------------------------------------------------
@@ -56,6 +82,10 @@ def _ensure_can_act_on(actor, target) -> None:
         raise PermissionDenied
     if actor.pk == target.pk:
         raise UserManagementError("Vous ne pouvez pas modifier votre propre compte ici.")
+    if target.is_anonymised:
+        raise UserManagementError(
+            gettext("Ce compte a été anonymisé : il n'est plus modifiable ni réactivable.")
+        )
     # Un admin ne peut jamais toucher à un super_admin ou un admin.
     if actor.role == Role.ADMIN and target.role in {Role.ADMIN, Role.SUPER_ADMIN}:
         raise PermissionDenied
@@ -187,3 +217,219 @@ def send_password_reset_for(target: "User", *, request, actor) -> bool:
         payload={"context": {"trigger": "admin_initiated"}},
     )
     return True
+
+
+# ----- anonymisation & désinscription (soft delete RGPD) --------------------
+
+def anonymous_username(pk: int) -> str:
+    return f"{ANONYMOUS_USERNAME_PREFIX}{pk}"
+
+
+def _erase_citizen_data(user, *, now) -> None:
+    """
+    Efface les données personnelles du profil citoyen, de l'adresse et des
+    demandes de changement d'adresse. Les lignes restent : ``Address.commune``
+    est en PROTECT et non nullable, on garde donc la commune (granularité
+    grossière, utile aux statistiques), tout le reste est vidé.
+    """
+    from apps.citizens.models import Address, AddressChangeRequest, CitizenProfile
+
+    CitizenProfile.objects.filter(user=user).update(
+        national_number="", phone="", date_of_birth=None, updated_at=now,
+    )
+    Address.objects.filter(profile__user=user).update(
+        street="", number="", box="", postal_code="", location=None, updated_at=now,
+    )
+    AddressChangeRequest.objects.filter(profile__user=user).update(
+        street="", number="", box="", postal_code="", reason="",
+    )
+
+
+def _invalidate_sessions(user, *, now) -> int:
+    """
+    Supprime les sessions ouvertes de ``user`` (backend de session en base).
+    Le mot de passe rendu inutilisable invalide déjà le hash de session ; on
+    supprime aussi les lignes pour que l'effet soit immédiat et vérifiable.
+    """
+    deleted = 0
+    for session in Session.objects.filter(expire_date__gt=now).iterator():
+        if session.get_decoded().get(SESSION_KEY) == str(user.pk):
+            session.delete()
+            deleted += 1
+    return deleted
+
+
+def anonymise_user(user, *, now=None) -> bool:
+    """
+    Définition unique d'un compte anonymisé. Idempotent : renvoie ``False``
+    sans rien toucher si le compte l'est déjà.
+
+    - username remplacé par ``anonyme-<pk>``, email / prénom / nom vidés ;
+    - mot de passe rendu inutilisable, compte désactivé ;
+    - profil citoyen, adresse et demandes d'adresse vidés ;
+    - jeton API supprimé, sessions invalidées ;
+    - ``anonymised_at`` horodaté (le soft delete est visible en base).
+    """
+    if user.anonymised_at is not None:
+        return False
+    from rest_framework.authtoken.models import Token
+
+    now = now or timezone.now()
+    user.username = anonymous_username(user.pk)
+    user.email = ""
+    user.first_name = ""
+    user.last_name = ""
+    user.preferred_language = "fr"
+    user.is_active = False
+    user.set_unusable_password()
+    user.anonymised_at = now
+    user.save(update_fields=[
+        "username", "email", "first_name", "last_name",
+        "preferred_language", "is_active", "password", "anonymised_at",
+    ])
+    _erase_citizen_data(user, now=now)
+    Token.objects.filter(user=user).delete()
+    _invalidate_sessions(user, now=now)
+    return True
+
+
+@dataclass
+class AccountDeletionResult:
+    permits_closed: int = 0
+    requests_cancelled: int = 0
+    vehicles_archived: int = 0
+    payments_kept: int = 0
+    already_anonymised: bool = False
+
+
+ACCOUNT_DELETION_REASON = "Désinscription du titulaire (suppression du compte)"
+
+
+def account_deletion_preview(user) -> AccountDeletionResult:
+    """Ce que ``delete_citizen_account`` clôturerait et conserverait, sans rien modifier."""
+    from apps.citizens.models import AddressChangeRequest, RequestStatus
+    from apps.payments.models import Payment
+    from apps.permits.models import Permit, PermitStatus
+    from apps.vehicles.models import PlateChangeRequest, PlateChangeStatus
+
+    return AccountDeletionResult(
+        permits_closed=Permit.objects.filter(citizen=user).exclude(
+            status__in=[PermitStatus.REFUSED, PermitStatus.EXPIRED, PermitStatus.CANCELLED],
+        ).count(),
+        requests_cancelled=(
+            AddressChangeRequest.objects.filter(
+                profile__user=user, status=RequestStatus.PENDING).count()
+            + PlateChangeRequest.objects.filter(
+                vehicle__owner=user, status=PlateChangeStatus.PENDING).count()
+        ),
+        vehicles_archived=user.vehicles.filter(archived_at__isnull=True).count(),
+        payments_kept=Payment.objects.filter(citizen=user).count(),
+        already_anonymised=user.is_anonymised,
+    )
+
+
+def delete_citizen_account(user, *, password: str, request=None) -> AccountDeletionResult:
+    """
+    Désinscription d'un citoyen par lui-même. Tout se passe dans une seule
+    transaction : soit le compte est entièrement clôturé et anonymisé, soit
+    rien ne change.
+
+    Refusé pour les comptes back-office (gérés via la gestion des
+    utilisateurs). Idempotent : sur un compte déjà anonymisé, ne fait rien.
+    """
+    from apps.payments.models import Payment
+
+    if user.role != Role.CITIZEN:
+        raise PermissionDenied
+    if user.is_anonymised:
+        return AccountDeletionResult(
+            payments_kept=Payment.objects.filter(citizen=user).count(),
+            already_anonymised=True,
+        )
+    if not user.check_password(password):
+        raise AccountDeletionError(gettext("Mot de passe incorrect."))
+
+    with transaction.atomic():
+        result = AccountDeletionResult()
+        result.permits_closed = _close_permits(user)
+        result.requests_cancelled = _cancel_pending_requests(user)
+        result.vehicles_archived = _archive_vehicles(user)
+        result.payments_kept = Payment.objects.filter(citizen=user).count()
+        anonymise_user(user)
+        audit_log(
+            AuditAction.ACCOUNT_DELETED,
+            actor=user, target=user, request=request,
+            payload={
+                "diff": {
+                    "is_active": [True, False],
+                    "anonymised_at": [None, user.anonymised_at.isoformat()],
+                },
+                "context": {
+                    "trigger": "self_service",
+                    "permits_closed": result.permits_closed,
+                    "requests_cancelled": result.requests_cancelled,
+                    "vehicles_archived": result.vehicles_archived,
+                    "payments_kept": result.payments_kept,
+                },
+            },
+        )
+    return result
+
+
+def _close_permits(user) -> int:
+    """
+    Clôture toutes les cartes non terminales. Les cartes d'avant activation
+    passent par ``cancel()`` (paiement en cours annulé au préalable), les
+    cartes ACTIVE / SUSPENDED par ``close_permit_for_holder()``.
+    """
+    from apps.payments.models import LIVE_STATUSES, Payment
+    from apps.payments.services import cancel_payment
+    from apps.permits.models import Permit, PermitStatus
+    from apps.permits.services import cancel, close_permit_for_holder
+
+    pre_activation = {
+        PermitStatus.DRAFT, PermitStatus.SUBMITTED,
+        PermitStatus.MANUAL_REVIEW, PermitStatus.AWAITING_PAYMENT,
+    }
+    closed = 0
+    for permit in Permit.objects.filter(citizen=user).exclude(
+        status__in=[PermitStatus.REFUSED, PermitStatus.EXPIRED, PermitStatus.CANCELLED],
+    ):
+        if permit.status in pre_activation:
+            for payment in Payment.objects.filter(permit=permit, status__in=LIVE_STATUSES):
+                cancel_payment(payment, by_user=user, reason=ACCOUNT_DELETION_REASON)
+            cancel(permit, by_user=user)
+        else:
+            close_permit_for_holder(permit, by_user=user, reason=ACCOUNT_DELETION_REASON)
+        closed += 1
+    return closed
+
+
+def _cancel_pending_requests(user) -> int:
+    from apps.citizens.models import AddressChangeRequest, RequestStatus
+    from apps.citizens.services import cancel_address_change
+    from apps.vehicles.models import PlateChangeRequest, PlateChangeStatus
+    from apps.vehicles.services import cancel_plate_change
+
+    count = 0
+    for req in AddressChangeRequest.objects.filter(
+        profile__user=user, status=RequestStatus.PENDING,
+    ):
+        cancel_address_change(req, user=user)
+        count += 1
+    for req in PlateChangeRequest.objects.filter(
+        vehicle__owner=user, status=PlateChangeStatus.PENDING,
+    ):
+        cancel_plate_change(req, user=user)
+        count += 1
+    return count
+
+
+def _archive_vehicles(user) -> int:
+    from apps.vehicles.services import archive_vehicle
+
+    count = 0
+    for vehicle in user.vehicles.filter(archived_at__isnull=True):
+        archive_vehicle(vehicle, by_user=user, reason=ACCOUNT_DELETION_REASON)
+        count += 1
+    return count

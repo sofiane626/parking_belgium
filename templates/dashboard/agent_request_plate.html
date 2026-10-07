@@ -12,7 +12,7 @@
 
     <section class="rounded-lg bg-white border p-5">
       <dl class="space-y-1.5 text-sm text-slate-700">
-        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Propriétaire" %}</dt><dd>{{ req.vehicle.owner.get_full_name|default:req.vehicle.owner.username }} ({{ req.vehicle.owner.email }})</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Propriétaire" %}</dt><dd>{% include "_partials/user_identity.html" with u=req.vehicle.owner %}</dd></div>
         <div class="flex justify-between"><dt class="text-slate-500">{% trans "Véhicule" %}</dt><dd>{{ req.vehicle.brand }} {{ req.vehicle.model }}</dd></div>
         <div class="flex justify-between"><dt class="text-slate-500">{% trans "Plaque actuelle" %}</dt><dd class="font-mono">{{ req.vehicle.plate }}</dd></div>
         <div class="flex justify-between"><dt class="text-slate-500">{% trans "Plaque demandée" %}</dt><dd class="font-mono text-emerald-700 font-semibold">{{ req.new_plate }}</dd></div>

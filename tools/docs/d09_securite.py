@@ -118,10 +118,11 @@ def generate() -> str:
     pdf.h2("Droits RGPD (art. 15-22) exposés")
     pdf.bullet("Droit d'accès — interface citoyen + export des données sur demande à privacy@parking.belgium.local.")
     pdf.bullet("Droit de rectification — modifiable directement depuis l'espace personnel pour les champs basiques.")
-    pdf.bullet("Droit à l'effacement — suppression / anonymisation après période de rétention (cron purge_expired_data).")
+    pdf.bullet("Droit à l'effacement — bouton « Supprimer mon compte » dans l'espace citoyen (ressaisie du mot de passe, POST + CSRF). Soft delete : la ligne utilisateur est conservée mais anonymisée (username « anonyme-<id> », email, nom, profil, adresse vidés, mot de passe inutilisable, sessions et token supprimés, champ anonymised_at horodaté). Les cartes sont clôturées, les véhicules archivés, les paiements conservés 7 ans (Payment.citizen en PROTECT). Entrée d'audit ACCOUNT_DELETED avec compteurs uniquement, sans donnée personnelle.")
+    pdf.bullet("Les comptes inactifs depuis 3 ans sont anonymisés par le même service (anonymise_user) via le cron purge_expired_data : une seule définition d'un compte anonymisé.")
     pdf.bullet("Droit à la portabilité — export JSON sur demande.")
     pdf.bullet("Droit à la limitation — suspension du compte sur demande.")
-    pdf.bullet("Droit d'opposition — résiliation possible (avec préservation des données comptables 7 ans).")
+    pdf.bullet("Droit d'opposition — résiliation en libre-service (même mécanisme que l'effacement, données comptables préservées 7 ans).")
     pdf.bullet("Droit de recours auprès de l'APD belge (autoriteprotectiondonnees.be).")
 
     pdf.h2("Cookies")
@@ -233,6 +234,7 @@ def generate() -> str:
         rows=[
             ["Compte citoyen actif",         "Tant qu'inscrit",         "Article 5.1.e — finalité"],
             ["Compte inactif",               "3 ans après dernière connexion", "Anonymisation puis purge — recommandation APD"],
+            ["Compte supprimé (désinscription)", "Anonymisation immédiate", "Art. 17 — seuls paiements et historique des cartes subsistent"],
             ["Cartes de stationnement actives", "Tant qu'actives",       "Finalité"],
             ["Cartes expirées",              "10 ans",                  "Obligation comptable belge"],
             ["Paiements",                    "7 ans",                   "Obligation TVA"],
@@ -249,7 +251,7 @@ def generate() -> str:
     pdf.bullet("Cron purge_expired_data — mensuel, anonymise/supprime selon ces durées.")
     pdf.bullet("Cron expire_due — quotidien, passe les cartes en EXPIRED.")
     pdf.bullet("Future : export de données sur demande citoyen (RGPD art. 15+20).")
-    pdf.bullet("Future : suppression de compte avec anonymisation immédiate sur demande (art. 17).")
+    pdf.bullet("Désinscription en libre-service avec anonymisation immédiate (art. 17) — apps.accounts.services.delete_citizen_account.")
 
     # ----- Audit externe et compliance ---------------------------------
     pdf.h1("9. Audit externe et compliance")

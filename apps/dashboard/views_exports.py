@@ -163,7 +163,7 @@ def admin_users_export(request: HttpRequest):
     header = [
         "id", "username", "email", "first_name", "last_name",
         "role", "is_active", "preferred_language",
-        "date_joined", "last_login",
+        "date_joined", "last_login", "anonymised_at",
     ]
     rows_list = list(qs.iterator(chunk_size=500))
 
@@ -175,6 +175,7 @@ def admin_users_export(request: HttpRequest):
                 getattr(u, "preferred_language", ""),
                 u.date_joined.isoformat(),
                 u.last_login.isoformat() if u.last_login else "",
+                u.anonymised_at.isoformat() if u.anonymised_at else "",
             ]
 
     _audit_export(request, label="users", count=len(rows_list),

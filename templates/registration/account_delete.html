@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Supprimer mon compte" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+  <a href="{% url 'dashboard:citizen' %}" class="text-sm text-slate-600 hover:underline">← {% trans "Retour à mon espace" %}</a>
+
+  <div class="card p-7 mt-3">
+    <h1 class="text-2xl font-semibold text-slate-900">{% trans "Supprimer mon compte" %}</h1>
+    <p class="mt-1.5 text-sm text-slate-600">{% trans "Cette action est définitive : vous ne pourrez plus vous connecter avec ce compte." %}</p>
+
+    <section class="mt-6">
+      <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Ce qui se passe immédiatement" %}</h2>
+      <dl class="mt-3 text-sm space-y-1.5 text-slate-700">
+        <div class="flex justify-between gap-2"><dt class="text-slate-500">{% trans "Cartes en cours ou actives clôturées" %}</dt><dd class="tabular-nums">{{ preview.permits_closed }}</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500">{% trans "Demandes en attente annulées" %}</dt><dd class="tabular-nums">{{ preview.requests_cancelled }}</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500">{% trans "Véhicules archivés" %}</dt><dd class="tabular-nums">{{ preview.vehicles_archived }}</dd></div>
+      </dl>
+      <p class="mt-2 text-xs text-slate-500">{% trans "Une carte clôturée ne donne plus aucun droit de stationnement et n'est pas remboursée. Les codes visiteurs encore valides sont annulés." %}</p>
+    </section>
+
+    <section class="mt-6">
+      <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Ce qui est effacé" %}</h2>
+      <ul class="mt-3 text-sm text-slate-700 list-disc pl-5 space-y-1">
+        <li>{% trans "Nom, prénom, adresse email et nom d'utilisateur (remplacé par un identifiant neutre)." %}</li>
+        <li>{% trans "Téléphone, date de naissance et numéro de registre national." %}</li>
+        <li>{% trans "Rue, numéro et code postal de votre adresse et de vos demandes de changement d'adresse." %}</li>
+        <li>{% trans "Mot de passe, sessions ouvertes et accès à l'API." %}</li>
+      </ul>
+    </section>
+
+    <section class="mt-6">
+      <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Ce qui est conservé, et pourquoi" %}</h2>
+      <dl class="mt-3 text-sm space-y-1.5 text-slate-700">
+        <div class="flex justify-between gap-2"><dt class="text-slate-500">{% trans "Paiements conservés" %}</dt><dd class="tabular-nums">{{ preview.payments_kept }}</dd></div>
+      </dl>
+      <ul class="mt-3 text-sm text-slate-700 list-disc pl-5 space-y-1">
+        <li>{% trans "Vos paiements, pendant 7 ans : obligation légale de conservation des pièces comptables." %}</li>
+        <li>{% trans "L'historique de vos cartes et les plaques de vos véhicules archivés, rattachés à un compte anonyme, pour la traçabilité des droits de stationnement accordés." %}</li>
+        <li>{% trans "Votre commune de résidence, sans l'adresse précise, à des fins statistiques." %}</li>
+        <li>{% trans "Le journal de sécurité, pendant 3 ans au maximum, comme indiqué dans la politique de confidentialité." %}</li>
+      </ul>
+      <p class="mt-2 text-xs text-slate-500">{% trans "Ces données ne permettent plus de vous contacter ni de vous identifier directement." %} <a href="{% url 'core:legal_privacy' %}" class="text-brand-700 underline">{% trans "Politique de confidentialité" %}</a></p>
+    </section>
+
+    <form method="post" class="mt-8 pt-6 border-t border-slate-200 space-y-4">
+      {% csrf_token %}
+      {% include "_partials/_form_field.html" with field=form.password %}
+      <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2">
+        <a href="{% url 'dashboard:citizen' %}" class="btn-outline">{% trans "Annuler" %}</a>
+        <button type="submit" class="btn bg-red-600 text-white shadow-sm hover:bg-red-700 focus:ring-red-500">{% trans "Supprimer définitivement mon compte" %}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

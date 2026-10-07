@@ -9,7 +9,7 @@
       <div>
         <h1 class="text-2xl font-semibold text-slate-900">{% trans "Carte" %} #{{ permit.pk }} — {{ permit.get_permit_type_display }}</h1>
         <p class="text-sm text-slate-600">
-          {{ permit.citizen.get_full_name|default:permit.citizen.username }} ({{ permit.citizen.email }})
+          {% include "_partials/user_identity.html" with u=permit.citizen %}
           {% if permit.vehicle %}· {% trans "Véhicule" %} <span class="font-mono">{{ permit.vehicle.plate }}</span>{% endif %}
         </p>
         {% if permit.company %}

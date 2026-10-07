@@ -21,7 +21,7 @@ Projet de fin d'études — Sofiane Ezzahti.
 
 | Acteur | Ce qu'il peut faire |
 |---|---|
-| **Citoyen** | inscription self-service, carte riverain (auto-attribuée selon son adresse), carte visiteur (100 codes/an, gratuite), carte professionnelle (revue manuelle), paiement Stripe, changement d'adresse/plaque (avec validation agent) |
+| **Citoyen** | inscription self-service, carte riverain (auto-attribuée selon son adresse), carte visiteur (100 codes/an, gratuite), carte professionnelle (revue manuelle), paiement Stripe, changement d'adresse/plaque (avec validation agent), suppression de son compte (anonymisation immédiate) |
 | **Agent** | revue manuelle des demandes ambiguës, attribution de zones, validation des changements d'adresse et de plaque |
 | **Admin** | configuration globale + politiques par commune × type, gestion des utilisateurs, tokens API, données GIS, journal d'audit, exports CSV |
 | **Super-admin** | + promotion / révocation des admins |
@@ -77,6 +77,7 @@ GIS/                            # shapefile source (map_tfe.*)
 1. **Demande de carte riverain** : citoyen → wizard React (`/me/permits/vehicle/<pk>/wizard/`) → API DRF `permits/eligibility` (calcule la zone via point-in-polygon) → `permits/submit` (crée le draft + soumet) → moteur d'attribution + politiques par commune → `ACTIVE` (auto) ou `MANUAL_REVIEW` (agent) → Stripe Checkout → carte active + email de confirmation
 2. **Vérification scan-car** : `GET /api/v1/check-right/?plate=…&zone=…` → service `is_plate_authorized` (résident/pro ACTIVE puis fallback codes visiteurs) → 200 avec `authorized: bool` + détail de la carte (plaque hashée HMAC-SHA256 côté audit, jamais exposée en clair dans les logs)
 3. **Expiration** : cron `python manage.py expire_due` → permits `ACTIVE` avec `valid_until < today()` passent en `EXPIRED` + codes visiteurs annulés + log d'audit
+4. **Désinscription** : citoyen → « Supprimer mon compte » (`/fr/accounts/delete/`, ressaisie du mot de passe) → service `delete_citizen_account` qui, dans une seule transaction, clôture les cartes, annule les demandes en attente, archive les véhicules puis anonymise le compte (soft delete : `User.anonymised_at`) → paiements et historique des cartes conservés, rattachés au compte anonyme → log d'audit `ACCOUNT_DELETED`
 
 ## Installation locale (Windows)
 
@@ -164,6 +165,18 @@ python manage.py expire_due --dry-run  # n'expire rien, affiche ce qui serait fa
 
 À planifier dans le **Planificateur de tâches Windows** (ou cron Linux) pour un lancement
 quotidien à 03:00 par exemple.
+
+### Purge RGPD `purge_expired_data`
+
+Anonymise les comptes inactifs depuis 3 ans (sans carte en cours ni paiement de
+moins de 7 ans), supprime les codes visiteurs expirés depuis plus d'un an et les
+entrées d'audit de plus de 3 ans. L'anonymisation passe par le même service que
+la désinscription volontaire (`apps.accounts.services.anonymise_user`).
+
+```powershell
+python manage.py purge_expired_data          # dry-run
+python manage.py purge_expired_data --apply  # exécution réelle
+```
 
 ### Exports CSV
 

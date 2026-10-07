@@ -25,6 +25,12 @@
       </span>
     </div>
 
+    {% if target.is_anonymised %}
+      <div class="mt-6 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+        <p class="font-medium text-slate-900">{% trans "Compte anonymisé" %} — {{ target.anonymised_at|date:"d/m/Y H:i" }}</p>
+        <p class="mt-1">{% trans "Les données personnelles ont été effacées. Les paiements et l'historique des cartes restent rattachés à ce compte pour la traçabilité comptable. Il n'est plus modifiable ni réactivable." %}</p>
+      </div>
+    {% else %}
     <form method="post" class="mt-6 space-y-4">
       {% csrf_token %}
 
@@ -82,9 +88,11 @@
            class="px-4 py-2 text-sm border rounded-md hover:bg-slate-100">{% trans "Annuler" %}</a>
       </div>
     </form>
+    {% endif %}
   </div>
 
   {# Actions secondaires #}
+  {% if not target.is_anonymised %}
   <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
     <form method="post" action="{% url 'dashboard:admin_user_send_reset' target.pk %}">
       {% csrf_token %}
@@ -115,5 +123,6 @@
       </button>
     </form>
   </div>
+  {% endif %}
 </div>
 {% endblock %}

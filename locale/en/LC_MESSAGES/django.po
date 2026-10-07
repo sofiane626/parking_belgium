@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Parking.Belgium 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-16 14:44+0200\n"
+"POT-Creation-Date: 2026-10-07 17:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -76,7 +76,7 @@ msgstr "5. User Responsibility"
 msgid "6. Disponibilité du Service"
 msgstr "6. Service Availability"
 
-#: templates/core/legal_privacy.html:89
+#: templates/core/legal_privacy.html:90
 msgid "6. Vos droits"
 msgstr "6. Your Rights"
 
@@ -84,11 +84,11 @@ msgstr "6. Your Rights"
 msgid "7. Données personnelles"
 msgstr "7. Personal Data"
 
-#: templates/core/legal_privacy.html:109
+#: templates/core/legal_privacy.html:110
 msgid "7. Sécurité"
 msgstr "7. Security"
 
-#: templates/core/legal_privacy.html:121
+#: templates/core/legal_privacy.html:122
 msgid "8. Cookies"
 msgstr "8. Cookies"
 
@@ -128,7 +128,7 @@ msgstr ""
 msgid "Accès refusé."
 msgstr "Access denied."
 
-#: apps/permits/models.py:222 templates/dashboard/admin_users_list.html:72
+#: apps/permits/models.py:225 templates/dashboard/admin_users_list.html:81
 msgid "Actif"
 msgstr "Active"
 
@@ -160,7 +160,7 @@ msgstr "Activation"
 msgid "Activation immédiate après paiement"
 msgstr "Immediate activation after payment"
 
-#: apps/permits/models.py:46 templates/dashboard/citizen.html:326
+#: apps/permits/models.py:46 templates/dashboard/citizen.html:330
 #: templates/dashboard/gis_polygon_detail.html:56
 #: templates/dashboard/gis_versions.html:22
 msgid "Active"
@@ -209,7 +209,7 @@ msgstr "Current address"
 msgid "Adresse demandée"
 msgstr "Requested address"
 
-#: templates/dashboard/citizen.html:191 templates/registration/register.html:51
+#: templates/dashboard/citizen.html:195 templates/registration/register.html:51
 msgid "Adresse principale"
 msgstr "Primary address"
 
@@ -228,7 +228,7 @@ msgstr "Area (m²)"
 #: templates/companies/form.html:36 templates/companies/list.html:9
 #: templates/dashboard/agent_permit_detail.html:147
 #: templates/dashboard/agent_permit_detail.html:283
-#: templates/dashboard/citizen.html:224 templates/vehicles/form.html:47
+#: templates/dashboard/citizen.html:228 templates/vehicles/form.html:47
 #: templates/vehicles/list.html:10
 msgid "Ajouter"
 msgstr "Add"
@@ -273,14 +273,15 @@ msgstr "Amex — success"
 #: templates/citizens/profile_edit.html:21
 #: templates/companies/confirm_delete.html:14 templates/companies/form.html:34
 #: templates/dashboard/admin_policy_form.html:88
-#: templates/dashboard/admin_user_edit.html:82
+#: templates/dashboard/admin_user_edit.html:88
 #: templates/dashboard/agent_permit_detail.html:230
 #: templates/payments/card_form.html:79 templates/payments/process.html:36
 #: templates/permits/confirm_create.html:17
 #: templates/permits/confirm_professional_create.html:35
 #: templates/permits/confirm_visitor_create.html:17
-#: templates/permits/detail.html:104 templates/permits/detail.html:188
+#: templates/permits/detail.html:104 templates/permits/detail.html:189
 #: templates/permits/visitor_code_form.html:26
+#: templates/registration/account_delete.html:52
 #: templates/vehicles/confirm_delete.html:36 templates/vehicles/form.html:45
 #: templates/vehicles/plate_change_create.html:31
 msgid "Annuler"
@@ -299,7 +300,7 @@ msgstr "Cancel my request"
 msgid "Annulez ces cartes ou attendez leur expiration avant d'archiver."
 msgstr "Cancel these permits or wait for their expiration before archiving."
 
-#: apps/payments/models.py:28 apps/permits/models.py:223
+#: apps/payments/models.py:28 apps/permits/models.py:226
 msgid "Annulé"
 msgstr "Cancelled"
 
@@ -312,11 +313,15 @@ msgstr "Cancelled"
 msgid "Année"
 msgstr "Year"
 
-#: apps/audit/models.py:53
+#: templates/dashboard/admin_users_list.html:79
+msgid "Anonymisé le"
+msgstr "Anonymised on"
+
+#: apps/audit/models.py:54
 msgid "Appel API check-right"
 msgstr "API call check-right"
 
-#: templates/dashboard/agent_permits_list.html:39
+#: templates/dashboard/agent_permits_list.html:50
 msgid "Appliquer"
 msgstr "Apply"
 
@@ -394,7 +399,7 @@ msgstr "No polygon."
 msgid "Aucun token émis pour le moment."
 msgstr "No token issued yet."
 
-#: templates/dashboard/admin_users_list.html:87
+#: templates/dashboard/admin_users_list.html:96
 msgid "Aucun utilisateur trouvé."
 msgstr "No user found."
 
@@ -402,11 +407,11 @@ msgstr "No user found."
 msgid "Aucun véhicule actif."
 msgstr "No active vehicle."
 
-#: templates/dashboard/citizen.html:274
+#: templates/dashboard/citizen.html:278
 msgid "Aucun véhicule. Ajoutez-en un pour pouvoir demander une carte."
 msgstr "No vehicle. Add one to be able to request a permit."
 
-#: templates/dashboard/citizen.html:212
+#: templates/dashboard/citizen.html:216
 msgid "Aucune adresse renseignée."
 msgstr "No address provided."
 
@@ -414,11 +419,11 @@ msgstr "No address provided."
 msgid "Aucune adresse."
 msgstr "No address."
 
-#: templates/dashboard/agent_permits_list.html:85
+#: templates/dashboard/agent_permits_list.html:96
 msgid "Aucune carte pour ces filtres."
 msgstr "No permit for these filters."
 
-#: templates/dashboard/citizen.html:384
+#: templates/dashboard/citizen.html:388
 msgid "Aucune carte. Demandez-en une depuis la page d'un véhicule."
 msgstr "No permit. Request one from a vehicle page."
 
@@ -432,8 +437,8 @@ msgstr ""
 
 #: templates/citizens/request_list.html:38
 #: templates/citizens/request_list.html:72
-#: templates/dashboard/agent_requests_list.html:48
-#: templates/dashboard/agent_requests_list.html:82
+#: templates/dashboard/agent_requests_list.html:55
+#: templates/dashboard/agent_requests_list.html:89
 msgid "Aucune demande."
 msgstr "No request."
 
@@ -469,7 +474,7 @@ msgstr "No zone — add at least one before approving."
 msgid "Autre"
 msgstr "Other"
 
-#: apps/audit/models.py:72
+#: apps/audit/models.py:79
 msgid "Avertissement"
 msgstr "Warning"
 
@@ -504,7 +509,7 @@ msgstr "Back-office — super admin"
 msgid "Bon retour"
 msgstr "Welcome back"
 
-#: templates/registration/password_reset_email.html:11
+#: templates/registration/password_reset_email.html:24
 msgid "Bonjour {{ user }},"
 msgstr "Hello {{ user }},"
 
@@ -603,8 +608,13 @@ msgstr ""
 msgid "Carte bancaire ou Stripe. Activation immédiate et reçu envoyé par email."
 msgstr "Credit card or Stripe. Immediate activation and receipt sent by email."
 
-#: templates/_partials/navbar.html:131 templates/_partials/navbar.html:272
-#: templates/base.html:66 templates/gis/map.html:4
+#: apps/payments/emails.py:101
+#, python-format
+msgid "Carte de stationnement #%(pk)s activée"
+msgstr ""
+
+#: templates/_partials/navbar.html:131 templates/_partials/navbar.html:270
+#: templates/base.html:88 templates/gis/map.html:4
 msgid "Carte des zones"
 msgstr "Zones map"
 
@@ -644,7 +654,7 @@ msgstr "Permit suspended"
 msgid "Carte suspendue."
 msgstr "Permit suspended."
 
-#: templates/dashboard/citizen.html:292
+#: templates/dashboard/citizen.html:296
 #: templates/permits/confirm_visitor_create.html:8
 msgid "Carte visiteur"
 msgstr "Visitor permit"
@@ -654,10 +664,12 @@ msgid "Carte visiteur activée."
 msgstr "Visitor permit activated."
 
 #: templates/_partials/navbar.html:149 templates/_partials/navbar.html:165
-#: templates/_partials/navbar.html:181 templates/_partials/navbar.html:278
-#: templates/_partials/navbar.html:282 templates/_partials/navbar.html:286
+#: templates/_partials/navbar.html:181 templates/_partials/navbar.html:276
+#: templates/_partials/navbar.html:280 templates/_partials/navbar.html:284
+#: templates/dashboard/admin.html:54
 #: templates/dashboard/agent_permits_list.html:4
-#: templates/dashboard/agent_permits_list.html:7
+#: templates/dashboard/agent_permits_list.html:9
+#: templates/dashboard/super_admin.html:100
 msgid "Cartes"
 msgstr "Permits"
 
@@ -671,13 +683,17 @@ msgstr "Permits: type (resident, visitor, professional), allowed zones, validity
 msgid "Cartes de stationnement et démarches en cours."
 msgstr "Parking permits and pending requests."
 
-#: templates/core/legal_privacy.html:81
+#: templates/core/legal_privacy.html:82
 msgid "Cartes de stationnement expirées : 10 ans (obligation comptable belge)."
 msgstr "Expired parking permits: 10 years (Belgian accounting obligation)."
 
 #: templates/payments/card_form.html:86
 msgid "Cartes de test disponibles"
 msgstr "Test cards available"
+
+#: templates/registration/account_delete.html:17
+msgid "Cartes en cours ou actives clôturées"
+msgstr "Pending or active permits closed"
 
 #: templates/dashboard/admin.html:13 templates/dashboard/agent.html:17
 #: templates/dashboard/super_admin.html:60
@@ -688,6 +704,10 @@ msgstr "Permits under review"
 msgid "Cartes liées à ce véhicule"
 msgstr "Permits linked to this vehicle"
 
+#: apps/accounts/services.py:87
+msgid "Ce compte a été anonymisé : il n'est plus modifiable ni réactivable."
+msgstr "This account has been anonymised: it can no longer be edited or reactivated."
+
 #: templates/registration/password_reset_confirm.html:32
 msgid ""
 "Ce lien de réinitialisation n'est plus valide (déjà utilisé ou expiré). "
@@ -695,10 +715,6 @@ msgid ""
 msgstr ""
 "This reset link is no longer valid (already used or expired). Request a new"
 " one."
-
-#: templates/registration/password_reset_email.html:20
-msgid "Ce lien est valable 3 jours."
-msgstr "This link is valid for 3 days."
 
 #: templates/registration/password_reset_email.txt:10
 msgid ""
@@ -717,9 +733,25 @@ msgstr ""
 "\n"
 "— The Parking.Belgium team"
 
+#: apps/accounts/forms.py:71
+msgid "Ce nom d'utilisateur est réservé. Choisissez-en un autre."
+msgstr "This username is reserved. Please choose another one."
+
 #: apps/payments/views.py:98
 msgid "Ce paiement n'est plus actif."
 msgstr "This payment is no longer active."
+
+#: templates/registration/account_delete.html:35
+msgid "Ce qui est conservé, et pourquoi"
+msgstr "What is kept, and why"
+
+#: templates/registration/account_delete.html:25
+msgid "Ce qui est effacé"
+msgstr "What is erased"
+
+#: templates/registration/account_delete.html:15
+msgid "Ce qui se passe immédiatement"
+msgstr "What happens immediately"
 
 #: templates/vehicles/confirm_delete.html:16
 msgid "Ce véhicule a encore des cartes en cours ou actives :"
@@ -736,6 +768,24 @@ msgstr "Current certificate"
 #: templates/vehicles/detail.html:73
 msgid "Certificat d'immatriculation"
 msgstr "Registration certificate"
+
+#: templates/registration/account_delete.html:45
+msgid ""
+"Ces données ne permettent plus de vous contacter ni de vous identifier "
+"directement."
+msgstr "This data can no longer be used to contact you or identify you directly."
+
+#: templates/registration/password_reset_email.html:61
+msgid "Cet email est généré automatiquement, merci de ne pas y répondre."
+msgstr ""
+
+#: templates/registration/account_delete.html:12
+msgid ""
+"Cette action est définitive : vous ne pourrez plus vous connecter avec ce "
+"compte."
+msgstr ""
+"This action is permanent: you will no longer be able to log in with this "
+"account."
 
 #: templates/permits/confirm_visitor_create.html:10
 msgid ""
@@ -793,12 +843,12 @@ msgid "Changement de plaque en cours d'examen par un agent."
 msgstr "Plate change being reviewed by an agent."
 
 #: templates/citizens/request_list.html:11
-#: templates/dashboard/agent_requests_list.html:19
+#: templates/dashboard/agent_requests_list.html:26
 msgid "Changements d'adresse"
 msgstr "Address changes"
 
 #: templates/citizens/request_list.html:43
-#: templates/dashboard/agent_requests_list.html:53
+#: templates/dashboard/agent_requests_list.html:60
 msgid "Changements de plaque"
 msgstr "Plate changes"
 
@@ -832,17 +882,17 @@ msgstr "Choose your payment method"
 msgid "Cible"
 msgstr "Target"
 
-#: apps/accounts/models.py:8 templates/dashboard/agent_permits_list.html:49
+#: apps/accounts/models.py:8 templates/dashboard/agent_permits_list.html:60
 #: templates/dashboard/agent_request_address.html:40
-#: templates/dashboard/agent_requests_list.html:25
+#: templates/dashboard/agent_requests_list.html:32
 msgid "Citoyen"
 msgstr "Citizen"
 
-#: templates/registration/password_reset_email.html:13
+#: templates/registration/password_reset_email.html:30
 msgid "Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe :"
 msgstr "Click the button below to set a new password:"
 
-#: templates/dashboard/agent_permits_list.html:8
+#: templates/dashboard/agent_permits_list.html:10
 msgid ""
 "Cliquez sur un chip pour filtrer par statut. Les compteurs reflètent les "
 "filtres type/recherche actifs."
@@ -875,7 +925,7 @@ msgstr "Postal code not recognized in the Brussels Region (1000–1299)."
 msgid "Code visiteur annulé."
 msgstr "Visitor code cancelled."
 
-#: templates/dashboard/citizen.html:294
+#: templates/dashboard/citizen.html:298
 msgid "Codes temporaires pour vos invités."
 msgstr "Temporary codes for your guests."
 
@@ -884,7 +934,7 @@ msgstr "Temporary codes for your guests."
 msgid "Codes visiteurs"
 msgstr "Visitor codes"
 
-#: templates/core/legal_privacy.html:84
+#: templates/core/legal_privacy.html:85
 msgid "Codes visiteurs : 1 an après leur expiration."
 msgstr "Visitor codes: 1 year after their expiration."
 
@@ -908,7 +958,7 @@ msgstr "Start"
 msgid "Comment fonctionnent les codes visiteurs ?"
 msgstr "How do visitor codes work?"
 
-#: templates/base.html:67
+#: templates/base.html:89
 msgid "Comment ça marche"
 msgstr "How it works"
 
@@ -957,12 +1007,12 @@ msgstr "Municipalities served by a single platform"
 msgid "Communes prises en charge"
 msgstr "Supported municipalities"
 
-#: templates/base.html:74 templates/dashboard/admin_api_tokens.html:68
+#: templates/base.html:96 templates/dashboard/admin_api_tokens.html:68
 #: templates/registration/register.html:28
 msgid "Compte"
 msgstr "Account"
 
-#: templates/dashboard/admin_user_edit.html:72
+#: templates/dashboard/admin_user_edit.html:78
 msgid "Compte actif (l'utilisateur peut se connecter)"
 msgstr "Active account (user can log in)"
 
@@ -970,15 +1020,34 @@ msgstr "Active account (user can log in)"
 msgid "Compte actif : tant que l'utilisateur reste inscrit."
 msgstr "Active account: as long as the user remains registered."
 
+#: templates/_partials/user_identity.html:2
+#: templates/dashboard/admin_user_edit.html:30
+msgid "Compte anonymisé"
+msgstr "Anonymised account"
+
 #: templates/core/legal_privacy.html:80
 msgid "Compte inactif : anonymisation après 3 ans sans connexion."
 msgstr "Inactive account: anonymization after 3 years without login."
 
-#: templates/base.html:70
+#: apps/audit/models.py:49
+msgid "Compte supprimé à la demande du titulaire"
+msgstr "Account deleted at the holder's request"
+
+#: templates/core/legal_privacy.html:81
+msgid ""
+"Compte supprimé à votre demande : anonymisation immédiate. Seuls les "
+"paiements et l'historique des cartes restent conservés, rattachés à un "
+"compte anonyme, pour les durées ci-dessous."
+msgstr ""
+"Account deleted at your request: immediate anonymisation. Only payments and"
+" permit history are kept, attached to an anonymous account, for the periods"
+" below."
+
+#: templates/base.html:92
 msgid "Conditions d'utilisation"
 msgstr "Terms of use"
 
-#: templates/core/legal_privacy.html:135 templates/core/legal_terms.html:4
+#: templates/core/legal_privacy.html:136 templates/core/legal_terms.html:4
 #: templates/core/legal_terms.html:11
 msgid "Conditions générales d'utilisation"
 msgstr "General terms of use"
@@ -990,7 +1059,7 @@ msgstr "General terms of use"
 msgid "Configuration globale"
 msgstr "Global configuration"
 
-#: apps/audit/models.py:61
+#: apps/audit/models.py:62
 msgid "Configuration globale modifiée"
 msgstr "Global configuration modified"
 
@@ -998,7 +1067,7 @@ msgstr "Global configuration modified"
 msgid "Configuration mise à jour."
 msgstr "Configuration updated."
 
-#: apps/payments/emails.py:91
+#: apps/payments/emails.py:99
 #, python-format
 msgid "Confirmation de paiement — Carte de stationnement #%(pk)s"
 msgstr "Payment confirmation — Parking permit #%(pk)s"
@@ -1011,7 +1080,7 @@ msgstr "Confirm and pay"
 msgid "Confirmer le paiement"
 msgstr "Confirm payment"
 
-#: templates/core/legal_privacy.html:90
+#: templates/core/legal_privacy.html:91
 msgid ""
 "Conformément aux articles 15 à 22 du RGPD, vous disposez des droits "
 "suivants :"
@@ -1023,12 +1092,12 @@ msgstr ""
 msgid "Connectez-vous à votre espace Parking.Belgium."
 msgstr "Sign in to your Parking.Belgium space."
 
-#: templates/_partials/navbar.html:261 templates/_partials/navbar.html:294
+#: templates/_partials/navbar.html:259 templates/_partials/navbar.html:292
 #: templates/registration/login.html:4
 msgid "Connexion"
 msgstr "Sign in"
 
-#: templates/base.html:128
+#: templates/base.html:150
 msgid "Cookies"
 msgstr "Cookies"
 
@@ -1048,7 +1117,7 @@ msgstr "Color"
 msgid "Court-circuite tout — staff/DEBUG uniquement"
 msgstr "Bypasses everything — staff/DEBUG only"
 
-#: apps/audit/models.py:73
+#: apps/audit/models.py:80
 msgid "Critique"
 msgstr "Critical"
 
@@ -1064,7 +1133,7 @@ msgstr "Create"
 msgid "Créer la règle"
 msgstr "Create rule"
 
-#: templates/dashboard/citizen.html:313
+#: templates/dashboard/citizen.html:317
 msgid "Créer ma carte visiteur"
 msgstr "Create my visitor permit"
 
@@ -1076,8 +1145,8 @@ msgstr "Create my account"
 msgid "Créer mon compte pro"
 msgstr "Create my pro account"
 
-#: templates/_partials/navbar.html:262 templates/_partials/navbar.html:295
-#: templates/base.html:81 templates/core/home.html:410
+#: templates/_partials/navbar.html:260 templates/_partials/navbar.html:293
+#: templates/base.html:103 templates/core/home.html:410
 #: templates/registration/login.html:37 templates/registration/register.html:4
 msgid "Créer un compte"
 msgstr "Create an account"
@@ -1143,7 +1212,7 @@ msgstr "Plate change request"
 msgid "Demande de plaque refusée."
 msgstr "Plate request refused."
 
-#: templates/dashboard/citizen.html:194
+#: templates/dashboard/citizen.html:198
 msgid "Demande en cours"
 msgstr "Request in progress"
 
@@ -1177,7 +1246,7 @@ msgstr "Request a plate change"
 msgid "Demander un nouveau lien"
 msgstr "Request a new link"
 
-#: templates/dashboard/citizen.html:260
+#: templates/dashboard/citizen.html:264
 msgid "Demander une carte"
 msgstr "Request a permit"
 
@@ -1197,8 +1266,9 @@ msgid "Demander une carte visiteur"
 msgstr "Request a visitor permit"
 
 #: templates/_partials/navbar.html:144 templates/_partials/navbar.html:160
-#: templates/_partials/navbar.html:176 templates/_partials/navbar.html:277
-#: templates/_partials/navbar.html:281 templates/_partials/navbar.html:285
+#: templates/_partials/navbar.html:176 templates/_partials/navbar.html:275
+#: templates/_partials/navbar.html:279 templates/_partials/navbar.html:283
+#: templates/dashboard/admin.html:69 templates/dashboard/super_admin.html:112
 msgid "Demandes"
 msgstr "Requests"
 
@@ -1212,6 +1282,10 @@ msgstr "Citizen requests"
 #: templates/dashboard/admin.html:14 templates/dashboard/super_admin.html:61
 msgid "Demandes de cartes en attente de décision."
 msgstr "Permit requests awaiting decision."
+
+#: templates/registration/account_delete.html:18
+msgid "Demandes en attente annulées"
+msgstr "Pending requests cancelled"
 
 #: templates/permits/list.html:10
 msgid "Demandes en cours, cartes actives, historique."
@@ -1251,7 +1325,7 @@ msgstr "Availability"
 msgid "Disponible"
 msgstr "Available"
 
-#: templates/dashboard/citizen.html:318
+#: templates/dashboard/citizen.html:322
 msgid "Disponible dès qu'une carte riverain sera active."
 msgstr "Available as soon as a resident permit is active."
 
@@ -1272,7 +1346,7 @@ msgstr "Legal document"
 msgid "Données GIS"
 msgstr "GIS data"
 
-#: templates/gis/map.html:25
+#: templates/gis/map.html:28
 msgid "Données zonales : Lambert 72 (EPSG:31370) reprojetées en WGS84."
 msgstr "Zone data: Lambert 72 (EPSG:31370) reprojected to WGS84."
 
@@ -1299,12 +1373,13 @@ msgstr "Decided on"
 msgid "Décision"
 msgstr "Decision"
 
-#: templates/_partials/navbar.html:251
+#: templates/_partials/navbar.html:254
 msgid "Déconnexion"
 msgstr "Sign out"
 
 #: templates/registration/password_reset_confirm.html:4
 #: templates/registration/password_reset_confirm.html:9
+#: templates/registration/password_reset_email.html:37
 msgid "Définir un nouveau mot de passe"
 msgstr "Set a new password"
 
@@ -1324,15 +1399,15 @@ msgstr "Denomination"
 msgid "Désactiver"
 msgstr "Deactivate"
 
-#: templates/dashboard/admin_user_edit.html:101
+#: templates/dashboard/admin_user_edit.html:109
 msgid "Désactiver ce compte ?"
 msgstr "Deactivate this account?"
 
-#: templates/dashboard/admin_user_edit.html:106
+#: templates/dashboard/admin_user_edit.html:114
 msgid "Désactiver le compte"
 msgstr "Deactivate account"
 
-#: templates/dashboard/admin_users_list.html:74
+#: templates/dashboard/admin_users_list.html:83
 msgid "Désactivé"
 msgstr "Deactivated"
 
@@ -1342,13 +1417,13 @@ msgstr "Attribution details"
 
 #: templates/companies/list.html:32
 #: templates/dashboard/agent_request_address.html:38
-#: templates/dashboard/citizen.html:267 templates/vehicles/list.html:41
+#: templates/dashboard/citizen.html:271 templates/vehicles/list.html:41
 #: templates/vehicles/list.html:77
 msgid "Détails"
 msgstr "Details"
 
-#: templates/dashboard/admin_user_edit.html:45
-#: templates/dashboard/admin_users_list.html:44
+#: templates/dashboard/admin_user_edit.html:51
+#: templates/dashboard/admin_users_list.html:51
 #: templates/dashboard/citizen.html:182
 msgid "Email"
 msgstr "Email"
@@ -1384,7 +1459,7 @@ msgstr "Awaiting payment"
 msgid "En confirmant, vous acceptez l'activation immédiate de votre carte."
 msgstr "By confirming, you accept the immediate activation of your permit."
 
-#: templates/base.html:131
+#: templates/base.html:153
 msgid "En savoir plus"
 msgstr "Learn more"
 
@@ -1399,7 +1474,7 @@ msgstr "Attribution engine — snapshot"
 #: templates/citizens/profile_edit.html:22 templates/companies/form.html:36
 #: templates/dashboard/admin_permit_config.html:60
 #: templates/dashboard/admin_policy_form.html:90
-#: templates/dashboard/admin_user_edit.html:79
+#: templates/dashboard/admin_user_edit.html:85
 #: templates/registration/password_reset_confirm.html:24
 #: templates/vehicles/form.html:47
 msgid "Enregistrer"
@@ -1427,7 +1502,7 @@ msgstr "Company updated."
 msgid "Entreprise supprimée."
 msgstr "Company deleted."
 
-#: templates/dashboard/admin_user_edit.html:95
+#: templates/dashboard/admin_user_edit.html:103
 msgid ""
 "Envoie un email à {{ email }} avec un lien pour définir un nouveau mot de "
 "passe."
@@ -1454,7 +1529,7 @@ msgstr "Citizen space"
 msgid "Espace personnel"
 msgstr "Personal space"
 
-#: apps/audit/models.py:144
+#: apps/audit/models.py:154
 msgid "Ex: permit, payment, user, vehicle, gis_polygon, api_token."
 msgstr "E.g.: permit, payment, user, vehicle, gis_polygon, api_token."
 
@@ -1462,9 +1537,9 @@ msgstr "E.g.: permit, payment, user, vehicle, gis_polygon, api_token."
 msgid "Ex: véhicule vendu"
 msgstr "E.g.: vehicle sold"
 
-#: templates/dashboard/agent_permits_list.html:67
-#: templates/dashboard/agent_requests_list.html:40
-#: templates/dashboard/agent_requests_list.html:74
+#: templates/dashboard/agent_permits_list.html:78
+#: templates/dashboard/agent_requests_list.html:47
+#: templates/dashboard/agent_requests_list.html:81
 msgid "Examiner"
 msgstr "Review"
 
@@ -1480,11 +1555,25 @@ msgstr "Explore the map"
 msgid "Explorer toutes les zones de stationnement"
 msgstr "Explore all parking zones"
 
-#: apps/permits/models.py:323
+#: apps/permits/models.py:326
 msgid "Exponentielle (base × facteur^(rang-1))"
 msgstr "Exponential (base × factor^(rank-1))"
 
-#: templates/base.html:68
+#: apps/audit/models.py:70
+msgid "Export CSV téléchargé"
+msgstr ""
+
+#: templates/dashboard/admin_users_list.html:15
+#: templates/dashboard/agent_permits_list.html:16
+#: templates/dashboard/agent_requests_list.html:19
+msgid "Exporter CSV"
+msgstr ""
+
+#: templates/dashboard/admin.html:48 templates/dashboard/super_admin.html:95
+msgid "Exports CSV"
+msgstr ""
+
+#: templates/base.html:90
 msgid "FAQ"
 msgstr "FAQ"
 
@@ -1502,11 +1591,11 @@ msgid "File des demandes"
 msgstr "Requests queue"
 
 #: templates/dashboard/admin_policies_list.html:47
-#: templates/dashboard/admin_users_list.html:36
+#: templates/dashboard/admin_users_list.html:43
 msgid "Filtrer"
 msgstr "Filter"
 
-#: templates/gis/map.html:22
+#: templates/gis/map.html:25
 msgid "Fond de carte"
 msgstr "Base map"
 
@@ -1534,7 +1623,7 @@ msgstr "Drag the document here, or click to browse."
 msgid "Grand-Place"
 msgstr "Grand-Place"
 
-#: apps/permits/models.py:322
+#: apps/permits/models.py:325
 msgid "Grille (selon rang)"
 msgstr "Grid (by rank)"
 
@@ -1554,7 +1643,7 @@ msgstr "Generate a new code"
 msgid "Géométrie"
 msgstr "Geometry"
 
-#: templates/dashboard/admin_users_list.html:80
+#: templates/dashboard/admin_users_list.html:89
 msgid "Gérer"
 msgstr "Manage"
 
@@ -1575,7 +1664,7 @@ msgstr "Manage administrators"
 msgid "Gérer les utilisateurs"
 msgstr "Manage users"
 
-#: templates/dashboard/citizen.html:304
+#: templates/dashboard/citizen.html:308
 msgid "Gérer mes codes"
 msgstr "Manage my codes"
 
@@ -1595,7 +1684,7 @@ msgstr ""
 msgid "ID transaction externe"
 msgstr "External transaction ID"
 
-#: apps/audit/models.py:157
+#: apps/audit/models.py:167
 msgid "IP source"
 msgstr "Source IP"
 
@@ -1606,6 +1695,10 @@ msgstr "Identity"
 #: templates/core/legal_privacy.html:52
 msgid "Identité : nom, prénom, date de naissance, numéro de registre national."
 msgstr "Identity: last name, first name, date of birth, national register number."
+
+#: templates/registration/password_reset_email.html:44
+msgid "Ignorez simplement cet email — votre mot de passe actuel reste inchangé."
+msgstr ""
 
 #: templates/core/legal_terms.html:69
 msgid "Il est responsable des actions effectuées depuis son compte."
@@ -1619,7 +1712,7 @@ msgstr ""
 "He reports any suspected compromise without delay to "
 "privacy@parking.belgium.local."
 
-#: apps/audit/models.py:65
+#: apps/audit/models.py:66
 msgid "Import GIS effectué"
 msgstr "GIS import completed"
 
@@ -1627,7 +1720,7 @@ msgstr "GIS import completed"
 msgid "Importée"
 msgstr "Imported"
 
-#: templates/dashboard/admin_users_list.html:34
+#: templates/dashboard/admin_users_list.html:41
 msgid "Inclure inactifs"
 msgstr "Include inactive"
 
@@ -1643,7 +1736,7 @@ msgstr ""
 msgid "Indiquez votre mot de passe actuel puis le nouveau (deux fois)."
 msgstr "Enter your current password then the new one (twice)."
 
-#: apps/audit/models.py:70
+#: apps/audit/models.py:77
 msgid "Information"
 msgstr "Information"
 
@@ -1656,11 +1749,11 @@ msgstr ""
 "detected automatically."
 
 #: templates/dashboard/admin_user_edit.html:15
-#: templates/dashboard/admin_users_list.html:47
+#: templates/dashboard/admin_users_list.html:54
 msgid "Inscrit le"
 msgstr "Registered on"
 
-#: templates/base.html:138
+#: templates/base.html:160
 msgid "J'ai compris"
 msgstr "Got it"
 
@@ -1682,13 +1775,15 @@ msgstr "Garden and view over the lower city."
 msgid "Jeton de paiement manquant."
 msgstr "Payment token missing."
 
-#: templates/dashboard/admin.html:37 templates/dashboard/admin_audit_list.html:4
+#: templates/dashboard/admin.html:37 templates/dashboard/admin.html:74
+#: templates/dashboard/admin_audit_list.html:4
 #: templates/dashboard/admin_audit_list.html:14
 #: templates/dashboard/super_admin.html:84
+#: templates/dashboard/super_admin.html:116
 msgid "Journal d'audit"
 msgstr "Audit log"
 
-#: templates/core/legal_privacy.html:83
+#: templates/core/legal_privacy.html:84
 msgid "Journaux d'audit : 3 ans (recommandation APD)."
 msgstr "Audit logs: 3 years (DPA recommendation)."
 
@@ -1746,6 +1841,16 @@ msgstr ""
 "Archiving hides the vehicle from your space but preserves the history of "
 "linked permits. Reserved for sold or out-of-use vehicles."
 
+#: templates/registration/account_delete.html:41
+msgid ""
+"L'historique de vos cartes et les plaques de vos véhicules archivés, "
+"rattachés à un compte anonyme, pour la traçabilité des droits de "
+"stationnement accordés."
+msgstr ""
+"The history of your permits and the plates of your archived vehicles, "
+"attached to an anonymous account, for the traceability of the parking "
+"rights granted."
+
 #: templates/core/legal_terms.html:32
 msgid ""
 "L'inscription est réservée aux personnes physiques majeures résidant en "
@@ -1769,19 +1874,15 @@ msgstr ""
 "      of the project author. The geographic data (parking zones)\n"
 "      are provided by the Brussels-Capital Region and remain its property."
 
-#: templates/dashboard/admin_user_edit.html:110
+#: templates/dashboard/admin_user_edit.html:118
 msgid ""
 "L'utilisateur ne pourra plus se connecter, mais ses données restent "
 "intactes."
 msgstr "The user will no longer be able to log in, but their data remains intact."
 
-#: templates/dashboard/admin_user_edit.html:112
+#: templates/dashboard/admin_user_edit.html:120
 msgid "L'utilisateur pourra à nouveau se connecter avec ses identifiants."
 msgstr "The user will be able to log in again with their credentials."
-
-#: templates/registration/password_reset_email.html:22
-msgid "L'équipe Parking.Belgium"
-msgstr "The Parking.Belgium team"
 
 #: templates/permits/confirm_professional_create.html:32
 msgid "La carte donnera accès à toutes les zones de cette commune."
@@ -1823,7 +1924,7 @@ msgstr ""
 msgid "La plaque est requise."
 msgstr "Plate is required."
 
-#: templates/_partials/navbar.html:300
+#: templates/_partials/navbar.html:298
 msgid "Langue"
 msgstr "Language"
 
@@ -1849,7 +1950,7 @@ msgstr ""
 "      99.5% would be aimed for, with planned maintenance announced 48h in "
 "advance."
 
-#: templates/dashboard/citizen.html:209
+#: templates/dashboard/citizen.html:213
 msgid ""
 "Le changement d'adresse impacte vos cartes riverain — il doit être validé "
 "par un agent."
@@ -1860,6 +1961,12 @@ msgstr ""
 #: apps/vehicles/forms.py:30 apps/vehicles/forms.py:52 apps/vehicles/forms.py:83
 msgid "Le fichier dépasse 5 Mo."
 msgstr "File exceeds 5 MB."
+
+#: templates/registration/account_delete.html:43
+msgid ""
+"Le journal de sécurité, pendant 3 ans au maximum, comme indiqué dans la "
+"politique de confidentialité."
+msgstr "The security log, for up to 3 years, as stated in the privacy policy."
 
 #: templates/core/legal_terms.html:51
 msgid ""
@@ -1913,7 +2020,7 @@ msgstr ""
 "Brussels\n"
 "      Region or to each signatory municipality."
 
-#: templates/core/legal_privacy.html:123
+#: templates/core/legal_privacy.html:124
 msgid ""
 "Le site utilise un unique cookie strictement nécessaire au fonctionnement\n"
 "      (cookie de session pour vous garder connecté). Il ne fait l'objet "
@@ -1969,7 +2076,17 @@ msgstr ""
 "Eligibility conditions (residence, vehicle type, activity) are set by each "
 "municipality and may evolve."
 
-#: templates/core/legal_privacy.html:111
+#: templates/dashboard/admin_user_edit.html:31
+msgid ""
+"Les données personnelles ont été effacées. Les paiements et l'historique "
+"des cartes restent rattachés à ce compte pour la traçabilité comptable. Il "
+"n'est plus modifiable ni réactivable."
+msgstr ""
+"The personal data has been erased. Payments and permit history remain "
+"attached to this account for accounting traceability. It can no longer be "
+"edited or reactivated."
+
+#: templates/core/legal_privacy.html:112
 msgid ""
 "Les mots de passe sont hashés (algorithme PBKDF2). Les communications sont\n"
 "      chiffrées en TLS. Les paiements transitent par Stripe (PCI-DSS niveau"
@@ -2042,7 +2159,11 @@ msgstr "Invalid or expired link"
 msgid "Lien sécurisé valable 15 minutes."
 msgstr "Secure link valid for 15 minutes."
 
-#: templates/base.html:64
+#: templates/registration/password_reset_email.html:17
+msgid "Lien sécurisé valable 3 jours"
+msgstr ""
+
+#: templates/base.html:86
 msgid "Liens utiles"
 msgstr "Useful links"
 
@@ -2067,7 +2188,7 @@ msgstr "Limits per citizen"
 msgid "Liste"
 msgstr "List"
 
-#: apps/permits/models.py:373
+#: apps/permits/models.py:376
 msgid "Liste de [rang_seuil, prix_centimes] — ex: [[1,1000],[2,2500],[3,5000]]."
 msgstr "List of [rank_threshold, price_cents] — e.g.: [[1,1000],[2,2500],[3,5000]]."
 
@@ -2105,13 +2226,13 @@ msgstr "Mastercard — success"
 msgid "Menu"
 msgstr "Menu"
 
-#: templates/_partials/navbar.html:192 templates/_partials/navbar.html:289
-#: templates/dashboard/citizen.html:162 templates/permits/detail.html:178
+#: templates/_partials/navbar.html:192 templates/_partials/navbar.html:287
+#: templates/dashboard/citizen.html:162 templates/permits/detail.html:179
 #: templates/permits/list.html:4 templates/permits/list.html:9
 msgid "Mes cartes"
 msgstr "My permits"
 
-#: templates/dashboard/citizen.html:345
+#: templates/dashboard/citizen.html:349
 msgid "Mes cartes en cours"
 msgstr "My active permits"
 
@@ -2126,14 +2247,14 @@ msgstr "My requests"
 msgid "Mes données sont-elles sécurisées ?"
 msgstr "Is my data secure?"
 
-#: templates/_partials/navbar.html:241 templates/_partials/navbar.html:291
+#: templates/_partials/navbar.html:241 templates/_partials/navbar.html:289
 #: templates/companies/list.html:4 templates/companies/list.html:8
 #: templates/dashboard/citizen.html:167
 msgid "Mes entreprises"
 msgstr "My companies"
 
-#: templates/_partials/navbar.html:240 templates/_partials/navbar.html:290
-#: templates/dashboard/citizen.html:220 templates/vehicles/detail.html:11
+#: templates/_partials/navbar.html:240 templates/_partials/navbar.html:288
+#: templates/dashboard/citizen.html:224 templates/vehicles/detail.html:11
 #: templates/vehicles/list.html:4 templates/vehicles/list.html:8
 msgid "Mes véhicules"
 msgstr "My vehicles"
@@ -2151,7 +2272,7 @@ msgid "Mettre à jour le mot de passe"
 msgstr "Update password"
 
 #: templates/companies/detail.html:24 templates/dashboard/citizen.html:178
-#: templates/dashboard/citizen.html:198
+#: templates/dashboard/citizen.html:202
 msgid "Modifier"
 msgstr "Edit"
 
@@ -2193,8 +2314,8 @@ msgstr "Month"
 msgid "Mon compte"
 msgstr "My account"
 
-#: templates/_partials/navbar.html:187 templates/_partials/navbar.html:288
-#: templates/base.html:77
+#: templates/_partials/navbar.html:187 templates/_partials/navbar.html:286
+#: templates/base.html:99
 msgid "Mon espace"
 msgstr "My space"
 
@@ -2210,9 +2331,17 @@ msgstr "Amount"
 msgid "Montant à payer"
 msgstr "Amount to pay"
 
-#: templates/base.html:78
+#: templates/base.html:100 templates/dashboard/citizen.html:188
 msgid "Mot de passe"
 msgstr "Password"
+
+#: apps/accounts/forms.py:131
+msgid "Mot de passe actuel"
+msgstr "Current password"
+
+#: apps/accounts/services.py:350
+msgid "Mot de passe incorrect."
+msgstr "Incorrect password."
 
 #: templates/registration/password_change_done.html:9
 msgid "Mot de passe mis à jour"
@@ -2222,7 +2351,7 @@ msgstr "Password updated"
 msgid "Mot de passe modifié"
 msgstr "Password changed"
 
-#: templates/base.html:82 templates/registration/password_reset_form.html:4
+#: templates/base.html:104 templates/registration/password_reset_form.html:4
 msgid "Mot de passe oublié"
 msgstr "Password forgotten"
 
@@ -2235,6 +2364,10 @@ msgstr "Forgot password?"
 #: templates/registration/password_reset_complete.html:9
 msgid "Mot de passe réinitialisé"
 msgstr "Password reset"
+
+#: templates/registration/account_delete.html:30
+msgid "Mot de passe, sessions ouvertes et accès à l'API."
+msgstr "Password, open sessions and API access."
 
 #: templates/citizens/address_change_detail.html:22
 #: templates/vehicles/list.html:65 templates/vehicles/plate_change_detail.html:23
@@ -2254,7 +2387,7 @@ msgstr "Citizen reason"
 msgid "Moto"
 msgstr "Motorcycle"
 
-#: templates/dashboard/admin_user_edit.html:38
+#: templates/dashboard/admin_user_edit.html:44
 #: templates/dashboard/citizen.html:181 templates/dashboard/gis_versions.html:17
 msgid "Nom"
 msgstr "Name"
@@ -2263,11 +2396,19 @@ msgstr "Name"
 msgid "Nom (fr)"
 msgstr "Name (fr)"
 
+#: templates/registration/account_delete.html:27
+msgid ""
+"Nom, prénom, adresse email et nom d'utilisateur (remplacé par un "
+"identifiant neutre)."
+msgstr ""
+"Last name, first name, email address and username (replaced by a neutral "
+"identifier)."
+
 #: templates/dashboard/admin_policies_list.html:39
 msgid "Non"
 msgstr "No"
 
-#: apps/audit/models.py:71
+#: apps/audit/models.py:78
 msgid "Notable"
 msgstr "Notable"
 
@@ -2308,7 +2449,7 @@ msgstr "New visitor code"
 
 #: templates/citizens/address_change_detail.html:14
 #: templates/citizens/request_list.html:18
-#: templates/dashboard/agent_requests_list.html:26
+#: templates/dashboard/agent_requests_list.html:33
 msgid "Nouvelle adresse"
 msgstr "New address"
 
@@ -2318,7 +2459,7 @@ msgstr "New address"
 msgid "Nouvelle politique"
 msgstr "New policy"
 
-#: apps/audit/models.py:119
+#: apps/audit/models.py:129
 msgid "Null = action déclenchée par le système (cron, signal)."
 msgstr "Null = action triggered by the system (cron, signal)."
 
@@ -2362,7 +2503,7 @@ msgstr "Stripe-hosted page — Bancontact, cards"
 msgid "Page introuvable."
 msgstr "Page not found."
 
-#: templates/dashboard/admin_users_list.html:95
+#: templates/dashboard/admin_users_list.html:104
 msgid "Page {{ current }}/{{ total }}"
 msgstr "Page {{ current }}/{{ total }}"
 
@@ -2429,7 +2570,11 @@ msgstr ""
 "Payment confirmed. Your permit is active. A confirmation email has been "
 "sent."
 
-#: templates/core/legal_privacy.html:82
+#: templates/dashboard/admin.html:59 templates/dashboard/super_admin.html:104
+msgid "Paiements"
+msgstr ""
+
+#: templates/core/legal_privacy.html:83
 msgid "Paiements : 7 ans (obligation TVA)."
 msgstr "Payments: 7 years (VAT obligation)."
 
@@ -2440,6 +2585,10 @@ msgid ""
 msgstr ""
 "Payments: amount, method, Stripe reference, status. No credit card number "
 "is stored on our servers."
+
+#: templates/registration/account_delete.html:37
+msgid "Paiements conservés"
+msgstr "Payments kept"
 
 #: templates/core/legal_privacy.html:20
 msgid ""
@@ -2453,7 +2602,7 @@ msgstr ""
 "      project. It enables centralized management of parking permits\n"
 "      for the 19 municipalities of the Brussels-Capital Region."
 
-#: apps/payments/emails.py:112
+#: apps/payments/emails.py:152
 #, python-format
 msgid "Parking.Belgium — Remboursement paiement #%(pk)s"
 msgstr "Parking.Belgium — Payment refund #%(pk)s"
@@ -2462,17 +2611,30 @@ msgstr "Parking.Belgium — Payment refund #%(pk)s"
 msgid "Parking.Belgium — Réinitialisation de votre mot de passe"
 msgstr "Parking.Belgium — Password reset"
 
-#: apps/accounts/services.py:177
+#: apps/accounts/services.py:207
 msgid ""
 "Parking.Belgium — Réinitialisation de votre mot de passe (initiée par un "
 "administrateur)"
 msgstr "Parking.Belgium — Password reset (initiated by an administrator)"
 
+#: templates/base.html:15
+msgid "Parking.Belgium — Stationnez à Bruxelles"
+msgstr ""
+
+#: apps/payments/emails.py:131
+#, python-format
+msgid "Parking.Belgium — Votre carte #%(pk)s expire bientôt"
+msgstr ""
+
+#: templates/registration/password_reset_email.html:43
+msgid "Pas à l'origine de cette demande ?"
+msgstr ""
+
 #: templates/core/home.html:281
 msgid "Patrimoine UNESCO — cœur historique."
 msgstr "UNESCO heritage — historic heart."
 
-#: templates/payments/card_form.html:75 templates/permits/detail.html:183
+#: templates/payments/card_form.html:75 templates/permits/detail.html:184
 msgid "Payer"
 msgstr "Pay"
 
@@ -2494,12 +2656,12 @@ msgid ""
 "temporaires personnalisés."
 msgstr "Let your guests park in your zone thanks to personalized temporary codes."
 
-#: apps/permits/models.py:391
+#: apps/permits/models.py:394
 msgid "Pertinent surtout pour la carte professionnelle."
 msgstr "Mostly relevant for the professional permit."
 
 #: templates/dashboard/agent_permit_detail.html:201
-#: templates/dashboard/agent_requests_list.html:60
+#: templates/dashboard/agent_requests_list.html:67
 #: templates/permits/detail.html:82 templates/vehicles/list.html:18
 #: templates/vehicles/list.html:62
 msgid "Plaque"
@@ -2545,13 +2707,25 @@ msgstr "Visitor plate"
 msgid "Plateforme accessible à toute heure"
 msgstr "Platform available 24/7"
 
-#: templates/base.html:60
+#: templates/base.html:82
 msgid ""
 "Plateforme centralisée pour les 19 communes de la Région de Bruxelles-"
 "Capitale."
 msgstr ""
 "Centralized platform for the 19 municipalities of the Brussels-Capital "
 "Region."
+
+#: templates/base.html:7
+msgid ""
+"Plateforme officielle de gestion des cartes de stationnement pour les 19 "
+"communes de la Région de Bruxelles-Capitale."
+msgstr ""
+
+#: templates/base.html:16
+msgid ""
+"Plateforme officielle pour les cartes de stationnement résidentielles, "
+"visiteurs et professionnelles dans les 19 communes bruxelloises."
+msgstr ""
 
 #: apps/rules/models.py:56
 msgid "Plus petit = plus prioritaire (appliqué en premier)."
@@ -2561,7 +2735,7 @@ msgstr "Smaller = higher priority (applied first)."
 msgid "Politique"
 msgstr "Policy"
 
-#: apps/audit/models.py:60
+#: apps/audit/models.py:61
 msgid "Politique commune modifiée"
 msgstr "Municipality policy modified"
 
@@ -2569,8 +2743,9 @@ msgstr "Municipality policy modified"
 msgid "Politique créée."
 msgstr "Policy created."
 
-#: templates/base.html:69 templates/core/legal_privacy.html:4
+#: templates/base.html:91 templates/core/legal_privacy.html:4
 #: templates/core/legal_privacy.html:11 templates/core/legal_terms.html:133
+#: templates/registration/account_delete.html:45
 msgid "Politique de confidentialité"
 msgstr "Privacy policy"
 
@@ -2615,7 +2790,7 @@ msgstr "GIS polygons"
 msgid "Polygones GIS sur lesquels cette carte donne droit de stationner."
 msgstr "GIS polygons where this permit grants parking rights."
 
-#: templates/core/legal_privacy.html:100
+#: templates/core/legal_privacy.html:101
 msgid ""
 "Pour exercer ces droits, écrivez à "
 "<strong>privacy@parking.belgium.local</strong>\n"
@@ -2667,7 +2842,7 @@ msgstr "Prio"
 msgid "Prix"
 msgstr "Price"
 
-#: apps/permits/models.py:321
+#: apps/permits/models.py:324
 msgid "Prix fixe"
 msgstr "Fixed price"
 
@@ -2692,11 +2867,11 @@ msgid "Profil utilisateur modifié"
 msgstr "User profile modified"
 
 #: templates/dashboard/agent_request_plate.html:15
-#: templates/dashboard/agent_requests_list.html:59
+#: templates/dashboard/agent_requests_list.html:66
 msgid "Propriétaire"
 msgstr "Owner"
 
-#: templates/dashboard/admin_user_edit.html:33
+#: templates/dashboard/admin_user_edit.html:39
 msgid "Prénom"
 msgstr "First name"
 
@@ -2707,6 +2882,10 @@ msgstr "Prerequisite: have an active resident permit."
 #: templates/core/home.html:451
 msgid "Puis-je changer la plaque de mon véhicule ?"
 msgstr "Can I change my vehicle's plate?"
+
+#: apps/audit/models.py:73
+msgid "Purge RGPD"
+msgstr ""
 
 #: templates/dashboard/admin_policies_list.html:60
 msgid "Période"
@@ -2741,7 +2920,7 @@ msgid "Raison de la suspension (obligatoire)"
 msgstr "Suspension reason (required)"
 
 #: templates/dashboard/admin_policies_list.html:43
-#: templates/dashboard/agent_permits_list.html:35
+#: templates/dashboard/agent_permits_list.html:46
 msgid "Recherche"
 msgstr "Search"
 
@@ -2749,7 +2928,7 @@ msgstr "Search"
 msgid "Recherche, filtres et export CSV des entrées du journal."
 msgstr "Search, filters and CSV export of log entries."
 
-#: templates/dashboard/admin_users_list.html:30
+#: templates/dashboard/admin_users_list.html:37
 msgid "Rechercher (username, email, nom)…"
 msgstr "Search (username, email, name)…"
 
@@ -2844,6 +3023,7 @@ msgid "Retour à la liste"
 msgstr "Back to list"
 
 #: templates/companies/list.html:45 templates/permits/list.html:54
+#: templates/registration/account_delete.html:8
 #: templates/registration/password_change_done.html:13
 #: templates/vehicles/list.html:89
 msgid "Retour à mon espace"
@@ -2857,11 +3037,19 @@ msgstr "Manual review"
 msgid "Riverain"
 msgstr "Resident"
 
+#: templates/registration/account_delete.html:29
+msgid ""
+"Rue, numéro et code postal de votre adresse et de vos demandes de "
+"changement d'adresse."
+msgstr ""
+"Street, number and postcode of your address and of your address change "
+"requests."
+
 #: apps/dashboard/views.py:317
 msgid "Règle créée."
 msgstr "Rule created."
 
-#: apps/audit/models.py:62
+#: apps/audit/models.py:63
 msgid "Règle de polygone modifiée"
 msgstr "Polygon rule modified"
 
@@ -2889,7 +3077,7 @@ msgstr "Fine rules: price, validity, limits per (municipality × permit type)."
 msgid "Règles métier"
 msgstr "Business rules"
 
-#: templates/dashboard/admin_user_edit.html:101
+#: templates/dashboard/admin_user_edit.html:109
 msgid "Réactiver ce compte ?"
 msgstr "Reactivate this account?"
 
@@ -2901,7 +3089,7 @@ msgstr "Reactivate this permit?"
 msgid "Réactiver la carte"
 msgstr "Reactivate permit"
 
-#: templates/dashboard/admin_user_edit.html:106
+#: templates/dashboard/admin_user_edit.html:114
 msgid "Réactiver le compte"
 msgstr "Reactivate account"
 
@@ -2913,26 +3101,26 @@ msgstr "Reference"
 msgid "Région de Bruxelles-Capitale"
 msgstr "Brussels-Capital Region"
 
+#: templates/registration/password_reset_email.html:58
+msgid "Région de Bruxelles-Capitale · 19 communes"
+msgstr ""
+
 #: templates/dashboard/admin_policies_list.html:48
-#: templates/dashboard/agent_permits_list.html:40
+#: templates/dashboard/agent_permits_list.html:51
 msgid "Réinit."
 msgstr "Reset"
 
-#: templates/registration/password_reset_email.html:7
-msgid "Réinitialisation de mot de passe"
-msgstr "Password reset"
+#: templates/registration/password_reset_email.html:16
+msgid "Réinitialisation de votre mot de passe"
+msgstr ""
 
 #: templates/registration/password_reset_email.html:3
 msgid "Réinitialisation mot de passe"
 msgstr "Password reset"
 
-#: templates/dashboard/admin_user_edit.html:93
+#: templates/dashboard/admin_user_edit.html:101
 msgid "Réinitialiser le mot de passe"
 msgstr "Reset password"
-
-#: templates/registration/password_reset_email.html:17
-msgid "Réinitialiser mon mot de passe"
-msgstr "Reset my password"
 
 #: templates/dashboard/admin_api_tokens.html:99
 msgid "Révoquer"
@@ -2943,8 +3131,8 @@ msgid "Révoquer ce token ?"
 msgstr "Revoke this token?"
 
 #: templates/dashboard/admin_api_tokens.html:69
-#: templates/dashboard/admin_user_edit.html:51
-#: templates/dashboard/admin_users_list.html:45
+#: templates/dashboard/admin_user_edit.html:57
+#: templates/dashboard/admin_users_list.html:52
 msgid "Rôle"
 msgstr "Role"
 
@@ -2968,7 +3156,7 @@ msgstr "Enter the visitor's plate and duration (in hours)."
 msgid "Saisissez les informations de votre carte."
 msgstr "Enter your card information."
 
-#: templates/base.html:80 templates/registration/login.html:30
+#: templates/base.html:102 templates/registration/login.html:30
 #: templates/registration/password_reset_complete.html:13
 msgid "Se connecter"
 msgstr "Sign in"
@@ -2981,7 +3169,7 @@ msgstr ""
 "Depending on your address and the business rules in force, the request may "
 "be approved automatically, sent to manual review, or refused."
 
-#: templates/dashboard/admin_user_edit.html:65
+#: templates/dashboard/admin_user_edit.html:71
 msgid "Selon votre niveau de permission, certains rôles ne sont pas attribuables."
 msgstr "According to your permission level, some roles cannot be assigned."
 
@@ -2989,13 +3177,13 @@ msgstr "According to your permission level, some roles cannot be assigned."
 msgid "Sera déduite du code postal"
 msgstr "Will be deduced from postal code"
 
-#: templates/_partials/navbar.html:258
-msgid "Service en ligne"
-msgstr "Online service"
-
-#: templates/base.html:89
+#: templates/base.html:111
 msgid "Service en ligne pour la Région de Bruxelles-Capitale"
 msgstr "Online service for the Brussels-Capital Region"
+
+#: templates/registration/password_reset_email.html:57
+msgid "Service officiel"
+msgstr ""
 
 #: templates/core/home.html:20
 msgid "Service officiel · 19 communes"
@@ -3021,13 +3209,19 @@ msgstr ""
 msgid "Seuls les comptes back-office actifs sans token sont listés."
 msgstr "Only active back-office accounts without a token are listed."
 
-#: apps/permits/models.py:351
+#: apps/permits/models.py:354
 msgid ""
 "Si décoché, toute demande passe en revue manuelle même si l'engine ne le "
 "requiert pas."
 msgstr ""
 "If unchecked, every request goes to manual review even if the engine does "
 "not require it."
+
+#: templates/registration/password_reset_email.html:49
+msgid ""
+"Si le bouton ne fonctionne pas, copiez l'URL suivante dans votre navigateur"
+" :"
+msgstr ""
 
 #: templates/registration/password_reset_done.html:11
 msgid ""
@@ -3037,14 +3231,6 @@ msgstr ""
 "If an account exists for this address, an email with a reset link has just "
 "been sent."
 
-#: templates/registration/password_reset_email.html:21
-msgid ""
-"Si vous n'êtes pas à l'origine de cette demande, ignorez simplement cet "
-"email — votre mot de passe actuel reste inchangé."
-msgstr ""
-"If you did not request this, simply ignore this email — your current "
-"password remains unchanged."
-
 #: apps/payments/models.py:36
 msgid "Simulation (test)"
 msgstr "Simulation (test)"
@@ -3053,11 +3239,11 @@ msgstr "Simulation (test)"
 msgid "Simuler le paiement (test)"
 msgstr "Simulate payment (test)"
 
-#: apps/audit/models.py:153
+#: apps/audit/models.py:163
 msgid "Snapshot textuel (str(target)) — survit à la suppression de l'objet."
 msgstr "Text snapshot (str(target)) — survives object deletion."
 
-#: apps/audit/models.py:124
+#: apps/audit/models.py:134
 msgid "Snapshot — préservé même si l'utilisateur change de rôle ensuite."
 msgstr "Snapshot — preserved even if the user changes role later."
 
@@ -3070,9 +3256,9 @@ msgstr "Insufficient balance"
 msgid "Soumettre la demande"
 msgstr "Submit request"
 
-#: apps/permits/models.py:42 templates/dashboard/agent_permits_list.html:53
-#: templates/dashboard/agent_requests_list.html:27
-#: templates/dashboard/agent_requests_list.html:61
+#: apps/permits/models.py:42 templates/dashboard/agent_permits_list.html:64
+#: templates/dashboard/agent_requests_list.html:34
+#: templates/dashboard/agent_requests_list.html:68
 msgid "Soumise"
 msgstr "Submitted"
 
@@ -3107,11 +3293,11 @@ msgstr "Park"
 
 #: templates/citizens/request_list.html:19
 #: templates/citizens/request_list.html:52
-#: templates/dashboard/admin_users_list.html:46
+#: templates/dashboard/admin_users_list.html:53
 #: templates/dashboard/agent_permit_detail.html:203
-#: templates/dashboard/agent_permits_list.html:52
-#: templates/dashboard/agent_requests_list.html:28
-#: templates/dashboard/agent_requests_list.html:62
+#: templates/dashboard/agent_permits_list.html:63
+#: templates/dashboard/agent_requests_list.html:35
+#: templates/dashboard/agent_requests_list.html:69
 #: templates/permits/detail.html:84 templates/permits/list.html:24
 msgid "Statut"
 msgstr "Status"
@@ -3154,9 +3340,19 @@ msgstr "Delete"
 msgid "Supprimer cette entreprise ?"
 msgstr "Delete this company?"
 
+#: templates/registration/account_delete.html:53
+msgid "Supprimer définitivement mon compte"
+msgstr "Permanently delete my account"
+
 #: templates/companies/confirm_delete.html:4
 msgid "Supprimer l'entreprise"
 msgstr "Delete company"
+
+#: templates/_partials/navbar.html:250 templates/dashboard/citizen.html:189
+#: templates/registration/account_delete.html:4
+#: templates/registration/account_delete.html:11
+msgid "Supprimer mon compte"
+msgstr "Delete my account"
 
 #: templates/gis/map.html:14
 msgid ""
@@ -3190,6 +3386,10 @@ msgstr ""
 "Symbol of Brussels since Expo 58 — emblematic of the north-west district "
 "served by our platform."
 
+#: templates/registration/password_reset_email.html:14
+msgid "Sécurité du compte"
+msgstr ""
+
 #: templates/companies/list.html:18
 msgid "TVA"
 msgstr "VAT"
@@ -3199,8 +3399,8 @@ msgid "TVA professionnelle requise"
 msgstr "Professional VAT number required"
 
 #: templates/_partials/navbar.html:139 templates/_partials/navbar.html:155
-#: templates/_partials/navbar.html:171 templates/_partials/navbar.html:276
-#: templates/_partials/navbar.html:280 templates/_partials/navbar.html:284
+#: templates/_partials/navbar.html:171 templates/_partials/navbar.html:274
+#: templates/_partials/navbar.html:278 templates/_partials/navbar.html:282
 msgid "Tableau de bord"
 msgstr "Dashboard"
 
@@ -3228,11 +3428,11 @@ msgstr "Permit holder"
 msgid "Token (préfixe)"
 msgstr "Token (prefix)"
 
-#: apps/audit/models.py:52
+#: apps/audit/models.py:53
 msgid "Token API révoqué"
 msgstr "API token revoked"
 
-#: apps/audit/models.py:51
+#: apps/audit/models.py:52
 msgid "Token API émis"
 msgstr "API token issued"
 
@@ -3254,12 +3454,12 @@ msgid "Toujours gratuite"
 msgstr "Always free"
 
 #: templates/dashboard/admin_policies_list.html:28
-#: templates/dashboard/admin_users_list.html:17
-#: templates/dashboard/agent_permits_list.html:28
+#: templates/dashboard/admin_users_list.html:24
+#: templates/dashboard/agent_permits_list.html:39
 msgid "Tous"
 msgstr "All"
 
-#: templates/base.html:88
+#: templates/base.html:110
 msgid "Tous droits réservés"
 msgstr "All rights reserved"
 
@@ -3291,7 +3491,7 @@ msgstr "Every change is logged in the audit."
 
 #: templates/dashboard/admin_policies_list.html:19
 #: templates/dashboard/admin_policies_list.html:37
-#: templates/dashboard/citizen.html:346
+#: templates/dashboard/citizen.html:350
 #: templates/dashboard/gis_polygons_list.html:20
 msgid "Toutes"
 msgstr "All"
@@ -3328,8 +3528,8 @@ msgstr "Electric scooter"
 
 #: templates/dashboard/admin_policies_list.html:26
 #: templates/dashboard/admin_policies_list.html:57
-#: templates/dashboard/agent_permits_list.html:26
-#: templates/dashboard/agent_permits_list.html:51 templates/permits/list.html:22
+#: templates/dashboard/agent_permits_list.html:37
+#: templates/dashboard/agent_permits_list.html:62 templates/permits/list.html:22
 msgid "Type"
 msgstr "Type"
 
@@ -3352,9 +3552,19 @@ msgstr "Permit types"
 msgid "Télécharger"
 msgstr "Download"
 
+#: templates/dashboard/admin.html:49 templates/dashboard/super_admin.html:96
+msgid ""
+"Téléchargez les données back-office pour archivage ou reporting (séparateur"
+" ; UTF-8, compatible Excel)."
+msgstr ""
+
 #: templates/dashboard/citizen.html:183
 msgid "Téléphone"
 msgstr "Phone"
+
+#: templates/registration/account_delete.html:28
+msgid "Téléphone, date de naissance et numéro de registre national."
+msgstr "Phone, date of birth and national register number."
 
 #: templates/core/legal_terms.html:44
 msgid ""
@@ -3368,13 +3578,21 @@ msgstr ""
 msgid "Un seul abonnement pour toute une commune ciblée."
 msgstr "A single subscription for a whole targeted municipality."
 
-#: templates/base.html:130
+#: templates/base.html:152
 msgid ""
 "Un seul cookie de session, strictement nécessaire à votre connexion. Aucun "
 "cookie de mesure ni tiers."
 msgstr ""
 "A single session cookie, strictly necessary for your login. No measurement "
 "or third-party cookies."
+
+#: templates/registration/account_delete.html:21
+msgid ""
+"Une carte clôturée ne donne plus aucun droit de stationnement et n'est pas "
+"remboursée. Les codes visiteurs encore valides sont annulés."
+msgstr ""
+"A closed permit no longer grants any parking right and is not refunded. "
+"Visitor codes that are still valid are cancelled."
 
 #: templates/core/legal_terms.html:42
 msgid ""
@@ -3442,7 +3660,7 @@ msgstr ""
 msgid "Une tentative de paiement est déjà en cours."
 msgstr "A payment attempt is already in progress."
 
-#: templates/dashboard/admin_users_list.html:43
+#: templates/dashboard/admin_users_list.html:50
 msgid "Utilisateur"
 msgstr "User"
 
@@ -3466,8 +3684,9 @@ msgstr "User reactivated"
 msgid "Utilisateur réactivé."
 msgstr "User reactivated."
 
-#: templates/dashboard/admin_users_list.html:4
+#: templates/dashboard/admin.html:64 templates/dashboard/admin_users_list.html:4
 #: templates/dashboard/admin_users_list.html:9
+#: templates/dashboard/super_admin.html:108
 msgid "Utilisateurs"
 msgstr "Users"
 
@@ -3475,7 +3694,7 @@ msgstr "Users"
 msgid "Utilisation :"
 msgstr "Usage:"
 
-#: apps/permits/models.py:367
+#: apps/permits/models.py:370
 msgid "Utilisé si stratégie = fixed."
 msgstr "Used if strategy = fixed."
 
@@ -3496,7 +3715,7 @@ msgid "Validation rapide par un agent"
 msgstr "Quick validation by an agent"
 
 #: templates/dashboard/agent_permit_detail.html:69
-#: templates/dashboard/citizen.html:330 templates/vehicles/detail.html:121
+#: templates/dashboard/citizen.html:334 templates/vehicles/detail.html:121
 msgid "Valide jusqu'au"
 msgstr "Valid until"
 
@@ -3525,7 +3744,7 @@ msgstr "Confirmed"
 msgid "Version"
 msgstr "Version"
 
-#: apps/audit/models.py:66
+#: apps/audit/models.py:67
 msgid "Version GIS active changée"
 msgstr "Active GIS version changed"
 
@@ -3563,7 +3782,7 @@ msgid "Visualisation Leaflet des zones."
 msgstr "Leaflet visualization of zones."
 
 #: templates/citizens/request_list.html:30
-#: templates/citizens/request_list.html:64 templates/dashboard/citizen.html:376
+#: templates/citizens/request_list.html:64 templates/dashboard/citizen.html:380
 #: templates/permits/list.html:41
 msgid "Voir"
 msgstr "View"
@@ -3572,7 +3791,7 @@ msgstr "View"
 msgid "Voir / règles"
 msgstr "View / rules"
 
-#: templates/core/legal_privacy.html:133 templates/core/legal_terms.html:131
+#: templates/core/legal_privacy.html:134 templates/core/legal_terms.html:131
 msgid "Voir aussi :"
 msgstr "See also:"
 
@@ -3588,7 +3807,7 @@ msgstr "View request"
 msgid "Voir les polygones de la version active →"
 msgstr "View polygons of the active version →"
 
-#: templates/dashboard/agent_permits_list.html:86
+#: templates/dashboard/agent_permits_list.html:97
 msgid "Voir toutes les cartes"
 msgstr "View all permits"
 
@@ -3613,6 +3832,22 @@ msgstr ""
 "Your active permits are automatically suspended and an agent will contact "
 "you. You can then make a new request for your new address."
 
+#: templates/registration/account_delete.html:40
+msgid ""
+"Vos paiements, pendant 7 ans : obligation légale de conservation des pièces"
+" comptables."
+msgstr "Your payments, for 7 years: legal obligation to keep accounting records."
+
+#: templates/registration/account_delete.html:42
+msgid "Votre commune de résidence, sans l'adresse précise, à des fins statistiques."
+msgstr ""
+"Your municipality of residence, without the exact address, for statistical "
+"purposes."
+
+#: apps/accounts/views.py:76
+msgid "Votre compte a été supprimé. Vos données personnelles ont été effacées."
+msgstr "Your account has been deleted. Your personal data has been erased."
+
 #: templates/registration/password_change_done.html:10
 msgid "Votre nouveau mot de passe est actif."
 msgstr "Your new password is active."
@@ -3621,7 +3856,7 @@ msgstr "Your new password is active."
 msgid "Votre nouveau mot de passe est actif. Vous pouvez vous connecter."
 msgstr "Your new password is active. You can now sign in."
 
-#: templates/registration/password_reset_email.html:12
+#: templates/registration/password_reset_email.html:27
 msgid ""
 "Vous avez demandé une réinitialisation de mot de passe pour votre compte "
 "Parking.Belgium."
@@ -3666,7 +3901,7 @@ msgstr "Can't find your answer? Contact your municipality."
 
 #: templates/citizens/request_list.html:50
 #: templates/dashboard/agent_permit_detail.html:13
-#: templates/dashboard/agent_permits_list.html:50
+#: templates/dashboard/agent_permits_list.html:61
 #: templates/dashboard/agent_request_plate.html:16
 #: templates/dashboard/citizen.html:157 templates/payments/process.html:17
 #: templates/payments/start.html:14 templates/permits/detail.html:21
@@ -3679,7 +3914,7 @@ msgstr "Vehicle"
 msgid "Véhicule ajouté."
 msgstr "Vehicle added."
 
-#: apps/audit/models.py:56
+#: apps/audit/models.py:57
 msgid "Véhicule archivé"
 msgstr "Vehicle archived"
 
@@ -3691,7 +3926,7 @@ msgstr "Vehicle archived. Permit history remains accessible."
 msgid "Véhicule mis à jour."
 msgstr "Vehicle updated."
 
-#: apps/audit/models.py:57
+#: apps/audit/models.py:58
 msgid "Véhicule restauré"
 msgstr "Vehicle restored"
 
@@ -3709,7 +3944,7 @@ msgid ""
 "d'immatriculation."
 msgstr "Vehicles: plate number, brand, model, registration certificate."
 
-#: templates/vehicles/list.html:57
+#: templates/registration/account_delete.html:19 templates/vehicles/list.html:57
 msgid "Véhicules archivés"
 msgstr "Archived vehicles"
 
@@ -3769,11 +4004,11 @@ msgstr "Additional zones"
 msgid "[TEST] Paiement simulé avec succès. Carte activée + email envoyé."
 msgstr "[TEST] Payment successfully simulated. Permit activated + email sent."
 
-#: templates/core/legal_privacy.html:92
+#: templates/core/legal_privacy.html:93
 msgid "accès à vos données ;"
 msgstr "access to your data;"
 
-#: apps/audit/models.py:128 apps/rules/models.py:43
+#: apps/audit/models.py:138 apps/rules/models.py:43
 msgid "action"
 msgstr "action"
 
@@ -3800,7 +4035,11 @@ msgstr "addresses"
 msgid "aire (m²)"
 msgstr "area (m²)"
 
-#: templates/dashboard/citizen.html:241
+#: apps/accounts/models.py:62
+msgid "anonymisé le"
+msgstr "anonymised on"
+
+#: templates/dashboard/citizen.html:245
 msgid "archivé"
 msgstr "archived"
 
@@ -3808,7 +4047,7 @@ msgstr "archived"
 msgid "archivé le"
 msgstr "archived on"
 
-#: apps/permits/models.py:349
+#: apps/permits/models.py:352
 msgid "attribution automatique"
 msgstr "automatic attribution"
 
@@ -3816,11 +4055,11 @@ msgstr "automatic attribution"
 msgid "attributs source"
 msgstr "source attributes"
 
-#: apps/permits/models.py:288
+#: apps/permits/models.py:291
 msgid "autoriser cumul riverain + pro"
 msgstr "allow combining resident + pro"
 
-#: apps/permits/models.py:376
+#: apps/permits/models.py:379
 msgid "base exponentielle (centimes)"
 msgstr "exponential base (cents)"
 
@@ -3829,19 +4068,19 @@ msgstr "exponential base (cents)"
 msgid "boîte"
 msgstr "box"
 
-#: apps/permits/models.py:149
+#: apps/permits/models.py:152
 msgid "carte"
 msgstr "permit"
 
-#: templates/dashboard/citizen.html:247
+#: templates/dashboard/citizen.html:251
 msgid "carte grise"
 msgstr "registration certificate"
 
-#: templates/dashboard/citizen.html:249
+#: templates/dashboard/citizen.html:253
 msgid "carte grise manquante"
 msgstr "registration certificate missing"
 
-#: apps/permits/models.py:150
+#: apps/permits/models.py:153
 msgid "cartes"
 msgstr "permits"
 
@@ -3849,11 +4088,11 @@ msgstr "permits"
 msgid "certificat d'immatriculation"
 msgstr "registration certificate"
 
-#: templates/dashboard/agent_permits_list.html:36
+#: templates/dashboard/agent_permits_list.html:47
 msgid "citoyen, email, plaque…"
 msgstr "citizen, email, plate…"
 
-#: apps/permits/models.py:238
+#: apps/permits/models.py:241
 msgid "code"
 msgstr "code"
 
@@ -3866,11 +4105,11 @@ msgstr "NIS code"
 msgid "code postal"
 msgstr "postal code"
 
-#: apps/permits/models.py:253
+#: apps/permits/models.py:256
 msgid "code visiteur"
 msgstr "visitor code"
 
-#: templates/dashboard/citizen.html:335
+#: templates/dashboard/citizen.html:339
 msgid "code(s) restant(s)"
 msgstr "remaining code(s)"
 
@@ -3882,11 +4121,11 @@ msgstr "postal codes"
 msgid "codes restants cette année"
 msgstr "remaining codes this year"
 
-#: apps/permits/models.py:254
+#: apps/permits/models.py:257
 msgid "codes visiteurs"
 msgstr "visitor codes"
 
-#: apps/permits/models.py:278
+#: apps/permits/models.py:281
 msgid "codes visiteurs / an"
 msgstr "visitor codes / year"
 
@@ -3903,7 +4142,7 @@ msgstr "municipality, niscode, notes"
 msgid "communes"
 msgstr "municipalities"
 
-#: templates/dashboard/admin_users_list.html:10
+#: templates/dashboard/admin_users_list.html:11
 msgid "comptes au total"
 msgstr "total accounts"
 
@@ -3911,15 +4150,15 @@ msgstr "total accounts"
 msgid "conditions générales d'utilisation"
 msgstr "general terms of use"
 
-#: apps/permits/models.py:299
+#: apps/permits/models.py:302
 msgid "configuration globale"
 msgstr "global configuration"
 
-#: apps/permits/models.py:300
+#: apps/permits/models.py:303
 msgid "configurations globales"
 msgstr "global configurations"
 
-#: apps/audit/models.py:156
+#: apps/audit/models.py:166
 msgid "contenu"
 msgstr "content"
 
@@ -3951,11 +4190,11 @@ msgstr "plate change requests"
 msgid "description"
 msgstr "description"
 
-#: apps/permits/models.py:279
+#: apps/permits/models.py:282
 msgid "durée code visiteur — défaut (h)"
 msgstr "visitor code duration — default (h)"
 
-#: apps/permits/models.py:280
+#: apps/permits/models.py:283
 msgid "durée code visiteur — max (h)"
 msgstr "visitor code duration — max (h)"
 
@@ -3968,17 +4207,19 @@ msgstr "denomination"
 msgid "désactivée"
 msgstr "deactivated"
 
-#: templates/core/legal_privacy.html:94
+#: templates/core/legal_privacy.html:95
 msgid ""
-"effacement (« droit à l'oubli »), sous réserve des durées de conservation "
-"légales ;"
-msgstr "erasure (\"right to be forgotten\"), subject to legal retention periods;"
+"effacement (« droit à l'oubli ») : bouton « Supprimer mon compte » dans "
+"votre espace personnel, sous réserve des durées de conservation légales ;"
+msgstr ""
+"erasure (\"right to be forgotten\"): \"Delete my account\" button in your "
+"personal space, subject to legal retention periods;"
 
-#: apps/permits/models.py:396
+#: apps/permits/models.py:399
 msgid "effective jusqu'au"
 msgstr "effective until"
 
-#: apps/permits/models.py:395
+#: apps/permits/models.py:398
 msgid "effective à partir du"
 msgstr "effective from"
 
@@ -3994,7 +4235,7 @@ msgstr "company"
 msgid "entreprises"
 msgstr "companies"
 
-#: apps/audit/models.py:163
+#: apps/audit/models.py:173
 msgid "entrée d'audit"
 msgstr "audit entry"
 
@@ -4010,7 +4251,7 @@ msgstr "e.g.: regularization received"
 msgid "ex : signalement de fraude"
 msgstr "e.g.: fraud report"
 
-#: apps/permits/models.py:379
+#: apps/permits/models.py:382
 msgid "facteur exponentiel"
 msgstr "exponential factor"
 
@@ -4022,15 +4263,15 @@ msgstr "source file"
 msgid "fourni"
 msgstr "provided"
 
-#: apps/permits/models.py:370
+#: apps/permits/models.py:373
 msgid "grille tarifaire"
 msgstr "price grid"
 
-#: apps/audit/models.py:147
+#: apps/audit/models.py:157
 msgid "id de la cible"
 msgstr "target id"
 
-#: templates/core/legal_privacy.html:97
+#: templates/core/legal_privacy.html:98
 msgid ""
 "introduction d'une réclamation auprès de l'Autorité de protection des "
 "données (APD) — <a href=\\\"https://www.autoriteprotectiondonnees.be/\\\" "
@@ -4044,7 +4285,7 @@ msgstr ""
 msgid "j"
 msgstr "d"
 
-#: apps/audit/models.py:164
+#: apps/audit/models.py:174
 msgid "journal d'audit"
 msgstr "audit log"
 
@@ -4056,11 +4297,11 @@ msgstr "preferred language"
 msgid "layer"
 msgstr "layer"
 
-#: apps/audit/models.py:151
+#: apps/audit/models.py:161
 msgid "libellé de la cible"
 msgstr "target label"
 
-#: templates/core/legal_privacy.html:95
+#: templates/core/legal_privacy.html:96
 msgid "limitation du traitement ;"
 msgstr "restriction of processing;"
 
@@ -4100,23 +4341,23 @@ msgstr "archiving reason"
 msgid "méthode"
 msgstr "method"
 
-#: apps/permits/models.py:385
+#: apps/permits/models.py:388
 msgid "nb max cartes actives / citoyen (vide = illimité)"
 msgstr "max active permits / citizen (empty = unlimited)"
 
-#: apps/permits/models.py:287
+#: apps/permits/models.py:290
 msgid "nb max cartes pro actives / citoyen"
 msgstr "max active pro permits / citizen"
 
-#: apps/permits/models.py:286
+#: apps/permits/models.py:289
 msgid "nb max entreprises / citoyen"
 msgstr "max companies / citizen"
 
-#: apps/permits/models.py:389
+#: apps/permits/models.py:392
 msgid "nb max véhicules / carte (vide = illimité)"
 msgstr "max vehicles / permit (empty = unlimited)"
 
-#: apps/permits/models.py:285
+#: apps/permits/models.py:288
 msgid "nb max véhicules / citoyen"
 msgstr "max vehicles / citizen"
 
@@ -4144,12 +4385,12 @@ msgstr "name (nl)"
 msgid "nombre de polygones"
 msgstr "number of polygons"
 
-#: templates/dashboard/admin_user_edit.html:60
+#: templates/dashboard/admin_user_edit.html:66
 msgid "non modifiable par votre rôle"
 msgstr "not editable by your role"
 
 #: apps/citizens/models.py:131 apps/gis_data/models.py:24
-#: apps/permits/models.py:398 apps/vehicles/models.py:138
+#: apps/permits/models.py:401 apps/vehicles/models.py:138
 msgid "notes"
 msgstr "notes"
 
@@ -4203,7 +4444,7 @@ msgstr "country"
 msgid "plaque"
 msgstr "plate"
 
-#: apps/permits/models.py:239
+#: apps/permits/models.py:242
 msgid "plaque visiteur"
 msgstr "visitor plate"
 
@@ -4211,7 +4452,7 @@ msgstr "visitor plate"
 msgid "point géocodé"
 msgstr "geocoded point"
 
-#: apps/permits/models.py:411
+#: apps/permits/models.py:414
 msgid "politique commune × type"
 msgstr "policy municipality × type"
 
@@ -4223,7 +4464,7 @@ msgstr "privacy policy"
 msgid "politique de confidentialité acceptée le"
 msgstr "privacy policy accepted on"
 
-#: apps/permits/models.py:412
+#: apps/permits/models.py:415
 msgid "politiques commune × type"
 msgstr "policies municipality × type"
 
@@ -4239,7 +4480,7 @@ msgstr "polygons"
 msgid "polygones GIS"
 msgstr "GIS polygons"
 
-#: templates/core/legal_privacy.html:96
+#: templates/core/legal_privacy.html:97
 msgid "portabilité (export machine de vos données) ;"
 msgstr "portability (machine export of your data);"
 
@@ -4262,19 +4503,19 @@ msgstr "priority"
 msgid "prix (centimes)"
 msgstr "price (cents)"
 
-#: apps/permits/models.py:365
+#: apps/permits/models.py:368
 msgid "prix fixe (centimes)"
 msgstr "fixed price (cents)"
 
-#: apps/permits/models.py:275
+#: apps/permits/models.py:278
 msgid "prix professionnel défaut (centimes)"
 msgstr "default professional price (cents)"
 
-#: apps/permits/models.py:273
+#: apps/permits/models.py:276
 msgid "prix riverain défaut (centimes)"
 msgstr "default resident price (cents)"
 
-#: apps/permits/models.py:274
+#: apps/permits/models.py:277
 msgid "prix visiteur défaut (centimes)"
 msgstr "default visitor price (cents)"
 
@@ -4286,7 +4527,7 @@ msgstr "citizen profile"
 msgid "profils citoyens"
 msgstr "citizen profiles"
 
-#: apps/permits/models.py:182
+#: apps/permits/models.py:185
 msgid "provenance"
 msgstr "origin"
 
@@ -4310,7 +4551,7 @@ msgstr "rank threshold → price in cents."
 msgid "reciprocit"
 msgstr "reciprocity"
 
-#: templates/core/legal_privacy.html:93
+#: templates/core/legal_privacy.html:94
 msgid "rectification (modifiable directement depuis votre espace personnel) ;"
 msgstr "rectification (directly editable from your personal space);"
 
@@ -4335,7 +4576,7 @@ msgstr "reference"
 msgid "rôle"
 msgstr "role"
 
-#: apps/audit/models.py:122
+#: apps/audit/models.py:132
 msgid "rôle au moment de l'action"
 msgstr "role at time of action"
 
@@ -4352,16 +4593,16 @@ msgid "stationnez sans contrainte"
 msgstr "park hassle-free"
 
 #: apps/citizens/models.py:117 apps/payments/models.py:68
-#: apps/permits/models.py:99 apps/permits/models.py:243
+#: apps/permits/models.py:99 apps/permits/models.py:246
 #: apps/vehicles/models.py:124
 msgid "statut"
 msgstr "status"
 
-#: apps/permits/models.py:359
+#: apps/permits/models.py:362
 msgid "stratégie de prix"
 msgstr "pricing strategy"
 
-#: apps/audit/models.py:134
+#: apps/audit/models.py:144
 msgid "sévérité"
 msgstr "severity"
 
@@ -4374,15 +4615,15 @@ msgstr "holder"
 msgid "type"
 msgstr "type"
 
-#: apps/permits/models.py:341 apps/rules/models.py:38
+#: apps/permits/models.py:344 apps/rules/models.py:38
 msgid "type de carte"
 msgstr "permit type"
 
-#: apps/audit/models.py:142
+#: apps/audit/models.py:152
 msgid "type de cible"
 msgstr "target type"
 
-#: apps/permits/models.py:347
+#: apps/permits/models.py:350
 msgid "type proposé dans cette commune"
 msgstr "type offered in this municipality"
 
@@ -4390,11 +4631,11 @@ msgstr "type offered in this municipality"
 msgid "téléphone"
 msgstr "phone"
 
-#: apps/permits/models.py:241 apps/rules/models.py:59
+#: apps/permits/models.py:244 apps/rules/models.py:59
 msgid "valide jusqu'au"
 msgstr "valid until"
 
-#: apps/permits/models.py:240
+#: apps/permits/models.py:243
 msgid "valide à partir de"
 msgstr "valid from"
 
@@ -4402,11 +4643,11 @@ msgstr "valid from"
 msgid "valide à partir du"
 msgstr "valid from"
 
-#: apps/permits/models.py:355
+#: apps/permits/models.py:358
 msgid "validité (jours)"
 msgstr "validity (days)"
 
-#: apps/permits/models.py:282
+#: apps/permits/models.py:285
 msgid "validité par défaut (jours)"
 msgstr "default validity (days)"
 
@@ -4430,7 +4671,7 @@ msgstr "view policies"
 msgid "votre ville"
 msgstr "your city"
 
-#: templates/dashboard/admin_users_list.html:82
+#: templates/dashboard/admin_users_list.html:91
 msgid "vous"
 msgstr "you"
 
@@ -4442,15 +4683,15 @@ msgstr "vehicle"
 msgid "véhicules"
 msgstr "vehicles"
 
-#: apps/permits/models.py:201
+#: apps/permits/models.py:204
 msgid "zone de carte"
 msgstr "permit zone"
 
-#: apps/permits/models.py:180
+#: apps/permits/models.py:183
 msgid "zone principale"
 msgstr "main zone"
 
-#: apps/gis_data/models.py:68 apps/permits/models.py:179
+#: apps/gis_data/models.py:68 apps/permits/models.py:182
 msgid "zonecode"
 msgstr "zonecode"
 
@@ -4458,7 +4699,7 @@ msgstr "zonecode"
 msgid "zonecode cible"
 msgstr "target zonecode"
 
-#: apps/permits/models.py:202
+#: apps/permits/models.py:205
 msgid "zones de cartes"
 msgstr "permit zones"
 
@@ -4475,7 +4716,7 @@ msgid ""
 msgstr "{{ counter }} pending request.{% plural %}{{ counter }} pending requests."
 
 #: templates/dashboard/admin_policies_list.html:93
-#: templates/dashboard/agent_permits_list.html:76
+#: templates/dashboard/agent_permits_list.html:87
 #: templates/dashboard/gis_polygons_list.html:60
 msgid "{{ start }}–{{ end }} sur {{ total }}"
 msgstr "{{ start }}–{{ end }} of {{ total }}"

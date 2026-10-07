@@ -37,7 +37,7 @@
     <section class="mt-4 rounded-lg bg-white border p-5">
       <h2 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">{% trans "Détails" %}</h2>
       <dl class="mt-2 space-y-1.5 text-sm text-slate-700">
-        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Citoyen" %}</dt><dd>{{ req.profile.user.get_full_name|default:req.profile.user.username }} ({{ req.profile.user.email }})</dd></div>
+        <div class="flex justify-between"><dt class="text-slate-500">{% trans "Citoyen" %}</dt><dd>{% include "_partials/user_identity.html" with u=req.profile.user %}</dd></div>
         <div class="flex justify-between"><dt class="text-slate-500">{% trans "Soumise le" %}</dt><dd>{{ req.submitted_at|date:"d/m/Y H:i" }}</dd></div>
         {% if req.reason %}
           <div><dt class="text-slate-500">{% trans "Motif du citoyen" %}</dt><dd class="mt-1 italic">{{ req.reason }}</dd></div>

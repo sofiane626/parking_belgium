@@ -75,7 +75,9 @@
               </span>
             </td>
             <td class="px-4 py-2">
-              {% if u.is_active %}
+              {% if u.is_anonymised %}
+                <span class="text-slate-500 text-xs italic">{% trans "Anonymisé le" %} {{ u.anonymised_at|date:"d/m/Y" }}</span>
+              {% elif u.is_active %}
                 <span class="text-emerald-700 text-xs">● {% trans "Actif" %}</span>
               {% else %}
                 <span class="text-slate-400 text-xs">○ {% trans "Désactivé" %}</span>

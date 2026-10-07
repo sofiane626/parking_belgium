@@ -1,11 +1,16 @@
 from django.conf import settings
-from django.contrib.auth import login
+from django.contrib import messages
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils.translation import gettext as _
 from django.views.generic.edit import CreateView
 from django.views.i18n import set_language as django_set_language
 
-from .forms import CitizenRegistrationForm
+from .forms import AccountDeletionForm, CitizenRegistrationForm
+from .services import AccountDeletionError, account_deletion_preview, delete_citizen_account
 
 
 class RegisterView(CreateView):
@@ -47,3 +52,30 @@ def set_language_persistent(request):
             request.user.preferred_language = chosen
             request.user.save(update_fields=["preferred_language"])
     return response
+
+
+@login_required
+def account_delete(request):
+    """
+    Désinscription du citoyen connecté. GET : page de confirmation qui détaille
+    ce qui est effacé et ce qui est conservé. POST : ressaisie du mot de passe
+    puis appel du service, qui fait tout le travail.
+    """
+    if not request.user.is_citizen:
+        raise PermissionDenied
+    form = AccountDeletionForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        try:
+            delete_citizen_account(
+                request.user, password=form.cleaned_data["password"], request=request,
+            )
+        except AccountDeletionError as exc:
+            form.add_error("password", str(exc))
+        else:
+            logout(request)
+            messages.success(request, _("Votre compte a été supprimé. Vos données personnelles ont été effacées."))
+            return redirect("core:home")
+    return render(request, "registration/account_delete.html", {
+        "form": form,
+        "preview": account_deletion_preview(request.user),
+    })

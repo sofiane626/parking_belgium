@@ -46,6 +46,7 @@ class AuditAction(models.TextChoices):
     USER_REACTIVATED    = "user_reactivated",    _("Utilisateur réactivé")
     PASSWORD_RESET_SENT = "password_reset_sent", _("Email de reset envoyé")
     AUTH_FAILED         = "auth_failed",         _("Échec d'authentification")
+    ACCOUNT_DELETED     = "account_deleted",     _("Compte supprimé à la demande du titulaire")
 
     # ---- API tokens -------------------------------------------------------
     API_TOKEN_ISSUED   = "api_token_issued",   _("Token API émis")
@@ -107,6 +108,7 @@ DEFAULT_SEVERITY: dict[str, str] = {
     AuditAction.USER_REACTIVATED:      AuditSeverity.NOTICE,
     AuditAction.CSV_EXPORTED:          AuditSeverity.NOTICE,
     AuditAction.RGPD_PURGED:           AuditSeverity.NOTICE,
+    AuditAction.ACCOUNT_DELETED:       AuditSeverity.NOTICE,
     # warning
     AuditAction.PERMIT_SUSPENDED:    AuditSeverity.WARNING,
     AuditAction.PAYMENT_REFUNDED:    AuditSeverity.WARNING,

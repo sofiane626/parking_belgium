@@ -63,6 +63,15 @@ class CitizenRegistrationForm(UserCreationForm):
             self.fields[name].required = True
         apply_input_styling(self)
 
+    def clean_username(self):
+        from .services import ANONYMOUS_USERNAME_PREFIX
+        username = self.cleaned_data.get("username", "")
+        if username.lower().startswith(ANONYMOUS_USERNAME_PREFIX):
+            raise forms.ValidationError(
+                _("Ce nom d'utilisateur est réservé. Choisissez-en un autre.")
+            )
+        return username
+
     def clean(self):
         cleaned = super().clean()
         pc = (cleaned.get("postal_code") or "").strip()
@@ -109,3 +118,21 @@ class CitizenRegistrationForm(UserCreationForm):
             country=self.cleaned_data["country"],
         )
         return user
+
+
+class AccountDeletionForm(forms.Form):
+    """
+    Confirmation de la désinscription : le citoyen ressaisit son mot de passe.
+    La vérification elle-même est faite par le service
+    ``delete_citizen_account``.
+    """
+
+    password = forms.CharField(
+        label=_("Mot de passe actuel"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        apply_input_styling(self)

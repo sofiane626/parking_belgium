@@ -3,9 +3,10 @@ Management command : purge ou anonymise les données expirées (RGPD art. 17 + 5
 
 Trois opérations :
   1. **Comptes inactifs > 3 ans** sans permits actifs ni paiements dans la
-     fenêtre comptable (7 ans) sont **anonymisés** : email vidé, prénom/nom
-     vidés, ``preferred_language`` reset. Ils restent en base pour la
-     traçabilité comptable mais ne contiennent plus de PII.
+     fenêtre comptable (7 ans) sont **anonymisés** via
+     ``apps.accounts.services.anonymise_user`` — la même définition que la
+     désinscription volontaire. Ils restent en base pour la traçabilité
+     comptable mais ne contiennent plus de PII.
   2. **Codes visiteurs expirés depuis > 1 an** sont supprimés.
   3. **Entrées d'audit > 3 ans** sont supprimées (recommandation APD).
 
@@ -25,6 +26,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.utils import timezone
 
+from apps.accounts.services import anonymise_user
 from apps.audit.models import AuditLog
 from apps.audit.services import AuditAction, log as audit_log
 from apps.permits.models import Permit, PermitStatus, VisitorCode
@@ -98,7 +100,7 @@ class Command(BaseCommand):
         - last_login < today - 3 ans (ou jamais connecté + inscription > 3 ans)
         - sans permit ACTIVE / SUSPENDED / AWAITING_PAYMENT
         - sans paiement dans les 7 dernières années (rétention TVA)
-        - email non vide (sinon déjà anonymisé)
+        - pas encore anonymisé (``anonymised_at`` null)
         """
         cutoff = now - dt.timedelta(days=365 * INACTIVE_USER_THRESHOLD_YEARS)
         accounting_cutoff = now - dt.timedelta(days=365 * ACCOUNTING_RETENTION_YEARS)
@@ -119,7 +121,7 @@ class Command(BaseCommand):
         excluded = active_owner_ids | recent_payer_ids
 
         candidates = []
-        for u in User.objects.exclude(email="").exclude(pk__in=excluded):
+        for u in User.objects.filter(anonymised_at__isnull=True).exclude(pk__in=excluded):
             stamp = u.last_login or u.date_joined
             if stamp and stamp < cutoff:
                 candidates.append(u)
@@ -137,16 +139,4 @@ class Command(BaseCommand):
 
     def _anonymise_users(self, users) -> int:
         """Vide les PII mais garde la ligne pour la traçabilité comptable."""
-        count = 0
-        for u in users:
-            u.email = ""
-            u.first_name = ""
-            u.last_name = ""
-            u.preferred_language = "fr"
-            u.is_active = False
-            u.save(update_fields=[
-                "email", "first_name", "last_name",
-                "preferred_language", "is_active",
-            ])
-            count += 1
-        return count
+        return sum(1 for u in users if anonymise_user(u))

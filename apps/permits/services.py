@@ -340,6 +340,45 @@ def cancel(permit: Permit, *, by_user) -> Permit:
     return permit
 
 
+@transaction.atomic
+def close_permit_for_holder(permit: Permit, *, by_user, reason: str) -> Permit:
+    """
+    Clôture une carte ACTIVE ou SUSPENDED à la demande de son titulaire (ex :
+    désinscription). Distinct de ``cancel()``, qui reste limité aux statuts
+    d'avant activation : ici la carte a pu être payée, le paiement est conservé
+    tel quel et seul le droit de stationner prend fin. Les codes visiteurs
+    encore actifs sont annulés, comme lors d'une suspension.
+    """
+    from .models import VisitorCode, VisitorCodeStatus
+    if permit.citizen_id != by_user.pk:
+        raise PermissionDenied
+    if permit.status not in {PermitStatus.ACTIVE, PermitStatus.SUSPENDED}:
+        raise PermitError(
+            f"Seule une carte ACTIVE ou SUSPENDED peut être clôturée (statut : {permit.status})."
+        )
+    old_status = permit.status
+    now = timezone.now()
+    permit.status = PermitStatus.CANCELLED
+    permit.cancelled_at = now
+    permit.save(update_fields=["status", "cancelled_at", "updated_at"])
+    codes_cancelled = VisitorCode.objects.filter(
+        permit=permit, status=VisitorCodeStatus.ACTIVE,
+    ).update(status=VisitorCodeStatus.CANCELLED, cancelled_at=now)
+    audit_log(
+        AuditAction.PERMIT_CANCELLED,
+        actor=by_user, target=permit,
+        payload={
+            "diff": {"status": [old_status, PermitStatus.CANCELLED]},
+            "context": {
+                "reason": reason,
+                "trigger": "holder_request",
+                "visitor_codes_cancelled": codes_cancelled,
+            },
+        },
+    )
+    return permit
+
+
 # ----- admin / signal-driven transitions -----------------------------------
 
 @transaction.atomic

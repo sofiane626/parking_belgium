@@ -1,0 +1,2 @@
+{# Identité d'un utilisateur côté back-office (paramètre u) : nom + email, ou mention explicite si le compte est anonymisé. #}
+{% load i18n %}{% if u.is_anonymised %}<span class="italic text-slate-500">{% trans "Compte anonymisé" %}</span> <span class="font-mono text-xs text-slate-400">{{ u.username }}</span>{% else %}{{ u.get_full_name|default:u.username }}{% if u.email %} ({{ u.email }}){% endif %}{% endif %}

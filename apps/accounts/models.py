@@ -54,6 +54,19 @@ class User(AbstractUser):
         default="fr",
     )
 
+    # Soft delete RGPD : la ligne reste en base (paiements et historique des
+    # cartes y sont rattachés en PROTECT), mais les données personnelles sont
+    # effacées. Non null = compte anonymisé, à cette date — par désinscription
+    # volontaire ou par la purge des comptes inactifs.
+    anonymised_at = models.DateTimeField(
+        _("anonymisé le"),
+        null=True, blank=True, db_index=True,
+    )
+
+    @property
+    def is_anonymised(self) -> bool:
+        return self.anonymised_at is not None
+
     @property
     def is_citizen(self) -> bool:
         return self.role == Role.CITIZEN
